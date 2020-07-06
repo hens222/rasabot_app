@@ -1,0 +1,47 @@
+intents:
+  - say_name
+  - greet
+  - get_started
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+
+slots:
+  name:
+    initial_value: Human
+    type: text
+  
+actions:
+- utter_name
+- action_save_name
+- utter_greet
+- utter_cheer_up
+- utter_did_that_help
+- utter_happy
+- utter_goodbye
+- utter_intro
+
+templates:
+  utter_name:
+  - text: "Hi! Nice to meet you {name}!"
+
+  utter_intro:
+  - text: "Hi! My name is Rsykoss :) Nice to meet you! What is your name?"
+
+  utter_greet:
+  - text: "Hey! How are you?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great carry on!"
+
+  utter_goodbye:
+  - text: "Bye"

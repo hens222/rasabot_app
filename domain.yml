@@ -1,0 +1,38 @@
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- greet
+- goodbye
+- affirm
+- deny
+- mood_great
+- mood_unhappy
+- bot_challenge
+- nutrition_definition
+- nutrition_what_has
+- nutrition_importance
+responses:
+  utter_greet:
+  - text: היי! מה שלומך?
+  utter_cheer_up:
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: 'הנה משהו שיעודד אותך:'
+  utter_did_that_help:
+  - text: האם זה עזר?
+  utter_happy:
+  - text: מצוין, תמשיך כך!
+  utter_goodbye:
+  - text: ביי
+  utter_iamabot:
+  - text: אני בוט, יש לך בעיה עם זה?
+actions:
+- utter_greet
+- utter_cheer_up
+- utter_did_that_help
+- utter_happy
+- utter_goodbye
+- utter_iamabot
+- action_nutrition_definition
+- action_nutrition_what_has
+- action_nutrition_importance
