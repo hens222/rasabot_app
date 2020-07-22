@@ -12,6 +12,7 @@ intents:
 - nutrition_definition
 - nutrition_what_has
 - nutrition_importance
+- nutrition_howmanyxiny
 responses:
   utter_greet:
   - text: היי! מה שלומך?
@@ -36,3 +37,4 @@ actions:
 - action_nutrition_definition
 - action_nutrition_what_has
 - action_nutrition_importance
+- action_nutrition_howmanyxiny

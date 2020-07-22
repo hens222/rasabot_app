@@ -84,3 +84,10 @@
 - מדוע צריך לאכול
 - מדוע טוב לאכול
 - מדוע כדאי לאכול
+
+## regex::nutrient_regex
+- [a-zA-Z0-9א-ת\\s]*
+
+## intent:nutrition_howmanyxiny
+- כמה [protein](nutrient_regex) יש ב[חלב אם](nutrient_regex)?
+- כמב אאא יש באאא?

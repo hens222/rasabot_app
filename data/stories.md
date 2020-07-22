@@ -40,4 +40,8 @@
 
 ## nutrition importance
 * nutrition_importance
-  - action_nutrition_importance 
+  - action_nutrition_importance
+
+## nutrition howmanyxiny
+* nutrition_howmanyxiny
+  - action_nutrition_howmanyxiny

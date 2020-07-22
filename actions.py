@@ -7,11 +7,13 @@
 
 # This is a simple example for a custom action which utters "Hello World!"
 
+import re
+import io
+import requests
+import pandas as pd
 from typing import Any, Text, Dict, List
-
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-
 
 class ActionNutritionDefinition(Action):
 
@@ -83,6 +85,37 @@ class ActionNutritionImportance(Action):
 
         else:
             dispatcher.utter_message(text="זה דבר ממש בריא!")
+
+        return []
+
+# ------------------------------------------------------------------
+
+class ActionNutritionHowManyXinY(Action):
+
+    def name(self) -> Text:
+        return "action_nutrition_howmanyxiny"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        user_msg = tracker.latest_message.get('text')
+
+        regex_res = re.search('כמה (.*) יש ב(.*)', user_msg)
+
+        if regex_res:
+            x = regex_res.group(1)
+            y = regex_res.group(2)
+
+        sheet = "Zameret food list 22_JAN_2020"
+        url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&sheet=%s" % sheet
+        s = requests.get(url).content
+        df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+
+        try:
+            dispatcher.utter_message(text="ב%s יש %f %s" % (y, float(df[df['shmmitzrach']==y][x]), x))
+        except:
+            dispatcher.utter_message(text="אין לי מושג כמה %s יש ב-%s, מצטער!" % (x,y))
 
         return []
 
