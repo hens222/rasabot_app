@@ -104,18 +104,36 @@ class ActionNutritionHowManyXinY(Action):
         regex_res = re.search('כמה (.*) יש ב(.*)', user_msg)
 
         if regex_res:
+
             x = regex_res.group(1)
             y = regex_res.group(2)
 
-        sheet = "Zameret food list 22_JAN_2020"
-        url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&sheet=%s" % sheet
-        s = requests.get(url).content
-        df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+            # "Zameret food list 22_JAN_2020"
+            url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=84892416"
+            s = requests.get(url).content
+            db_df = pd.read_csv(io.StringIO(s.decode('utf-8')))
+            
+            # "Zameret_hebrew_features"
+            url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1805881936"
+            s = requests.get(url).content
+            lut_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
+                                 header=0,                     
+                                 index_col=["Feature Alias"], 
+                                 usecols=["Feature Alias", "Zameret Feature", "Units"])
 
-        try:
-            dispatcher.utter_message(text="ב%s יש %f %s" % (y, float(df[df['shmmitzrach']==y][x]), x))
-        except:
-            dispatcher.utter_message(text="אין לי מושג כמה %s יש ב-%s, מצטער!" % (x,y))
+            try:
+                food = db_df[db_df['shmmitzrach'].str.contains(y)].iloc[0,:]
+                feature = lut_df[lut_df.index == x]["Zameret Feature"][0]
+                units = lut_df[lut_df.index == x]["Units"][0]
+                
+                res = food[feature]
+
+                dispatcher.utter_message(text="ב-100 גרם %s יש %.2f %s %s" % (food['shmmitzrach'], float(res), units, x))
+            except:
+                dispatcher.utter_message(text="אין לי מושג כמה %s יש ב-%s, מצטער!" % (x,y))
+                
+        else:
+            dispatcher.utter_message(text="אין לי מושג כמה, מצטער!")
 
         return []
 
