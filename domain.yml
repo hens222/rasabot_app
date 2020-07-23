@@ -13,20 +13,90 @@ intents:
 - nutrition_what_has
 - nutrition_importance
 - nutrition_howmanyxiny
+- Bot_introduction
+- My name is Newt!
+- what is your name?
+- Got Question
+- Suprised
+- What can you do
+- What is the source of your data
+- Is OJ healthy
+- Thank you
+- What type of questions?
+- Nice to meet you
+- Can you share a nutrition tip?
+- Can you share nutrition tips
+- I want to eat or be healthy
+- What is good nutrition
+- When do you work
+- What should I eat before a training session
+- Aerobic training
+- What to eat before a run
+- Strength training
 responses:
   utter_greet:
   - text: היי! מה שלומך?
+  - text: מה המצב ?
+  - text: שלום שלום !
   utter_cheer_up:
   - image: https://i.imgur.com/nGF1K8f.jpg
     text: 'הנה משהו שיעודד אותך:'
+  - image: https://img.mako.co.il/2019/11/04/shutterstock_1065141497_i.jpg
+    text: אתה יכול לעשות הכל !
+  - text: איך נחש מחייג בטלפון? הוא מקיש מספרים
   utter_did_that_help:
   - text: האם זה עזר?
   utter_happy:
-  - text: מצוין, תמשיך כך!
+  - text: מצוין!
+  - text: יופי !
   utter_goodbye:
   - text: ביי
   utter_iamabot:
   - text: אני בוט, יש לך בעיה עם זה?
+  utter_my_name_is_newt:
+  - text: קוראים לי ניוט
+  utter_got_question:
+  - text: בטח. אני פה בשביל לענות על השאלות שלך
+  - text: ודאי. אשמח לעזור. אשמח לענות על כל שאלה בנושא תזונה.
+  utter_surprise:
+  - text: כן. נפלאות התזונה.
+  utter_what_can_you_do:
+  - text: אני יכול לעזור בשאלות בנושא תזונה
+  - text: אני מבין בנושאי תזונה. תרגיש חופשי לשאול אותי שאלות.
+  utter_source_of_your_data:
+  - text: אני קורא במאגרי הנתונים של משרדי הבריאות בעולם. בנוסף אני מסתכל על המלצות
+      של גופי מחקר ואוניברסיטאות. והדבר הכי חשוב - תזונאים וחוקרי התנהגות מאוד חכמים
+      מלמדים אותי משהו חדש כמעט כל יום !
+  - text: כל ההמלצות שלי מבוססות על המחקר וההמלצות הכי עדכניים בתחום התזונה
+  utter_is_OJ_healthy:
+  - image: http://berkeley.news21.com/foodlabel/files/2011/07/EvanCorpuz-The-Good-The-Bad.jpg
+    text: יש בזה הרבה ויטמין סי וסידן שזה נהדר. אבל גם הרבה קלוריות.
+  utter_whats_your_question:
+  - text: מה תרצה לשאול?
+  utter_what_types_of_question_can_you_answer:
+  - text: אני יכול לעזור בעיקר עם שאלות בנושאי תזונה. אני גם מבין במערכות יחסים בין
+      בוטים אם יש לך שאלות בנושא. בואו תנסו אותי ונראה!
+  utter_nutrition_tips:
+  - text: כדאי לשתות הרבה מים!
+  utter_I_wanna_be_healthier:
+  - text: תזונה מאוזנת משחקת תפקיד מאוד חשוב בריאות שלנו. מעבר לכך, תזונה נכונה יכולה
+      לסייע לך להרגיש טוב יותר ביומיום, כולל רמות אנרגיה גבוהות יותר ויכולת טובה יותר
+      להתרכז
+  utter_whats_good_nutrition:
+  - text: תזונה נכונה היא תזונה מאוזנת אשר מצד אחד נותנת לך את כל הערכים התזונתיים
+      שאתה צריך כדי להיות בריא ולהגיע למטרות שלך, ומצד שני היא משתלבת לך טבעי בחיים
+      ותוכל לדבוק בה לאורך זמן.
+  utter_youre_welcome:
+  - text: אין בעד מה! נהנה לדבר איתך.
+  utter_Im_always_here:
+  - text: אני תמיד פה. בוטים לא ישנים ולצערי סגרו את כל מועדוני הריקודים של הבוטים
+      בגלל הקורונה.
+  utter_which_type_of_exercise:
+  - text: איזה סוג של אימון?
+  utter_what_to_eat_before_aerobic_session:
+  - text: תשובה - מה לאכול לפני אימון ריצה
+  utter_what_to_eat_before_strength_training:
+  - text: תשובה - מה לאכול לפני אימון כח
 actions:
 - utter_greet
 - utter_cheer_up
@@ -38,3 +108,21 @@ actions:
 - action_nutrition_what_has
 - action_nutrition_importance
 - action_nutrition_howmanyxiny
+- what_is_you_name
+- Utter_my_name_is_newt
+- utter_my_name_is_newt
+- utter_got_question
+- utter_surprise
+- utter_what_can_you_do
+- utter_source_of_your_data
+- utter_is_OJ_healthy
+- utter_whats_your_question
+- utter_what_types_of_question_can_you_answer
+- utter_nutrition_tips
+- utter_I_wanna_be_healthier
+- utter_whats_good_nutrition
+- utter_youre_welcome
+- utter_Im_always_here
+- utter_which_type_of_exercise
+- utter_what_to_eat_before_aerobic_session
+- utter_what_to_eat_before_strength_training
