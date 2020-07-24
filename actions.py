@@ -15,6 +15,33 @@ from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 
+def load_db():
+
+    # "Zameret food list 22_JAN_2020"
+    url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=84892416"
+    s = requests.get(url).content
+    db_df = pd.read_csv(io.StringIO(s.decode('utf-8'))).fillna(0)
+    
+    # "Zameret_hebrew_features"
+    url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1805881936"
+    s = requests.get(url).content
+    lut_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
+                         header=0,                     
+                         index_col=["Feature Alias"], 
+                         usecols=["Feature Alias", "Zameret Feature", "Units"]).fillna(0)
+
+    # "Zameret_hebrew_features"
+    url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1805881936"
+    s = requests.get(url).content
+    custom_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
+                            header=0,                     
+                            index_col=["Zameret Nutrient"], 
+                            usecols=["Zameret Nutrient", "Definition", "Importance", "WhatHas"]).fillna(0)
+
+    return db_df, lut_df, custom_df
+
+# ------------------------------------------------------------------
+
 class ActionNutritionDefinition(Action):
 
     def name(self) -> Text:
@@ -26,15 +53,18 @@ class ActionNutritionDefinition(Action):
 
         user_msg = tracker.latest_message.get('text')
 
-        if "פחממות"  in user_msg or \
-           "פחמימות" in user_msg:
-            dispatcher.utter_message(text="פחממה היא הדבר הבא!")
-        
-        elif "חלבון" in user_msg:
-            dispatcher.utter_message(text="חלבון זה הלבן בביצה")
+        x = user_msg.split(' ')[-1]
 
-        else:
-            dispatcher.utter_message(text="מצטער, לא הבנתי את השאלה")
+        try:
+            db_df, lut_df, custom_df = load_db()
+
+            feature = lut_df[lut_df.index == x]["Zameret Feature"][0]
+            res = custom_df[custom_df.index == feature]["Definition"][0]
+
+            dispatcher.utter_message(text="%s" % res)
+                
+        except:
+            dispatcher.utter_message(text="אין לי מושג, מצטער!")
 
         return []
 
@@ -50,16 +80,20 @@ class ActionNutritionWhatHas(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         user_msg = tracker.latest_message.get('text')
-
-        if "פחממות"  in user_msg or \
-           "פחמימות" in user_msg:
-            dispatcher.utter_message(text="פחממות יש בלחם למשל")
         
-        elif "חלבון" in user_msg:
-            dispatcher.utter_message(text="חלבון יש במוצרי חלב")
+        x = user_msg.split(' ')[-1]
 
-        else:
-            dispatcher.utter_message(text="מצטער, לא הבנתי את השאלה")
+        try:
+            db_df, lut_df, custom_df = load_db()
+
+            feature = lut_df[lut_df.index == x]["Zameret Feature"][0]
+            res = custom_df[custom_df.index == feature]["WhatHas"][0]
+
+            dispatcher.utter_message(text="%s" % res)
+                
+        except:
+            dispatcher.utter_message(text="אין לי מושג, מצטער!")
+
 
         return []
 
@@ -75,16 +109,19 @@ class ActionNutritionImportance(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         user_msg = tracker.latest_message.get('text')
-
-        if "פחממות"  in user_msg or \
-           "פחמימות" in user_msg:
-            dispatcher.utter_message(text="פחממות הן מקור האנרגיה שלנו")
         
-        elif "חלבון" in user_msg:
-            dispatcher.utter_message(text="חלבון מחזק את העצמות שלנו")
+        x = user_msg.split(' ')[-1]
+        
+        try:
+            db_df, lut_df, custom_df = load_db()
 
-        else:
-            dispatcher.utter_message(text="זה דבר ממש בריא!")
+            feature = lut_df[lut_df.index == x]["Zameret Feature"][0]
+            res = custom_df[custom_df.index == feature]["Importance"][0]
+
+            dispatcher.utter_message(text="%s" % res)
+                
+        except:
+            dispatcher.utter_message(text="אין לי מושג, מצטער!")
 
         return []
 
@@ -108,18 +145,7 @@ class ActionNutritionHowManyXinY(Action):
             x = regex_res.group(1)
             y = regex_res.group(2)
 
-            # "Zameret food list 22_JAN_2020"
-            url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=84892416"
-            s = requests.get(url).content
-            db_df = pd.read_csv(io.StringIO(s.decode('utf-8')))
-            
-            # "Zameret_hebrew_features"
-            url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1805881936"
-            s = requests.get(url).content
-            lut_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
-                                 header=0,                     
-                                 index_col=["Feature Alias"], 
-                                 usecols=["Feature Alias", "Zameret Feature", "Units"])
+            db_df, lut_df, _ = load_db()
 
             try:
                 food = db_df[db_df['shmmitzrach'].str.contains(y)].iloc[0,:]
@@ -128,7 +154,10 @@ class ActionNutritionHowManyXinY(Action):
                 
                 res = food[feature]
 
-                dispatcher.utter_message(text="ב-100 גרם %s יש %.2f %s %s" % (food['shmmitzrach'], float(res), units, x))
+                if units == 0:
+                    dispatcher.utter_message(text="ב-100 גרם %s יש %.2f %s" % (food['shmmitzrach'], float(res), x))
+                else:
+                    dispatcher.utter_message(text="ב-100 גרם %s יש %.2f %s %s" % (food['shmmitzrach'], float(res), units, x))
             except:
                 dispatcher.utter_message(text="אין לי מושג כמה %s יש ב-%s, מצטער!" % (x,y))
                 
