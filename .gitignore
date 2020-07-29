@@ -133,3 +133,5 @@ models/
 static/
 tests/
 results/
+
+.DS_Store

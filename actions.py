@@ -21,105 +21,58 @@ def load_db():
     url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=84892416"
     s = requests.get(url).content
     db_df = pd.read_csv(io.StringIO(s.decode('utf-8'))).fillna(0)
-    
+
     # "Zameret_hebrew_features"
     url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1805881936"
     s = requests.get(url).content
     lut_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
-                         header=0,                     
-                         index_col=["Feature Alias"], 
+                         header=0,
+                         index_col=["Feature Alias"],
                          usecols=["Feature Alias", "Zameret Feature", "Units"]).fillna(0)
 
     # "Zameret_hebrew_features"
     url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1805881936"
     s = requests.get(url).content
     custom_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
-                            header=0,                     
-                            index_col=["Zameret Nutrient"], 
+                            header=0,
+                            index_col=["Zameret Nutrient"],
                             usecols=["Zameret Nutrient", "Definition", "Importance", "WhatHas"]).fillna(0)
 
     return db_df, lut_df, custom_df
 
 # ------------------------------------------------------------------
 
-class ActionNutritionDefinition(Action):
+class ActionSimpleQuestion(Action):
 
     def name(self) -> Text:
-        return "action_nutrition_definition"
+        return "action_simple_question"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         user_msg = tracker.latest_message.get('text')
+        user_intent = tracker.latest_message.get('intent').get('name')
+        #user_entities = tracker.latest_message.get('entities')
 
         x = user_msg.split(' ')[-1]
+
+        action_col = "NA"
+        if user_intent == "nutrition_definition":
+            action_col = "Definition"
+        elif user_intent == "nutrition_what_has":
+            action_col = "WhatHas"
+        elif user_intent == "nutrition_importance":
+            action_col = "Importance"
 
         try:
             db_df, lut_df, custom_df = load_db()
 
-            feature = lut_df[lut_df.index == x]["Zameret Feature"][0]
-            res = custom_df[custom_df.index == feature]["Definition"][0]
+            feature = lut_df[[x in s for s in lut_df.index.tolist()]]["Zameret Feature"][0]
+            res = custom_df[[str(s) in feature for s in custom_df.index.tolist()]][action_col][0]
 
             dispatcher.utter_message(text="%s" % res)
-                
-        except:
-            dispatcher.utter_message(text="אין לי מושג, מצטער!")
 
-        return []
-
-# ------------------------------------------------------------------
-
-class ActionNutritionWhatHas(Action):
-
-    def name(self) -> Text:
-        return "action_nutrition_what_has"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        user_msg = tracker.latest_message.get('text')
-        
-        x = user_msg.split(' ')[-1]
-
-        try:
-            db_df, lut_df, custom_df = load_db()
-
-            feature = lut_df[lut_df.index == x]["Zameret Feature"][0]
-            res = custom_df[custom_df.index == feature]["WhatHas"][0]
-
-            dispatcher.utter_message(text="%s" % res)
-                
-        except:
-            dispatcher.utter_message(text="אין לי מושג, מצטער!")
-
-
-        return []
-
-# ------------------------------------------------------------------
-
-class ActionNutritionImportance(Action):
-
-    def name(self) -> Text:
-        return "action_nutrition_importance"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        user_msg = tracker.latest_message.get('text')
-        
-        x = user_msg.split(' ')[-1]
-        
-        try:
-            db_df, lut_df, custom_df = load_db()
-
-            feature = lut_df[lut_df.index == x]["Zameret Feature"][0]
-            res = custom_df[custom_df.index == feature]["Importance"][0]
-
-            dispatcher.utter_message(text="%s" % res)
-                
         except:
             dispatcher.utter_message(text="אין לי מושג, מצטער!")
 
@@ -151,7 +104,7 @@ class ActionNutritionHowManyXinY(Action):
                 food = db_df[db_df['shmmitzrach'].str.contains(y)].iloc[0,:]
                 feature = lut_df[lut_df.index == x]["Zameret Feature"][0]
                 units = lut_df[lut_df.index == x]["Units"][0]
-                
+
                 res = food[feature]
 
                 if units == 0:
@@ -160,7 +113,7 @@ class ActionNutritionHowManyXinY(Action):
                     dispatcher.utter_message(text="ב-100 גרם %s יש %.2f %s %s" % (food['shmmitzrach'], float(res), units, x))
             except:
                 dispatcher.utter_message(text="אין לי מושג כמה %s יש ב-%s, מצטער!" % (x,y))
-                
+
         else:
             dispatcher.utter_message(text="אין לי מושג כמה, מצטער!")
 

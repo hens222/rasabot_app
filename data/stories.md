@@ -32,15 +32,15 @@
 
 ## nutrition definition
 * nutrition_definition
-  - action_nutrition_definition
+  - action_simple_question
 
 ## nutrition what has
 * nutrition_what_has
-  - action_nutrition_what_has
+  - action_simple_question
 
 ## nutrition importance
 * nutrition_importance
-  - action_nutrition_importance
+  - action_simple_question
 
 ## nutrition howmanyxiny
 * nutrition_howmanyxiny
@@ -106,11 +106,6 @@
 
 * What is the source of your data
     - utter_source_of_your_data
-
-## Is OJ healthy story
-
-* Is OJ healthy
-    - utter_is_OJ_healthy
 
 ## happy path
 
@@ -204,34 +199,3 @@
 
 * When do you work
     - utter_Im_always_here
-
-## What to eat before training short 
-
-* What should I eat before a training session
-    - utter_which_type_of_exercise
-
-## New Story
-
-* What to eat before a run
-    - utter_what_to_eat_before_aerobic_session
-
-## New Story
-
-* What should I eat before a training session
-    - utter_which_type_of_exercise
-* Aerobic training
-    - utter_what_to_eat_before_aerobic_session
-
-## What should I eat before an aerobic session long version
-
-* What should I eat before a training session
-    - utter_which_type_of_exercise
-* Aerobic training
-    - utter_what_to_eat_before_aerobic_session
-
-## What to eat before strength conditioning
-
-* What should I eat before a training session
-    - utter_which_type_of_exercise
-* Strength training
-    - utter_what_to_eat_before_strength_training
