@@ -5,16 +5,78 @@
 - מה ההגדרה של [חלבון](nutrient_regex)
 - תגדיר [חלבון](nutrient_regex)
 - יש לך מושג מה זה [חלבון](nutrient_regex)
-- תוכל להסביר לי מה זה [חלבון](nutrient_regex)
 - תסביר לי מה זה [חלבון](nutrient_regex)
+- תוכל לספר לי יותר על [חלבון](nutrient_regex)
+- מהו [חלבון](nutrient_regex)
+- מזה [חלבון](nutrient_regex)
+- מה זה [תזונת האדם הקדמון](nutrient_regex)
+- מה זה [חלבון](nutrient_regex)?
+- מה זה [אימון אינטרוולים](nutrient_regex)?
+- מהו [קולוגן](nutrient_regex)
+- מה זה [קולוגן](nutrient_regex)
+- מזה [קולוגן](nutrient_regex)?
+- תוכל לספר לי יותר על [תזונת פליאו](nutrient_regex)
+- מה זה אומר [פליאו](nutrient_regex)
+- מה זה [שומן רווי](nutrient_regex)
+- תוכל להסביר לי מה זה [פליאו](nutrient_regex)
+- מה זה [תזונה צמחונית](nutrient_regex)
+- מה זה [שומן טרנס](nutrient_regex)
+- תסביר לי מה זה [שומן](nutrient_regex)
+- מה זה אומר [תזונה קטוגנית](nutrient_regex)
+- מה זה אומר בדיוק [קיטו](nutrient_regex)
+- מה זה ה[פליאו](nutrient_regex) הזה
+- מה זה אומר בדיוק, [פליאו](nutrient_regex)
+- מזה [שומן טראנס](nutrient_regex)?
+- מזה [שומן רווי](nutrient_regex)?
+- מזה [ויטמין אי](nutrient_regex)?
+- מזה [אלקטרוליטים](nutrient_regex)?
+- מזה [פחמימה](nutrient_regex)?
+- מהי [פחמימה](nutrient_regex)?
+- מזה [מגנזיום](nutrient_regex)?
 
 ## intent:nutrition_what_has
 - במה יש [חלבון](nutrient_regex)
 - במה יש הרבה [חלבון](nutrient_regex)
+- במה יש יחסית הרבה [חלבון](nutrient_regex)
 - ספר לי במה יש הרבה [חלבון](nutrient_regex)
 - באילו מאכלים יש [חלבון](nutrient_regex)
+- באילו דברים יש הרבה [חלבון](nutrient_regex)
+- באילו מאכלים יש יחסית הרבה [חלבון](nutrient_regex)
 - מה הם המאכלים שיש בהם [חלבון](nutrient_regex)
 - אילו מאכלים מכילים [חלבון](nutrient_regex)
+- במה לדוגמא יש [חלבון](nutrient_regex)
+- במה לדוגמה יש [חלבון](nutrient_regex)
+- איזה מאכלים כדאי לאכול בשביל לצרוך [חלבון](nutrient_regex)
+- איזה דברים כדאי לי לאכול בשביל להגדיל את צריכת [חלבון](nutrient_regex)
+- מה כדאי לי לאכול כדי להגדיל את צריכת ה[חלבון](nutrient_regex) שלי?
+- מה כדאי לי לאכול כדי לצרוך יותר [חלבון](nutrient_regex)
+- מה כדאי לי לאכול בשביל לצרוך יותר [חלבון](nutrient_regex)
+- מה אתה ממליץ לי לאכול בשביל לקבל יותר [חלבון](nutrient_regex)
+- אני רוצה לאכול הרבה [חלבון](nutrient_regex). במה יש הרבה [חלבון](nutrient_regex)
+- אני רוצה להוריד במשקל. במה יש הרבה [סוכר](nutrient_regex)
+- אני רוצה להפחית את צריכת הסוכר שלי. במה יש הרבה [סוכר](nutrient_regex) ?
+- מה כדאי לי לאכול בשביל לצרוך יותר [ויטמין סי](nutrient_regex)
+- מה כדאי לי לאכול כדי לצרוך יותר [ויטמין סי](nutrient_regex)
+- באילו מאכלים יש יחסית הרבה [מגנזיום](nutrient_regex)
+- באילו מאכלים יש הרבה [מגנזיום](nutrient_regex)
+- מה כדאי לי לאכול כדי להגדיל את צריכת [החלבון](nutrient_regex) שלי ?
+- איזה דברים כדאי לי לאכול בשביל להגדיל את צריכת [ויטמין די](nutrient_regex) שלי ?
+- במה יש [מגנזיום](nutrient_regex)?
+- במה לדוגמה יש [מגנזיום](nutrient_regex)
+- באילו דברים יש הרבה [מגנזיום](nutrient_regex)
+- אני רוצה לחזק את המערכת החיסונית. באילו דברים לדוגמה יש הרבה [ויטמין סי](nutrient_regex)
+- במה יש יחסית הרבה [חלבון](nutrient_regex) ?
+- איזה מאכלים כדאי לאכול בשביל לצרוך [חלבון](nutrient_regex) ?
+- במה יש הרבה [סוכר](nutrient_regex) ?
+- במה יש הרבה [מגנזיום](nutrient_regex)
+- במה יש [אשלגן](nutrient_regex)?
+- במה יש [ברזל](nutrient_regex)?
+- במה יש הרבה [סידן](nutrient_regex)?
+- במה יש הרבה [סידן](nutrient_regex).
+- במה יש הרבה [סידן](nutrient_regex)
+- במה יש הרבה [פחמימה](nutrient_regex)
+- במה יש הרבה [שומן](nutrient_regex)?
+- במה יש [קולוגן](nutrient_regex)?
 
 ## intent:nutrition_importance
 - למה חשוב [חלבון](nutrient_regex)
@@ -33,10 +95,88 @@
 - למה כדאי לי לאכול [חלבון](nutrient_regex)
 - ניוט, למה כדאי לי לאכול [חלבון](nutrient_regex)
 - ניוט האם כדאי לי לאכול [חלבון](nutrient_regex)
+- מה החשיבות של [חלבון](nutrient_regex) בגוף שלנו?
+- מה התפקיד של [חלבון](nutrient_regex)?
+- למה צריך לאכול [חלבונים](nutrient_regex)
+- למה זה נחוץ לאכול [חלבון](nutrient_regex)
+- למה טוב [מגנזיום](nutrient_regex)?
+- למה טוב [ויטמין סי](nutrient_regex)?
+- למה [אשלגן](nutrient_regex) זה בריא?
+- האם [קולוגן](nutrient_regex) זה בריא?
+
+## intent:nutrition_howto_improve
+- איך ניתן לשפר [ריכוז](nutrient_regex)
+- איך ניתן לחזק את [המערכת החיסונית](nutrient_regex)
+- איך ניתן להעלות את [מסת השריר](nutrient_regex)
+- איך ניתן להעלות [מסת שריר](nutrient_regex)
+- כיצד ניתן לשפר [ריכוז](nutrient_regex)?
+- מה כדאי לי לעשות כדי [לרדת ](nutrient_regex)[במשקל](nutrient_regex)?
+- כיצד כדאי לי [לרדת ](nutrient_regex)[במשקל](nutrient_regex)
+- מה אמורים לעשות בשביל [לבנות מסת שריר](nutrient_regex)
+- מה אתה חושב שכדאי לי לעשות בשביל [לרדת במשקל](nutrient_regex)
+- מה אתה ממליץ בשביל [לחזק את המערכת החיסונית](nutrient_regex)
+- איך אני יכול [לרדת במשקל](nutrient_regex)
+- אם אני רוצה [לרדת במשקל](nutrient_regex), מה כדאי לעשות ?
+- אם חשוב לי [לרדת במשקל](nutrient_regex) - מה אתה ממליץ לי שאעשה
+- אם בא לי [להעלות מסת שריר](nutrient_regex) מה אתה ממליץ לי לעשות ניוט ?
+- ואם אני רוצה [להעלות מסת שריר](nutrient_regex), מה לעשות ?
+- מה לעשות כדי [להעלות מסת שריר](nutrient_regex)
+- ניוט, מה לעשות כדי [להעלות מסת שריר](nutrient_regex)
+- ניוט, מה כדאי לאכול כדי [לשפר את יכולת הריכוז](nutrient_regex)
+- איך ניתן [לשפר את יכולת הריכוז](nutrient_regex)?
+- מה לעשות אם אני מעוניין [לרדת במשקל](nutrient_regex)
+- מה לעשות אם אני מעוניין [לרדת במשקל](nutrient_regex) ?
+- יש לך רעיונות בשבילי אם אני רוצה [לרדת במשקל](nutrient_regex)
+- יש לך עיצה בשבילי אם אני מעוניין [לרדת במשקל](nutrient_regex)
+- יש לי חתונה בעוד חודשיים ואני נורא צריך [לרדת במשקל](nutrient_regex) מה לעשות
+- אני די שחיף ורוצה [להעלות מסת שריר](nutrient_regex). מה אתה ממליץ ?
 
 ## intent:nutrition_howmanyxiny
 - כמה [חלבון](nutrient_regex) יש ב[חלב](nutrient_regex)
+- וכמה [חלבון](nutrient_regex) יש ב[חלב](nutrient_regex)
 - תגיד, יש לך מושג כמה [חלבון](nutrient_regex) יש ב[בחלב](nutrient_regex)
+- תגיד יש לך מושג כמה [חלבון](nutrient_regex) יש ב[בחלב](nutrient_regex)
+- תספר לי כמה [חלבון](nutrient_regex) יש ב[בחלב](nutrient_regex)
+- אתה יודע כמה [חלבון](nutrient_regex) יש ב[בחלב](nutrient_regex)
+- איזה כמות [חלבון](nutrient_regex) יש ב[בחלב](nutrient_regex)
+- האם יש הרבה [חלבון](nutrient_regex) ב[בחלב](nutrient_regex)
+- מה כמות [החלבון](nutrient_regex) ב[חלבון](nutrient_regex)
+- האם יש הרבה [חלבונים](nutrient_regex) ב[חלבון](nutrient_regex)
+- יש הרבה [חלבון](nutrient_regex) ב[חלבון](nutrient_regex)?
+- וכמה [סוכר](nutrient_regex) יש ב[קיווי](nutrient_regex) ?
+- יש הרבה [חלבון](nutrient_regex) ב[טופו](nutrient_regex) ?
+- האם יש הרבה [חלבונים](nutrient_regex) ב[חלב](nutrient_regex) ?
+- האם יש הרבה [סוכר פירות](nutrient_regex) ב[קולה](nutrient_regex) ?
+- מה כמות [החלבון](nutrient_regex) ב[חלב 2%](nutrient_regex)
+- כמה [מגנזיום](nutrient_regex) יש ב[שעועית ירוקה](nutrient_regex)
+- תספר לי כמה [חלבון](nutrient_regex) יש ב[חלב](nutrient_regex)
+- אתה יודע כמה [חלבון](nutrient_regex) יש ב[חלב](nutrient_regex)
+- איזה כמות [חלבון](nutrient_regex) יש ב[חלב](nutrient_regex)
+- האם יש הרבה [חלבון](nutrient_regex) ב[חלב](nutrient_regex) ?
+- תגיד יש לך מושג כמה [חלבון](nutrient_regex) יש ב[חלב](nutrient_regex)
+- תגיד, יש לך מושג כמה [פחממות](nutrient_regex) יש ב[ברוקולי](nutrient_regex)
+- כמה [מגנזיום](nutrient_regex) יש ב[קוטג](nutrient_regex)'
+- כמה [שומן טראנס](nutrient_regex) יש ב[צ'יפס](nutrient_regex) ?
+- כמה [סוכר פירות](nutrient_regex) יש ב[תפוח](nutrient_regex)
+- כמה [פרוקטוז](nutrient_regex) יש ב[חלב 3%](nutrient_regex)
+- כמה [סיבים תזונתיים](nutrient_regex) יש ב[עגבניה](nutrient_regex)
+- כמה [ויטמין די](nutrient_regex) יש ב[סלמון](nutrient_regex)
+- כמה [מגנזיום](nutrient_regex) יש ב[בננה](nutrient_regex)
+- כמה [סידן](nutrient_regex) יש ב[גבינת עזים](nutrient_regex)
+- כמה [סוכר](nutrient_regex) יש ב[לחם](nutrient_regex)
+- כמה [שומן](nutrient_regex) יש במשקה סויה
+- כמה [שומן](nutrient_regex) יש בשמן?
+- כמה [שומן](nutrient_regex) יש בחמאת בוטנים?
+- כמה [שומן](nutrient_regex) יש בפיצה בסיסית
+- כמה [סוכרים](nutrient_regex) יש בפיצה בסיסית?
+- כמה [אשלגן](nutrient_regex) יש ב[במבה](nutrient_regex)
+- כמה [חלבון](nutrient_regex) יש ב[חומוס](nutrient_regex)?
+- כמה [סידן](nutrient_regex) יש ב[גבינה צהובה](nutrient_regex)?
+- כמה [סידן](nutrient_regex) יש ב[קוטג׳](nutrient_regex)
+- כמה [מגנזיום](nutrient_regex) יש ב[אגוזי ברזיל](nutrient_regex)
+- כמה [שומן](nutrient_regex) יש ב[שמן זית](nutrient_regex)?
+- כמה [ברזל](nutrient_regex) יש ב[שקדים קלוים](nutrient_regex)?
+- כמה [קלוריות](nutrient_regex) יש ב[סלט](nutrient_regex)?
 
 ## intent:greet
 - היי
@@ -95,6 +235,12 @@
 - היי, מה נשמע?
 - בוקר טוב ניוט :)
 - היי גבר
+- מה נשמע הכל בסדר אח שלי
+- מה קורה אחותי הכל טוב?
+- שלום נעים מאוד
+- בוקר טוב כפרה
+- בוקר טוב אדון שוקו
+- בוקר טוב ושבוע טוב
 
 ## intent:When do you work
 - ער?
@@ -131,6 +277,7 @@
 - תודה !
 - תודה לך, ניוט
 - תודה רבה
+- תודה כפרה
 
 ## intent:affirm
 - כן
@@ -178,6 +325,7 @@
 - הכל טוב, מה איתך?
 - חחח
 - הכל טוב איך אתה
+- הכל סבבה אגוזים
 
 ## intent:mood_unhappy
 - עצוב
@@ -215,6 +363,7 @@
 - אתה בן אדם אמיתי?
 - אתה בוט?
 - אתה בן אדם או מחשב?
+- מה אתה
 
 ## intent:Bot_introduction
 - מי אתה
@@ -222,13 +371,14 @@
 - עם מי אני מדבר
 - הי איך קוראים לך
 - מה השם שלך
-- מה עם פחמימות?
 - איך קוראים לך?
 - בסדר. איך קוראים לך?
 - לא, איך קוראים לך
 - מי אתה באמת
 - מי אתה ?
-- אני לא יצאתי מימי הבניים בלי קשר לקורונה
+- הי איך קוראים לך?
+- מי זה ?
+- שלום, עם מי אני מדבר
 
 ## intent:Got Question
 - יש לי שאלה
@@ -290,12 +440,12 @@
 - ומה אתה יודע לעשות?
 - ומה אתה יודע לעשות
 - מה אתה עושה?
-- מה אתה
 - אתה באמת יודע לעזור לי ?
 - ומה אתה יודע לעשות ?
 - ניוט, במה אתה מבין ?
 - מה בדיוק אתה יודע לעשות ?
 - מה אתה?
+- ניוט מה אתה מסוגל לעשות ?
 
 ## intent:What is the source of your data
 - על מה מבוססות התשובות שלך?
@@ -319,6 +469,8 @@
 - אז אתה חכם?
 - למה שאני אאמין לך?
 - מאיפה מגיע אליך המידע?
+- ניוט - מי לימד אותך את כל הדברים האלה ?
+- ומה גורם לך להגיד את זה?
 
 ## intent:What type of questions?
 - על כל שאלה?
@@ -336,13 +488,13 @@
 - כל שאלה?
 - איזה שאלות?
 - איזה שאלות לדוגמה ?
+- מה לדוגמה אפשר לשאול ?
+- לדוגמא?
+- כמו איזה שאלות
 
 ## intent:Nice to meet you
 - נעים להכיר
 - לי קוראים ליאור. נעים להכיר
-
-## intent:what is your name?
-- הי איך קוראים לך?
 
 ## intent:Can you share nutrition tips
 - תוכל לתת לי טיפים על תזונה?
@@ -355,32 +507,26 @@
 - אני רוצה להיות יותר בריא
 - אני רוצה לצרוך תזונה בריאה יותר
 
-## intent:What is good nutrition
-- מהי תזונה נכונה?
-- מה זה תזונה נכונה?
-- תגדיר תזונה טובה
-- מהי תזונה טובה
-- מה זה תזונה טובה
-- תגדיר תזונה נכונה
-- מה זה אומר תזונה נכונה ?
-- מה אתה חושב שזה אומר תזונה טובה
-- מה אתה חושב שזה אומר תזונה בריאה
-- תגדיר תזונה בריאה
-- מה זה תזונה בריאה
-- כיצד היית מתאר מה היא תזונה בריאה ?
-- כיצד היית מתאר מה זה תזונה נכונה ?
-- איך אתה חושב שתזונה נכונה נראית?
-- מה זה אומר בדיוק תזונה נכונה
-- מה בריא לאכול
-- איך היית מגדיר תזונה טובה
-- מה כוללת תזונה בריאה?
-- יש לך דוגמאות לתזונה בריאה?
-- בוא תספר לי מה זו תזונה בריאה
-- בוא נדבר רגע על מה זה תזונה בריאה
+## intent:Who made you?
+- מי יצר אותך?
+- מי תכנת אותך
+- מי עשה אותך?
+- מי אמא שלך ?
+- מי אבא שלך?
+- מי הביא אותך לעולם ?
+- מי אחראי עליך
+- מי בנה אותך
+- מי יצר אותך ניוט
+- מי יצר אותך, בוט ?
+
+## synonym:איך
+- כיצד
+
+## synonym:ניתן
+- אפשר
 
 ## synonym:פחממה
 - פחממות
 
 ## regex::nutrient_regex
 - [a-zA-Z0-9א-ת?\\s]*
-

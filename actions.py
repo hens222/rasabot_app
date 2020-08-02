@@ -27,16 +27,15 @@ def load_db():
     s = requests.get(url).content
     lut_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
                          header=0,
-                         index_col=["Feature Alias"],
-                         usecols=["Feature Alias", "Zameret Feature", "Units"]).fillna(0)
+                         index_col=["Entity Alias"],
+                         usecols=["Entity Alias", "Entity", "Units"]).fillna(0)
 
     # "Zameret_hebrew_features"
-    url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1805881936"
+    url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1706335378"
     s = requests.get(url).content
     custom_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
                             header=0,
-                            index_col=["Zameret Nutrient"],
-                            usecols=["Zameret Nutrient", "Definition", "Importance", "WhatHas"]).fillna(0)
+                            index_col=["Entity"]).fillna(0)
 
     return db_df, lut_df, custom_df
 
@@ -55,21 +54,35 @@ class ActionSimpleQuestion(Action):
         user_intent = tracker.latest_message.get('intent').get('name')
         #user_entities = tracker.latest_message.get('entities')
 
-        x = user_msg.split(' ')[-1]
-
-        action_col = "NA"
-        if user_intent == "nutrition_definition":
-            action_col = "Definition"
-        elif user_intent == "nutrition_what_has":
-            action_col = "WhatHas"
-        elif user_intent == "nutrition_importance":
-            action_col = "Importance"
-
+        def find_feature(lut_df, user_msg):
+            entity = 'N/A'
+            entity_buckets = {'Priority1': [], 
+                              'Priority2': [],
+                              'Priority3': []}
+            q = user_msg.replace('?','').split(' ')
+          
+            for k,entity_alias in enumerate(lut_df.index.tolist()):
+                if ' '.join(q[-2:]) in entity_alias:
+                    entity_buckets['Priority1'].append(lut_df['Entity'][k])
+                elif q[-1] in entity_alias:
+                    entity_buckets['Priority2'].append(lut_df['Entity'][k])
+                elif q[-2] in entity_alias:
+                    entity_buckets['Priority3'].append(lut_df['Entity'][k])
+          
+            if entity_buckets['Priority1']:
+                entity = entity_buckets['Priority1'][0]
+            elif entity_buckets['Priority2']:
+                entity = entity_buckets['Priority2'][0] 
+            elif entity_buckets['Priority3']:
+                entity = entity_buckets['Priority3'][0]
+          
+            return entity
+        
         try:
             db_df, lut_df, custom_df = load_db()
 
-            feature = lut_df[[x in s for s in lut_df.index.tolist()]]["Zameret Feature"][0]
-            res = custom_df[[str(s) in feature for s in custom_df.index.tolist()]][action_col][0]
+            feature = find_feature(lut_df, user_msg)
+            res = custom_df[[str(s) in feature for s in custom_df.index.tolist()]][user_intent][0]
 
             dispatcher.utter_message(text="%s" % res)
 
@@ -102,7 +115,7 @@ class ActionNutritionHowManyXinY(Action):
 
             try:
                 food = db_df[db_df['shmmitzrach'].str.contains(y)].iloc[0,:]
-                feature = lut_df[lut_df.index == x]["Zameret Feature"][0]
+                feature = lut_df[lut_df.index == x]["Entity"][0]
                 units = lut_df[lut_df.index == x]["Units"][0]
 
                 res = food[feature]

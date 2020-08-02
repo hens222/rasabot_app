@@ -2,6 +2,7 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 intents:
+  - Who made you?
   - greet
   - goodbye
   - affirm
@@ -12,9 +13,9 @@ intents:
   - nutrition_definition
   - nutrition_what_has
   - nutrition_importance
+  - nutrition_howto_improve
   - nutrition_howmanyxiny
   - Bot_introduction
-  - what is your name?
   - Got Question
   - Suprised
   - What can you do
@@ -24,7 +25,6 @@ intents:
   - Nice to meet you
   - Can you share nutrition tips
   - I want to eat or be healthy
-  - What is good nutrition
   - When do you work
 entities:
   - nutrient_regex
@@ -68,8 +68,11 @@ responses:
     - text: מה תרצה לשאול?
   utter_what_types_of_question_can_you_answer:
     - text: >-
-        אני יכול לעזור בעיקר עם שאלות בנושאי תזונה. אני גם מבין במערכות יחסים
-        בין בוטים אם יש לך שאלות בנושא. בואו תנסו אותי ונראה!
+        אני אני מבין בנושאי תזונה. אפשר לשאול אותי לדוגמה כמה סידן יש במאכל
+        מסויים, או מה היא תזונה צמחונית. 
+
+        אני גם מבין במערכות יחסים בין בוטים אם יש לך שאלות בנושא. בואו תנסו אותי
+        ונראה!
   utter_nutrition_tips:
     - text: כדאי לשתות הרבה מים!
   utter_I_wanna_be_healthier:
@@ -77,17 +80,17 @@ responses:
         תזונה מאוזנת משחקת תפקיד מאוד חשוב בריאות שלנו. מעבר לכך, תזונה נכונה
         יכולה לסייע לך להרגיש טוב יותר ביומיום, כולל רמות אנרגיה גבוהות יותר
         ויכולת טובה יותר להתרכז
-  utter_whats_good_nutrition:
-    - text: >-
-        תזונה נכונה היא תזונה מאוזנת אשר מצד אחד נותנת לך את כל הערכים התזונתיים
-        שאתה צריך כדי להיות בריא ולהגיע למטרות שלך, ומצד שני היא משתלבת לך טבעי
-        בחיים ותוכל לדבוק בה לאורך זמן.
   utter_youre_welcome:
     - text: אין בעד מה! נהנה לדבר איתך.
+    - text: בכיף !
   utter_Im_always_here:
     - text: >-
         אני תמיד פה. בוטים לא ישנים ולצערי סגרו את כל מועדוני הריקודים של הבוטים
         בגלל הקורונה.
+  utter_who_made_you:
+    - text: >-
+        יצרו אותי חברת ניוט. יש שם מומחי תזונה וספורט, אנשים שמבינים בהתנהגות
+        וכמובן אנשים שיודעים לתכנת בוט מקסים שכמוני
 actions:
   - utter_greet
   - utter_cheer_up
@@ -106,6 +109,6 @@ actions:
   - utter_what_types_of_question_can_you_answer
   - utter_nutrition_tips
   - utter_I_wanna_be_healthier
-  - utter_whats_good_nutrition
   - utter_youre_welcome
   - utter_Im_always_here
+  - utter_who_made_you

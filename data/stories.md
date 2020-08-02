@@ -1,10 +1,10 @@
-## happy path
+## Greet happy path
 * greet
   - utter_greet
 * mood_great
   - utter_happy
 
-## sad path 1
+## Greet sad path 1
 * greet
   - utter_greet
 * mood_unhappy
@@ -13,20 +13,11 @@
 * affirm
   - utter_happy
 
-## sad path 2
-* greet
-  - utter_greet
-* mood_unhappy
-  - utter_cheer_up
-  - utter_did_that_help
-* deny
-  - utter_goodbye
-
 ## say goodbye
 * goodbye
   - utter_goodbye
 
-## bot challenge
+## Bot challenge
 * bot_challenge
   - utter_iamabot
 
@@ -40,6 +31,10 @@
 
 ## nutrition importance
 * nutrition_importance
+  - action_simple_question
+
+## nutrition howto improve
+* nutrition_howto_improve
   - action_simple_question
 
 ## nutrition howmanyxiny
@@ -98,12 +93,6 @@
     - utter_got_question
 
 ## What is the source of your data
-
-* What is the source of your data
-    - utter_source_of_your_data
-
-## What is the source of your data
-
 * What is the source of your data
     - utter_source_of_your_data
 
@@ -185,11 +174,6 @@
 * I want to eat or be healthy
     - utter_I_wanna_be_healthier
 
-## Whats good nutrition
-
-* What is good nutrition
-    - utter_whats_good_nutrition
-
 ## General thank you
 
 * Thank you
@@ -199,3 +183,36 @@
 
 * When do you work
     - utter_Im_always_here
+
+## Who made you
+* Who made you?
+-utter_who_made_you
+
+## Introduction: name,bot,who made you, what can you do
+
+* Bot_introduction
+    - utter_my_name_is_newt
+* bot_challenge
+    - utter_iamabot
+* Who made you?
+    - utter_who_made_you
+* What can you do
+    - utter_what_can_you_do
+
+## Greet to what type of questions
+
+* greet
+    - utter_greet
+* mood_great
+    - utter_happy
+* Got Question
+    - utter_got_question
+* What type of questions?
+    - utter_what_types_of_question_can_you_answer
+
+## Question plus whats the source
+
+* nutrition_definition{"nutrient_regex":"חלבון"}
+    - action_simple_question
+* What is the source of your data
+    - utter_source_of_your_data
