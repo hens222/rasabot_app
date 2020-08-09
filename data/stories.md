@@ -1,3 +1,11 @@
+## Suprised
+* suprised
+  - utter_suprised
+
+## Jokes
+* jokes
+  - utter_jokes
+
 ## Greet happy path
 * greet
   - utter_greet
@@ -42,177 +50,205 @@
   - action_nutrition_howmanyxiny
 
 ## Whats your name short (1)
-
-* Bot_introduction
-    - utter_my_name_is_newt
+* bot_introduction
+  - utter_my_name_is_newt
+* nice_to_meet_you
+  - slot{"username": "NA"}
+  - utter_nice_to_meet_you
 
 ## Whats your name longer (2)
-
 * greet
-    - utter_greet
-* Bot_introduction
-    - utter_my_name_is_newt
+  - utter_greet
+* bot_introduction
+  - utter_my_name_is_newt
+* nice_to_meet_you
+  - slot{"username": "NA"}
+  - utter_nice_to_meet_you
 
 ## Whats your name Longest (2)
 * greet
-    - utter_greet
+  - utter_greet
 * mood_great
-    - utter_happy
-* Bot_introduction
-    - utter_my_name_is_newt
+  - utter_happy
+* bot_introduction
+  - utter_my_name_is_newt
+* nice_to_meet_you
+  - slot{"username": "NA"}
+  - utter_nice_to_meet_you
 
 ## I have a question
-*Got Question
-- utter_got_question
+* got_question
+  - utter_got_question
 
-## What can you do
-
-* What can you do
-    - utter_what_can_you_do
+## what_can_you_do
+* what_can_you_do
+  - utter_what_can_you_do
 
 ## Bot introduction path 1
-
 * greet
-    - utter_greet
-* Bot_introduction
-    - utter_my_name_is_newt
-* What can you do
-    - utter_what_can_you_do
+  - utter_greet
+* bot_introduction
+  - utter_my_name_is_newt
+* nice_to_meet_you
+  - slot{"username": "NA"}
+  - utter_nice_to_meet_you
+* what_can_you_do
+  - utter_what_can_you_do
 
 ## Bot introduction path 2
-
-* Bot_introduction
-    - utter_my_name_is_newt
-* What can you do
-    - utter_what_can_you_do
+* bot_introduction
+  - utter_my_name_is_newt
+* nice_to_meet_you
+  - slot{"username": "NA"}
+  - utter_nice_to_meet_you
+* what_can_you_do
+  - utter_what_can_you_do
 
 ## Greet and ask
 * greet
-    - utter_greet
-* Got Question
-    - utter_got_question
+  - utter_greet
+* got_question
+  - utter_got_question
 
-## What is the source of your data
-* What is the source of your data
-    - utter_source_of_your_data
+## what_is_the_source_of_your_data
+* what_is_the_source_of_your_data
+  - utter_source_of_your_data
 
 ## happy path
-
 * greet
-    - utter_greet
+  - utter_greet
 * mood_great
-    - utter_happy
+  - utter_happy
 
 ## Question + thank you path
+* got_question
+  - utter_got_question
+* thank_you
+  - utter_whats_your_question
 
-* Got Question
-    - utter_got_question
-* Thank you
-    - utter_whats_your_question
-
-## What type of questions
-
-* What type of questions?
-    - utter_what_types_of_question_can_you_answer
+## what_type_of_questions
+* what_type_of_questions
+  - utter_what_types_of_question_can_you_answer
 
 ## Question + what type path
-
-* Got Question
-    - utter_got_question
-* What type of questions?
-    - utter_what_types_of_question_can_you_answer
+* got_question
+  - utter_got_question
+* what_type_of_questions
+  - utter_what_types_of_question_can_you_answer
 
 ## What type of story + ack path
-
-* What type of questions?
-    - utter_what_types_of_question_can_you_answer
+* what_type_of_questions
+  - utter_what_types_of_question_can_you_answer
 * mood_great
-    - utter_whats_your_question
+  - utter_whats_your_question
 
-## Got Question +a fffirm path
-
-* Got Question
-    - utter_got_question
+## got_question +a fffirm path
+* got_question
+  - utter_got_question
 * affirm
-    - utter_whats_your_question
+  - utter_whats_your_question
 
 ## Got questions + mood great path
-
-* Got Question
-    - utter_got_question
+* got_question
+  - utter_got_question
 * mood_great
-    - utter_whats_your_question
+  - utter_whats_your_question
 
 ## Intro-question-which question
-
-* Bot_introduction
-    - utter_my_name_is_newt
-* What can you do
-    - utter_what_can_you_do
-* What type of questions?
-    - utter_what_types_of_question_can_you_answer
-* Thank you
-    - utter_whats_your_question
+* bot_introduction
+  - utter_my_name_is_newt
+* nice_to_meet_you
+  - slot{"username": "NA"}
+  - utter_nice_to_meet_you
+* what_can_you_do
+  - utter_what_can_you_do
+* what_type_of_questions
+  - utter_what_types_of_question_can_you_answer
+* thank_you
+  - utter_whats_your_question
 
 ## Greet+unhappy+cheer+thank you
-
 * greet
-    - utter_greet
+  - utter_greet
 * mood_unhappy
-    - utter_cheer_up
-    - utter_did_that_help
-* Thank you
-    - utter_happy
+  - utter_cheer_up
+  - utter_did_that_help
+* thank_you
+  - utter_happy
 
 ## Nutrition tip
-
-* Can you share nutrition tips
-    - utter_nutrition_tips
+* can_you_share_nutrition_tips
+  - utter_nutrition_tips
 
 ## I want to be healthier
-
-* I want to eat or be healthy
-    - utter_I_wanna_be_healthier
+* I_want_to_eat_or_be_healthy
+  - utter_I_wanna_be_healthier
 
 ## General thank you
-
-* Thank you
-    - utter_youre_welcome
+* thank_you
+  - utter_youre_welcome
 
 ## What is your work scedule 
+* when_do_you_work
+  - utter_Im_always_here
 
-* When do you work
-    - utter_Im_always_here
-
-## Who made you
-* Who made you?
--utter_who_made_you
+## who_made_you
+* who_made_you
+  - utter_who_made_you
 
 ## Introduction: name,bot,who made you, what can you do
-
-* Bot_introduction
-    - utter_my_name_is_newt
+* bot_introduction
+  - utter_my_name_is_newt
+* nice_to_meet_you
+  - slot{"username": "NA"}
+  - utter_nice_to_meet_you
 * bot_challenge
-    - utter_iamabot
-* Who made you?
-    - utter_who_made_you
-* What can you do
-    - utter_what_can_you_do
+  - utter_iamabot
+* who_made_you
+  - utter_who_made_you
+* what_can_you_do
+  - utter_what_can_you_do
 
 ## Greet to what type of questions
-
 * greet
-    - utter_greet
+  - utter_greet
 * mood_great
-    - utter_happy
-* Got Question
-    - utter_got_question
-* What type of questions?
-    - utter_what_types_of_question_can_you_answer
+  - utter_happy
+* got_question
+  - utter_got_question
+* what_type_of_questions
+  - utter_what_types_of_question_can_you_answer
 
 ## Question plus whats the source
+* nutrition_definition
+  - action_simple_question
 
-* nutrition_definition{"nutrient_regex":"חלבון"}
-    - action_simple_question
-* What is the source of your data
-    - utter_source_of_your_data
+## nutrition what_to_eat_before_training_short
+* nutrition_what_to_eat_before
+  - action_simple_question
+* nutrition_training_type
+  - slot{"training_type": "NA"}
+  - action_eat_before_training
+
+## nutrition what_to_eat_before_training_long
+* nutrition_what_to_eat_before
+  - action_simple_question
+* nutrition_training_type
+  - slot{"training_type": "NA"}
+  - action_simple_question
+  - utter_how_long_running
+* nutrition_training_duration
+  - slot{"training_duration": "NA"}
+  - action_eat_before_training
+
+## What to eat before X
+* nutrition_what_to_eat_before
+  - action_simple_question
+
+## What to eat after X
+* nutrition_what_to_eat_after
+  - action_simple_question
+
+## What impacts
+* nutrition_what_impacts
+  - action_simple_question

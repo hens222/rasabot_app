@@ -28,7 +28,10 @@ def load_db():
     lut_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
                          header=0,
                          index_col=["Entity Alias"],
-                         usecols=["Entity Alias", "Entity", "Units"]).fillna(0)
+                         usecols=["Entity Alias", "Entity", "Units", 
+                                  "action_simple_question",
+                                  "action_nutrition_howmanyxiny_x",
+                                  "action_nutrition_howmanyxiny_y"]).fillna(0)
 
     # "Zameret_hebrew_features"
     url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1706335378"
@@ -37,7 +40,15 @@ def load_db():
                             header=0,
                             index_col=["Entity"]).fillna(0)
 
-    return db_df, lut_df, custom_df
+    # "Zameret_hebrew_features"
+    url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=495295419"
+    s = requests.get(url).content
+    common_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
+                         header=0,
+                         index_col=["common_name"],
+                         usecols=["common_name", "shmmitzrach", "smlmitzrach"]).fillna(0)
+
+    return db_df, lut_df, custom_df, common_df
 
 # ------------------------------------------------------------------
 
@@ -50,39 +61,21 @@ class ActionSimpleQuestion(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        user_msg = tracker.latest_message.get('text')
-        user_intent = tracker.latest_message.get('intent').get('name')
-        #user_entities = tracker.latest_message.get('entities')
-
-        def find_feature(lut_df, user_msg):
-            entity = 'N/A'
-            entity_buckets = {'Priority1': [], 
-                              'Priority2': [],
-                              'Priority3': []}
-            q = user_msg.replace('?','').split(' ')
-          
-            for k,entity_alias in enumerate(lut_df.index.tolist()):
-                if ' '.join(q[-2:]) in entity_alias:
-                    entity_buckets['Priority1'].append(lut_df['Entity'][k])
-                elif q[-1] in entity_alias:
-                    entity_buckets['Priority2'].append(lut_df['Entity'][k])
-                elif q[-2] in entity_alias:
-                    entity_buckets['Priority3'].append(lut_df['Entity'][k])
-          
-            if entity_buckets['Priority1']:
-                entity = entity_buckets['Priority1'][0]
-            elif entity_buckets['Priority2']:
-                entity = entity_buckets['Priority2'][0] 
-            elif entity_buckets['Priority3']:
-                entity = entity_buckets['Priority3'][0]
-          
-            return entity
+        _, lut_df, custom_df, _ = load_db()
         
-        try:
-            db_df, lut_df, custom_df = load_db()
+        user_intent = tracker.latest_message.get('intent').get('name')    
+        
+        for ent in tracker.latest_message.get('entities'):
+            if ent['entity'] in lut_df[self.name()].values:
+                simple_entity = ent['value']
 
-            feature = find_feature(lut_df, user_msg)
-            res = custom_df[[str(s) in feature for s in custom_df.index.tolist()]][user_intent][0]
+        try:
+            feature = lut_df['Entity'][simple_entity]
+            
+            if feature in custom_df:
+                res = custom_df.loc[feature][user_intent]
+            else:
+                res = custom_df[[str(s) in feature for s in custom_df.index.tolist()]][user_intent][0]
 
             dispatcher.utter_message(text="%s" % res)
 
@@ -102,33 +95,73 @@ class ActionNutritionHowManyXinY(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        user_msg = tracker.latest_message.get('text')
+        db_df, lut_df, _, common_df = load_db()
+        
+        user_msg = tracker.latest_message.get('text')    
+       
+        x = None
+        y = None
 
-        regex_res = re.search('כמה (.*) יש ב(.*)', user_msg)
+        for ent in tracker.latest_message.get('entities'):
+            if ent['entity'] in lut_df[self.name() + "_x"].values:
+                x = ent['value']
+            elif ent['entity'] in lut_df[self.name() + "_y"].values:
+                y = ent['value']
 
-        if regex_res:
+        if not y:
+            regex_res = re.search('כמה .* יש ב(.*)', user_msg)
+            if regex_res:
+                y = regex_res.group(1)
 
-            x = regex_res.group(1)
-            y = regex_res.group(2)
+        try:
+            y_common = y
+            if y in common_df.index:
+                y_common = common_df[common_df.index == y]['shmmitzrach'][0]      
+            food = db_df[db_df['shmmitzrach'].str.contains(y_common)].iloc[0,:]    
+            feature = lut_df[lut_df.index == x]["Entity"][0]
+            units = lut_df[lut_df.index == x]["Units"][0]
 
-            db_df, lut_df, _ = load_db()
+            res = food[feature]
 
-            try:
-                food = db_df[db_df['shmmitzrach'].str.contains(y)].iloc[0,:]
-                feature = lut_df[lut_df.index == x]["Entity"][0]
-                units = lut_df[lut_df.index == x]["Units"][0]
-
-                res = food[feature]
-
-                if units == 0:
-                    dispatcher.utter_message(text="ב-100 גרם %s יש %.2f %s" % (food['shmmitzrach'], float(res), x))
-                else:
-                    dispatcher.utter_message(text="ב-100 גרם %s יש %.2f %s %s" % (food['shmmitzrach'], float(res), units, x))
-            except:
-                dispatcher.utter_message(text="אין לי מושג כמה %s יש ב-%s, מצטער!" % (x,y))
-
-        else:
+            if units == 0:
+                dispatcher.utter_message(text="ב-100 גרם %s יש %.2f %s" % (food['shmmitzrach'], float(res), x))
+            else:
+                dispatcher.utter_message(text="ב-100 גרם %s יש %.2f %s %s" % (food['shmmitzrach'], float(res), units, x))
+        
+        except:
             dispatcher.utter_message(text="אין לי מושג כמה, מצטער!")
+
+        return []
+
+# ------------------------------------------------------------------
+
+class ActionEatBeforeTrainingQuestion(Action):
+
+    def name(self) -> Text:
+        return "action_eat_before_training"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        user_intent = tracker.latest_message.get('intent').get('name')
+        
+        training_type = tracker.get_slot("training_type")
+        training_duration = tracker.get_slot("training_duration")
+        
+        try:
+            _, _, custom_df = load_db()
+            
+            if training_type == 'ריצת אינטרוולים':
+                if training_duration:
+                    res = custom_df['Entity'][training_type + ' מעל ' + training_duration][0]
+                else:
+                    res = custom_df['Entity'][training_type][0]
+
+            dispatcher.utter_message(text="%s" % res)
+
+        except:
+            dispatcher.utter_message(text="אין לי מושג, מצטער!")
 
         return []
 

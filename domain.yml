@@ -2,7 +2,7 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 intents:
-  - Who made you?
+  - who_made_you
   - greet
   - goodbye
   - affirm
@@ -15,20 +15,51 @@ intents:
   - nutrition_importance
   - nutrition_howto_improve
   - nutrition_howmanyxiny
-  - Bot_introduction
-  - Got Question
-  - Suprised
-  - What can you do
+  - bot_introduction
+  - nice_to_meet_you
+  - got_question
+  - suprised
+  - jokes
+  - what_can_you_do
+  - what_is_the_source_of_your_data
+  - thank_you
+  - what_type_of_questions
+  - can_you_share_nutrition_tips
+  - I_want_to_eat_or_be_healthy
+  - when_do_you_work
+  - nutrition_what_to_eat_before
+  - nutrition_what_to_eat_after
+  - nutrition_what_impacts
+  - nutrition_how_to_avoid
+  - nutrition_training_type
+  - nutrition_training_duration
+  - nutrition_is_healthy
   - What is the source of your data
-  - Thank you
   - What type of questions?
-  - Nice to meet you
-  - Can you share nutrition tips
-  - I want to eat or be healthy
+  - What can you do
+  - Who made you?
   - When do you work
+  - Got Question
+  - Bot_introduction
 entities:
+  - food_entity
+  - simple_entity
+  - training_type
+  - training_duration
+  - username
+  - nutrition_concept
+  - nutrient
   - nutrient_regex
+slots:
+  training_duration:
+    type: text
+  training_type:
+    type: text
+  username:
+    type: text
 responses:
+  utter_nice_to_meet_you:
+    - text: 'נעים להכיר {username}, אני כאן כדי לעזור לך'
   utter_greet:
     - text: היי! מה שלומך?
     - text: מה המצב ?
@@ -49,7 +80,7 @@ responses:
   utter_iamabot:
     - text: 'אני בוט, יש לך בעיה עם זה?'
   utter_my_name_is_newt:
-    - text: קוראים לי ניוט
+    - text: 'קוראים לי ניוט, עם מי יש לי הכבוד?'
   utter_got_question:
     - text: בטח. אני פה בשביל לענות על השאלות שלך
     - text: ודאי. אשמח לעזור. אשמח לענות על כל שאלה בנושא תזונה.
@@ -91,15 +122,23 @@ responses:
     - text: >-
         יצרו אותי חברת ניוט. יש שם מומחי תזונה וספורט, אנשים שמבינים בהתנהגות
         וכמובן אנשים שיודעים לתכנת בוט מקסים שכמוני
+  utter_how_long_running:
+    - text: כמה דקות האימון?
+  utter_suprised:
+    - text: 'כן, בכיף'
+  utter_jokes:
+    - text: למה פיל וזברה נכנסו למנהרה ויצאו שלושה? כי למה זו גם חיה!
+    - text: איך נחש מתקשר בטלפון? הוא מקיש מספרים!
 actions:
+  - action_simple_question
+  - action_nutrition_howmanyxiny
+  - action_eat_before_training
   - utter_greet
   - utter_cheer_up
   - utter_did_that_help
   - utter_happy
   - utter_goodbye
   - utter_iamabot
-  - action_simple_question
-  - action_nutrition_howmanyxiny
   - utter_my_name_is_newt
   - utter_got_question
   - utter_surprise
@@ -112,3 +151,7 @@ actions:
   - utter_youre_welcome
   - utter_Im_always_here
   - utter_who_made_you
+  - utter_how_long_running
+  - utter_nice_to_meet_you
+  - utter_suprised
+  - utter_jokes
