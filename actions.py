@@ -31,7 +31,8 @@ def load_db():
                          usecols=["Entity Alias", "Entity", "Units", 
                                   "action_simple_question",
                                   "action_nutrition_howmanyxiny_x",
-                                  "action_nutrition_howmanyxiny_y"]).fillna(0)
+                                  "action_nutrition_howmanyxiny_y",
+                                  "action_nutrition_is_food_healthy"]).fillna(0)
 
     # "Zameret_hebrew_features"
     url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1706335378"
@@ -48,7 +49,16 @@ def load_db():
                          index_col=["common_name"],
                          usecols=["common_name", "shmmitzrach", "smlmitzrach"]).fillna(0)
 
-    return db_df, lut_df, custom_df, common_df
+    # "Newt Machine Readable"
+    url = "https://docs.google.com/spreadsheets/d/1IPTflCe6shaP-FBAuXWSFCX5hSuAo7bMGczNMTSTYY0/export?format=csv&gid=885087351"
+    s = requests.get(url).content
+    food_ranges_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
+                                      header=0,
+                                      index_col=["Nutrient"],
+                                      usecols=["Nutrient", "Medium - threshold per 100gr", "High - threshold per 100gr",
+                                               "good_or_bad", "tzameret_name", "hebrew_name"]).fillna(0)
+
+    return db_df, lut_df, custom_df, common_df, food_ranges_df
 
 # ------------------------------------------------------------------
 
@@ -61,7 +71,7 @@ class ActionSimpleQuestion(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        _, lut_df, custom_df, _ = load_db()
+        _, lut_df, custom_df, _, _ = load_db()
         
         user_intent = tracker.latest_message.get('intent').get('name')    
         
@@ -95,7 +105,7 @@ class ActionNutritionHowManyXinY(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        db_df, lut_df, _, common_df = load_db()
+        db_df, lut_df, _, common_df, _ = load_db()
         
         user_msg = tracker.latest_message.get('text')    
        
@@ -109,7 +119,7 @@ class ActionNutritionHowManyXinY(Action):
                 y = ent['value']
 
         if not y:
-            regex_res = re.search('כמה .* יש ב(.*)', user_msg)
+            regex_res = re.search('כמה .* יש ב(.*)', user_msg.replace('?',''))
             if regex_res:
                 y = regex_res.group(1)
 
@@ -143,6 +153,8 @@ class ActionEatBeforeTrainingQuestion(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+            
+        _, _, custom_df, _ = load_db()
 
         user_intent = tracker.latest_message.get('intent').get('name')
         
@@ -150,8 +162,6 @@ class ActionEatBeforeTrainingQuestion(Action):
         training_duration = tracker.get_slot("training_duration")
         
         try:
-            _, _, custom_df = load_db()
-            
             if training_type == 'ריצת אינטרוולים':
                 if training_duration:
                     res = custom_df['Entity'][training_type + ' מעל ' + training_duration][0]
@@ -160,6 +170,77 @@ class ActionEatBeforeTrainingQuestion(Action):
 
             dispatcher.utter_message(text="%s" % res)
 
+        except:
+            dispatcher.utter_message(text="אין לי מושג, מצטער!")
+
+        return []
+
+# ------------------------------------------------------------------
+
+class ActionIsFoodHealthyQuestion(Action):
+
+    def name(self) -> Text:
+        return "action_nutrition_is_food_healthy"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        db_df, lut_df, _, common_df, food_ranges_df = load_db()
+
+        for ent in tracker.latest_message.get('entities'):
+            if ent['entity'] in lut_df[self.name()].values:
+                food_entity = ent['value']
+       
+        try:
+            food = food_entity
+            if food in common_df.index:
+                food = common_df[common_df.index == food]['shmmitzrach'][0]      
+            
+            food = db_df[db_df['shmmitzrach'].str.contains(food)].iloc[0,:]    
+        
+            nutrition_density = food_ranges_df[food_ranges_df.index == "Nutrition density"]
+            nutrition_density_med = float(nutrition_density["Medium - threshold per 100gr"])
+            nutrition_density_high = float(nutrition_density["High - threshold per 100gr"])
+        
+            advantages = []
+            disadvantages = []
+        
+            for idx, row in food_ranges_df.iterrows():
+        
+                if row["good_or_bad"] in ("good", "bad"):
+        
+                    value = float(food[row["tzameret_name"]])
+                    if idx == "Protein":
+                        threshold = 250
+                    else:
+                        threshold = float(row["High - threshold per 100gr"])
+        
+                    if value > threshold:
+                        if row["good_or_bad"] == "bad":
+                            disadvantages.append(row["hebrew_name"])                
+                        elif row["good_or_bad"] == "good":
+                            advantages.append(row["hebrew_name"])            
+        
+            nutrition_density_normalized = float(food["Nutrition density normalized"])
+            
+            if nutrition_density_normalized < nutrition_density_med:
+                res = "ב%s יש צפיפות תזונתית (רכיבים תזונתיים טובים ביחס לקלוריות) נמוכה" % food_entity
+            elif nutrition_density_normalized < nutrition_density_high:
+                res = "ב%s יש צפיפות תזונתית (רכיבים תזונתיים טובים ביחס לקלוריות) בינונית" % food_entity
+            else:
+                res = "ב%s יש צפיפות תזונתית (רכיבים תזונתיים טובים ביחס לקלוריות) גבוהה" % food_entity
+        
+            if disadvantages:
+                res += ". "
+                res += "החסרונות של %s הם הרבה %s" % (food_entity, ", ".join(disadvantages))
+        
+            if advantages:
+                res += ". "
+                res += "היתרונות של %s הם הרבה %s" % (food_entity, ", ".join(advantages))
+            
+            dispatcher.utter_message(text="%s" % res)
+        
         except:
             dispatcher.utter_message(text="אין לי מושג, מצטער!")
 

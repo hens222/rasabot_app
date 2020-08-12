@@ -15,6 +15,7 @@ intents:
   - nutrition_importance
   - nutrition_howto_improve
   - nutrition_howmanyxiny
+  - nutrition_is_food_healthy
   - bot_introduction
   - nice_to_meet_you
   - got_question
@@ -41,6 +42,8 @@ intents:
   - When do you work
   - Got Question
   - Bot_introduction
+  - nutrition_should_I_avoid
+  - will_X_make_me_fat
 entities:
   - food_entity
   - simple_entity
@@ -70,6 +73,9 @@ responses:
     - image: 'https://img.mako.co.il/2019/11/04/shutterstock_1065141497_i.jpg'
       text: אתה יכול לעשות הכל !
     - text: איך נחש מחייג בטלפון? הוא מקיש מספרים
+    - image: >-
+        https://i.pinimg.com/originals/dc/20/3c/dc203c3fb683fef0b3ebccfd8d38c40c.jpg
+      text: Joey does not share food !
   utter_did_that_help:
     - text: האם זה עזר?
   utter_happy:
@@ -84,6 +90,7 @@ responses:
   utter_got_question:
     - text: בטח. אני פה בשביל לענות על השאלות שלך
     - text: ודאי. אשמח לעזור. אשמח לענות על כל שאלה בנושא תזונה.
+    - text: יאללה. Shoot.
   utter_surprise:
     - text: כן. נפלאות התזונה.
   utter_what_can_you_do:
@@ -129,10 +136,17 @@ responses:
   utter_jokes:
     - text: למה פיל וזברה נכנסו למנהרה ויצאו שלושה? כי למה זו גם חיה!
     - text: איך נחש מתקשר בטלפון? הוא מקיש מספרים!
+  utter_will_it_make_me_fat:
+    - text: >-
+        השמנה היא תוצאה של צריכת קלוריות יומית עודפת ביחס להוצאה הקלורית היומית
+        לאורך זמן ממושך, ואינה נגרמת ממזון או רכיב תזונה ספציפי. הכמות שנצרוך
+        מאותו מזון והצפיפות הקלורית שלו (= כמות הקלוריות פר משקל מסויים של
+        המזון) הם הגורמים המשפיעים על תרומתו הקלורית היחסית לסך הכל היומי.
 actions:
   - action_simple_question
   - action_nutrition_howmanyxiny
   - action_eat_before_training
+  - action_nutrition_is_food_healthy
   - utter_greet
   - utter_cheer_up
   - utter_did_that_help
@@ -155,3 +169,4 @@ actions:
   - utter_nice_to_meet_you
   - utter_suprised
   - utter_jokes
+  - utter_will_it_make_me_fat

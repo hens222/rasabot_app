@@ -49,6 +49,10 @@
 * nutrition_howmanyxiny
   - action_nutrition_howmanyxiny
 
+## nutrition is_food_healthy
+* nutrition_is_food_healthy
+  - action_nutrition_is_food_healthy
+
 ## Whats your name short (1)
 * bot_introduction
   - utter_my_name_is_newt
@@ -252,3 +256,44 @@
 ## What impacts
 * nutrition_what_impacts
   - action_simple_question
+
+## Greet + got question
+
+* greet
+    - utter_greet
+* Got Question
+    - utter_got_question
+
+## Should I avoid X?
+
+* nutrition_should_I_avoid
+    - action_simple_question
+
+## Will X make me fat
+
+* will_X_make_me_fat
+    - utter_will_it_make_me_fat
+
+## How much X in Y multiple questions
+
+* nutrition_howmanyxiny{"nutrient":"קלוריות"}
+    - action_nutrition_howmanyxiny
+* nutrition_howmanyxiny{"nutrient":"חלבון"}
+    - action_nutrition_howmanyxiny
+* nutrition_howmanyxiny{"nutrient":"סודיום"}
+    - action_nutrition_howmanyxiny
+* thank_you
+    - utter_youre_welcome
+
+## Hi + many jokes
+
+* greet
+    - utter_greet
+* mood_great
+    - utter_happy
+* jokes
+    - utter_jokes
+* jokes
+    - utter_jokes
+* jokes
+    - utter_jokes
