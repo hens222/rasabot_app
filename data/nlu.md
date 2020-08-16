@@ -109,6 +109,8 @@
 - במה יש [קולוגן](nutrient)?
 - באיזה מאכלים יש [מגנזיום](nutrient)
 - איזה מאכל מכיל [חלבון](nutrient) מלא
+- איזה אוכל כדאי לי לאכול אם אני רוצה לאכול [חלבון](food_entity)?
+- באילו מוצרים יש הכי הרבה [ויטמינים](nutrient)?
 
 ## intent:nutrition_importance
 - למה חשוב [חלבון](simple_entity)
@@ -272,10 +274,107 @@
 - תברר לי כמה [מגנזיום](nutrient) יש ב[בננה](food_entity)
 - כמה [אומגה 3](nutrient) יש בסלמון
 - מעניין. וכמה [סודיום](nutrient) יש ב[חזה עוף](food_entity) ?
+- אוקיי. כמה [סידן](nutrient) יש ב[גבינה לבנה](food_entity)
+- כמה [חלבון](nutrient) יש ב[לחם אחיד](food_entity)
+- כמה [מגנזיום](nutrient) יש ב[עגבניה](food_entity) ?
+- כמה [פוטסיום](nutrient) יש ב[עגבניה](food_entity)
+- כמה [קלוריות](nutrient) יש ב[גויאבות](food_entity)
+- כמה [סידן](nutrient) יש ב[ניוקי](food_entity)
+- כמה [חלבון](nutrient) יש ב[גרגירי חומוס](food_entity)
+- כמה [קלוריות](nutrient) יש ב[יוגורט פירות](food_entity)
+- כמה [קלוריות](nutrient) יש ב[בלינצ'ס](food_entity)
 
 ## intent:nutrition_is_food_healthy
 - האם [שוקולד](food_entity) זה בריא?
 - האם [לחם](food_entity) בריא?
+- האם [לחם](food_entity) זה בריא?
+- האם [תפוח](food_entity) זה בריא ?
+- האם [לחם](food_entity) זה בריא
+- האם [גלידה](food_entity) זה דבר בריא ?
+- [גלידה](food_entity) - זה בריא ?
+- [תפוח](food_entity) זה בריא ?
+- האם [פסטה](food_entity) זה בריא?
+- האם [פיצה](food_entity) זה בריא?
+- האם [קווקר](food_entity) זה בריא
+- האם [חסה](food_entity) זה בריא
+- האם [פיצה](food_entity) זה בריא ?
+- האם [בננה](food_entity) זה בריא
+- האם [פיתה](food_entity) זה בריא ?
+- האם [שיבולת שועל](food_entity) זה בריא
+- האם [אגס](food_entity) זה בריא
+- האם [יין](food_entity) זה בריא
+- האם [משקה סויה](food_entity) הוא בריא ?
+- האם [מיץ עגבניות](food_entity) זה בריא ?
+- האם [במבה](food_entity) זה בריא  ??
+- [קרקרים](food_entity) זה בריא ?
+- [חמוציות](food_entity) זה בריא ?
+- [מלפפון](food_entity) זה בריא ?
+- האם [פלפל](food_entity) זה בריא
+- [מיץ תפוזים](food_entity) זה בריא?
+- [חלב שקדים](food_entity) זה בריא ?
+- [חלב 3%](food_entity) זה בריא ?
+- תגיד, אתה יודע אם [גבינת עזים](food_entity) זה בריא ?
+- [קולה](food_entity) זה דבר בריא ?
+- [בצל](food_entity) בריא ?
+- [עגבניה](food_entity) בריאה ?
+- [ביסלי](food_entity) בריא?
+- [מלח](food_entity) בריא ?
+- האם [קולורבי](food_entity) זה בריא ?
+- האם [ברוקולי](food_entity) זה בריא
+- האם [כרוב](food_entity) זה בריא ?
+- האם [מיץ רימונים](food_entity) זה בריא ?
+- האם [ברנפלקס](food_entity) זה בריא ?
+- האם [פופקורן](food_entity) זה בריא
+- האם [גלידה](food_entity) זה[ טוב לבריאות](nutrition_concept)
+- האם [חסה](food_entity) [בריאה](nutrition_concept)
+- האם [גלידה](food_entity) [טובה לבריאות](nutrition_concept)
+- האם [דג](food_entity) זה בריא
+- האם [אבוקדו](food_entity) זה בריא
+- האם [אגוזי מלך](food_entity) זה בריא
+- האם [מיץ תפוזים](food_entity) זה בריא
+- האם [ביסלי](food_entity) זה משהו בריא
+- האם [קוקה קולה](food_entity) זה בריא
+- האם [קולה](food_entity) זה בריא
+- האם [מלפפון](food_entity) בריא לי
+- האם [ברנפלקס](food_entity) זה בריא
+- האם [עגבניה](food_entity) [בריאה לי](nutrition_concept)
+- [עוגיות](food_entity) הן [בריאות](nutrition_concept) ??
+- [זיתים](food_entity) [בריאים](nutrition_concept) ?
+- ו[אוכמניות](food_entity) זה דבר בריא?
+- מה עם [מנגו](food_entity), זה [בריא](nutrition_concept)
+- [ריבה](food_entity) זה דבר בריא ?
+- תגיד, [שמנת](food_entity) זה בריא ?
+- תגיד, [חטיף אנרג'י](food_entity) זה בריא
+- מה לגבי [פופקורן](food_entity) - זה בריא ?
+- ו[פופקורן](food_entity) זה בריא ?
+- [קוטג'](food_entity) זה בריא ?
+- ו[גבינה לבנה](food_entity) - זה בריא ?
+- [עגבניה](food_entity) זה בריא ?
+- [עגבנייה](food_entity) זה בריא ?
+- [תפוחי עץ](food_entity) זה בריא ?
+- האם [סמבוסק](food_entity) זה בריא ?
+- האם [דני](food_entity) זה בריא
+- האם [תמרים](food_entity) זה דבר טוב
+- האם [תאנים](food_entity) זה טוב לבריאות
+- האם [בלינצ'ס](food_entity) זה משהו בריא
+- האם [סרדינים](food_entity) זה בריא ?
+- האם [פרכיות](food_entity) זה בריא ?
+- האם [בשר ברוז](food_entity) זה בריא\
+- האם [צלעות כבש](food_entity) זה בריא
+- האם [גבינת קשקבל](food_entity) זה דבר בריא
+- האם [בשר חזיר](food_entity) זה בריא
+- האם [בשר כבש](food_entity) זה בריא
+- האם [קציצות בקר](food_entity) [טובות לבריאות](nutrition_concept)
+- האם [ביצת עין](food_entity) זה דבר בריא
+- האם [גבינה צפתית](food_entity) זה טוב לבריאות
+- האם [מילקשייק פירות](food_entity) זה בריא
+- האם [חלב סויה](food_entity) בריא
+- האם [סטייק טונה](food_entity) זה בריא
+
+## intent:nutrition_what_is_healthier
+- מה בריא יותר, [שוקולד](food_entity1) או [תפוז](food_entity2)?
+- מה בריא יותר [ביצה](food_entity1) או [קרטיב](food_entity2)?
+- מה בריא יותר - [גלידה](food_entity1) או [תרד](food_entity2)?
 
 ## intent:greet
 - היי
@@ -347,6 +446,7 @@
 - הי, מה נשמע ניוט ?
 - ניוט
 - hello
+- הי ניוט בוקר אור
 
 ## intent:when_do_you_work
 - ער
@@ -437,6 +537,7 @@
 - הכל טוב, מה איתך?
 - הכל טוב איך אצלך?
 - הכל מצויין, מה איתך?
+- אחלה בחלה.
 
 ## intent:mood_unhappy
 - עצוב
@@ -547,6 +648,8 @@
 - אפשר לשאול כמה שאלות בנושא תזונה ?
 - יופי, תוכל לענות לי על שאלה?
 - עוד שאלה
+- מוכן?
+- יאללה. מוכן לכמה שאלות ?
 
 ## intent:suprised
 - ואללה
@@ -607,6 +710,7 @@
 - למה אתה חושב כך
 - מי אמר לך שזה נכון
 - איך אתה יודע את זה ?
+- אתה משוכנע במה שאתה אומר ?
 
 ## intent:what_type_of_questions
 - על כל שאלה
@@ -625,6 +729,7 @@
 - לדוגמא
 - כמו איזה שאלות
 - איזה שאלות, למשל
+- איזה סוג
 
 ## intent:can_you_share_nutrition_tips
 - תוכל לתת לי טיפים על תזונה
@@ -742,6 +847,9 @@
 - האם [חלבון](nutrient) זה בריא?
 - [צום לסירוגין](nutrition_concept) זה בריא?
 - [אומגה3](nutrient) זה בריא ?
+- האם [סלק](food_entity) זה דבר בריא ??
+- [סידן](nutrient) זה בריא ?
+- האם [סטייק טונה](food_entity) זה דבר בריא
 
 ## intent:What is the source of your data
 - למה אתה חושב כך?
@@ -764,6 +872,7 @@
 - אתה תזונאי?
 - אתה מבין בתזונה?
 - אתה באמת יודע לעזור לי ?
+- ואתה בטוח בזה ?
 
 ## intent:What type of questions?
 - איזה שאלות, למשל ?
@@ -902,6 +1011,15 @@
 - ארוחת הצהריים
 - ארוחה בצהריים
 
+## synonym:בריא
+- טובה לבריאות
+- בריאה
+- טוב לבריאות
+- בריאה לי
+- בריאות
+- בריאים
+- טובות לבריאות
+
 ## synonym:חלבון
 - חלבונים
 
@@ -912,9 +1030,9 @@
 - ישמין
 
 ## synonym:פחממה
+- פחממות
 - פחמימה
 - פחמימות
-- פחממות
 
 ## synonym:צום
 - לצום
@@ -928,6 +1046,7 @@
 - שומנים
 
 ## synonym:שומן טרנס
+- שומן טראנס
 - שומני טראנס
 - שומני טרנס
-- שומן טראנס
+

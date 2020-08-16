@@ -53,6 +53,10 @@
 * nutrition_is_food_healthy
   - action_nutrition_is_food_healthy
 
+## nutrition what_is_healthier
+* nutrition_what_is_healthier
+  - action_nutrition_what_is_healthier
+
 ## Whats your name short (1)
 * bot_introduction
   - utter_my_name_is_newt
@@ -258,24 +262,20 @@
   - action_simple_question
 
 ## Greet + got question
-
 * greet
     - utter_greet
 * Got Question
     - utter_got_question
 
 ## Should I avoid X?
-
 * nutrition_should_I_avoid
     - action_simple_question
 
 ## Will X make me fat
-
 * will_X_make_me_fat
     - utter_will_it_make_me_fat
 
 ## How much X in Y multiple questions
-
 * nutrition_howmanyxiny{"nutrient":"קלוריות"}
     - action_nutrition_howmanyxiny
 * nutrition_howmanyxiny{"nutrient":"חלבון"}
@@ -286,7 +286,6 @@
     - utter_youre_welcome
 
 ## Hi + many jokes
-
 * greet
     - utter_greet
 * mood_great
@@ -297,3 +296,13 @@
     - utter_jokes
 * jokes
     - utter_jokes
+
+## Is food healthy with entity
+* nutrition_is_food_healthy{"food_entity":"אגס"}
+    - action_nutrition_is_food_healthy
+
+## How much x in y, and then is y healty
+* nutrition_howmanyxiny{"simple_entity":"פוטסיום"}
+    - action_nutrition_howmanyxiny
+* nutrition_is_food_healthy{"food_entity":"עגבניה"}
+    - action_nutrition_is_food_healthy

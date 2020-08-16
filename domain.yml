@@ -16,6 +16,7 @@ intents:
   - nutrition_howto_improve
   - nutrition_howmanyxiny
   - nutrition_is_food_healthy
+  - nutrition_what_is_healthier
   - bot_introduction
   - nice_to_meet_you
   - got_question
@@ -46,6 +47,8 @@ intents:
   - will_X_make_me_fat
 entities:
   - food_entity
+  - food_entity1
+  - food_entity2
   - simple_entity
   - training_type
   - training_duration
@@ -136,6 +139,9 @@ responses:
   utter_jokes:
     - text: למה פיל וזברה נכנסו למנהרה ויצאו שלושה? כי למה זו גם חיה!
     - text: איך נחש מתקשר בטלפון? הוא מקיש מספרים!
+    - image: >-
+        https://i.pinimg.com/originals/dc/20/3c/dc203c3fb683fef0b3ebccfd8d38c40c.jpg
+      text: Joey does not share food !
   utter_will_it_make_me_fat:
     - text: >-
         השמנה היא תוצאה של צריכת קלוריות יומית עודפת ביחס להוצאה הקלורית היומית
@@ -147,6 +153,7 @@ actions:
   - action_nutrition_howmanyxiny
   - action_eat_before_training
   - action_nutrition_is_food_healthy
+  - action_nutrition_what_is_healthier
   - utter_greet
   - utter_cheer_up
   - utter_did_that_help
