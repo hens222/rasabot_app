@@ -76,7 +76,7 @@ class ActionSimpleQuestion(Action):
         _, lut_df, custom_df, _, _ = load_db()
         
         user_intent = tracker.latest_message.get('intent').get('name')    
-        
+         
         for ent in tracker.latest_message.get('entities'):
             if ent['entity'] in lut_df[self.name()].values:
                 simple_entity = ent['value']
@@ -89,6 +89,27 @@ class ActionSimpleQuestion(Action):
             else:
                 res = custom_df[[str(s) in feature for s in custom_df.index.tolist()]][user_intent][0]
 
+            res_list = res.split(' ')
+            for i,el in enumerate(res_list):
+                if "#" in el:
+                    k,v = el.split('#')
+                    if k == "slot":
+                        if v.endswith(','):
+                            token = tracker.get_slot(v.replace(',','')) + ','
+                        else:
+                            token = tracker.get_slot(v.replace(',',''))
+                        if token:
+                            res_list[i] = token
+                        else:
+                            res_list[i] = "_"
+                    elif k == "equation":
+                        try:
+                            res_list[i] = str(eval(v))
+                        except:
+                            res_list[i] = "_"
+
+            res = ' '.join(res_list)
+            
             dispatcher.utter_message(text="%s" % res)
 
         except:
@@ -337,7 +358,11 @@ class ActionWhatIsHealthierQuestion(Action):
                 res = "לפי צפיפות תזונתית %s עדיף על פני %s\n" % (food_entity2, food_entity1)
             else:
                 res = "לפי צפיפות תזונתית %s ו-%s שקולים\n" % (food_entity1, food_entity2)
-        
+       
+            if nutrition_density_cmp[0] < nutrition_density_cmp[1]:
+                advantages_cmp.reverse()
+                disadvantages_cmp.reverse()
+
             for advantage in advantages_cmp:
                 if advantage:
                     res += "%s\n" % advantage

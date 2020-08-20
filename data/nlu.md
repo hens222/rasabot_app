@@ -48,6 +48,7 @@
 - מזה [אלקטרוליטים](nutrient)?
 - מהו [קולוגן](nutrient)
 - מה זה [צום לסירוגין](nutrition_concept)?
+- תגיד, מה זה [תזונה קטוגנית](nutrition_concept)
 
 ## intent:nutrition_what_has
 - במה יש [חלבון](simple_entity)
@@ -111,6 +112,7 @@
 - איזה מאכל מכיל [חלבון](nutrient) מלא
 - איזה אוכל כדאי לי לאכול אם אני רוצה לאכול [חלבון](food_entity)?
 - באילו מוצרים יש הכי הרבה [ויטמינים](nutrient)?
+- במה יש הרבה [ויטמינים](nutrient)
 
 ## intent:nutrition_importance
 - למה חשוב [חלבון](simple_entity)
@@ -158,6 +160,14 @@
 - למה [סידן](nutrient) זה טוב
 - האם [ארוחת הבוקר](nutrition_concept) הכי חשובה
 - האם [ארוחת בוקר](nutrition_concept) חשובה
+
+## intent:nutrition_daily_recommendation
+- מהי [תצרוכת הקלוריות היומית](nutrient) המומלצת שלי
+- מהי [תצרוכת הקלורית היומית](nutrient) המומלצת שלי
+- מהי [תצרוכת הקלוריות היומית](nutrient) שלי
+- מהי ה[תצרוכת הקלורית היומית](nutrient) שלי
+- מהי ה[תצרוכת היומית](nutrient) המומלצת שלי
+- כמה [קלוריות](nutrient) כדאי לי לצרוך ביום
 
 ## intent:nutrition_howto_improve
 - איך ניתן לשפר [ריכוז](simple_entity)
@@ -283,6 +293,9 @@
 - כמה [חלבון](nutrient) יש ב[גרגירי חומוס](food_entity)
 - כמה [קלוריות](nutrient) יש ב[יוגורט פירות](food_entity)
 - כמה [קלוריות](nutrient) יש ב[בלינצ'ס](food_entity)
+- כמה [פחמימות](nutrient) יש ב[אפרסק](food_entity)
+- כמה [סידן](nutrient) יש באבוקדו
+- כמה [סידן](nutrient) יש בגלידה
 
 ## intent:nutrition_is_food_healthy
 - האם [שוקולד](food_entity) זה בריא?
@@ -370,11 +383,47 @@
 - האם [מילקשייק פירות](food_entity) זה בריא
 - האם [חלב סויה](food_entity) בריא
 - האם [סטייק טונה](food_entity) זה בריא
+- האם לאכול [שום](food_entity) זה בריא
+- האם [אורז](food_entity) זה דבר בריא ?
+- ואללה, [לחם](food_entity) זה בריא או לא ?
+- ואללה, ו[לחם](food_entity) זה בריא ?
+- האם לאכול הרבה [אורז](food_entity) זה בריא ?
+- האם [סטייק טונה](food_entity2) זה דבר בריא
+- האם [סלק](food_entity) זה דבר בריא ??
 
 ## intent:nutrition_what_is_healthier
-- מה בריא יותר, [שוקולד](food_entity1) או [תפוז](food_entity2)?
-- מה בריא יותר [ביצה](food_entity1) או [קרטיב](food_entity2)?
-- מה בריא יותר - [גלידה](food_entity1) או [תרד](food_entity2)?
+- מה בריא יותר, [שוקולד](food_entity) או [תפוז](food_entity2)?
+- מה בריא יותר [ביצה](food_entity) או [קרטיב](food_entity2)?
+- מה בריא יותר - [גלידה](food_entity) או [תרד](food_entity2)?
+- מה בריא יותר - [אורז](food_entity) או [קוסקוס](food_entity2)
+- מה בריא יותר [אורז](food_entity) או [קוסקוס](food_entity2)
+- מה בריא יותר [קוסקוס](food_entity) או [אורז](food_entity2)
+- מה עדיף מבחינה בריאותית [תפוז](food_entity) או [פלפל](food_entity2)
+- מה עדיף לאכול [בשר בקר](food_entity) או [פסטה](food_entity2)
+- מה עדיף [תפוז](food_entity) או [בננה](food_entity2)
+- מה דבר יותר בריא [תפוח](food_entity) או [אגס](food_entity2)
+- מה יותר בריא לאכול - [לחם](food_entity) או [פיתה](food_entity2)
+- מה יותר בריא - [עוגיות](food_entity) או [גלידה](food_entity2)
+- מה בריא יותר [תפוז](food_entity) או [קיווי](food_entity2)
+- מה בריא יותר - [שוקולד](food_entity) או [גלידה](food_entity2) ?
+- מה יותר בריא [לחם](food_entity) או [גלידה](food_entity2) ?
+- מה בריא יותר - [שוקולד](food_entity) או [תפוז](food_entity2)?
+- מה בריא יותר - [גלידה](food_entity) או [עוגיות](food_entity2)
+- מה יותר בריא - [קוסקוס](food_entity) או [אורז](food_entity2) ?
+- מה בריא יותר מבין [פיצה](food_entity) ו[המבורגר](food_entity2)
+- מה יותר בריא [חומוס](food_entity) או [טחינה](food_entity2)
+- מה בריא יותר [אגס](food_entity) או [בננה](food_entity2)
+- מה יותר בריא - [חלב סויה](food_entity) או [חלב שקדים](food_entity2)
+- מה דבר יותר בריא [חלב](food_entity) או [חלב שקדים](food_entity2)
+- מה בריא יותר - [חלב שקדים](food_entity) או [חלב סויה](food_entity2) ?
+- מה בריא יותר [אבוקדו](food_entity) או [עגבניה](food_entity2) ?
+- מה בריא יותר [דייסת סולת](food_entity) או [דני](food_entity2)
+- מה בריא יותר [סלק](food_entity) או [חסה](food_entity2)
+- מה יותר בריא [תרד](food_entity) או [כרוב](food_entity)
+- מה יותר בריא [אוכמניות](food_entity) או [בשר בקר](food_entity2)
+- מה בריא יותר [סטייק טונה](food_entity) או [סמבוסק](food_entity2)
+- מה מהשניים בריא יותר [אורז](food_entity) או [פסטה](food_entity2)
+- מה בריא יותר [תפוח עץ](food_entity) או [תפוח אדמה](food_entity2)
 
 ## intent:greet
 - היי
@@ -447,6 +496,7 @@
 - ניוט
 - hello
 - הי ניוט בוקר אור
+- מה ניש?
 
 ## intent:when_do_you_work
 - ער
@@ -538,6 +588,7 @@
 - הכל טוב איך אצלך?
 - הכל מצויין, מה איתך?
 - אחלה בחלה.
+- אחלה, מה איתך?
 
 ## intent:mood_unhappy
 - עצוב
@@ -567,6 +618,7 @@
 - יש לך עוד משהו לעודד אותי?
 - אוף.
 - עוד עצוב
+- אבל ניוט אני עצוב
 
 ## intent:bot_challenge
 - האם אתה בוט
@@ -670,6 +722,16 @@
 - בדיחה בבקשה
 - אבל ספר לי עוד בדיחה
 - ספר לי משהו שיצחיק אותי
+- לא. תספר לי איזה בדיחה
+- בדיחה
+- לא. תספר לי בדיחה
+- ניוט אל תחזור על אותן בדיחות. ספר לי משהו מצחיק !
+- נו, תספר לי בדיחה מצחיקה
+- ועוד משהו מצחיק בבקשה
+- לא. תשלח לי בדיחה אחרת
+- ומשהו ממש מצחיק ?
+- ומה עם בדיחה מצחיקה יותר
+- אז שניה. תספר לי בדיחה
 
 ## intent:what_can_you_do
 - מה אתה יודע לעשות
@@ -847,9 +909,13 @@
 - האם [חלבון](nutrient) זה בריא?
 - [צום לסירוגין](nutrition_concept) זה בריא?
 - [אומגה3](nutrient) זה בריא ?
-- האם [סלק](food_entity) זה דבר בריא ??
 - [סידן](nutrient) זה בריא ?
-- האם [סטייק טונה](food_entity) זה דבר בריא
+- האם [לצום](nutrition_concept) זה בריא
+- האם [דיאטת קיטו](nutrition_concept) זה טוב?
+- האם [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"}[פחמימות](nutrient) זה בריא
+- האם זה בריא [לצום](nutrition_concept)
+- [סוכר](nutrient) זה בריא ?
+- האם לצרוך הרבה [פחממה](nutrient) זה בריא ?
 
 ## intent:What is the source of your data
 - למה אתה חושב כך?
@@ -912,6 +978,7 @@
 - עד מתי אתה עובד היום ?
 - יש לך תוכניות להערב?
 - עד מתי אתה כאן?
+- מה שעות העבודה שלך?
 
 ## intent:Got Question
 - מוכן לשאלות?
@@ -939,6 +1006,7 @@
 
 ## intent:Bot_introduction
 - איך קוראים לך?
+- היי, מי אתה?
 
 ## intent:nutrition_should_I_avoid
 - האם מותר לדלג על [ארוחת בוקר](nutrition_concept)
@@ -978,6 +1046,14 @@
 - האם כדאי לי להימנע מ[פוטסיום](nutrient)
 - האם כדאי לי להמנע מלאכול [פחמימות](nutrient)
 - האם כדאי לי להמנע מ[פרוקטוז](nutrient)
+- האם כדאי לי להמנע מ[שומן טרנס](nutrient)
+- האם כדאי לי להמנע מ[פחממות](nutrient)
+- האם לוותר על [שומנים]{"entity": "nutrient", "value": "\u05e9\u05d5\u05de\u05df"}[שומנים](nutrient)
+- האם כדאי לי להמנע לאכול [שומן](nutrient)
+- האם אתה ממליץ לי לוותר על [סוכר](nutrient)
+- האם כדאי לי לא לאכול [סוכר](nutrient) ?
+- האם כדאי לי לא לאכול [פחממה](nutrient)
+- חבר אמר לי שלא כדאי לי לאכול [שומנים](nutrient)
 
 ## intent:will_X_make_me_fat
 - האם [שומן](nutrient) זה משמין
@@ -994,6 +1070,33 @@
 - האם אכילת [פחממות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"} גורמת ל[עלייה במשקל](nutrition_concept) ?
 - האם לאכול [אגוזים](food_entity) זה [ישמין](nutrition_concept) אותי ?
 - האם [ארוחת צהריים](nutrition_concept) זה משמין
+- האם [פחממה](nutrient) זה משמין
+- האם [ענבים](food_entity) זה משמין
+
+## intent:nutrition_what_has_little
+- במה יש מעט [סוכר](nutrient)
+- באילו מאכלים אין הרבה [סוכר](nutrient)
+- מה אפשר לאכול שאין בו הרבה [סוכר](nutrient)
+- באיזה מאכלים אין [סוכר](nutrient)
+- באילו דברים אין הרבה [מלח](nutrient)
+- מה כדאי לי לאכול שאין בו הרבה [כולסטרול](nutrient)?
+- באיזה דברים אין [שומן רווי](nutrient) ?
+- מהם מאכלים שאין בהם [פחממות ](nutrient)כמעט
+- מה טעים ואין בו [שומן טרנס](nutrient)
+- מה כדאי לי לאכול שאין בו יותר מדי [סוכר](nutrient)
+- במה אין [סוכר](nutrient)
+- במה אין הרבה [שומן רווי](nutrient)
+- מה לאכול אם אני רוצה להמנע מ[שומנים](nutrient)
+- באיזה סוג של אוכל אין [שומן רווי](nutrient)
+- במה אין [שומנים]{"entity": "nutrient", "value": "\u05e9\u05d5\u05de\u05df"}[שומנים](nutrient)
+- באיזה מאכלים אין [נתרן](nutrient)
+- באיזה דברים אין [פחממה](nutrient)
+- במה אין כמעט [שומנים רוויים](nutrient)
+- באיזה דברים יש יחסית מעט [שומן רווי](nutrient)
+- במה יש יחסית מעט [שומן רווי](nutrient)
+- באילו סוגי מאכלים אין [שומן טרנס](nutrient)
+- באילו מאכלים אין [חלבון](nutrient)
+- באיזה דברים אין [פחממות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"}
 
 ## synonym:אומגה 3
 - אומגה שלוש
@@ -1049,4 +1152,3 @@
 - שומן טראנס
 - שומני טראנס
 - שומני טרנס
-

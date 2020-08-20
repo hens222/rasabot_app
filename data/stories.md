@@ -41,6 +41,10 @@
 * nutrition_importance
   - action_simple_question
 
+## nutrition daily_recommendation
+* nutrition_daily_recommendation
+  - action_simple_question
+
 ## nutrition howto improve
 * nutrition_howto_improve
   - action_simple_question
@@ -306,3 +310,62 @@
     - action_nutrition_howmanyxiny
 * nutrition_is_food_healthy{"food_entity":"עגבניה"}
     - action_nutrition_is_food_healthy
+
+## Is healthy enhanced 
+
+* nutrition_definition{"nutrition_concept":"קיטו"}
+    - action_simple_question
+* nutrition_is_healthy{"nutrition_concept":"קיטו"}
+    - action_simple_question
+
+## Is healthy story
+
+* nutrition_is_healthy{"nutrition_concept":"צמחונות"}
+    - action_simple_question
+
+## Is healthy two kinds working great
+
+* nutrition_is_healthy{"nutrition_concept":"צמחונות"}
+    - action_simple_question
+* nutrition_is_healthy{"nutrition_concept":"קיטו"}
+    - action_simple_question
+* nutrition_is_food_healthy{"food_entity":"לחם"}
+    - action_nutrition_is_food_healthy
+* nutrition_is_food_healthy{"food_entity":"תפוח עץ"}
+    - action_nutrition_is_food_healthy
+
+## What is healthier switch the foods
+
+* nutrition_what_is_healthier{"food_entity":"חומוס","food_entity2":"טחינה"}
+    - action_nutrition_what_is_healthier
+* nutrition_what_is_healthier{"food_entity":"טחינה","food_entity2":"חומוס"}
+    - action_nutrition_what_is_healthier
+
+## Multiple what is healthier 3x
+
+* nutrition_what_is_healthier{"food_entity":"חלב שקדים","food_entity2":"חלב סויה"}
+    - action_nutrition_what_is_healthier
+* nutrition_what_is_healthier{"food_entity":"חומוס","food_entity2":"טחינה"}
+    - action_nutrition_what_is_healthier
+* nutrition_what_is_healthier{"food_entity":"פיצה"}
+    - action_nutrition_what_is_healthier
+
+## New Story
+
+* nutrition_is_healthy
+    - action_simple_question
+
+## What doesnt have too much of X
+
+* nutrition_what_has_little{"nutrient":"מדי סוכר"}
+    - action_simple_question
+
+## What does not have X
+
+* nutrition_what_has_little{"nutrient":"סוכר"}
+    - action_simple_question
+
+## What has little saturated fat
+
+* nutrition_what_has_little{"nutrient":"שומן רווי"}
+    - action_simple_question

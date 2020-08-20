@@ -2,6 +2,7 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 intents:
+  - nutrition_what_has_little
   - who_made_you
   - greet
   - goodbye
@@ -13,6 +14,7 @@ intents:
   - nutrition_definition
   - nutrition_what_has
   - nutrition_importance
+  - nutrition_daily_recommendation
   - nutrition_howto_improve
   - nutrition_howmanyxiny
   - nutrition_is_food_healthy
@@ -47,7 +49,6 @@ intents:
   - will_X_make_me_fat
 entities:
   - food_entity
-  - food_entity1
   - food_entity2
   - simple_entity
   - training_type
@@ -126,8 +127,8 @@ responses:
     - text: בכיף !
   utter_Im_always_here:
     - text: >-
-        אני תמיד פה. בוטים לא ישנים ולצערי סגרו את כל מועדוני הריקודים של הבוטים
-        בגלל הקורונה.
+        אני תמיד פה. בוטים לא ישנים ולצערי סגרו את כל מסיבות היער של הבוטים בגלל
+        הקורונה.
   utter_who_made_you:
     - text: >-
         יצרו אותי חברת ניוט. יש שם מומחי תזונה וספורט, אנשים שמבינים בהתנהגות
@@ -139,9 +140,6 @@ responses:
   utter_jokes:
     - text: למה פיל וזברה נכנסו למנהרה ויצאו שלושה? כי למה זו גם חיה!
     - text: איך נחש מתקשר בטלפון? הוא מקיש מספרים!
-    - image: >-
-        https://i.pinimg.com/originals/dc/20/3c/dc203c3fb683fef0b3ebccfd8d38c40c.jpg
-      text: Joey does not share food !
   utter_will_it_make_me_fat:
     - text: >-
         השמנה היא תוצאה של צריכת קלוריות יומית עודפת ביחס להוצאה הקלורית היומית
