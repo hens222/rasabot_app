@@ -161,13 +161,21 @@
 - האם [ארוחת הבוקר](nutrition_concept) הכי חשובה
 - האם [ארוחת בוקר](nutrition_concept) חשובה
 
-## intent:nutrition_daily_recommendation
+## intent:calories_daily_recommendation
 - מהי [תצרוכת הקלוריות היומית](nutrient) המומלצת שלי
 - מהי [תצרוכת הקלורית היומית](nutrient) המומלצת שלי
 - מהי [תצרוכת הקלוריות היומית](nutrient) שלי
 - מהי ה[תצרוכת הקלורית היומית](nutrient) שלי
 - מהי ה[תצרוכת היומית](nutrient) המומלצת שלי
 - כמה [קלוריות](nutrient) כדאי לי לצרוך ביום
+- מה התצרוכת היומית של [קלוריות](simple_entity)
+
+## intent:nutrition_get_rda
+- מהי הקצובה היומית המומלצת של [ויטמין איי](nutrient)
+- מהי הקצובה היומית המומלצת של [ויטמין סי](nutrient) עבורי
+- כמה [ויטמין די](nutrient) כדאי לי לצרוך ביום
+- כמב [ןיטמין אי](nutrient) מומלץ לי לאכול ביום
+- מה התצרוכת היומית המומלצת של [חומצה פולית](nutrient) בשבילי?
 
 ## intent:nutrition_howto_improve
 - איך ניתן לשפר [ריכוז](simple_entity)
@@ -483,7 +491,6 @@
 - בוקר טוב כפרה
 - בוקר טוב אדון שוקו
 - בוקר טוב ושבוע טוב
-- מה התצרוכת היומית של [קלוריות](simple_entity)
 - מה קורה איתך
 - מה שלומך אח שלי גיבור ?
 - מה קורה?
@@ -636,10 +643,36 @@
 - אתה בן אדם?
 - אתה בוט?
 
-## intent:nice_to_meet_you
+## intent:request_profile_info
+- אני רוצה לספר קצת על עצמי
+- האם אתה מכיר אותי
+- האם אתה יודע מי אני
+- מי אני
+- אני רוצה להזדהות
+- אני מעוניין להזדהות
+
+## intent:slot_getter_username
 - [גיל](username)
 - נעים להכיר, לי קוראים [רמון עינב](username)
 - לי קוראים [ליאור](username). נעים להכיר
+
+## intent:slot_getter_gender
+- [זכר](gender)
+- [נקבה](gender)
+
+## intent:slot_getter_age
+- [10](age)
+- [37](age)
+- [5](age)
+- [75](age)
+- [18](age)
+
+## intent:slot_getter_weight
+- [23](weight)
+- [74](weight)
+- [87](weight)
+- [57](weight)
+- [62](weight)
 
 ## intent:bot_introduction
 - מי אתה
@@ -1133,9 +1166,9 @@
 - ישמין
 
 ## synonym:פחממה
+- פחמימות
 - פחממות
 - פחמימה
-- פחמימות
 
 ## synonym:צום
 - לצום

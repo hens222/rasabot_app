@@ -11,8 +11,9 @@ import re
 import io
 import requests
 import pandas as pd
-from typing import Any, Text, Dict, List
+from typing import Any, Text, Dict, List, Union
 from rasa_sdk import Action, Tracker
+from rasa_sdk.forms import FormAction
 from rasa_sdk.executor import CollectingDispatcher
 
 def load_db():
@@ -28,13 +29,15 @@ def load_db():
     lut_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
                          header=0,
                          index_col=["Entity Alias"],
-                         usecols=["Entity Alias", "Entity", "Units", 
+                         usecols=["Entity Alias", "Entity", "Units",
+                                  "Entity name", "RDA name",
                                   "action_simple_question",
                                   "action_nutrition_howmanyxiny_x",
                                   "action_nutrition_howmanyxiny_y",
                                   "action_nutrition_is_food_healthy",
                                   "action_nutrition_what_is_healthier_x",
-                                  "action_nutrition_what_is_healthier_y"]).fillna(0)
+                                  "action_nutrition_what_is_healthier_y",
+                                  "action_nutrition_get_rda"]).fillna(0)
 
     # "Zameret_hebrew_features"
     url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1706335378"
@@ -47,20 +50,27 @@ def load_db():
     url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=495295419"
     s = requests.get(url).content
     common_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
-                         header=0,
-                         index_col=["common_name"],
-                         usecols=["common_name", "shmmitzrach", "smlmitzrach"]).fillna(0)
+                            header=0,
+                            index_col=["common_name"],
+                            usecols=["common_name", "shmmitzrach", "smlmitzrach"]).fillna(0)
 
-    # "Newt Machine Readable"
+    # "Newt Machine Readable" - FoodItemRanges
     url = "https://docs.google.com/spreadsheets/d/1IPTflCe6shaP-FBAuXWSFCX5hSuAo7bMGczNMTSTYY0/export?format=csv&gid=885087351"
     s = requests.get(url).content
     food_ranges_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
-                                      header=0,
-                                      index_col=["Nutrient"],
-                                      usecols=["Nutrient", "Medium - threshold per 100gr", "High - threshold per 100gr",
+                                 header=0,
+                                 index_col=["Nutrient"],
+                                 usecols=["Nutrient", "Medium - threshold per 100gr", "High - threshold per 100gr",
                                                "good_or_bad", "tzameret_name", "hebrew_name"]).fillna(0)
 
-    return db_df, lut_df, custom_df, common_df, food_ranges_df
+    # "Newt Machine Readable" - MicroNutrients
+    url = "https://docs.google.com/spreadsheets/d/1IPTflCe6shaP-FBAuXWSFCX5hSuAo7bMGczNMTSTYY0/export?format=csv&gid=222801095"
+    s = requests.get(url).content
+    micro_nutrients_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
+                                     header=0).fillna(0)
+    micro_nutrients_df = micro_nutrients_df[micro_nutrients_df['Type'] == "RDA"]
+
+    return db_df, lut_df, custom_df, common_df , food_ranges_df, micro_nutrients_df
 
 # ------------------------------------------------------------------
 
@@ -73,7 +83,7 @@ class ActionSimpleQuestion(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        _, lut_df, custom_df, _, _ = load_db()
+        _, lut_df, custom_df, _, _, _ = load_db()
         
         user_intent = tracker.latest_message.get('intent').get('name')    
          
@@ -119,6 +129,52 @@ class ActionSimpleQuestion(Action):
 
 # ------------------------------------------------------------------
 
+class ActionGetRDAQuestion(Action):
+
+    def name(self) -> Text:
+        return "action_nutrition_get_rda"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        _, lut_df, custom_df, _, _ , micro_nutrients_df = load_db()
+        
+        for ent in tracker.latest_message.get('entities'):
+            if ent['entity'] in lut_df[self.name()].values:
+                nutrient = ent['value']
+
+        try:
+            feature = lut_df['Entity'][nutrient]
+            feature_rda = lut_df['RDA name'][lut_df['Entity name'] == feature][0]
+
+            gender = "ANY"
+            if tracker.get_slot('gender') == "זכר":
+              gender = "Male"
+            elif tracker.get_slot('gender') == "נקבה":
+              gender = "Female"
+
+            age = tracker.get_slot('age') if tracker.get_slot('age') else 18
+
+            rda_row = micro_nutrients_df[(micro_nutrients_df['Micronutrient'] == feature_rda) & \
+                                         (micro_nutrients_df['Gender'] == gender) & \
+                                         (micro_nutrients_df['Pregnancy'] == "No") & \
+                                         (micro_nutrients_df['Lactating'] == "No") & \
+                                         (micro_nutrients_df['Age Min'] <= age) & \
+                                         (micro_nutrients_df['Age Max'] > age)]
+            
+            res = "הקצובה היומית המומלצת של %s עבורך (%s בגיל %s) היא\n %.2f %s" % \
+                  (nutrient, tracker.get_slot('gender'), age, rda_row['Value'].values[0], rda_row['Units'].values[0])
+
+            dispatcher.utter_message(text="%s" % res)
+
+        except:
+            dispatcher.utter_message(text="אין לי מושג, מצטער!")
+
+        return []
+
+# ------------------------------------------------------------------
+
 class ActionNutritionHowManyXinY(Action):
 
     def name(self) -> Text:
@@ -128,7 +184,7 @@ class ActionNutritionHowManyXinY(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        db_df, lut_df, _, common_df, _ = load_db()
+        db_df, lut_df, _, common_df, _, _ = load_db()
         
         user_msg = tracker.latest_message.get('text')    
        
@@ -177,7 +233,7 @@ class ActionEatBeforeTrainingQuestion(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
             
-        _, _, custom_df, _ = load_db()
+        _, _, custom_df, _, _, _ = load_db()
 
         user_intent = tracker.latest_message.get('intent').get('name')
         
@@ -209,7 +265,7 @@ class ActionIsFoodHealthyQuestion(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        db_df, lut_df, _, common_df, food_ranges_df = load_db()
+        db_df, lut_df, _, common_df, food_ranges_df, _ = load_db()
 
         for ent in tracker.latest_message.get('entities'):
             if ent['entity'] in lut_df[self.name()].values:
@@ -284,7 +340,7 @@ class ActionWhatIsHealthierQuestion(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        db_df, lut_df, _, common_df, food_ranges_df = load_db()
+        db_df, lut_df, _, common_df, food_ranges_df, _ = load_db()
         
         user_msg = tracker.latest_message.get('text')    
        
@@ -376,5 +432,53 @@ class ActionWhatIsHealthierQuestion(Action):
         except:
             dispatcher.utter_message(text="אין לי מושג כמה, מצטער!")
         
+        return []
+
+# ------------------------------------------------------------------
+
+class ProfileForm(FormAction):
+    """Example of a custom form action"""
+
+    def name(self) -> Text:
+        """Unique identifier of the form"""
+
+        return "profile_form"
+
+    @staticmethod
+    def required_slots(tracker: Tracker) -> List[Text]:
+        """A list of required slots that the form has to fill"""
+
+        return ["gender", "age", "weight"]
+
+    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
+        """A dictionary to map required slots to
+            - an extracted entity
+            - intent: value pairs
+            - a whole message
+            or a list of them, where a first match will be picked"""
+
+        return {
+            "age": [
+                self.from_entity(entity="age", intent="slot_getter_age"),
+                self.from_entity(entity="weight", intent="slot_getter_age"),
+                self.from_text(),
+            ],
+            "weight": [
+                self.from_entity(entity="weight", intent="slot_getter_weight"),
+                self.from_entity(entity="age", intent="slot_getter_weight"),
+                self.from_text(),
+            ],
+        }
+    
+    def submit(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict]:
+        """ Define what the form has to do after all required slots are filled"""
+
+        # utter submit template
+        dispatcher.utter_message(text="קדימה, לעסק!")
         return []
 

@@ -42,7 +42,7 @@
   - action_simple_question
 
 ## nutrition daily_recommendation
-* nutrition_daily_recommendation
+* calories_daily_recommendation
   - action_simple_question
 
 ## nutrition howto improve
@@ -61,58 +61,42 @@
 * nutrition_what_is_healthier
   - action_nutrition_what_is_healthier
 
-## Whats your name short (1)
-* bot_introduction
-  - utter_my_name_is_newt
-* nice_to_meet_you
-  - slot{"username": "NA"}
-  - utter_nice_to_meet_you
+## nutrition get_rda
+* nutrition_get_rda
+  - action_nutrition_get_rda
 
-## Whats your name longer (2)
-* greet
-  - utter_greet
-* bot_introduction
-  - utter_my_name_is_newt
-* nice_to_meet_you
-  - slot{"username": "NA"}
-  - utter_nice_to_meet_you
+## user information
+* request_profile_info
+  - profile_form
+  - form{"name": "profile_form"}
+  - form{"name": null}
 
-## Whats your name Longest (2)
-* greet
-  - utter_greet
-* mood_great
-  - utter_happy
+## Whats your name short (short)
 * bot_introduction
   - utter_my_name_is_newt
-* nice_to_meet_you
+* slot_getter_username
   - slot{"username": "NA"}
-  - utter_nice_to_meet_you
+  - utter_profile_info_getter
+* deny
+  - utter_slot_getter_username
+
+## Whats your name short (long)
+* bot_introduction
+  - utter_my_name_is_newt
+* slot_getter_username
+  - slot{"username": "NA"}
+  - utter_profile_info_getter
+* affirm
+  - profile_form
+  - form{"name": "profile_form"}
+  - form{"name": null}
+  - utter_slot_getter_username
 
 ## I have a question
 * got_question
   - utter_got_question
 
 ## what_can_you_do
-* what_can_you_do
-  - utter_what_can_you_do
-
-## Bot introduction path 1
-* greet
-  - utter_greet
-* bot_introduction
-  - utter_my_name_is_newt
-* nice_to_meet_you
-  - slot{"username": "NA"}
-  - utter_nice_to_meet_you
-* what_can_you_do
-  - utter_what_can_you_do
-
-## Bot introduction path 2
-* bot_introduction
-  - utter_my_name_is_newt
-* nice_to_meet_you
-  - slot{"username": "NA"}
-  - utter_nice_to_meet_you
 * what_can_you_do
   - utter_what_can_you_do
 
@@ -166,19 +150,6 @@
 * mood_great
   - utter_whats_your_question
 
-## Intro-question-which question
-* bot_introduction
-  - utter_my_name_is_newt
-* nice_to_meet_you
-  - slot{"username": "NA"}
-  - utter_nice_to_meet_you
-* what_can_you_do
-  - utter_what_can_you_do
-* what_type_of_questions
-  - utter_what_types_of_question_can_you_answer
-* thank_you
-  - utter_whats_your_question
-
 ## Greet+unhappy+cheer+thank you
 * greet
   - utter_greet
@@ -207,19 +178,6 @@
 ## who_made_you
 * who_made_you
   - utter_who_made_you
-
-## Introduction: name,bot,who made you, what can you do
-* bot_introduction
-  - utter_my_name_is_newt
-* nice_to_meet_you
-  - slot{"username": "NA"}
-  - utter_nice_to_meet_you
-* bot_challenge
-  - utter_iamabot
-* who_made_you
-  - utter_who_made_you
-* what_can_you_do
-  - utter_what_can_you_do
 
 ## Greet to what type of questions
 * greet
@@ -267,105 +225,96 @@
 
 ## Greet + got question
 * greet
-    - utter_greet
+  - utter_greet
 * Got Question
-    - utter_got_question
+  - utter_got_question
 
 ## Should I avoid X?
 * nutrition_should_I_avoid
-    - action_simple_question
+  - action_simple_question
 
 ## Will X make me fat
 * will_X_make_me_fat
-    - utter_will_it_make_me_fat
+  - utter_will_it_make_me_fat
 
 ## How much X in Y multiple questions
 * nutrition_howmanyxiny{"nutrient":"קלוריות"}
-    - action_nutrition_howmanyxiny
+  - action_nutrition_howmanyxiny
 * nutrition_howmanyxiny{"nutrient":"חלבון"}
-    - action_nutrition_howmanyxiny
+  - action_nutrition_howmanyxiny
 * nutrition_howmanyxiny{"nutrient":"סודיום"}
-    - action_nutrition_howmanyxiny
+  - action_nutrition_howmanyxiny
 * thank_you
-    - utter_youre_welcome
+  - utter_youre_welcome
 
 ## Hi + many jokes
 * greet
-    - utter_greet
+  - utter_greet
 * mood_great
-    - utter_happy
+  - utter_happy
 * jokes
-    - utter_jokes
+  - utter_jokes
 * jokes
-    - utter_jokes
+  - utter_jokes
 * jokes
-    - utter_jokes
+  - utter_jokes
 
 ## Is food healthy with entity
 * nutrition_is_food_healthy{"food_entity":"אגס"}
-    - action_nutrition_is_food_healthy
+  - action_nutrition_is_food_healthy
 
 ## How much x in y, and then is y healty
 * nutrition_howmanyxiny{"simple_entity":"פוטסיום"}
-    - action_nutrition_howmanyxiny
+  - action_nutrition_howmanyxiny
 * nutrition_is_food_healthy{"food_entity":"עגבניה"}
-    - action_nutrition_is_food_healthy
+  - action_nutrition_is_food_healthy
 
 ## Is healthy enhanced 
-
 * nutrition_definition{"nutrition_concept":"קיטו"}
-    - action_simple_question
+  - action_simple_question
 * nutrition_is_healthy{"nutrition_concept":"קיטו"}
-    - action_simple_question
+  - action_simple_question
 
 ## Is healthy story
-
 * nutrition_is_healthy{"nutrition_concept":"צמחונות"}
-    - action_simple_question
+  - action_simple_question
 
 ## Is healthy two kinds working great
-
 * nutrition_is_healthy{"nutrition_concept":"צמחונות"}
-    - action_simple_question
+  - action_simple_question
 * nutrition_is_healthy{"nutrition_concept":"קיטו"}
-    - action_simple_question
+  - action_simple_question
 * nutrition_is_food_healthy{"food_entity":"לחם"}
-    - action_nutrition_is_food_healthy
+  - action_nutrition_is_food_healthy
 * nutrition_is_food_healthy{"food_entity":"תפוח עץ"}
-    - action_nutrition_is_food_healthy
+  - action_nutrition_is_food_healthy
 
 ## What is healthier switch the foods
-
 * nutrition_what_is_healthier{"food_entity":"חומוס","food_entity2":"טחינה"}
-    - action_nutrition_what_is_healthier
+  - action_nutrition_what_is_healthier
 * nutrition_what_is_healthier{"food_entity":"טחינה","food_entity2":"חומוס"}
-    - action_nutrition_what_is_healthier
+  - action_nutrition_what_is_healthier
 
 ## Multiple what is healthier 3x
-
 * nutrition_what_is_healthier{"food_entity":"חלב שקדים","food_entity2":"חלב סויה"}
-    - action_nutrition_what_is_healthier
+  - action_nutrition_what_is_healthier
 * nutrition_what_is_healthier{"food_entity":"חומוס","food_entity2":"טחינה"}
-    - action_nutrition_what_is_healthier
+  - action_nutrition_what_is_healthier
 * nutrition_what_is_healthier{"food_entity":"פיצה"}
-    - action_nutrition_what_is_healthier
+  - action_nutrition_what_is_healthier
 
 ## New Story
-
 * nutrition_is_healthy
-    - action_simple_question
+  - action_simple_question
 
 ## What doesnt have too much of X
-
 * nutrition_what_has_little{"nutrient":"מדי סוכר"}
-    - action_simple_question
+  - action_simple_question
 
 ## What does not have X
-
 * nutrition_what_has_little{"nutrient":"סוכר"}
-    - action_simple_question
+  - action_simple_question
 
 ## What has little saturated fat
-
 * nutrition_what_has_little{"nutrient":"שומן רווי"}
-    - action_simple_question
+  - action_simple_question
