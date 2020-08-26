@@ -16,61 +16,198 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.forms import FormAction
 from rasa_sdk.executor import CollectingDispatcher
 
-def load_db():
+def load_db(db_bitmap):
 
+    db_dict = {}
+  
     # "Zameret food list 22_JAN_2020"
-    url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=84892416"
-    s = requests.get(url).content
-    db_df = pd.read_csv(io.StringIO(s.decode('utf-8'))).fillna(0)
-
-    # "Zameret_hebrew_features"
-    url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1805881936"
-    s = requests.get(url).content
-    lut_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
-                         header=0,
-                         index_col=["Entity Alias"],
-                         usecols=["Entity Alias", "Entity", "Units",
-                                  "Entity name", "RDA name",
-                                  "action_simple_question",
-                                  "action_nutrition_howmanyxiny_x",
-                                  "action_nutrition_howmanyxiny_y",
-                                  "action_nutrition_is_food_healthy",
-                                  "action_nutrition_what_is_healthier_x",
-                                  "action_nutrition_what_is_healthier_y",
-                                  "action_nutrition_get_rda"]).fillna(0)
-
-    # "Zameret_hebrew_features"
-    url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1706335378"
-    s = requests.get(url).content
-    custom_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
-                            header=0,
-                            index_col=["Entity"]).fillna(0)
-
-    # "Zameret_hebrew_features"
-    url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=495295419"
-    s = requests.get(url).content
-    common_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
-                            header=0,
-                            index_col=["common_name"],
-                            usecols=["common_name", "shmmitzrach", "smlmitzrach"]).fillna(0)
-
+    if (db_bitmap & 0x1) > 0:
+        url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=84892416"
+        s = requests.get(url).content
+        db_dict['tzameret'] = pd.read_csv(io.StringIO(s.decode('utf-8'))).fillna(0)
+  
+    # "Zameret_hebrew_features" - entities aliases
+    if (db_bitmap & 0x2) > 0:    
+        url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1805881936"
+        s = requests.get(url).content
+        db_dict['lut'] = pd.read_csv(io.StringIO(s.decode('utf-8')),
+                                     header=0,
+                                     index_col=["Entity Alias"],
+                                     usecols=["Entity Alias", "Entity", "Units", 
+                                              "Entity name", "RDA name",
+                                              "action_simple_question",
+                                              "action_nutrition_howmanyxiny_x",
+                                              "action_nutrition_howmanyxiny_y",
+                                              "action_nutrition_is_food_healthy",
+                                              "action_nutrition_is_food_recommended",
+                                              "action_nutrition_what_is_healthier_x",
+                                              "action_nutrition_what_is_healthier_y",
+                                              "action_nutrition_get_rda"]).fillna(0)
+  
+    # "Zameret_hebrew_features" - nutrients_questions
+    if (db_bitmap & 0x4) > 0:    
+        url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1706335378"
+        s = requests.get(url).content
+        db_dict['nutrients_qna'] = pd.read_csv(io.StringIO(s.decode('utf-8')),
+                                               header=0,
+                                               index_col=["Entity"]).fillna(0)
+  
+    # "Zameret_hebrew_features" - Food questions
+    if (db_bitmap & 0x8) > 0:    
+        url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1099284657"
+        s = requests.get(url).content
+        db_dict['food_qna'] = pd.read_csv(io.StringIO(s.decode('utf-8')),
+                                          header=0,
+                                          index_col=["nutrition_density"],
+                                          usecols=["nutrition_density", "energy_density", "description_density"]).fillna(0)
+  
+    # "Zameret_hebrew_features" - List of common foods
+    if (db_bitmap & 0x10) > 0:
+        url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=495295419"
+        s = requests.get(url).content
+        db_dict['common_food'] = pd.read_csv(io.StringIO(s.decode('utf-8')),
+                                             header=0,
+                                             index_col=["common_name"],
+                                             usecols=["common_name", "shmmitzrach", "smlmitzrach"]).fillna(0)
+  
     # "Newt Machine Readable" - FoodItemRanges
-    url = "https://docs.google.com/spreadsheets/d/1IPTflCe6shaP-FBAuXWSFCX5hSuAo7bMGczNMTSTYY0/export?format=csv&gid=885087351"
-    s = requests.get(url).content
-    food_ranges_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
-                                 header=0,
-                                 index_col=["Nutrient"],
-                                 usecols=["Nutrient", "Medium - threshold per 100gr", "High - threshold per 100gr",
-                                               "good_or_bad", "tzameret_name", "hebrew_name"]).fillna(0)
-
+    if (db_bitmap & 0x20) > 0:    
+        url = "https://docs.google.com/spreadsheets/d/1IPTflCe6shaP-FBAuXWSFCX5hSuAo7bMGczNMTSTYY0/export?format=csv&gid=885087351"
+        s = requests.get(url).content
+        db_dict['food_ranges'] = pd.read_csv(io.StringIO(s.decode('utf-8')),
+                                             header=0,
+                                             index_col=["Nutrient"],
+                                             usecols=["Nutrient", "Medium - threshold per 100gr", "High - threshold per 100gr",
+                                                      "good_or_bad", "tzameret_name", "hebrew_name"]).fillna(0)
+  
     # "Newt Machine Readable" - MicroNutrients
-    url = "https://docs.google.com/spreadsheets/d/1IPTflCe6shaP-FBAuXWSFCX5hSuAo7bMGczNMTSTYY0/export?format=csv&gid=222801095"
-    s = requests.get(url).content
-    micro_nutrients_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
-                                     header=0).fillna(0)
-    micro_nutrients_df = micro_nutrients_df[micro_nutrients_df['Type'] == "RDA"]
+    if (db_bitmap & 0x40) > 0:    
+        url = "https://docs.google.com/spreadsheets/d/1IPTflCe6shaP-FBAuXWSFCX5hSuAo7bMGczNMTSTYY0/export?format=csv&gid=222801095"
+        s = requests.get(url).content
+        micro_nutrients_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
+                                         header=0).fillna(0)
+        db_dict['micro_nutrients'] = micro_nutrients_df[micro_nutrients_df['Type'] == "RDA"]
+  
+    return db_dict
 
-    return db_df, lut_df, custom_df, common_df , food_ranges_df, micro_nutrients_df
+# ------------------------------------------------------------------
+
+def get_rda(name, tracker):
+
+    db_dict = load_db(0x46) 
+    
+    lut_df = db_dict['lut']
+    custom_df = db_dict['nutrients_qna']
+    micro_nutrients_df = db_dict['micro_nutrients']
+    
+    status = "match"
+    
+    for ent in tracker.latest_message.get('entities'):
+        if ent['entity'] in lut_df[name].values:
+            nutrient = ent['value']
+            break
+
+    try:
+
+        feature = lut_df['Entity'][nutrient]
+        feature_rda = lut_df['RDA name'][lut_df['Entity name'] == feature][0]
+        
+        gender = "Male"
+        if tracker.get_slot('gender') == "זכר":
+            gender = "Male"
+        elif tracker.get_slot('gender') == "נקבה":
+            gender = "Female" 
+        else:
+            status = "default"     
+
+        age = "40"
+        if tracker.get_slot('age'):
+            age = tracker.get_slot('age')
+        else:
+            status = "default"
+
+        rda_row = micro_nutrients_df[(micro_nutrients_df['Micronutrient'] == feature_rda) & \
+                                     ((micro_nutrients_df['Gender'] == "ANY")    | (micro_nutrients_df['Gender'] == gender)) & \
+                                     ((micro_nutrients_df['Pregnancy'] == "ANY") | (micro_nutrients_df['Pregnancy'] == "No")) & \
+                                     ((micro_nutrients_df['Lactating'] == "ANY") | (micro_nutrients_df['Lactating'] == "No")) & \
+                                     ((micro_nutrients_df['Age Min'] == "ANY")   | (micro_nutrients_df['Age Min'] <= age)) & \
+                                     ((micro_nutrients_df['Age Max'] == "ANY")   | (micro_nutrients_df['Age Max'] > age))]
+    
+        rda_value = rda_row['Value'].values[0]
+        rda_units = rda_row['Units'].values[0]
+
+        if 'slot#' in rda_value:
+            rda_value_list = rda_value.split(' ')
+            for k,el in enumerate(rda_value_list):
+                if 'slot#' in el and tracker.get_slot(el.split('#')[1]):
+                    rda_value_list[k] = tracker.get_slot(el.split('#')[1])
+            rda_value = eval(' '.join(rda_value_list))    
+
+        rda_value = float(rda_value)
+
+        return rda_value, rda_units, status, nutrient
+
+    except:
+
+        return -1, -1, "missmatch", nutrient
+
+# ------------------------------------------------------------------
+
+def get_personal_str(rda_status, tracker): 
+
+    age = tracker.get_slot('age') if tracker.get_slot('age') and rda_status == "match" else '40'
+    gender = tracker.get_slot('gender') if tracker.get_slot('gender') and rda_status == "match" else 'זכר'
+    weight = tracker.get_slot('weight') if tracker.get_slot('weight') and rda_status == "match" else '80'
+    height = tracker.get_slot('height') if tracker.get_slot('height') and rda_status == "match" else '180'
+
+    if rda_status == "default":
+        personal_str = "עבור %s בגיל %s במשקל %s ובגובה %s" % (gender, age, weight, height)
+    else:
+        personal_str = "עבורך (%s בגיל %s במשקל %s ובגובה %s)" % (gender, age, weight, height)    
+
+    return personal_str
+
+# ------------------------------------------------------------------
+
+def get_food_nutrition_density(food, food_ranges_db):
+
+    # Nutrition Density is defined in Tzameret:
+    density_normalized = float(food["Nutrition density normalized"])
+  
+    # Thresholds are defined in Machine-Readable:
+    density = food_ranges_db[food_ranges_db.index == "Nutrition density"]
+    density_med = float(density["Medium - threshold per 100gr"])
+    density_high = float(density["High - threshold per 100gr"])
+  
+    # Binning:
+    res = "high"
+    if density_normalized < density_med:
+        res = "low"
+    elif density_normalized < density_high:
+        res = "med"
+  
+    return density, res
+
+# ------------------------------------------------------------------
+
+def get_food_energy_density(food, food_ranges_db):
+
+    # Energy Density is defined in Tzameret:
+    density_normalized = float(food["Energy density"])
+  
+    # Thresholds are defined in Machine-Readable:
+    density = food_ranges_db[food_ranges_db.index == "Energy density"]
+    density_med = float(density["Medium - threshold per 100gr"])
+    density_high = float(density["High - threshold per 100gr"])
+  
+    # Binning:
+    res = "high"
+    if density_normalized < density_med:
+        res = "low"
+    elif density_normalized < density_high:
+        res = "med"
+  
+    return density, res
 
 # ------------------------------------------------------------------
 
@@ -83,13 +220,17 @@ class ActionSimpleQuestion(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        _, lut_df, custom_df, _, _, _ = load_db()
+        db_dict = load_db(0x6)
+        
+        lut_df = db_dict['lut']
+        custom_df = db_dict['nutrients_qna']
         
         user_intent = tracker.latest_message.get('intent').get('name')    
          
         for ent in tracker.latest_message.get('entities'):
             if ent['entity'] in lut_df[self.name()].values:
                 simple_entity = ent['value']
+                break
 
         try:
             feature = lut_df['Entity'][simple_entity]
@@ -138,38 +279,18 @@ class ActionGetRDAQuestion(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        _, lut_df, custom_df, _, _ , micro_nutrients_df = load_db()
-        
-        for ent in tracker.latest_message.get('entities'):
-            if ent['entity'] in lut_df[self.name()].values:
-                nutrient = ent['value']
+        rda_val, rda_units, rda_status, nutrient = get_rda(self.name(), tracker)
 
-        try:
-            feature = lut_df['Entity'][nutrient]
-            feature_rda = lut_df['RDA name'][lut_df['Entity name'] == feature][0]
+        if rda_val > 0:
 
-            gender = "ANY"
-            if tracker.get_slot('gender') == "זכר":
-              gender = "Male"
-            elif tracker.get_slot('gender') == "נקבה":
-              gender = "Female"
-
-            age = tracker.get_slot('age') if tracker.get_slot('age') else 18
-
-            rda_row = micro_nutrients_df[(micro_nutrients_df['Micronutrient'] == feature_rda) & \
-                                         (micro_nutrients_df['Gender'] == gender) & \
-                                         (micro_nutrients_df['Pregnancy'] == "No") & \
-                                         (micro_nutrients_df['Lactating'] == "No") & \
-                                         (micro_nutrients_df['Age Min'] <= age) & \
-                                         (micro_nutrients_df['Age Max'] > age)]
+            res = "הקצובה היומית המומלצת של %s %s היא\n %.2f %s" % \
+                  (nutrient, get_personal_str(rda_status, tracker), rda_val, rda_units)
             
-            res = "הקצובה היומית המומלצת של %s עבורך (%s בגיל %s) היא\n %.2f %s" % \
-                  (nutrient, tracker.get_slot('gender'), age, rda_row['Value'].values[0], rda_row['Units'].values[0])
+        else:
 
-            dispatcher.utter_message(text="%s" % res)
-
-        except:
-            dispatcher.utter_message(text="אין לי מושג, מצטער!")
+            res = "אין לי מושג, מצטער!"
+            
+        dispatcher.utter_message(text="%s" % res)
 
         return []
 
@@ -184,7 +305,11 @@ class ActionNutritionHowManyXinY(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        db_df, lut_df, _, common_df, _, _ = load_db()
+        db_dict = load_db(0x13)
+       
+        db_df = db_dict['tzameret']
+        lut_df = db_dict['lut']
+        custom_df = db_dict['common_food']
         
         user_msg = tracker.latest_message.get('text')    
        
@@ -213,44 +338,21 @@ class ActionNutritionHowManyXinY(Action):
             res = food[feature]
 
             if units == 0:
-                dispatcher.utter_message(text="ב-100 גרם %s יש %.2f %s" % (food['shmmitzrach'], float(res), x))
+                res = "ב-100 גרם %s יש %.2f %s" % (food['shmmitzrach'], float(res), x)
             else:
-                dispatcher.utter_message(text="ב-100 גרם %s יש %.2f %s %s" % (food['shmmitzrach'], float(res), units, x))
+                res = "ב-100 גרם %s יש %.2f %s %s" % (food['shmmitzrach'], float(res), units, x)
+        
+            rda_val, rda_units, rda_status, nutrient = get_rda(self.name(), tracker)
+
+            if rda_val > 0 and units not in ['יחב"ל']:
+                rda = 100 * float(food[feature]) / rda_val
+                res += "\n"
+                res += "שהם כ-%d אחוז מהקצובה היומית המומלצת %s" % (int(rda), get_personal_str(rda_status, tracker))
+
+            dispatcher.utter_message(text="%s" % res)
         
         except:
             dispatcher.utter_message(text="אין לי מושג כמה, מצטער!")
-
-        return []
-
-# ------------------------------------------------------------------
-
-class ActionEatBeforeTrainingQuestion(Action):
-
-    def name(self) -> Text:
-        return "action_eat_before_training"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-            
-        _, _, custom_df, _, _, _ = load_db()
-
-        user_intent = tracker.latest_message.get('intent').get('name')
-        
-        training_type = tracker.get_slot("training_type")
-        training_duration = tracker.get_slot("training_duration")
-        
-        try:
-            if training_type == 'ריצת אינטרוולים':
-                if training_duration:
-                    res = custom_df['Entity'][training_type + ' מעל ' + training_duration][0]
-                else:
-                    res = custom_df['Entity'][training_type][0]
-
-            dispatcher.utter_message(text="%s" % res)
-
-        except:
-            dispatcher.utter_message(text="אין לי מושג, מצטער!")
 
         return []
 
@@ -265,11 +367,17 @@ class ActionIsFoodHealthyQuestion(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        db_df, lut_df, _, common_df, food_ranges_df, _ = load_db()
+        db_dict = load_db(0x33)
+       
+        db_df = db_dict['tzameret']
+        lut_df = db_dict['lut']
+        common_df = db_dict['common_food']
+        food_ranges_df = db_dict['food_ranges']
 
         for ent in tracker.latest_message.get('entities'):
             if ent['entity'] in lut_df[self.name()].values:
                 food_entity = ent['value']
+                break
        
         try:
             food = food_entity
@@ -278,10 +386,8 @@ class ActionIsFoodHealthyQuestion(Action):
             
             food = db_df[db_df['shmmitzrach'].str.contains(food)].iloc[0,:]    
         
-            nutrition_density = food_ranges_df[food_ranges_df.index == "Nutrition density"]
-            nutrition_density_med = float(nutrition_density["Medium - threshold per 100gr"])
-            nutrition_density_high = float(nutrition_density["High - threshold per 100gr"])
-        
+            _, nutrition_density_res = get_food_nutrition_density(food, food_ranges_df)
+
             advantages = []
             disadvantages = []
         
@@ -307,13 +413,13 @@ class ActionIsFoodHealthyQuestion(Action):
                 
             nutrition_density_normalized = float(food["Nutrition density normalized"])
             
-            if nutrition_density_normalized < nutrition_density_med:
+            if nutrition_density_res == "low":
                 res = "ב%s יש צפיפות תזונתית (רכיבים תזונתיים טובים ביחס לקלוריות) נמוכה" % food_entity
-            elif nutrition_density_normalized < nutrition_density_high:
+            elif nutrition_density_res == "med":
                 res = "ב%s יש צפיפות תזונתית (רכיבים תזונתיים טובים ביחס לקלוריות) בינונית" % food_entity
-            else:
+            elif nutrition_density_res == "high":
                 res = "ב%s יש צפיפות תזונתית (רכיבים תזונתיים טובים ביחס לקלוריות) גבוהה" % food_entity
-        
+
             if disadvantages:
                 res += ". "
                 res += "החסרונות של %s הם הרבה %s" % (food_entity, ", ".join(disadvantages))
@@ -340,7 +446,12 @@ class ActionWhatIsHealthierQuestion(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        db_df, lut_df, _, common_df, food_ranges_df, _ = load_db()
+        db_dict = load_db(0x33)
+       
+        db_df = db_dict['tzameret']
+        lut_df = db_dict['lut']
+        common_df = db_dict['common_food']
+        food_ranges_df = db_dict['food_ranges']
         
         user_msg = tracker.latest_message.get('text')    
        
@@ -372,10 +483,8 @@ class ActionWhatIsHealthierQuestion(Action):
                     food = common_df[common_df.index == food]['shmmitzrach'][0]      
                 
                 food = db_df[db_df['shmmitzrach'].str.contains(food)].iloc[0,:]    
-        
-                nutrition_density = food_ranges_df[food_ranges_df.index == "Nutrition density"]
-                nutrition_density_med = float(nutrition_density["Medium - threshold per 100gr"])
-                nutrition_density_high = float(nutrition_density["High - threshold per 100gr"])
+
+                nutrition_density, _ = get_food_nutrition_density(food, food_ranges_df)
         
                 advantages = []
                 disadvantages = []
@@ -436,6 +545,86 @@ class ActionWhatIsHealthierQuestion(Action):
 
 # ------------------------------------------------------------------
 
+class ActionWhatIsRecommendedQuestion(Action):
+
+    def name(self) -> Text:
+        return "action_nutrition_is_food_recommended"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        db_dict = load_db(0x3b)
+       
+        db_df = db_dict['tzameret']
+        lut_df = db_dict['lut']
+        food_qna_df = db_dict['food_qna']
+        common_df = db_dict['common_food']
+        food_ranges_df = db_dict['food_ranges']
+       
+        for ent in tracker.latest_message.get('entities'):
+            if ent['entity'] in lut_df[self.name()].values:
+                food_entity = ent['value']
+                break
+        
+        try:
+            food = food_entity
+            if food in common_df.index:
+                food = common_df[common_df.index == food]['shmmitzrach'][0]      
+            
+            food = db_df[db_df['shmmitzrach'].str.contains(food)].iloc[0,:]
+        
+            _, nutrition_density_res = get_food_nutrition_density(food, food_ranges_df)
+            _, nutrition_energy_res = get_food_energy_density(food, food_ranges_df)
+        
+            description_density_row = food_qna_df[(food_qna_df.index == nutrition_density_res) & 
+                                                  (food_qna_df.energy_density == nutrition_energy_res)]
+            res = description_density_row['description_density'].values[0]
+            res = res.replace('var#food', food_entity)
+            
+            dispatcher.utter_message(text="%s" % res)
+        
+        except:
+            dispatcher.utter_message(text="אין לי מושג, מצטער!")
+
+        return []
+
+# ------------------------------------------------------------------
+
+class ActionEatBeforeTrainingQuestion(Action):
+
+    def name(self) -> Text:
+        return "action_eat_before_training"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+            
+        db_dict = load_db(0x10)
+       
+        custom_df = db_dict['common_food']
+
+        user_intent = tracker.latest_message.get('intent').get('name')
+        
+        training_type = tracker.get_slot("training_type")
+        training_duration = tracker.get_slot("training_duration")
+        
+        try:
+            if training_type == 'ריצת אינטרוולים':
+                if training_duration:
+                    res = custom_df['Entity'][training_type + ' מעל ' + training_duration][0]
+                else:
+                    res = custom_df['Entity'][training_type][0]
+
+            dispatcher.utter_message(text="%s" % res)
+
+        except:
+            dispatcher.utter_message(text="אין לי מושג, מצטער!")
+
+        return []
+
+# ------------------------------------------------------------------
+
 class ProfileForm(FormAction):
     """Example of a custom form action"""
 
@@ -448,7 +637,7 @@ class ProfileForm(FormAction):
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
 
-        return ["gender", "age", "weight"]
+        return ["gender", "age", "weight", "height"]
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         """A dictionary to map required slots to
@@ -459,13 +648,21 @@ class ProfileForm(FormAction):
 
         return {
             "age": [
-                self.from_entity(entity="age", intent="slot_getter_age"),
+                self.from_entity(entity="age",    intent="slot_getter_age"),
                 self.from_entity(entity="weight", intent="slot_getter_age"),
+                self.from_entity(entity="height", intent="slot_getter_age"),
                 self.from_text(),
             ],
             "weight": [
                 self.from_entity(entity="weight", intent="slot_getter_weight"),
-                self.from_entity(entity="age", intent="slot_getter_weight"),
+                self.from_entity(entity="height", intent="slot_getter_weight"),
+                self.from_entity(entity="age",    intent="slot_getter_weight"),
+                self.from_text(),
+            ],
+            "height": [
+                self.from_entity(entity="height", intent="slot_getter_height"),
+                self.from_entity(entity="weight", intent="slot_getter_height"),
+                self.from_entity(entity="age",    intent="slot_getter_height"),
                 self.from_text(),
             ],
         }
