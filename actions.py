@@ -101,6 +101,8 @@ def get_rda(name, tracker):
     micro_nutrients_df = db_dict['micro_nutrients']
     
     status = "match"
+    if not (tracker.get_slot('gender') and tracker.get_slot('age') and tracker.get_slot('weight') and tracker.get_slot('height')):
+        status = "default"
     
     for ent in tracker.latest_message.get('entities'):
         if ent['entity'] in lut_df[name].values:
@@ -117,21 +119,19 @@ def get_rda(name, tracker):
             gender = "Male"
         elif tracker.get_slot('gender') == "נקבה":
             gender = "Female" 
-        else:
-            status = "default"     
 
-        age = "40"
-        if tracker.get_slot('age'):
-            age = tracker.get_slot('age')
-        else:
-            status = "default"
+        user_vars = {}
 
+        user_vars['age'] = tracker.get_slot('age') if tracker.get_slot('age') else "40"
+        user_vars['weight'] = tracker.get_slot('weight') if tracker.get_slot('weight') else "80"
+        user_vars['height'] = tracker.get_slot('height') if tracker.get_slot('height') else "180"
+            
         rda_row = micro_nutrients_df[(micro_nutrients_df['Micronutrient'] == feature_rda) & \
                                      ((micro_nutrients_df['Gender'] == "ANY")    | (micro_nutrients_df['Gender'] == gender)) & \
                                      ((micro_nutrients_df['Pregnancy'] == "ANY") | (micro_nutrients_df['Pregnancy'] == "No")) & \
                                      ((micro_nutrients_df['Lactating'] == "ANY") | (micro_nutrients_df['Lactating'] == "No")) & \
-                                     ((micro_nutrients_df['Age Min'] == "ANY")   | (micro_nutrients_df['Age Min'] <= age)) & \
-                                     ((micro_nutrients_df['Age Max'] == "ANY")   | (micro_nutrients_df['Age Max'] > age))]
+                                     ((micro_nutrients_df['Age Min'] == "ANY")   | (micro_nutrients_df['Age Min'] <= user_vars['age'])) & \
+                                     ((micro_nutrients_df['Age Max'] == "ANY")   | (micro_nutrients_df['Age Max'] > user_vars['age']))]
     
         rda_value = rda_row['Value'].values[0]
         rda_units = rda_row['Units'].values[0]
@@ -139,8 +139,8 @@ def get_rda(name, tracker):
         if 'slot#' in rda_value:
             rda_value_list = rda_value.split(' ')
             for k,el in enumerate(rda_value_list):
-                if 'slot#' in el and tracker.get_slot(el.split('#')[1]):
-                    rda_value_list[k] = tracker.get_slot(el.split('#')[1])
+                if 'slot#' in el and el.split('#')[1] in user_vars:
+                    rda_value_list[k] = user_vars[el.split('#')[1]]
             rda_value = eval(' '.join(rda_value_list))    
 
         rda_value = float(rda_value)
@@ -309,7 +309,7 @@ class ActionNutritionHowManyXinY(Action):
        
         db_df = db_dict['tzameret']
         lut_df = db_dict['lut']
-        custom_df = db_dict['common_food']
+        common_df = db_dict['common_food']
         
         user_msg = tracker.latest_message.get('text')    
        
@@ -319,8 +319,10 @@ class ActionNutritionHowManyXinY(Action):
         for ent in tracker.latest_message.get('entities'):
             if ent['entity'] in lut_df[self.name() + "_x"].values:
                 x = ent['value']
+                name_xy = self.name() + "_x"
             elif ent['entity'] in lut_df[self.name() + "_y"].values:
                 y = ent['value']
+                name_xy = self.name() + "_y"
 
         if not y:
             regex_res = re.search('כמה .* יש ב(.*)', user_msg.replace('?',''))
@@ -342,7 +344,7 @@ class ActionNutritionHowManyXinY(Action):
             else:
                 res = "ב-100 גרם %s יש %.2f %s %s" % (food['shmmitzrach'], float(res), units, x)
         
-            rda_val, rda_units, rda_status, nutrient = get_rda(self.name(), tracker)
+            rda_val, rda_units, rda_status, nutrient = get_rda(name_xy, tracker)
 
             if rda_val > 0 and units not in ['יחב"ל']:
                 rda = 100 * float(food[feature]) / rda_val
