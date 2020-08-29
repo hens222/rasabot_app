@@ -650,25 +650,76 @@ class ProfileForm(FormAction):
 
         return {
             "age": [
-                self.from_entity(entity="age",    intent="slot_getter_age"),
-                self.from_entity(entity="weight", intent="slot_getter_age"),
-                self.from_entity(entity="height", intent="slot_getter_age"),
-                self.from_text(),
+                self.from_entity(entity="integer", role="age"),
+                self.from_entity(entity="integer"),
             ],
             "weight": [
-                self.from_entity(entity="weight", intent="slot_getter_weight"),
-                self.from_entity(entity="height", intent="slot_getter_weight"),
-                self.from_entity(entity="age",    intent="slot_getter_weight"),
-                self.from_text(),
+                self.from_entity(entity="integer", role="weight"),
+                self.from_entity(entity="integer"),
             ],
             "height": [
-                self.from_entity(entity="height", intent="slot_getter_height"),
-                self.from_entity(entity="weight", intent="slot_getter_height"),
-                self.from_entity(entity="age",    intent="slot_getter_height"),
-                self.from_text(),
+                self.from_entity(entity="integer", role="height"),
+                self.from_entity(entity="integer"),
             ],
         }
-    
+   
+    def validate_age(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validate age value."""
+        
+        requested_slot = tracker.get_slot("requested_slot")
+        age_slot = tracker.get_slot("age")
+
+        if requested_slot == "age":
+            return {"age": value}
+        elif age_slot:
+            return {"age": age_slot}
+        else:
+            return {"age": None}
+
+    def validate_weight(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validate weight value."""
+        
+        requested_slot = tracker.get_slot("requested_slot")
+        weight_slot = tracker.get_slot("weight")
+
+        if requested_slot == "weight":
+            return {"weight": value}
+        elif weight_slot:
+            return {"weight": weight_slot}
+        else:
+            return {"weight": None}
+
+    def validate_height(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validate height value."""
+        
+        requested_slot = tracker.get_slot("requested_slot")
+        height_slot = tracker.get_slot("height")
+
+        if requested_slot == "height":
+            return {"height": value}
+        elif height_slot:
+            return {"height": age_slot}
+        else:
+            return {"height": None}
+
     def submit(
         self,
         dispatcher: CollectingDispatcher,
