@@ -394,24 +394,26 @@ class ActionIsFoodHealthyQuestion(Action):
             disadvantages = []
         
             for idx, row in food_ranges_df.iterrows():
+                    
+                if row["tzameret_name"]:
         
-                if row["good_or_bad"] == "good":
-                    value = float(food[row["tzameret_name"]])
-                    if idx == "Protein":
-                        threshold = 250
-                    else:
-                        threshold = float(row["Medium - threshold per 100gr"])
-                    if value > threshold:
-                        advantages.append(row["hebrew_name"])
+                    if row["good_or_bad"] == "good":
+                        value = float(food[row["tzameret_name"]])
+                        if idx == "Protein":
+                            threshold = 250
+                        else:
+                            threshold = float(row["Medium - threshold per 100gr"])
+                        if value > threshold:
+                            advantages.append(row["hebrew_name"])
         
-                elif row["good_or_bad"] == "bad":
-                    value = float(food[row["tzameret_name"]])
-                    if idx == "Protein":
-                        threshold = 250
-                    else:
-                        threshold = float(row["High - threshold per 100gr"])
-                    if value > threshold:
-                        disadvantages.append(row["hebrew_name"])
+                    elif row["good_or_bad"] == "bad":
+                        value = float(food[row["tzameret_name"]])
+                        if idx == "Protein":
+                            threshold = 250
+                        else:
+                            threshold = float(row["High - threshold per 100gr"])
+                        if value > threshold:
+                            disadvantages.append(row["hebrew_name"])
                 
             nutrition_density_normalized = float(food["Nutrition density normalized"])
             
@@ -492,24 +494,26 @@ class ActionWhatIsHealthierQuestion(Action):
                 disadvantages = []
         
                 for idx, row in food_ranges_df.iterrows():
+                    
+                    if row["tzameret_name"]:
+
+                        if row["good_or_bad"] == "good":
+                            value = float(food[row["tzameret_name"]])
+                            if idx == "Protein":
+                                threshold = 250
+                            else:
+                                threshold = float(row["Medium - threshold per 100gr"])
+                            if value > threshold:
+                                advantages.append(row["hebrew_name"])
         
-                    if row["good_or_bad"] == "good":
-                        value = float(food[row["tzameret_name"]])
-                        if idx == "Protein":
-                            threshold = 250
-                        else:
-                            threshold = float(row["Medium - threshold per 100gr"])
-                        if value > threshold:
-                            advantages.append(row["hebrew_name"])
-        
-                    elif row["good_or_bad"] == "bad":
-                        value = float(food[row["tzameret_name"]])
-                        if idx == "Protein":
-                            threshold = 250
-                        else:
-                            threshold = float(row["High - threshold per 100gr"])
-                        if value > threshold:
-                            disadvantages.append(row["hebrew_name"])                
+                        elif row["good_or_bad"] == "bad":
+                            value = float(food[row["tzameret_name"]])
+                            if idx == "Protein":
+                                threshold = 250
+                            else:
+                                threshold = float(row["High - threshold per 100gr"])
+                            if value > threshold:
+                                disadvantages.append(row["hebrew_name"])                
               
                 nutrition_density_cmp.append(float(food["Nutrition density normalized"]))
         
