@@ -11,6 +11,7 @@ import re
 import io
 import requests
 import pandas as pd
+from os import path
 from typing import Any, Text, Dict, List, Union
 from rasa_sdk import Action, Tracker
 from rasa_sdk.forms import FormAction
@@ -643,7 +644,7 @@ class ProfileForm(FormAction):
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
 
-        return ["gender", "age", "weight", "height"]
+        return ["phone", "gender", "age", "weight", "height"]
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         """A dictionary to map required slots to
@@ -653,6 +654,10 @@ class ProfileForm(FormAction):
             or a list of them, where a first match will be picked"""
 
         return {
+            "phone": [
+                self.from_entity(entity="integer", role="phone"),
+                self.from_entity(entity="integer"),
+            ],
             "age": [
                 self.from_entity(entity="integer", role="age"),
                 self.from_entity(entity="integer"),
@@ -666,6 +671,40 @@ class ProfileForm(FormAction):
                 self.from_entity(entity="integer"),
             ],
         }
+    
+    def validate_phone(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validate phone value."""
+        
+        requested_slot = tracker.get_slot("requested_slot")
+        phone_slot = tracker.get_slot("phone")
+
+        phone_value = None
+        if requested_slot == "phone":
+            phone_value = value.replace('-','').replace(' ','')
+            
+            pkl_db = './persons.pkl'
+            if path.exists(pkl_db):
+                df = pd.read_pickle(pkl_db)
+                if phone_value in df.index:
+                    dispatcher.utter_message(text="פרטיך נטענו בהצלחה, ברוכים השבים")
+                    return { 'phone': phone_value,
+                             'gender': df.loc[phone_value].gender,
+                             'age': df.loc[phone_value].age,
+                             'weight': df.loc[phone_value].weight,
+                             'height': df.loc[phone_value].height }
+            else:
+                df = pd.DataFrame(columns=["username", "age", "gender", "weight", "height"])
+                df.to_pickle(pkl_db)
+        elif phone_slot:
+            phone_value = phone_slot
+           
+        return {"phone": phone_value}
    
     def validate_age(
         self,
@@ -679,12 +718,13 @@ class ProfileForm(FormAction):
         requested_slot = tracker.get_slot("requested_slot")
         age_slot = tracker.get_slot("age")
 
+        age_value = None
         if requested_slot == "age":
-            return {"age": value}
+            age_value = value
         elif age_slot:
-            return {"age": age_slot}
-        else:
-            return {"age": None}
+            age_value = age_slot
+
+        return {"age": age_value}
 
     def validate_weight(
         self,
@@ -697,13 +737,14 @@ class ProfileForm(FormAction):
         
         requested_slot = tracker.get_slot("requested_slot")
         weight_slot = tracker.get_slot("weight")
-
+        
+        weight_value = None
         if requested_slot == "weight":
-            return {"weight": value}
+            weight_value = value
         elif weight_slot:
-            return {"weight": weight_slot}
-        else:
-            return {"weight": None}
+            weight_value = weight_slot
+
+        return {"weight": weight_value}
 
     def validate_height(
         self,
@@ -717,12 +758,27 @@ class ProfileForm(FormAction):
         requested_slot = tracker.get_slot("requested_slot")
         height_slot = tracker.get_slot("height")
 
+        height_value = None
         if requested_slot == "height":
-            return {"height": value}
+            height_value = value
+        
+            pkl_db = './persons.pkl'
+            if path.exists(pkl_db):
+                df = pd.read_pickle(pkl_db)
+                phone_value = tracker.get_slot("phone")
+                if phone_value not in df.index:
+                    df.loc[phone_value] = [tracker.get_slot("username"),
+                                           tracker.get_slot("gender"),
+                                           tracker.get_slot("age"),
+                                           tracker.get_slot("weight"),
+                                           height_value]
+                    df.to_pickle(pkl_db)
+                    dispatcher.utter_message(text="פרטיך נרשמו במערכת, לטובת כניסה מהירה יותר בפעם הבאה, תודה.")
+
         elif height_slot:
-            return {"height": age_slot}
-        else:
-            return {"height": None}
+            height_value = height_slot
+            
+        return {"height": height_value}
 
     def submit(
         self,

@@ -134,4 +134,5 @@ static/
 tests/
 results/
 
+persons.pkl
 .DS_Store

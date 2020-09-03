@@ -89,6 +89,10 @@
 * affirm
     - profile_form
     - form{"name":"profile_form"}
+    - slot{"requested_slot":"phone"}
+* inform{"integer":"0501234567"}
+    - profile_form
+    - slot{"phone":"0501234567"}
     - slot{"requested_slot":"gender"}
 * inform{"gender":"זכר"}
     - profile_form
@@ -108,6 +112,25 @@
     - slot{"requested_slot":null}
     - form{"name":null}
     - utter_slot_getter_username
+
+## Introduction form 3
+* Bot_introduction
+    - utter_my_name_is_newt
+* slot_getter_username
+    - utter_profile_info_getter
+
+## Introduction Deny onboarding details updated
+* greet
+    - utter_greet
+* Bot_introduction
+    - utter_my_name_is_newt
+* slot_getter_username{"username":"גיל"}
+    - slot{"username":"גיל"}
+    - slot{"username":"גיל"}
+    - utter_profile_info_getter
+* deny
+    - slot{"username":"גיל"}
+    - utter_slot_getter_username_deny_details
 
 ## I have a question
 * got_question
@@ -201,24 +224,6 @@
 ## Question plus whats the source
 * nutrition_definition
   - action_simple_question
-
-## nutrition what_to_eat_before_training_short
-* nutrition_what_to_eat_before
-  - action_simple_question
-* nutrition_training_type
-  - slot{"training_type": "NA"}
-  - action_eat_before_training
-
-## nutrition what_to_eat_before_training_long
-* nutrition_what_to_eat_before
-  - action_simple_question
-* nutrition_training_type
-  - slot{"training_type": "NA"}
-  - action_simple_question
-  - utter_how_long_running
-* nutrition_training_duration
-  - slot{"training_duration": "NA"}
-  - action_eat_before_training
 
 ## What to eat before X
 * nutrition_what_to_eat_before
@@ -317,7 +322,7 @@
   - action_simple_question
 
 ## What doesnt have too much of X
-* nutrition_what_has_little{"nutrient":"מדי סוכר"}
+* nutrition_what_has_little{"nutrient":"סוכר"}
   - action_simple_question
 
 ## What does not have X
@@ -331,3 +336,4 @@
 ## What can you do
 * What can you do
     - utter_what_can_you_do
+

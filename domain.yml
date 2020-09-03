@@ -37,8 +37,6 @@ intents:
 - nutrition_what_to_eat_after
 - nutrition_what_impacts
 - nutrition_how_to_avoid
-- nutrition_training_type
-- nutrition_training_duration
 - nutrition_is_healthy
 - What is the source of your data
 - What type of questions?
@@ -54,8 +52,6 @@ entities:
 - food_entity
 - food_entity2
 - simple_entity
-- training_type
-- training_duration
 - nutrition_concept
 - nutrient
 - username
@@ -71,12 +67,11 @@ slots:
   height:
     type: unfeaturized
     auto_fill: false
+  phone:
+    type: unfeaturized
+    auto_fill: false
   requested_slot:
     type: unfeaturized
-  training_duration:
-    type: text
-  training_type:
-    type: text
   username:
     type: text
   weight:
@@ -92,6 +87,8 @@ responses:
     - payload: '/inform{"gender": "נקבה"}'
       title: נקבה
     text: האם את/ה זכר או נקבה?
+  utter_ask_phone:
+  - text: מה מספר הטלפון הנייד שלך?
   utter_ask_age:
   - text: מה הגיל שלך?
   utter_ask_weight:
@@ -183,7 +180,6 @@ actions:
 - action_simple_question
 - action_nutrition_get_rda
 - action_nutrition_howmanyxiny
-- action_eat_before_training
 - action_nutrition_is_food_healthy
 - action_nutrition_what_is_healthier
 - action_nutrition_is_food_recommended
@@ -211,6 +207,7 @@ actions:
 - utter_will_it_make_me_fat
 - utter_wrong_gender
 - utter_ask_gender
+- utter_ask_phone
 - utter_ask_age
 - utter_ask_weight
 - utter_ask_height
