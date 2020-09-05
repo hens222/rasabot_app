@@ -9,17 +9,41 @@
 ## Greet happy path
 * greet
   - utter_greet
-* mood_great
-  - utter_happy
+* affirm
+    - profile_form
+    - form{"name":"profile_form"}
+    - slot{"requested_slot":"phone"}
+* inform{"generic_entity":"0501234567"}
+    - profile_form
+    - slot{"phone":"0501234567"}
+    - slot{"requested_slot":"username"}
+* inform{"generic_entity":"גיל"}
+    - profile_form
+    - slot{"username":"גיל"}
+    - slot{"requested_slot":"gender"}
+* inform{"generic_entity":"זכר"}
+    - profile_form
+    - slot{"gender":"זכר"}
+    - slot{"requested_slot":"age"}
+* inform{"generic_entity":"38"}
+    - profile_form
+    - slot{"age":"38"}
+    - slot{"requested_slot":"weight"}
+* inform{"generic_entity":"72"}
+    - profile_form
+    - slot{"weight":"72"}
+    - slot{"requested_slot":"height"}
+* inform{"generic_entity":"172"}
+    - profile_form
+    - slot{"height":"172"}
+    - slot{"requested_slot":null}
+    - form{"name":null}
 
-## Greet sad path 1
+## Greet sad path
 * greet
   - utter_greet
-* mood_unhappy
-  - utter_cheer_up
-  - utter_did_that_help
-* affirm
-  - utter_happy
+* deny
+  - utter_identication_next_time
 
 ## say goodbye
 * goodbye
@@ -65,72 +89,25 @@
 * nutrition_get_rda
   - action_nutrition_get_rda
 
+## personlization list
+* personlization_list
+  - action_personlization_list
+
+## personlization remove
+* personlization_remove
+  - action_personlization_remove
+  - profile_form
+  - form{"name": null}
+
 ## user information
 * request_profile_info
   - profile_form
   - form{"name": "profile_form"}
   - form{"name": null}
 
-## Introduction1
+## Introductio
 * bot_introduction
   - utter_my_name_is_newt
-* slot_getter_username
-  - slot{"username": "NA"}
-  - utter_profile_info_getter
-* deny
-  - utter_slot_getter_username
-
-## Introduction2
-* Bot_introduction
-    - utter_my_name_is_newt
-* slot_getter_username{"username":"גיל"}
-    - slot{"username":"גיל"}
-    - utter_profile_info_getter
-* affirm
-    - profile_form
-    - form{"name":"profile_form"}
-    - slot{"requested_slot":"phone"}
-* inform{"integer":"0501234567"}
-    - profile_form
-    - slot{"phone":"0501234567"}
-    - slot{"requested_slot":"gender"}
-* inform{"gender":"זכר"}
-    - profile_form
-    - slot{"gender":"זכר"}
-    - slot{"requested_slot":"age"}
-* inform{"integer":"38"}
-    - profile_form
-    - slot{"age":"38"}
-    - slot{"requested_slot":"weight"}
-* inform{"integer":"72"}
-    - profile_form
-    - slot{"weight":"72"}
-    - slot{"requested_slot":"height"}
-* inform{"integer":"172"}
-    - profile_form
-    - slot{"height":"172"}
-    - slot{"requested_slot":null}
-    - form{"name":null}
-    - utter_slot_getter_username
-
-## Introduction form 3
-* Bot_introduction
-    - utter_my_name_is_newt
-* slot_getter_username
-    - utter_profile_info_getter
-
-## Introduction Deny onboarding details updated
-* greet
-    - utter_greet
-* Bot_introduction
-    - utter_my_name_is_newt
-* slot_getter_username{"username":"גיל"}
-    - slot{"username":"גיל"}
-    - slot{"username":"גיל"}
-    - utter_profile_info_getter
-* deny
-    - slot{"username":"גיל"}
-    - utter_slot_getter_username_deny_details
 
 ## I have a question
 * got_question

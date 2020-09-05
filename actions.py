@@ -632,6 +632,54 @@ class ActionEatBeforeTrainingQuestion(Action):
 
 # ------------------------------------------------------------------
 
+class ActionPersonalizationList(Action):
+
+    def name(self) -> Text:
+        return "action_personlization_list"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        try:
+            pkl_db = './persons.pkl'
+            if path.exists(pkl_db):
+                df = pd.read_pickle(pkl_db)
+                dispatcher.utter_message(text="%s" % df.to_string())
+        except:
+            dispatcher.utter_message(text="אין לי מושג, מצטער!")
+
+        return []
+
+# ------------------------------------------------------------------
+
+class ActionPersonalizationRemove(Action):
+
+    def name(self) -> Text:
+        return "action_personlization_remove"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        try:
+            pkl_db = './persons.pkl'
+            if path.exists(pkl_db):
+                df = pd.read_pickle(pkl_db)
+                phone_slot = tracker.get_slot("phone")
+                if phone_slot in df.index:
+                    df = df.drop(tracker.get_slot("phone"))
+                    df.to_pickle(pkl_db)
+                    dispatcher.utter_message(text="רישומך הוסר מן המערכת")
+                else:
+                    dispatcher.utter_message(text="אינך מופיע במערכת, לכן אין צורך בהסרת רישום")
+        except:
+            dispatcher.utter_message(text="אין לי מושג, מצטער!")
+
+        return []
+
+# ------------------------------------------------------------------
+
 class ProfileForm(FormAction):
     """Example of a custom form action"""
 
@@ -640,11 +688,15 @@ class ProfileForm(FormAction):
 
         return "profile_form"
 
+    # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
     @staticmethod
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
 
-        return ["phone", "gender", "age", "weight", "height"]
+        return ["phone", "username", "gender", "age", "weight", "height"]
+
+    # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         """A dictionary to map required slots to
@@ -655,23 +707,33 @@ class ProfileForm(FormAction):
 
         return {
             "phone": [
-                self.from_entity(entity="integer", role="phone"),
-                self.from_entity(entity="integer"),
+                self.from_entity(entity="generic_entity", role="phone"),
+                self.from_entity(entity="generic_entity"),
+            ],
+            "username": [
+                self.from_entity(entity="generic_entity", role="username"),
+                self.from_entity(entity="generic_entity"),
+            ],
+            "gender": [
+                self.from_entity(entity="generic_entity", role="gender"),
+                self.from_entity(entity="generic_entity"),
             ],
             "age": [
-                self.from_entity(entity="integer", role="age"),
-                self.from_entity(entity="integer"),
+                self.from_entity(entity="generic_entity", role="age"),
+                self.from_entity(entity="generic_entity"),
             ],
             "weight": [
-                self.from_entity(entity="integer", role="weight"),
-                self.from_entity(entity="integer"),
+                self.from_entity(entity="generic_entity", role="weight"),
+                self.from_entity(entity="generic_entity"),
             ],
             "height": [
-                self.from_entity(entity="integer", role="height"),
-                self.from_entity(entity="integer"),
+                self.from_entity(entity="generic_entity", role="height"),
+                self.from_entity(entity="generic_entity"),
             ],
         }
     
+    # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
     def validate_phone(
         self,
         value: Text,
@@ -692,20 +754,67 @@ class ProfileForm(FormAction):
             if path.exists(pkl_db):
                 df = pd.read_pickle(pkl_db)
                 if phone_value in df.index:
-                    dispatcher.utter_message(text="פרטיך נטענו בהצלחה, ברוכים השבים")
+                    dispatcher.utter_message(text="פרטיך נטענו בהצלחה, ברוכים השבים %s" % df.loc[phone_value].username)
                     return { 'phone': phone_value,
+                             'username': df.loc[phone_value].username,
                              'gender': df.loc[phone_value].gender,
                              'age': df.loc[phone_value].age,
                              'weight': df.loc[phone_value].weight,
                              'height': df.loc[phone_value].height }
             else:
-                df = pd.DataFrame(columns=["username", "age", "gender", "weight", "height"])
+                df = pd.DataFrame(columns=["username", "gender", "age", "weight", "height"])
                 df.to_pickle(pkl_db)
         elif phone_slot:
             phone_value = phone_slot
            
         return {"phone": phone_value}
-   
+    
+    # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+    def validate_username(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validate username value."""
+        
+        requested_slot = tracker.get_slot("requested_slot")
+        username_slot = tracker.get_slot("username")
+
+        username_value = None
+        if requested_slot == "username":
+            username_value = value
+        elif username_slot:
+            username_value = username_slot
+
+        return {"username": username_value}
+    
+    # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+    def validate_gender(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        """Validate gender value."""
+        
+        requested_slot = tracker.get_slot("requested_slot")
+        gender_slot = tracker.get_slot("gender")
+
+        gender_value = None
+        if requested_slot == "gender":
+            gender_value = value
+        elif gender_slot:
+            gender_value = gender_slot
+
+        return {"gender": gender_value}
+  
+    # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
     def validate_age(
         self,
         value: Text,
@@ -726,6 +835,8 @@ class ProfileForm(FormAction):
 
         return {"age": age_value}
 
+    # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
     def validate_weight(
         self,
         value: Text,
@@ -745,6 +856,8 @@ class ProfileForm(FormAction):
             weight_value = weight_slot
 
         return {"weight": weight_value}
+
+    # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     def validate_height(
         self,
@@ -780,6 +893,8 @@ class ProfileForm(FormAction):
             
         return {"height": height_value}
 
+    # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
     def submit(
         self,
         dispatcher: CollectingDispatcher,
@@ -789,6 +904,6 @@ class ProfileForm(FormAction):
         """ Define what the form has to do after all required slots are filled"""
 
         # utter submit template
-        dispatcher.utter_message(text="קדימה, לעסק!")
+        dispatcher.utter_message(text="מה נעשה היום?")
         return []
 

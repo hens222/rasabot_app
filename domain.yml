@@ -22,8 +22,8 @@ intents:
 - nutrition_what_is_healthier
 - nutrition_is_food_recommended
 - bot_introduction
-- slot_getter_username
-- slot_getter_gender
+- personlization_list
+- personlization_remove
 - got_question
 - suprised
 - jokes
@@ -44,7 +44,6 @@ intents:
 - Who made you?
 - When do you work
 - Got Question
-- Bot_introduction
 - nutrition_should_I_avoid
 - will_X_make_me_fat
 - request_profile_info
@@ -54,9 +53,7 @@ entities:
 - simple_entity
 - nutrition_concept
 - nutrient
-- username
-- gender
-- integer
+- generic_entity
 slots:
   age:
     type: unfeaturized
@@ -73,7 +70,8 @@ slots:
   requested_slot:
     type: unfeaturized
   username:
-    type: text
+    type: unfeaturized
+    auto_fill: false
   weight:
     type: unfeaturized
     auto_fill: false
@@ -82,32 +80,30 @@ responses:
   - text: לא הבנתי את הבחירה, נס/י שוב בבקשה
   utter_ask_gender:
   - buttons:
-    - payload: '/inform{"gender": "זכר"}'
+    - payload: '/inform{"generic_entity": "זכר"}'
       title: זכר
-    - payload: '/inform{"gender": "נקבה"}'
+    - payload: '/inform{"generic_entity": "נקבה"}'
       title: נקבה
     text: האם את/ה זכר או נקבה?
   utter_ask_phone:
   - text: מה מספר הטלפון הנייד שלך?
+  utter_ask_username:
+  - text: באיזה שם או כינוי לפנות אילך?
   utter_ask_age:
   - text: מה הגיל שלך?
   utter_ask_weight:
   - text: מה המשקל שלך?
   utter_ask_height:
   - text: מה הגובה שלך?
-  utter_slot_getter_username:
-  - text: נעים להכיר {username}, אני כאן כדי לעזור לך
-  utter_profile_info_getter:
+  utter_identication_next_time:
+  - text: אין בעיה, תוכל/י להזדהות שוב בכל שלב
+  utter_greet:
   - buttons:
     - payload: /affirm
       title: כן, אין בעיה
     - payload: /deny
       title: לא, בפעם אחרת
-    text: האם אוכל לבקש ממך פרטים נוספים, לטובת פרסונליזציה?
-  utter_greet:
-  - text: היי! מה שלומך?
-  - text: מה המצב ?
-  - text: שלום שלום !
+    text: שלום, האם תרצה/י להזדהות?
   utter_cheer_up:
   - image: https://i.imgur.com/nGF1K8f.jpg
     text: 'הנה משהו שיעודד אותך:'
@@ -126,7 +122,7 @@ responses:
   utter_iamabot:
   - text: אני בוט, יש לך בעיה עם זה?
   utter_my_name_is_newt:
-  - text: קוראים לי ניוט, עם מי יש לי הכבוד?
+  - text: קוראים לי ניוט
   utter_got_question:
   - text: בטח. אני פה בשביל לענות על השאלות שלך
   - text: ודאי. אשמח לעזור. אשמח לענות על כל שאלה בנושא תזונה.
@@ -183,6 +179,8 @@ actions:
 - action_nutrition_is_food_healthy
 - action_nutrition_what_is_healthier
 - action_nutrition_is_food_recommended
+- action_personlization_list
+- action_personlization_remove
 - utter_greet
 - utter_cheer_up
 - utter_did_that_help
@@ -201,17 +199,17 @@ actions:
 - utter_Im_always_here
 - utter_who_made_you
 - utter_how_long_running
-- utter_slot_getter_username
+- utter_identication_next_time
 - utter_suprised
 - utter_jokes
 - utter_will_it_make_me_fat
 - utter_wrong_gender
 - utter_ask_gender
 - utter_ask_phone
+- utter_ask_username
 - utter_ask_age
 - utter_ask_weight
 - utter_ask_height
-- utter_profile_info_getter
 - utter_slot_getter_username_deny_details
 forms:
 - profile_form

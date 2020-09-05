@@ -762,84 +762,30 @@
 - אני מעוניין להזדהות
 - אפשר להזדהות
 
-## intent:slot_getter_username
-- [גיל](username)
-- נעים להכיר, לי קוראים [רמון עינב](username)
-- לי קוראים [ליאור](username). נעים להכיר
-- [בובי](username)
-- [בובי](username) סמית
-- [בוב](username)
-- [בילי](username)
-- עם [ליאור](username) סוויסה
-- אני [גיל](username)
-- הי אני [ברדוגו](username)
-- אני [ליאור](username)
-- [רמון](username)
-- [אנריקו](username) פרמי
-- [מארק](username) טוויין
-- שלום, קוראים לי [ביל](username) גובס
-- שלום, אני [גיל](username)
-- [אסף](username) הרופא
-- הי אני [ליזה](username)
-- [איה](username) פלוטי
-- הי אני [ברבי](username)
-- שלום, קוראים לי [קן](username)
-- הי נעים להכיר. אני [בוב](username) מארלי
-- הי !! קוראים לי [איציק](username)
-- מה נשמע ניוט. קוראים לי [משה](username) פרץ
-- הכל טוב. קוראים לי [מרי](username)
-- הי, מה נשמע קוראים לי [אסתר](username)
-- הי ניוט מה המצב אני [ארז](username)
-- אני [נויה](username)
-- קוראים לי [אבי](username) אלבר
-- קוראים לי [אבי](username) רונבסקי
-- [מיכה](username)
-- [רון](username) אייכלר
-- [טובה](username) גרינברג
-- אני [בני](username) אמדורסקי
-- [מייקל](username) קלופר
-- [מיכה](username) גייגר
-- [מייקל](username) לואיס
-- עם [יפית](username) גרין
-- [ברכה](username) טורבוביץ
-- אני [קרין](username) מגריזו
-- עם [קרין](username)
-- [קיריל](username)
-- [משה](username) קמרנה
-- [ערן](username)
-- [עמי](username)
-- [בלה](username)
-- שלום אני [אקי](username)
-- [אקי](username)
-- [אביחי](username) מנדל
-- [אבי](username) רון
-- [אבנר](username)
-- [אבנר](username) ברברוני
-
-## intent:slot_getter_gender
-- [זכר](gender)
-- [נקבה](gender)
-
 ## intent:inform
-- אני בן [37](integer)
-- הגיל שלי הוא [10](integer)
-- אני בגובה [183](integer) ס״מ
-- בגובה שלי הוא [175](integer) ס״מ
-- המשקל שלי הוא [80](integer) ק״ג
-- אני שוקל [80](integer) ק״ג
-- אני שוקלת [80](integer) ק״ג
-- [42](integer)
-- [123](integer)
-- [זכר](gender)
-- [נקבה](gender)
-- [38](integer)
-- [70](integer)
-- [183](integer)
-- [96](integer)
-- [0501234567](integer)
-- [0549876542](integer)
+- אני בן [37](generic_entity)
+- הגיל שלי הוא [10](generic_entity)
+- אני בגובה [183](generic_entity) ס״מ
+- בגובה שלי הוא [175](generic_entity) ס״מ
+- המשקל שלי הוא [80](generic_entity) ק״ג
+- אני שוקל [80](generic_entity) ק״ג
+- אני שוקלת [80](generic_entity) ק״ג
+- [42](generic_entity)
+- [123](generic_entity)
+- [זכר](generic_entity)
+- [נקבה](generic_entity)
+- [38](generic_entity)
+- [70](generic_entity)
+- [183](generic_entity)
+- [96](generic_entity)
+- [0501234567](generic_entity)
+- [0549876542](generic_entity)
+- [ליאור](generic_entity)
+- [גיל](generic_entity)
+- קוראים לי [הדס](generic_entity)
+- שמי הוא [רמון](generic_entity)
 
-## intent:Bot_introduction
+## intent:bot_introduction
 - מי אתה
 - הי איך קוראים לך
 - מה השם שלך
@@ -854,8 +800,6 @@
 - היי, מי אתה?
 - איך קוראים לך?
 - הי איך קוראים לך?
-
-## intent:bot_introduction
 - איך קוראים לך
 - בסדר. איך קוראים לך
 - לא, איך קוראים לך
@@ -863,6 +807,19 @@
 - מי זה
 - שלום, עם מי אני מדבר
 - איך קוראים לך, אגב
+
+## intent:personlization_list
+- מי רשום במערכת
+- בצע עבירת ביטחון שדה
+- הצג רישום משתמשים
+- אילו משתמשים רשומים במערכת
+
+## intent:personlization_remove
+- הסר אותי
+- הסר אותי מהמערכת
+- הסר רישום
+- מחק אותי
+- שכח אותי
 
 ## intent:Got Question
 - יש לי שאלה
