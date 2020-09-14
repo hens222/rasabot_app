@@ -53,7 +53,11 @@ entities:
 - simple_entity
 - nutrition_concept
 - nutrient
-- generic_entity
+- integer
+- gender
+- phone_number
+- name
+- goal_or_state
 slots:
   age:
     type: unfeaturized
@@ -80,9 +84,9 @@ responses:
   - text: לא הבנתי את הבחירה, נס/י שוב בבקשה
   utter_ask_gender:
   - buttons:
-    - payload: '/inform{"generic_entity": "זכר"}'
+    - payload: '/inform{"gender": "זכר"}'
       title: זכר
-    - payload: '/inform{"generic_entity": "נקבה"}'
+    - payload: '/inform{"gender": "נקבה"}'
       title: נקבה
     text: האם את/ה זכר או נקבה?
   utter_ask_phone:

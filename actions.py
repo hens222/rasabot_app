@@ -707,28 +707,27 @@ class ProfileForm(FormAction):
 
         return {
             "phone": [
-                self.from_entity(entity="generic_entity", role="phone"),
-                self.from_entity(entity="generic_entity"),
+                self.from_entity(entity="phone_number"),
+                self.from_entity(entity="integer", role="phone"),
+                self.from_entity(entity="integer"),
             ],
             "username": [
-                self.from_entity(entity="generic_entity", role="username"),
-                self.from_entity(entity="generic_entity"),
+                self.from_entity(entity="name"),
             ],
             "gender": [
-                self.from_entity(entity="generic_entity", role="gender"),
-                self.from_entity(entity="generic_entity"),
+                self.from_entity(entity="gender"),
             ],
             "age": [
-                self.from_entity(entity="generic_entity", role="age"),
-                self.from_entity(entity="generic_entity"),
+                self.from_entity(entity="integer", role="age"),
+                self.from_entity(entity="integer"),
             ],
             "weight": [
-                self.from_entity(entity="generic_entity", role="weight"),
-                self.from_entity(entity="generic_entity"),
+                self.from_entity(entity="integer", role="weight"),
+                self.from_entity(entity="integer"),
             ],
             "height": [
-                self.from_entity(entity="generic_entity", role="height"),
-                self.from_entity(entity="generic_entity"),
+                self.from_entity(entity="integer", role="height"),
+                self.from_entity(entity="integer"),
             ],
         }
     

@@ -110,6 +110,8 @@
 - במה יש הרבה [ויטמינים](nutrient)
 - מה [סידן](nutrient) אני אמור לאכול ?
 - במה יש הרבה [ברזל](nutrient) ?
+- איך אני יכול לקבל [ברזל](nutrient)?
+- וגם [חסר](food_entity) לי [ברזל](nutrient). במה יש הרבה [ברזל](nutrient)?
 
 ## intent:nutrition_importance
 - למה חשוב [חלבון](nutrient)
@@ -190,7 +192,7 @@
 - כמה [ויטמין סי](nutrient) כדאי לי לאכול ביום
 - כמה [ברזל](nutrient) אני צריך לצרוך
 - כמה [חלבון](nutrient) מומלץ לי לצרוך
-- מה כמות ה[חלבון](food_entity) שאתה ממליץ לי לאכול
+- מה כמות ה[חלבון](nutrient) שאתה ממליץ לי לאכול
 - כמה [חלבון](nutrient) אני צריך לאכול?
 - כמה [חלבון](nutrient) אני צריך לאכול
 - כמה [קלוריות](nutrient) אני אמור לאכול ביום?
@@ -207,33 +209,65 @@
 - כמה [חומצה פולית](nutrient) אני צריכה לאכול?
 - וכמה [ברזל](nutrient) כדאי לי לאכול ?
 - כמה [קלוריות](nutrient) אני צריך לאכול ביום
+- כמה [חלבון](nutrient) מומלץ לי?
+- כמה [אומגה 3](nutrient) מומלץ בשבילי?
+- כמה [שומן](nutrient) אני צריך לאכול ביום?
+- כמה [פחמימות](nutrient)[פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"} אני צריך לאכול ביום?
+- תגיד לי כמה [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"} אני צריך לאכול ביום?
+- וכמה [סידן](nutrient) אני צריך לאכול ביום?
+- כמה [חלבון](nutrient) אני צריך לאכול ביום?
+- וכמה [ברזל](nutrient)
+- וכמה [קלוריות](nutrient)
+- אני מתכוון, כמה [סידן](nutrient) כדאי לי לאכול
 
 ## intent:nutrition_howto_improve
-- איך ניתן לשפר [ריכוז](simple_entity)
-- איך ניתן לחזק את [המערכת החיסונית](simple_entity)
-- איך ניתן להעלות את [מסת השריר](simple_entity)
-- איך ניתן להעלות [מסת שריר](simple_entity)
-- כיצד ניתן לשפר [ריכוז](simple_entity)
-- מה כדאי לי לעשות כדי [לרדת ](simple_entity)[במשקל](simple_entity)
-- כיצד כדאי לי [לרדת ](simple_entity)[במשקל](simple_entity)
-- מה אמורים לעשות בשביל [לבנות מסת שריר](simple_entity)
-- מה אתה חושב שכדאי לי לעשות בשביל [לרדת במשקל](simple_entity)
-- מה אתה ממליץ בשביל [לחזק את המערכת החיסונית](simple_entity)
-- איך אני יכול [לרדת במשקל](simple_entity)
-- אם אני רוצה [לרדת במשקל](simple_entity), מה כדאי לעשות
-- אם חשוב לי [לרדת במשקל](simple_entity) - מה אתה ממליץ לי שאעשה
-- אם בא לי [להעלות מסת שריר](simple_entity) מה אתה ממליץ לי לעשות ניוט
-- ואם אני רוצה [להעלות מסת שריר](simple_entity), מה לעשות
-- מה לעשות כדי [להעלות מסת שריר](simple_entity)
-- ניוט, מה לעשות כדי [להעלות מסת שריר](simple_entity)
-- ניוט, מה כדאי לאכול כדי [לשפר את יכולת הריכוז](simple_entity)
-- איך ניתן [לשפר את יכולת הריכוז](simple_entity)
-- מה לעשות אם אני מעוניין [לרדת במשקל](simple_entity)
-- יש לך רעיונות בשבילי אם אני רוצה [לרדת במשקל](simple_entity)
-- יש לך עיצה בשבילי אם אני מעוניין [לרדת במשקל](simple_entity)
-- יש לי חתונה בעוד חודשיים ואני נורא צריך [לרדת במשקל](simple_entity) מה לעשות
-- אני די שחיף ורוצה [להעלות מסת שריר](simple_entity). מה אתה ממליץ
-- מה משפיע על [מסת שריר](simple_entity)
+- איך ניתן לשפר [ריכוז](goal_or_state)
+- איך ניתן לחזק את [המערכת החיסונית](goal_or_state)
+- איך ניתן להעלות את [מסת השריר](goal_or_state)
+- איך ניתן להעלות [מסת שריר](goal_or_state)
+- כיצד ניתן לשפר [ריכוז](goal_or_state)
+- מה כדאי לי לעשות כדי ל[רדת במשקל](goal_or_state)
+- כיצד כדאי לי [לרדת במשקל](goal_or_state)
+- מה אמורים לעשות בשביל [לבנות מסת שריר](goal_or_state)
+- מה אתה חושב שכדאי לי לעשות בשביל [לרדת במשקל](goal_or_state)
+- מה אתה ממליץ בשביל [לחזק את המערכת החיסונית](goal_or_state)
+- איך אני יכול [לרדת במשקל](goal_or_state)
+- אם אני רוצה [לרדת במשקל](goal_or_state), מה כדאי לעשות
+- אם חשוב לי [לרדת במשקל](goal_or_state) - מה אתה ממליץ לי שאעשה
+- אם בא לי [להעלות מסת שריר](goal_or_state) מה אתה ממליץ לי לעשות ניוט
+- ואם אני רוצה [להעלות מסת שריר](goal_or_state), מה לעשות
+- מה לעשות כדי [להעלות מסת שריר](goal_or_state)
+- ניוט, מה לעשות כדי [להעלות מסת שריר](goal_or_state)
+- ניוט, מה כדאי לאכול כדי [לשפר את יכולת הריכוז](goal_or_state)
+- איך ניתן [לשפר את יכולת הריכוז](goal_or_state)
+- מה לעשות אם אני מעוניין [לרדת במשקל](goal_or_state)
+- יש לך רעיונות בשבילי אם אני רוצה [לרדת במשקל](goal_or_state)
+- יש לך עיצה בשבילי אם אני מעוניין [לרדת במשקל](goal_or_state)
+- יש לי חתונה בעוד חודשיים ואני נורא צריך [לרדת במשקל](goal_or_state) מה לעשות
+- אני די שחיף ורוצה [להעלות מסת שריר](goal_or_state). מה אתה ממליץ
+- מה משפיע על [מסת שריר](goal_or_state)
+- מה אתה ממליץ לעשות כדי [לרדת במשקל](goal_or_state)
+- מה לעשות כדי [להוריד כולסטרול](goal_or_state)[כולסטרול](nutrient)
+- מה לעשות כדי [להוריד את הכולסטרול](goal_or_state)
+- כיצד אפשר [להוריד כולסטרול](goal_or_state)
+- איך אני יכול [להעלות מסת שריר](goal_or_state)
+- כיצד אוכל [להעלות](goal_or_state) את [מסת השריר](goal_or_state) שלי
+- איך אתה ממליץ לי [לשפר את הכולסטרול](goal_or_state)
+- איך אתה ממליץ לי להוריד [כולסטרול](nutrient) בדם
+- כיצד אני יכול [לשפר את הכולסטרול](goal_or_state) שלי
+- מה לאכול כדי [לשפר את יכולת הריכוז](goal_or_state) שלי ?
+- כיצד אוכל [לשפר את הריכוז](goal_or_state) שלי ?
+- איך אתה ממליץ לי להצליח [להתרכז](goal_or_state) יותר
+- איך לשפר את [הכולסטרול הטוב](goal_or_state) בגוף ?
+- איך אוכל לשפר את ה-[HDL](nutrient) שלי ?
+- כיצד [לעלות את הכולסטרול](goal_or_state) הטוב בגוף ?
+- איך אפשר [לשפר את ה-HDL](simple_entity)
+- איך [להעלות את הכולסטרול הטוב](goal_or_state) בגוף
+- איך תמליץ לי [לשפר את יכולת הריכוז]{"entity": "goal_or_state", "value": "\u05e8\u05d9\u05db\u05d5\u05d6"}
+- איך אפשר לשפר את תפקוד [המערכת החיסונית](goal_or_state)
+- כיצד אני יכול לשפר את [האומגה 3](nutrient) בגוף?
+- כיצד לשפר [אומגה 3](nutrient)
+- כיצד אוכל לשפר את רמת ה[עייפות](goal_or_state) שלי
 
 ## intent:nutrition_howmanyxiny
 - כמה [חלבון](nutrient) יש ב[חלב](food_entity)
@@ -336,6 +370,7 @@
 - כמה [קלוריות](nutrient) יש ב[קורנפלקס](food_entity)
 - כמה [ברזל](nutrient) יש בבשר בקר
 - כמה [ברזל](nutrient) יש ב[ביצה](food_entity)
+- כמה [קלוריות](nutrient) יש ב[פסטה](food_entity2)?
 
 ## intent:nutrition_is_food_healthy
 - האם [שוקולד](food_entity) זה בריא
@@ -475,6 +510,8 @@
 - האם [יוגורט](food_entity) זה בריא ?
 - האם [בשר בקר](food_entity) זה בריא ?
 - האם [עדשים](food_entity) בריאים ?
+- [טופו](food_entity) זה בריא לי?
+- [סלמון](food_entity) זה בריא?
 
 ## intent:nutrition_is_food_recommended
 - האם כדאי לי לאכול [שוקולד](food_entity)
@@ -493,6 +530,11 @@
 - אז האם במקום אתה ממליץ לי לאכול [עוף](food_entity) ?
 - האם כדאי לי לאכול [בשר בקר](food_entity) ?
 - האם [אבוקדו](food_entity) טוב לי?
+- אז כדאי לי לאכול [בייגל](food_entity)?
+- כדאי לי לשתות [חלב](nutrient)?
+- מה דעתך על בייגל עם [גבינה](food_entity)?
+- האם מותר לי לאכול הרבה [טופו](food_entity)
+- האם כדאי לי לאכול [טופו](food_entity)
 
 ## intent:nutrition_what_is_healthier
 - מה בריא יותר, [שוקולד](food_entity) או [תפוז](food_entity2)
@@ -537,6 +579,12 @@
 - מה יותר בריא [סמבוסק](food_entity) או [פטריות](food_entity2)
 - מה יותר בריא [אפרסק](food_entity) או [תפוח](food_entity2)
 - מה יותר בריא - [צ'יפס](food_entity) או [פסטה](food_entity2)
+- מה יותר בריא לי - [סלמון](food_entity) או [טופו](food_entity2)
+- מה בריא יותר [בשר](food_entity) או [טופו](food_entity2)?
+- מה עדיף [בשר בקר](food_entity) או [טופו](food_entity2)?
+- [בקר](food_entity) או [טופו](food_entity2) - מה יותר בריא לי?
+- מה יותר בריא [חלב נאקות](food_entity) או [חלב עזים](food_entity2)
+- מה יותר בריא - [טופו](food_entity) או [בשר בקר](food_entity2)
 
 ## intent:greet
 - היי
@@ -738,6 +786,7 @@
 - אוף.
 - עוד עצוב
 - אבל ניוט אני עצוב
+- אויש
 
 ## intent:bot_challenge
 - האם אתה בוט
@@ -763,27 +812,31 @@
 - אפשר להזדהות
 
 ## intent:inform
-- אני בן [37](generic_entity)
-- הגיל שלי הוא [10](generic_entity)
-- אני בגובה [183](generic_entity) ס״מ
-- בגובה שלי הוא [175](generic_entity) ס״מ
-- המשקל שלי הוא [80](generic_entity) ק״ג
-- אני שוקל [80](generic_entity) ק״ג
-- אני שוקלת [80](generic_entity) ק״ג
-- [42](generic_entity)
-- [123](generic_entity)
-- [זכר](generic_entity)
-- [נקבה](generic_entity)
-- [38](generic_entity)
-- [70](generic_entity)
-- [183](generic_entity)
-- [96](generic_entity)
-- [0501234567](generic_entity)
-- [0549876542](generic_entity)
-- [ליאור](generic_entity)
-- [גיל](generic_entity)
-- קוראים לי [הדס](generic_entity)
-- שמי הוא [רמון](generic_entity)
+- אני בן [37](integer)
+- הגיל שלי הוא [10](integer)
+- אני בגובה [183](integer) ס״מ
+- בגובה שלי הוא [175](integer) ס״מ
+- המשקל שלי הוא [80](integer) ק״ג
+- אני שוקל [80](integer) ק״ג
+- אני שוקלת [80](integer) ק״ג
+- [42](integer)
+- [123](integer)
+- [38](integer)
+- [70](integer)
+- [183](integer)
+- [96](integer)
+- [78](integer)
+- [זכר](gender)
+- [נקבה](gender)
+- [0523679558](phone_number)
+- [0501234567](phone_number)
+- [0549876542](phone_number)
+- [ליאור](name)
+- [גיל](name)
+- [גיא](name)
+- קוראים לי [הדס](name)
+- שמי הוא [רמון](name)
+- אני [יעל](name)
 
 ## intent:bot_introduction
 - מי אתה
@@ -800,7 +853,6 @@
 - היי, מי אתה?
 - איך קוראים לך?
 - הי איך קוראים לך?
-- איך קוראים לך
 - בסדר. איך קוראים לך
 - לא, איך קוראים לך
 - מי אתה באמת
@@ -945,6 +997,7 @@
 - מה אתה עושה
 - ומה אתה יודע לעשות
 - ניוט מה אתה יודע לעשות
+- מה אתה יודע?
 
 ## intent:What is the source of your data
 - איך אתה יודע את זה
@@ -1061,21 +1114,21 @@
 - מה דברים שטוב לאכול אחרי [ריצה](simple_entity)
 
 ## intent:nutrition_how_to_avoid
-- כיצד אפשר להמנע מלהשמין
-- כיצד אפשר להמנע מהשמנה
-- מה לעשות אם אני לא רוצה [להשמין](simple_entity)
-- מה לעשות כדי להמנע מ[השמנה](simple_entity)
-- כיצד נמנעים מ[השמנה](simple_entity)
-- מה לעשות אם אני רוצה להמנע מ[השמנה](simple_entity)
-- מה כדאי לעשות כדי להמנע [מהשמנה](simple_entity)
-- מה גורם ל[השמנה](simple_entity)
+- כיצד אפשר להמנע מ[להשמין](goal_or_state)
+- כיצד אפשר להמנע מ[השמנה](goal_or_state)
+- מה לעשות אם אני לא רוצה [להשמין](goal_or_state)
+- מה לעשות כדי להמנע מ[השמנה](goal_or_state)
+- כיצד נמנעים מ[השמנה](goal_or_state)
+- מה לעשות אם אני רוצה להמנע מ[השמנה](goal_or_state)
+- מה כדאי לעשות כדי להמנע [מהשמנה](goal_or_state)
+- מה גורם ל[השמנה](goal_or_state)
 
 ## intent:nutrition_what_impacts
 - מה משפיע על ה[משקל](simple_entity) שלי
-- מה תורם ל[השמנה](simple_entity)
-- מה משפיע על ירידה [במשקל](simple_entity)
-- מה משפיע על [השמנה](simple_entity)
-- מה גורם לי [להשמין](simple_entity)
+- מה תורם ל[השמנה](goal_or_state)
+- מה משפיע על [ירידה במשקל](goal_or_state)
+- מה משפיע על [השמנה](goal_or_state)
+- מה גורם לי [להשמין](goal_or_state)
 
 ## intent:nutrition_is_healthy
 - מה אתה חושב, [צמחונות](nutrition_concept) זה בריא
@@ -1128,10 +1181,10 @@
 - האם [פחמימות](nutrient)[פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"} זה בריא
 - האם לצרוך הרבה [פחממה](nutrient) זה בריא ?
 - [סוכר](nutrient) זה בריא ?
-- האם [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"}[פחמימות](nutrient) זה בריא
 - [מלח](nutrient) בריא ?
 - [סידן](nutrient) זה בריא ?
 - [צום לסירוגין](nutrition_concept) זה בריא?
+- [דיאטה קטוגנית](nutrition_concept) זה בריא?
 
 ## intent:What type of questions?
 - איזה שאלות, למשל
@@ -1213,7 +1266,8 @@
 - האם כדאי לי לא לאכול [פחממה](nutrient)
 - חבר אמר לי שלא כדאי לי לאכול [שומנים](nutrient)
 - האם כדאי לי לא לאכול [סוכר](nutrient) ?
-- האם לוותר על [שומנים]{"entity": "nutrient", "value": "\u05e9\u05d5\u05de\u05df"}
+- האם לוותר על [שומנים](nutrient)[שומנים](nutrient)
+- אפשר לוותר על [ארוחת בוקר](nutrition_concept)?
 
 ## intent:will_X_make_me_fat
 - האם [שומן](nutrient) זה משמין
@@ -1223,19 +1277,20 @@
 - האם [שמן זית](food_entity) זה משמין
 - האם [רימונים](food_entity) זה דבר משמין
 - האם [בננה ](food_entity)זה משמין
-- האם [סוכר](nutrient) יגרום לי להשמין
-- האם [תירס](food_entity) גורם להשמנה
-- האם [פסטה](food_entity) היא אוכל [משמין](nutrition_concept)
-- האם [אומגה 3](nutrient) זה דבר [משמין](nutrition_concept)
-- האם אכילת [פחממות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"} גורמת ל[עלייה במשקל](nutrition_concept)
-- האם לאכול [אגוזים](food_entity) זה [ישמין](nutrition_concept) אותי
+- האם [סוכר](nutrient) יגרום לי [להשמין](goal_or_state)
+- האם [תירס](food_entity) גורם ל[השמנה](goal_or_state)
+- האם [פסטה](food_entity) היא אוכל [משמין](goal_or_state)
+- האם [אומגה 3](nutrient) זה דבר [משמין](goal_or_state)
+- האם אכילת [פחממות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"} גורמת ל[עלייה במשקל](goal_or_state)
+- האם לאכול [אגוזים](food_entity) זה [ישמין](goal_or_state) אותי
 - האם [ארוחת צהריים](nutrition_concept) זה משמין
 - האם [פחממה](nutrient) זה משמין
 - האם [ענבים](food_entity) זה משמין
-- האם אכילת [פחממות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"}[פחממות](nutrient) גורמת לעלייה במשקל ?
+- האם אכילת [פחממות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"}[פחממות](nutrient) גורמת ל[עלייה במשקל](goal_or_state) ?
 - האם [אומגה 3](nutrient) זה דבר משמין ?
-- האם לאכול [אגוזים](food_entity) זה ישמין אותי ?
-- האם [רימונים](food_entity) זה דבר משמין ?
+- האם לאכול [אגוזים](food_entity) זה [ישמין אותי](goal_or_state) ?
+- האם [רימונים](food_entity) זה דבר [משמין](goal_or_state) ?
+- האם אכילת [פחממות](nutrient) גורמת ל[עלייה במשקל](goal_or_state) ?
 
 ## intent:nutrition_what_has_little
 - במה יש מעט [סוכר](nutrient)
@@ -1290,11 +1345,48 @@
 ## synonym:חלבון
 - חלבונים
 
+## synonym:להוריד כולסטרול
+- להוריד כולסטרול בדם
+- להוריד את הכולסטרול
+- להוריד רמות כולסטרול בדם
+- להוריד רמות כולסטרול
+- לשפר כולסטרול
+- לשפר את הכולסטרול
+- כולסטרול
+
+## synonym:להעלות כולסטרול טוב
+- לעלות כולסטרול טוב
+- לשפר HDL
+- לשפר את ה-HDL 
+- הכולסטרול הטוב
+- HDL
+- לעלות את הכולסטרול
+- לשפר את ה-HDL
+- להעלות את הכולסטרול הטוב
+
+## synonym:לרזות
+- ירידה במשקל
+- הרזייה
+- לרדת במשקל
+
+## synonym:מערכת חיסונית
+- המערכת החיסונית
+- מערכת החיסון
+
 ## synonym:משמין
 - השמנה
 - להשמין
 - עלייה במשקל
 - ישמין
+- ישמין אותי
+
+## synonym:עלייה במסת שריר
+- העלאת מסת שריר
+- להגדיל שרירים
+- להעלות מסת שריר
+- הגדלת השריר
+- מסת שריר
+- מסת השריר
 
 ## synonym:פחממה
 - פחמימות
@@ -1308,6 +1400,11 @@
 - לצום לסירוגין
 - לצום לסרוגין
 - צום לסירוגין
+
+## synonym:ריכוז
+- הריכוז
+- להתרכז
+- לשפר את יכולת הריכוז
 
 ## synonym:שומן
 - שומנים

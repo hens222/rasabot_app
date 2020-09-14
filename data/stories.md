@@ -13,27 +13,27 @@
     - profile_form
     - form{"name":"profile_form"}
     - slot{"requested_slot":"phone"}
-* inform{"generic_entity":"0501234567"}
+* inform{"phone_number":"0501234567"}
     - profile_form
     - slot{"phone":"0501234567"}
     - slot{"requested_slot":"username"}
-* inform{"generic_entity":"גיל"}
+* inform{"name":"גיל"}
     - profile_form
     - slot{"username":"גיל"}
     - slot{"requested_slot":"gender"}
-* inform{"generic_entity":"זכר"}
+* inform{"gender":"זכר"}
     - profile_form
     - slot{"gender":"זכר"}
     - slot{"requested_slot":"age"}
-* inform{"generic_entity":"38"}
+* inform{"integer":"38"}
     - profile_form
     - slot{"age":"38"}
     - slot{"requested_slot":"weight"}
-* inform{"generic_entity":"72"}
+* inform{"integer":"72"}
     - profile_form
     - slot{"weight":"72"}
     - slot{"requested_slot":"height"}
-* inform{"generic_entity":"172"}
+* inform{"integer":"172"}
     - profile_form
     - slot{"height":"172"}
     - slot{"requested_slot":null}
@@ -313,4 +313,3 @@
 ## What can you do
 * What can you do
     - utter_what_can_you_do
-
