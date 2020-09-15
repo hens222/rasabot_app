@@ -713,6 +713,7 @@ class ProfileForm(FormAction):
             ],
             "username": [
                 self.from_entity(entity="name"),
+                self.from_text(),
             ],
             "gender": [
                 self.from_entity(entity="gender"),
