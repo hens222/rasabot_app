@@ -55,7 +55,6 @@ entities:
 - nutrient
 - integer
 - gender
-- phone_number
 - name
 - goal_or_state
 slots:

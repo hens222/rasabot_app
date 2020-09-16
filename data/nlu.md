@@ -268,6 +268,7 @@
 - כיצד אני יכול לשפר את [האומגה 3](nutrient) בגוף?
 - כיצד לשפר [אומגה 3](nutrient)
 - כיצד אוכל לשפר את רמת ה[עייפות](goal_or_state) שלי
+- מה נאכל כדי לחזק את [השרירים](goal_or_state)
 
 ## intent:nutrition_howmanyxiny
 - כמה [חלבון](nutrient) יש ב[חלב](food_entity)
@@ -371,6 +372,8 @@
 - כמה [ברזל](nutrient) יש בבשר בקר
 - כמה [ברזל](nutrient) יש ב[ביצה](food_entity)
 - כמה [קלוריות](nutrient) יש ב[פסטה](food_entity2)?
+- כמה [ברזל](nutrient) יש ב[עדשים חומות](food_entity)
+- כמה [ברזל](nutrient) יש ב[עדשים כתומים](food_entity)
 
 ## intent:nutrition_is_food_healthy
 - האם [שוקולד](food_entity) זה בריא
@@ -655,6 +658,7 @@
 - מה נשמע<
 - מה המצב ?
 - היי מה קורה?
+- בוקר!
 
 ## intent:when_do_you_work
 - ער
@@ -828,15 +832,61 @@
 - [78](integer)
 - [זכר](gender)
 - [נקבה](gender)
-- [0523679558](phone_number)
-- [0501234567](phone_number)
-- [0549876542](phone_number)
+- [0523679558](integer)
+- [0501234567](integer)
+- [0549876542](integer)
 - [ליאור](name)
 - [גיל](name)
 - [גיא](name)
 - קוראים לי [הדס](name)
 - שמי הוא [רמון](name)
 - אני [יעל](name)
+- [אורי](name)
+- [אביב](name)
+- [אפרת](name)
+- [דנית](name)
+- [0502687714](integer)
+- [מוקי](name)
+- [0564433456](integer)
+- [0575544333](integer)
+- [0587766554](integer)
+- [0576655443](integer)
+- [ביל](name)
+- [מירי](name)
+- [+972-522661680](integer)
+- [+1-6462627413](integer)
+- [שחר](name)
+- [מולי](name)
+- [אוסנת](name)
+- [נעה](name)
+- [יעל](name)
+- [אילן](name)
+- [אלון](name)
+- [שגיא](name)
+- [רועי](name)
+- [שרית](name)
+- [איציק](name)
+- [דויד](name)
+- [אריאל](name)
+- [נעם](name)
+- [יוסף](name)
+- [יוסי](name)
+- [איתן](name)
+- [דניאל](name)
+- [דני](name)
+- [גלית](name)
+- [אמיר](name)
+- [משה](name)
+- [שלומי](name)
+- [50](integer)
+- [185](integer)
+- [75](integer)
+- [27](integer)
+- [57](integer)
+- [21](integer)
+- [רות](name)
+- [רותי](name)
+- [182.5](integer)
 
 ## intent:bot_introduction
 - מי אתה
@@ -1185,6 +1235,8 @@
 - [סידן](nutrient) זה בריא ?
 - [צום לסירוגין](nutrition_concept) זה בריא?
 - [דיאטה קטוגנית](nutrition_concept) זה בריא?
+- אמרו לי ש[צמחונות](nutrition_concept) זה טוב, האם כדאי לי ?
+- האם כדאי לי לאכול [פליאו](nutrition_concept)
 
 ## intent:What type of questions?
 - איזה שאלות, למשל
@@ -1357,11 +1409,10 @@
 ## synonym:להעלות כולסטרול טוב
 - לעלות כולסטרול טוב
 - לשפר HDL
-- לשפר את ה-HDL 
+- לשפר את ה-HDL
 - הכולסטרול הטוב
 - HDL
 - לעלות את הכולסטרול
-- לשפר את ה-HDL
 - להעלות את הכולסטרול הטוב
 
 ## synonym:לרזות
@@ -1387,6 +1438,8 @@
 - הגדלת השריר
 - מסת שריר
 - מסת השריר
+- שרירים
+- השרירים
 
 ## synonym:פחממה
 - פחמימות
@@ -1402,9 +1455,9 @@
 - צום לסירוגין
 
 ## synonym:ריכוז
+- לשפר את יכולת הריכוז
 - הריכוז
 - להתרכז
-- לשפר את יכולת הריכוז
 
 ## synonym:שומן
 - שומנים

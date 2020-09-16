@@ -131,8 +131,8 @@ def get_rda(name, tracker):
                                      ((micro_nutrients_df['Gender'] == "ANY")    | (micro_nutrients_df['Gender'] == gender)) & \
                                      ((micro_nutrients_df['Pregnancy'] == "ANY") | (micro_nutrients_df['Pregnancy'] == "No")) & \
                                      ((micro_nutrients_df['Lactating'] == "ANY") | (micro_nutrients_df['Lactating'] == "No")) & \
-                                     ((micro_nutrients_df['Age Min'] == "ANY")   | (micro_nutrients_df['Age Min'] <= user_vars['age'])) & \
-                                     ((micro_nutrients_df['Age Max'] == "ANY")   | (micro_nutrients_df['Age Max'] > user_vars['age']))]
+                                     ((micro_nutrients_df['Age Min'] == "ANY")   | (micro_nutrients_df['Age Min'].astype(float) <= int(user_vars['age']))) & \
+                                     ((micro_nutrients_df['Age Max'] == "ANY")   | (micro_nutrients_df['Age Max'].astype(float) > int(user_vars['age'])))]
     
         rda_value = rda_row['Value'].values[0]
         rda_units = rda_row['Units'].values[0]
@@ -707,9 +707,9 @@ class ProfileForm(FormAction):
 
         return {
             "phone": [
-                self.from_entity(entity="phone_number"),
                 self.from_entity(entity="integer", role="phone"),
                 self.from_entity(entity="integer"),
+                self.from_text(),
             ],
             "username": [
                 self.from_entity(entity="name"),
@@ -721,14 +721,17 @@ class ProfileForm(FormAction):
             "age": [
                 self.from_entity(entity="integer", role="age"),
                 self.from_entity(entity="integer"),
+                self.from_text(),
             ],
             "weight": [
                 self.from_entity(entity="integer", role="weight"),
                 self.from_entity(entity="integer"),
+                self.from_text(),
             ],
             "height": [
                 self.from_entity(entity="integer", role="height"),
                 self.from_entity(entity="integer"),
+                self.from_text(),
             ],
         }
     

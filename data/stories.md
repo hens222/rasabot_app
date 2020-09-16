@@ -13,7 +13,7 @@
     - profile_form
     - form{"name":"profile_form"}
     - slot{"requested_slot":"phone"}
-* inform{"phone_number":"0501234567"}
+* inform{"integer":"0501234567"}
     - profile_form
     - slot{"phone":"0501234567"}
     - slot{"requested_slot":"username"}
@@ -113,18 +113,6 @@
 * got_question
   - utter_got_question
 
-## Greet and ask
-* greet
-  - utter_greet
-* got_question
-  - utter_got_question
-
-## happy path
-* greet
-  - utter_greet
-* mood_great
-  - utter_happy
-
 ## Question + thank you path
 * got_question
   - utter_got_question
@@ -159,15 +147,6 @@
 * mood_great
   - utter_whats_your_question
 
-## Greet+unhappy+cheer+thank you
-* greet
-  - utter_greet
-* mood_unhappy
-  - utter_cheer_up
-  - utter_did_that_help
-* thank_you
-  - utter_happy
-
 ## Nutrition tip
 * can_you_share_nutrition_tips
   - utter_nutrition_tips
@@ -188,16 +167,6 @@
 * who_made_you
   - utter_who_made_you
 
-## Greet to what type of questions
-* greet
-  - utter_greet
-* mood_great
-  - utter_happy
-* got_question
-  - utter_got_question
-* what_type_of_questions
-  - utter_what_types_of_question_can_you_answer
-
 ## Question plus whats the source
 * nutrition_definition
   - action_simple_question
@@ -213,12 +182,6 @@
 ## What impacts
 * nutrition_what_impacts
   - action_simple_question
-
-## Greet + got question
-* greet
-  - utter_greet
-* Got Question
-  - utter_got_question
 
 ## Should I avoid X?
 * nutrition_should_I_avoid
@@ -237,18 +200,6 @@
   - action_nutrition_howmanyxiny
 * thank_you
   - utter_youre_welcome
-
-## Hi + many jokes
-* greet
-  - utter_greet
-* mood_great
-  - utter_happy
-* jokes
-  - utter_jokes
-* jokes
-  - utter_jokes
-* jokes
-  - utter_jokes
 
 ## Is food healthy with entity
 * nutrition_is_food_healthy{"food_entity":"אגס"}
@@ -313,3 +264,49 @@
 ## What can you do
 * What can you do
     - utter_what_can_you_do
+
+## Great Onboarding 1
+
+* greet
+    - utter_greet
+* affirm
+    - profile_form
+    - form{"name":"profile_form"}
+    - slot{"requested_slot":"phone"}
+* inform{"integer":"0587100788"}
+    - profile_form
+    - slot{"age":null}
+    - slot{"weight":null}
+    - slot{"height":null}
+    - slot{"phone":"0587100788"}
+    - slot{"requested_slot":"username"}
+* inform{"name":"גיל"}
+    - profile_form
+    - slot{"username":"גיל"}
+    - slot{"requested_slot":"gender"}
+* inform{"gender":"זכר"}
+    - profile_form
+    - slot{"gender":"זכר"}
+    - slot{"requested_slot":"age"}
+* inform{"integer":"38"}
+    - profile_form
+    - slot{"phone":"0587100788"}
+    - slot{"weight":null}
+    - slot{"height":null}
+    - slot{"age":"38"}
+    - slot{"requested_slot":"weight"}
+* inform{"integer":"73"}
+    - profile_form
+    - slot{"phone":"0587100788"}
+    - slot{"age":"38"}
+    - slot{"height":null}
+    - slot{"weight":"73"}
+    - slot{"requested_slot":"height"}
+* inform{"integer":"182.5"}
+    - profile_form
+    - slot{"phone":"0587100788"}
+    - slot{"age":"38"}
+    - slot{"weight":"73"}
+    - slot{"height":"182.5"}
+    - form{"name":null}
+    - slot{"requested_slot":null}
