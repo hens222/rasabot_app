@@ -15,6 +15,7 @@ from os import path
 from typing import Any, Text, Dict, List, Union
 from rasa_sdk import Action, Tracker
 from rasa_sdk.forms import FormAction
+from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
 def load_db(db_bitmap):
@@ -93,7 +94,7 @@ def load_db(db_bitmap):
 
 # ------------------------------------------------------------------
 
-def get_rda(name, tracker):
+def get_rda(name, tracker, nutrient=None):
 
     db_dict = load_db(0x46) 
     
@@ -104,7 +105,7 @@ def get_rda(name, tracker):
     status = "match"
     if not (tracker.get_slot('gender') and tracker.get_slot('age') and tracker.get_slot('weight') and tracker.get_slot('height')):
         status = "default"
-    
+   
     for ent in tracker.latest_message.get('entities'):
         if ent['entity'] in lut_df[name].values:
             nutrient = ent['value']
@@ -314,9 +315,10 @@ class ActionNutritionHowManyXinY(Action):
         
         user_msg = tracker.latest_message.get('text')    
        
-        x = None
-        y = None
+        x = tracker.get_slot('x') if tracker.get_slot('x') else None
+        y = tracker.get_slot('y') if tracker.get_slot('y') else None
 
+        name_xy = self.name()
         for ent in tracker.latest_message.get('entities'):
             if ent['entity'] in lut_df[self.name() + "_x"].values:
                 x = ent['value']
@@ -326,7 +328,7 @@ class ActionNutritionHowManyXinY(Action):
                 name_xy = self.name() + "_y"
 
         if not y:
-            regex_res = re.search('כמה .* יש ב(.*)', user_msg.replace('?',''))
+            regex_res = re.search('.* ב(.*)', user_msg.replace('?',''))
             if regex_res:
                 y = regex_res.group(1)
 
@@ -357,7 +359,7 @@ class ActionNutritionHowManyXinY(Action):
         except:
             dispatcher.utter_message(text="אין לי מושג כמה, מצטער!")
 
-        return []
+        return [SlotSet("x", x), SlotSet("y", y)]
 
 # ------------------------------------------------------------------
 

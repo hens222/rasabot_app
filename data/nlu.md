@@ -375,6 +375,14 @@
 - כמה [ברזל](nutrient) יש ב[עדשים חומות](food_entity)
 - כמה [ברזל](nutrient) יש ב[עדשים כתומים](food_entity)
 
+## intent:nutrition_and_what_about_x
+- ומה לגבי [חלבון](nutrient)
+- ומה לגבי [לחם](food_entity)
+- ומה עם [מגנזיום](nutrient)
+- ומה עם [תפוח](food_entity)
+- וכמה [קלוריות](nutrient)
+- וכמה [פיצה](food_entity)
+
 ## intent:nutrition_is_food_healthy
 - האם [שוקולד](food_entity) זה בריא
 - האם [לחם](food_entity) בריא

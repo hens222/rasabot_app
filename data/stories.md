@@ -73,6 +73,10 @@
 * nutrition_howmanyxiny
   - action_nutrition_howmanyxiny
 
+## nutrition and_what_about_x
+* nutrition_and_what_about_x
+  - action_nutrition_howmanyxiny
+
 ## nutrition is_food_healthy
 * nutrition_is_food_healthy
   - action_nutrition_is_food_healthy
