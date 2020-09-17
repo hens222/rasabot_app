@@ -312,13 +312,18 @@ class ActionNutritionHowManyXinY(Action):
         db_df = db_dict['tzameret']
         lut_df = db_dict['lut']
         common_df = db_dict['common_food']
-        
+      
         user_msg = tracker.latest_message.get('text')    
-       
+      
+        # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        # Fetch X and Y (from slots, from entities or from regex):
+      
+        y = None
         x = tracker.get_slot('x') if tracker.get_slot('x') else None
-        y = tracker.get_slot('y') if tracker.get_slot('y') else None
+        if tracker.latest_message.get('entities'):
+            y = tracker.get_slot('y') if tracker.get_slot('y') else None
 
-        name_xy = self.name()
+        name_xy = self.name() + "_x"
         for ent in tracker.latest_message.get('entities'):
             if ent['entity'] in lut_df[self.name() + "_x"].values:
                 x = ent['value']
@@ -327,11 +332,18 @@ class ActionNutritionHowManyXinY(Action):
                 y = ent['value']
                 name_xy = self.name() + "_y"
 
+        regex_res = re.search('כמה (.*) יש ב(.*)', user_msg.replace('?',''))
+        if regex_res:
+            x = regex_res.group(1)
+            y = regex_res.group(2)
+        
         if not y:
             regex_res = re.search('.* ב(.*)', user_msg.replace('?',''))
             if regex_res:
                 y = regex_res.group(1)
-
+        
+        # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        
         try:
             y_common = y
             if y in common_df.index:

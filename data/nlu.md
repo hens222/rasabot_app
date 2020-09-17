@@ -381,7 +381,10 @@
 - ומה עם [מגנזיום](nutrient)
 - ומה עם [תפוח](food_entity)
 - וכמה [קלוריות](nutrient)
-- וכמה [פיצה](food_entity)
+- וכמה ב[פיצה](food_entity)
+- וכמה יש ב[אגוזי ברזיל](food_entity)
+- ומה לגבי [גבינה](food_entity)
+- וכמה יש ב[גבינה](food_entity)
 
 ## intent:nutrition_is_food_healthy
 - האם [שוקולד](food_entity) זה בריא

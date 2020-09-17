@@ -110,7 +110,7 @@ responses:
   utter_greet:
   - buttons:
     - payload: /affirm
-      title: כן, אין בעיה
+      title: כן, בשמחה
     - payload: /deny
       title: לא, בפעם אחרת
     text: שלום, האם תרצה/י להזדהות?
