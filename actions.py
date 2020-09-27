@@ -726,7 +726,7 @@ class ActionBloodtestGenericQuestion(Action):
                 res = 'ערך תקין עבור בדיקת %s בין %.2f ועד %.2f, ערך מתחת %.2f נחשב חריג' % (bloodtest_entity, bloodtest_thr2, bloodtest_max, bloodtest_thr1)
 
             elif bloodtest_type == 3:
-                res = 'ערך תקין עבור בדיקת %s בין %.2f ועד %.2f' % (bloodtest_entity, bloodtest_thr1-bloodtest_thr2, bloodtest_thr1+bloodtest_thr2)
+                res = 'ערך תקין עבור בדיקת %s בין %.2f ועד %.2f' % (bloodtest_entity, bloodtest_thr1, bloodtest_thr2)
 
             dispatcher.utter_message(text="%s" % res)
 
@@ -803,10 +803,10 @@ class ActionBloodtestValueQuestion(Action):
                     res = 'לא, זהו אינו ערך תקין עבור בדיקת %s. ערך תקין הינו בטווח בין %.2f ועד %.2f. ערך מתחת %.2f נחשב לחריג' % (bloodtest_entity, bloodtest_thr2, bloodtest_max, bloodtest_thr1)
 
             elif bloodtest_type == 3:
-                if bloodtest_thr1-bloodtest_thr2 <= float(val) <= bloodtest_thr1+bloodtest_thr2:
-                    res = 'כן, זהו ערך תקין עבור בדיקת %s היות והוא נופל בטווח בין %.2f ועד %.2f' % (bloodtest_entity, bloodtest_thr1-bloodtest_thr2, bloodtest_thr1+bloodtest_thr2)
+                if bloodtest_thr1 <= float(val) <= bloodtest_thr2:
+                    res = 'כן, זהו ערך תקין עבור בדיקת %s היות והוא נופל בטווח בין %.2f ועד %.2f' % (bloodtest_entity, bloodtest_thr1, bloodtest_thr2)
                 else:
-                    res = 'לא, זהו אינו ערך תקין עבור בדיקת %s. ערך תקין הינו בטווח בין %.2f ועד %.2f.' % (bloodtest_entity, bloodtest_thr1-bloodtest_thr2, bloodtest_thr1+bloodtest_thr2)
+                    res = 'לא, זהו אינו ערך תקין עבור בדיקת %s. ערך תקין הינו בטווח בין %.2f ועד %.2f.' % (bloodtest_entity, bloodtest_thr1, bloodtest_thr2)
 
             else:
                 raise Exception()
