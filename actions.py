@@ -89,7 +89,15 @@ def load_db(db_bitmap):
         micro_nutrients_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
                                          header=0).fillna(0)
         db_dict['micro_nutrients'] = micro_nutrients_df[micro_nutrients_df['Type'] == "RDA"]
-  
+ 
+    # "Newt Machine Readable" - MicroNutrients
+    if (db_bitmap & 0x80) > 0:
+        url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=1373096469"
+        s = requests.get(url).content
+        food_units_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
+                                    header=0).fillna(0)
+        db_dict['food_units'] = food_units_df
+
     return db_dict
 
 # ------------------------------------------------------------------
@@ -307,11 +315,12 @@ class ActionNutritionHowManyXinY(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        db_dict = load_db(0x13)
+        db_dict = load_db(0x93)
        
         db_df = db_dict['tzameret']
         lut_df = db_dict['lut']
         common_df = db_dict['common_food']
+        units_df = db_dict['food_units']
       
         user_msg = tracker.latest_message.get('text')    
       
@@ -341,7 +350,13 @@ class ActionNutritionHowManyXinY(Action):
             regex_res = re.search('.* ב(.*)', user_msg.replace('?',''))
             if regex_res:
                 y = regex_res.group(1)
-        
+       
+        food_units = "100 גרם"
+        regex_units_res = re.search('(.*) של (.*)', y)
+        if regex_units_res:
+            food_units = regex_units_res.group(1)
+            y = regex_units_res.group(2)
+
         # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
         
         try:
@@ -352,17 +367,24 @@ class ActionNutritionHowManyXinY(Action):
             feature = lut_df[lut_df.index == x]["Entity"][0]
             units = lut_df[lut_df.index == x]["Units"][0]
 
-            res = food[feature]
+            food_units_factor = units_df[(units_df['smlmitzrach'] == int(food['smlmitzrach'])) &
+                                         (units_df['shmmida'] == food_units)]['mishkal'].values
+            if food_units_factor:
+                food_units_factor = food_units_factor[0]/100
+            else:
+              food_units_factor = 1.0
+
+            val = food[feature] * food_units_factor
 
             if units == 0:
-                res = "ב-100 גרם %s יש %.2f %s" % (food['shmmitzrach'], float(res), x)
+                res = "ב-%s של %s יש %.2f %s" % (food_units, food['shmmitzrach'], float(val), x)
             else:
-                res = "ב-100 גרם %s יש %.2f %s %s" % (food['shmmitzrach'], float(res), units, x)
-        
+                res = "ב-%s של %s יש %.2f %s %s" % (food_units, food['shmmitzrach'], float(val), units, x)
+
             rda_val, rda_units, rda_status, nutrient = get_rda(name_xy, tracker)
 
             if rda_val > 0 and units not in ['יחב"ל']:
-                rda = 100 * float(food[feature]) / rda_val
+                rda = 100 * float(val) / rda_val
                 res += "\n"
                 res += "שהם כ-%d אחוז מהקצובה היומית המומלצת %s" % (int(rda), get_personal_str(rda_status, tracker))
 

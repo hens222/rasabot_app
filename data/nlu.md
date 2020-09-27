@@ -47,6 +47,7 @@
 - מהו [קולוגן](nutrient)
 - מה זה [צום לסירוגין](nutrition_concept)
 - תגיד, מה זה [תזונה קטוגנית](nutrition_concept)
+- מה זה [דיאטה קטוגנית](nutrition_concept)?
 
 ## intent:nutrition_what_has
 - במה יש [חלבון](nutrient)
@@ -112,6 +113,10 @@
 - במה יש הרבה [ברזל](nutrient) ?
 - איך אני יכול לקבל [ברזל](nutrient)?
 - וגם [חסר](food_entity) לי [ברזל](nutrient). במה יש הרבה [ברזל](nutrient)?
+- באילו מאכלים יש הרבה [B12](nutrient)
+- במה יש [ויטמין בי 12](nutrient)
+- במה יש [בי12](nutrient)
+- במה יש [b12](nutrient)
 
 ## intent:nutrition_importance
 - למה חשוב [חלבון](nutrient)
@@ -216,9 +221,43 @@
 - תגיד לי כמה [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"} אני צריך לאכול ביום?
 - וכמה [סידן](nutrient) אני צריך לאכול ביום?
 - כמה [חלבון](nutrient) אני צריך לאכול ביום?
-- וכמה [ברזל](nutrient)
 - וכמה [קלוריות](nutrient)
 - אני מתכוון, כמה [סידן](nutrient) כדאי לי לאכול
+
+## intent:nutrition_and_what_about_x
+- וכמה [ברזל](nutrient)
+- ומה לגבי [חלבון](nutrient)
+- ומה לגבי [לחם](food_entity)
+- ומה עם [מגנזיום](nutrient)
+- ומה עם [תפוח](food_entity)
+- וכמה [קלוריות](nutrient)
+- וכמה ב[פיצה](food_entity)
+- וכמה יש ב[אגוזי ברזיל](food_entity)
+- ומה לגבי [גבינה](food_entity)
+- וכמה יש ב[גבינה](food_entity)
+- וכמה [חלבון](nutrient)?
+- ומה לגבי [המבורגר](food_entity)
+- וכמה [חלבון](nutrient)
+- וב[בננה](food_entity)
+- ומה לגבי [מנגולד](food_entity)
+- ומה לגבי [פיצה](food_entity)
+- ומה לגבי [ברזל](nutrient)
+- וכמה יש ב[גבינה](food_entity) ?
+- וב[פסטה](food_entity)
+- וכמה יש ב[שקדים](food_entity)
+- ומה לגבי [סידן](nutrient)
+- ומה לגבי [גבינה](food_entity) ?
+- וב[פיצה](food_entity)
+- ומה לגבי [חלב כבשים](food_entity)
+- וכמה ב[ברוקולי](food_entity)
+- וב[ברוקולי](food_entity)
+- וכמה [ברזל](nutrient) יש
+- וכמה יש ב[בננה](food_entity)
+- ומה לגבי [פוטסיום](nutrient)? כמה יש ?
+- וכמה יש ב[ברוקולי](food_entity)
+- וב[עוף](food_entity)
+- וב[ביצה](food_entity)
+- וב[ברוקולי](food_entity) ?
 
 ## intent:nutrition_howto_improve
 - איך ניתן לשפר [ריכוז](goal_or_state)
@@ -374,17 +413,21 @@
 - כמה [קלוריות](nutrient) יש ב[פסטה](food_entity2)?
 - כמה [ברזל](nutrient) יש ב[עדשים חומות](food_entity)
 - כמה [ברזל](nutrient) יש ב[עדשים כתומים](food_entity)
-
-## intent:nutrition_and_what_about_x
-- ומה לגבי [חלבון](nutrient)
-- ומה לגבי [לחם](food_entity)
-- ומה עם [מגנזיום](nutrient)
-- ומה עם [תפוח](food_entity)
-- וכמה [קלוריות](nutrient)
-- וכמה ב[פיצה](food_entity)
-- וכמה יש ב[אגוזי ברזיל](food_entity)
-- ומה לגבי [גבינה](food_entity)
-- וכמה יש ב[גבינה](food_entity)
+- כמה [קלוריות](nutrient) יש ב[עדשים אדומות](food_entity)
+- כמה [חלבון](nutrient) יש ב[עדשים ירוקות](food_entity)
+- כמה [חלבון](nutrient) יש ב[עדשים אדומות](food_entity)
+- כמה [קלוריות](nutrient) יש ב[תפוחים](food_entity)
+- כמה [ברזל](nutrient) יש ב[אבוקדו](food_entity)
+- כמה [קלוריות](nutrient) יש ב[קפה](food_entity)
+- כמה [שומן](nutrient) יש ב[המבורגר](food_entity)
+- כמה [ברזל](nutrient) יש ב[קייל](food_entity)
+- כמה [ברזל](nutrient) יש ב[כרוב על](food_entity)
+- כמה [מגנזיום](nutrient) יש ב[לחם](food_entity) ?
+- וכמה יש ב[פיצה](food_entity)
+- כמה [קלוריות](nutrient) יש ב[קייל](food_entity)
+- כמה [קלוריות](nutrient) יש ב[חסה](food_entity)
+- וכמה יש ב[קייל](food_entity)
+- כמה [ברזל](nutrient) יש ב[חמין](food_entity)
 
 ## intent:nutrition_is_food_healthy
 - האם [שוקולד](food_entity) זה בריא
@@ -526,6 +569,7 @@
 - האם [עדשים](food_entity) בריאים ?
 - [טופו](food_entity) זה בריא לי?
 - [סלמון](food_entity) זה בריא?
+- האם [עדשים אדומות](food_entity) זה בריא
 
 ## intent:nutrition_is_food_recommended
 - האם כדאי לי לאכול [שוקולד](food_entity)
@@ -549,6 +593,9 @@
 - מה דעתך על בייגל עם [גבינה](food_entity)?
 - האם מותר לי לאכול הרבה [טופו](food_entity)
 - האם כדאי לי לאכול [טופו](food_entity)
+- האם מומלץ לשתות [מיץ תפוזים](food_entity)
+- האם אתה ממליץ לי לאכול [לחם](food_entity) ?
+- האם מומלץ לי לאכול [לחם](food_entity)
 
 ## intent:nutrition_what_is_healthier
 - מה בריא יותר, [שוקולד](food_entity) או [תפוז](food_entity2)
@@ -599,6 +646,8 @@
 - [בקר](food_entity) או [טופו](food_entity2) - מה יותר בריא לי?
 - מה יותר בריא [חלב נאקות](food_entity) או [חלב עזים](food_entity2)
 - מה יותר בריא - [טופו](food_entity) או [בשר בקר](food_entity2)
+- מה יותר טוב [עדשים אדומות](food_entity) או [עדשים ירוקות](food_entity2)
+- מה יותר בריא [קייל](food_entity) או [מנגולד](food_entity2)
 
 ## intent:greet
 - היי
@@ -670,6 +719,7 @@
 - מה המצב ?
 - היי מה קורה?
 - בוקר!
+- היי ראסה
 
 ## intent:when_do_you_work
 - ער
@@ -898,6 +948,9 @@
 - [רות](name)
 - [רותי](name)
 - [182.5](integer)
+- [163](integer) ס״מ
+- אני בת [36](integer)
+- [26](integer)
 
 ## intent:bot_introduction
 - מי אתה
@@ -1354,6 +1407,7 @@
 - האם לאכול [אגוזים](food_entity) זה [ישמין אותי](goal_or_state) ?
 - האם [רימונים](food_entity) זה דבר [משמין](goal_or_state) ?
 - האם אכילת [פחממות](nutrient) גורמת ל[עלייה במשקל](goal_or_state) ?
+- האם [פיצה](food_entity) זה משמין ?
 
 ## intent:nutrition_what_has_little
 - במה יש מעט [סוכר](nutrient)
