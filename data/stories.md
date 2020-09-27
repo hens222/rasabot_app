@@ -93,6 +93,14 @@
 * nutrition_get_rda
   - action_nutrition_get_rda
 
+## nutrition bloodtest_generic_question
+* nutrition_bloodtest_generic_question
+  - action_nutrition_bloodtest_generic
+
+## nutrition bloodtest_value_question
+* nutrition_bloodtest_value_question
+  - action_nutrition_bloodtest_value
+
 ## personlization list
 * personlization_list
   - action_personlization_list
@@ -314,3 +322,18 @@
     - slot{"height":"182.5"}
     - form{"name":null}
     - slot{"requested_slot":null}
+
+## Nutrition and what about X 2
+
+* nutrition_howmanyxiny{"nutrient":"קלוריות"}
+    - action_nutrition_howmanyxiny
+    - slot{"x":"קלוריות"}
+    - slot{"y":"קייל"}
+* nutrition_and_what_about_x{"nutrient":"ברזל"}
+    - action_nutrition_howmanyxiny
+    - slot{"x":"ברזל"}
+    - slot{"y":"קייל"}
+* nutrition_howmanyxiny
+    - action_nutrition_howmanyxiny
+    - slot{"x":"ברזל"}
+    - slot{"y":"ברוקולי"}

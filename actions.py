@@ -44,7 +44,9 @@ def load_db(db_bitmap):
                                               "action_nutrition_is_food_recommended",
                                               "action_nutrition_what_is_healthier_x",
                                               "action_nutrition_what_is_healthier_y",
-                                              "action_nutrition_get_rda"]).fillna(0)
+                                              "action_nutrition_get_rda",
+                                              "action_nutrition_bloodtest_generic",
+                                              "action_nutrition_bloodtest_value"]).fillna(0)
   
     # "Zameret_hebrew_features" - nutrients_questions
     if (db_bitmap & 0x4) > 0:    
@@ -97,6 +99,14 @@ def load_db(db_bitmap):
         food_units_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
                                     header=0).fillna(0)
         db_dict['food_units'] = food_units_df
+
+    # "Newt Machine Readable" - BloodTestValues
+    if (db_bitmap & 0x100) > 0:
+        url = "https://docs.google.com/spreadsheets/d/1IPTflCe6shaP-FBAuXWSFCX5hSuAo7bMGczNMTSTYY0/export?format=csv&gid=1011022304"
+        s = requests.get(url).content
+        bloodtest_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
+                                   header=0, nrows=19, usecols=range(10)).fillna(0)
+        db_dict['bloodtest_vals'] = bloodtest_df
 
     return db_dict
 
@@ -658,6 +668,148 @@ class ActionEatBeforeTrainingQuestion(Action):
                     res = custom_df['Entity'][training_type + ' מעל ' + training_duration][0]
                 else:
                     res = custom_df['Entity'][training_type][0]
+
+            dispatcher.utter_message(text="%s" % res)
+
+        except:
+            dispatcher.utter_message(text="אין לי מושג, מצטער!")
+
+        return []
+
+# ------------------------------------------------------------------
+
+class ActionBloodtestGenericQuestion(Action):
+
+    def name(self) -> Text:
+        return "action_nutrition_bloodtest_generic"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+            
+        db_dict = load_db(0x102)
+        
+        lut_df = db_dict['lut']
+        bloodtest_df = db_dict['bloodtest_vals']
+        
+        for ent in tracker.latest_message.get('entities'):
+            if ent['entity'] in lut_df[self.name()].values:
+                bloodtest_entity = ent['value']
+                break
+
+        try:
+            feature = db_dict['lut']['Entity'][bloodtest_entity]   
+
+            gender_str = "Male"
+            if tracker.get_slot('gender') == "זכר":
+                gender_str = "Male"
+            elif tracker.get_slot('gender') == "נקבה":
+                gender_str = "Female" 
+
+            age = float(tracker.get_slot('age') if tracker.get_slot('age') else "40")
+
+            bloodtest_row = bloodtest_df[(bloodtest_df['Element'] == feature) & \
+                                        ((bloodtest_df['Gender'] == "ANY") | (bloodtest_df['Gender'] == gender_str)) & \
+                                        ((bloodtest_df['Age min'] == "ANY") | (bloodtest_df['Age min'].replace('ANY',-1).astype(float) <= age)) & \
+                                        ((bloodtest_df['Age Max'] == "ANY") | (bloodtest_df['Age Max'].replace('ANY',-1).astype(float) > age))]
+
+            bloodtest_type = bloodtest_row['Graph type'].values[0]
+            bloodtest_min = bloodtest_row['Min'].values[0]
+            bloodtest_thr1 = bloodtest_row['Threshold 1'].values[0]
+            bloodtest_thr2 = bloodtest_row['Threshold 2'].values[0]
+            bloodtest_max = bloodtest_row['Max'].values[0]
+
+            if bloodtest_type == 1:
+                res = 'ערך תקין עבור בדיקת %s בין %.2f ועד %.2f, ערך מעל %.2f נחשב חריג' % (bloodtest_entity, bloodtest_min, bloodtest_thr1, bloodtest_thr2)
+
+            elif bloodtest_type == 2:
+                res = 'ערך תקין עבור בדיקת %s בין %.2f ועד %.2f, ערך מתחת %.2f נחשב חריג' % (bloodtest_entity, bloodtest_thr2, bloodtest_max, bloodtest_thr1)
+
+            elif bloodtest_type == 3:
+                res = 'ערך תקין עבור בדיקת %s בין %.2f ועד %.2f' % (bloodtest_entity, bloodtest_thr1-bloodtest_thr2, bloodtest_thr1+bloodtest_thr2)
+
+            dispatcher.utter_message(text="%s" % res)
+
+        except:
+            dispatcher.utter_message(text="אין לי מושג, מצטער!")
+
+        return []
+
+# ------------------------------------------------------------------
+
+class ActionBloodtestValueQuestion(Action):
+
+    def name(self) -> Text:
+        return "action_nutrition_bloodtest_value"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+            
+        db_dict = load_db(0x102)
+        
+        lut_df = db_dict['lut']
+        bloodtest_df = db_dict['bloodtest_vals']
+        
+        user_msg = tracker.latest_message.get('text')    
+  
+        for ent in tracker.latest_message.get('entities'):
+            if ent['entity'] in [x for x in lut_df[self.name()].values if x != 0]:
+                if ent['entity'] == 'integer':
+                    val = ent['value']
+                else:
+                    bloodtest_entity = ent['value']
+        
+        if not val:
+            regex_res = re.search('האם (.*) הוא .*', user_msg.replace('?',''))
+            if regex_res:
+                val = regex_res.group(1)
+
+        try:
+            if not val:
+                raise Exception() 
+
+            feature = db_dict['lut']['Entity'][bloodtest_entity]   
+
+            gender_str = "Male"
+            if tracker.get_slot('gender') == "זכר":
+                gender_str = "Male"
+            elif tracker.get_slot('gender') == "נקבה":
+                gender_str = "Female" 
+
+            age = float(tracker.get_slot('age') if tracker.get_slot('age') else "40")
+
+            bloodtest_row = bloodtest_df[(bloodtest_df['Element'] == feature) & \
+                                        ((bloodtest_df['Gender'] == "ANY") | (bloodtest_df['Gender'] == gender_str)) & \
+                                        ((bloodtest_df['Age min'] == "ANY") | (bloodtest_df['Age min'].replace('ANY',-1).astype(float) <= age)) & \
+                                        ((bloodtest_df['Age Max'] == "ANY") | (bloodtest_df['Age Max'].replace('ANY',-1).astype(float) > age))]
+
+            bloodtest_type = bloodtest_row['Graph type'].values[0]
+            bloodtest_min = bloodtest_row['Min'].values[0]
+            bloodtest_thr1 = bloodtest_row['Threshold 1'].values[0]
+            bloodtest_thr2 = bloodtest_row['Threshold 2'].values[0]
+            bloodtest_max = bloodtest_row['Max'].values[0]
+
+            if bloodtest_type == 1:
+                if bloodtest_min <= float(val) <= bloodtest_thr1:
+                    res = 'כן, זהו ערך תקין עבור בדיקת %s היות והוא נופל בטווח בין %.2f ועד %.2f. ערך מעל %.2f נחשב לחריג' % (bloodtest_entity, bloodtest_min, bloodtest_thr1, bloodtest_thr2)
+                else:
+                    res = 'לא, זהו אינו ערך תקין עבור בדיקת %s. ערך תקין הינו בטווח בין %.2f ועד %.2f. ערך מעל %.2f נחשב לחריג' % (bloodtest_entity, bloodtest_min, bloodtest_thr1, bloodtest_thr2)
+
+            elif bloodtest_type == 2:
+                if bloodtest_thr2 <= float(val) <= bloodtest_max:
+                    res = 'כן, זהו ערך תקין עבור בדיקת %s היות והוא נופל בטווח בין %.2f ועד %.2f. ערך מתחת %.2f נחשב לחריג' % (bloodtest_entity, bloodtest_thr2, bloodtest_max, bloodtest_thr1)
+                else:
+                    res = 'לא, זהו אינו ערך תקין עבור בדיקת %s. ערך תקין הינו בטווח בין %.2f ועד %.2f. ערך מתחת %.2f נחשב לחריג' % (bloodtest_entity, bloodtest_thr2, bloodtest_max, bloodtest_thr1)
+
+            elif bloodtest_type == 3:
+                if bloodtest_thr1-bloodtest_thr2 <= float(val) <= bloodtest_thr1+bloodtest_thr2:
+                    res = 'כן, זהו ערך תקין עבור בדיקת %s היות והוא נופל בטווח בין %.2f ועד %.2f' % (bloodtest_entity, bloodtest_thr1-bloodtest_thr2, bloodtest_thr1+bloodtest_thr2)
+                else:
+                    res = 'לא, זהו אינו ערך תקין עבור בדיקת %s. ערך תקין הינו בטווח בין %.2f ועד %.2f.' % (bloodtest_entity, bloodtest_thr1-bloodtest_thr2, bloodtest_thr1+bloodtest_thr2)
+
+            else:
+                raise Exception()
 
             dispatcher.utter_message(text="%s" % res)
 

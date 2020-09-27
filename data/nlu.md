@@ -649,6 +649,37 @@
 - מה יותר טוב [עדשים אדומות](food_entity) או [עדשים ירוקות](food_entity2)
 - מה יותר בריא [קייל](food_entity) או [מנגולד](food_entity2)
 
+כולסטרול
+אל די אל
+אייץ׳ די אל
+טריגליצרין
+גלוקוזה
+אייץ׳ בי איי אחד סי
+ויטמין די
+ויטמין בי 12
+פולאט
+פוטסיום
+סודיום
+מגנזיום
+סידן
+פריטין
+ברזל
+כלוריד
+כלור
+אוסמוזה
+
+## intent:nutrition_bloodtest_generic_question
+- מה הוא ערך תקין עבורי בבדיקת [פריטין](bloodtest_entity)
+- מהו הטווח התקין של [כולסטרול](bloodtest_entity) עבורי
+- כמה [מגנזיום](bloodtest_entity) צריך להופיע עבורי בבדיקת דם
+- מה נחשב תקין מבחינת כמות [ברזל](bloodtest_entity) עבורי?
+
+## intent:nutrition_bloodtest_value_question
+- האם [17](integer) הוא ערך תקין עבורי בבדיקת [פריטין](bloodtest_entity)
+- קיבלתי ערך [כלוריד](bloodtest_entity) של [41](integer) בבדיקת הדם, זה תקין
+- האם [95](integer) נחשב תקין בבדיקת [סידן](bloodtest_entity)
+- ערך של [123](integer) בבדיקת [גלוקוזה](bloodtest_entity) הוא תקין
+
 ## intent:greet
 - היי
 - שלום

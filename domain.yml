@@ -22,6 +22,8 @@ intents:
 - nutrition_is_food_healthy
 - nutrition_what_is_healthier
 - nutrition_is_food_recommended
+- nutrition_bloodtest_generic_question
+- nutrition_bloodtest_value_question
 - bot_introduction
 - personlization_list
 - personlization_remove
@@ -54,6 +56,7 @@ entities:
 - simple_entity
 - nutrition_concept
 - nutrient
+- bloodtest_entity
 - integer
 - gender
 - name
@@ -189,6 +192,8 @@ actions:
 - action_nutrition_is_food_healthy
 - action_nutrition_what_is_healthier
 - action_nutrition_is_food_recommended
+- action_nutrition_bloodtest_generic
+- action_nutrition_bloodtest_value
 - action_personlization_list
 - action_personlization_remove
 - utter_greet
