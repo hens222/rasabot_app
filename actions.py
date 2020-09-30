@@ -105,7 +105,7 @@ def load_db(db_bitmap):
         url = "https://docs.google.com/spreadsheets/d/1IPTflCe6shaP-FBAuXWSFCX5hSuAo7bMGczNMTSTYY0/export?format=csv&gid=1011022304"
         s = requests.get(url).content
         bloodtest_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
-                                   header=0, nrows=19, usecols=range(10)).fillna(0)
+                                   header=0, nrows=19, usecols=range(11)).fillna(0)
         db_dict['bloodtest_vals'] = bloodtest_df
 
     return db_dict
