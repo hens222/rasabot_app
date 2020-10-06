@@ -2,6 +2,7 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 intents:
+- Bot_introduction
 - inform
 - nutrition_what_has_little
 - who_made_you
@@ -42,14 +43,14 @@ intents:
 - nutrition_how_to_avoid
 - nutrition_is_healthy
 - What is the source of your data
-- What type of questions?
 - What can you do
-- Who made you?
 - When do you work
 - Got Question
 - nutrition_should_I_avoid
 - will_X_make_me_fat
 - request_profile_info
+- What type of questions
+- Who made you
 entities:
 - food_entity
 - food_entity2
@@ -105,9 +106,9 @@ responses:
   utter_ask_age:
   - text: מה הגיל שלך?
   utter_ask_weight:
-  - text: מה המשקל שלך?
+  - text: מה המשקל שלך, בק״ג?
   utter_ask_height:
-  - text: מה הגובה שלך?
+  - text: מה הגובה שלך, בס״מ?
   utter_identication_next_time:
   - text: אין בעיה, תוכל/י להזדהות שוב בכל שלב
   utter_greet:

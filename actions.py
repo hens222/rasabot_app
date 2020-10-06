@@ -108,6 +108,13 @@ def load_db(db_bitmap):
                                    header=0, nrows=19, usecols=range(11)).fillna(0)
         db_dict['bloodtest_vals'] = bloodtest_df
 
+    # "Zameret_hebrew_features" - Weight aliases
+    if (db_bitmap & 0x200) > 0:
+        url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=623521836"
+        s = requests.get(url).content
+        food_units_aliases_df = pd.read_csv(io.StringIO(s.decode('utf-8')), header=0)
+        db_dict['food_units_aliases'] = food_units_aliases_df
+
     return db_dict
 
 # ------------------------------------------------------------------
@@ -325,12 +332,13 @@ class ActionNutritionHowManyXinY(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        db_dict = load_db(0x93)
+        db_dict = load_db(0x293)
        
         db_df = db_dict['tzameret']
         lut_df = db_dict['lut']
         common_df = db_dict['common_food']
         units_df = db_dict['food_units']
+        units_aliases_df = db_dict['food_units_aliases']
       
         user_msg = tracker.latest_message.get('text')    
       
@@ -367,6 +375,9 @@ class ActionNutritionHowManyXinY(Action):
             food_units = regex_units_res.group(1)
             y = regex_units_res.group(2)
 
+        if food_units in units_aliases_df['Unit Alias'].values:
+            food_units = units_aliases_df[units_aliases_df['Unit Alias'] == food_units]['Zameret unit'].values[0]
+
         # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
         
         try:
@@ -377,19 +388,26 @@ class ActionNutritionHowManyXinY(Action):
             feature = lut_df[lut_df.index == x]["Entity"][0]
             units = lut_df[lut_df.index == x]["Units"][0]
 
-            food_units_factor = units_df[(units_df['smlmitzrach'] == int(food['smlmitzrach'])) &
-                                         (units_df['shmmida'] == food_units)]['mishkal'].values
-            if food_units_factor:
-                food_units_factor = food_units_factor[0]/100
-            else:
-              food_units_factor = 1.0
+            food_units_row = units_df[(units_df['smlmitzrach'] == int(food['smlmitzrach'])) &
+                                      (units_df['shmmida'] == food_units)]
+            
+            is_food_units_match = not food_units_row.empty or food_units == "100 גרם"
+
+            food_units_factor = 1.0
+            if not food_units_row.empty:
+                food_units_factor = food_units_row['mishkal'].values[0]/100
 
             val = food[feature] * food_units_factor
 
             if units == 0:
                 res = "ב-%s של %s יש %.2f %s" % (food_units, food['shmmitzrach'], float(val), x)
             else:
-                res = "ב-%s של %s יש %.2f %s %s" % (food_units, food['shmmitzrach'], float(val), units, x)
+                if is_food_units_match:
+                    res = "ב-%s של %s יש %.2f %s %s" % (food_units, food['shmmitzrach'], float(val), units, x)
+                else:
+                    res = "לא הצלחתי למצוא נתונים במאגר על היחידה %s עליה שאלת\n" % food_units
+                    res += "היחידות הבאות קיימות במאגר, עבור %s:\n" % food['shmmitzrach']
+                    res += ', '.join(units_df[units_df['smlmitzrach'] == int(food['smlmitzrach'])]['shmmida'].to_list())
 
             rda_val, rda_units, rda_status, nutrient = get_rda(name_xy, tracker)
 
