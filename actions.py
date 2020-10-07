@@ -383,14 +383,24 @@ class ActionNutritionHowManyXinY(Action):
         try:
             y_common = y
             if y in common_df.index:
-                y_common = common_df[common_df.index == y]['shmmitzrach'][0]      
+                y_common = common_df[common_df.index == y]['shmmitzrach'][0]
+            elif y.split(' ')[1:][0] in common_df.index:
+                food_units = units_aliases_df[units_aliases_df['Unit Alias'] == y.split(' ')[0]]['Zameret unit']
+                if food_units.empty:
+                    food_units = y.split(' ')[0]
+                else:
+                    food_units = food_units.values[0]
+                y_common = common_df[common_df.index == y.split(' ')[1:][0]]['shmmitzrach'][0]
+
             food = db_df[db_df['shmmitzrach'].str.contains(y_common)].iloc[0,:]    
             feature = lut_df[lut_df.index == x]["Entity"][0]
             units = lut_df[lut_df.index == x]["Units"][0]
 
-            food_units_row = units_df[(units_df['smlmitzrach'] == int(food['smlmitzrach'])) &
-                                      (units_df['shmmida'] == food_units)]
-            
+            food_units_row = pd.Series()
+            if food_units:
+                food_units_row = units_df[(units_df['smlmitzrach'] == int(food['smlmitzrach'])) &
+                                          (units_df['shmmida'] == food_units)]
+
             is_food_units_match = not food_units_row.empty or food_units == "100 גרם"
 
             food_units_factor = 1.0
@@ -399,15 +409,19 @@ class ActionNutritionHowManyXinY(Action):
 
             val = food[feature] * food_units_factor
 
+
             if units == 0:
                 res = "ב-%s של %s יש %.2f %s" % (food_units, food['shmmitzrach'], float(val), x)
             else:
-                if is_food_units_match:
-                    res = "ב-%s של %s יש %.2f %s %s" % (food_units, food['shmmitzrach'], float(val), units, x)
-                else:
+                res = ""        
+                if not is_food_units_match:            
                     res = "לא הצלחתי למצוא נתונים במאגר על היחידה %s עליה שאלת\n" % food_units
                     res += "היחידות הבאות קיימות במאגר, עבור %s:\n" % food['shmmitzrach']
                     res += ', '.join(units_df[units_df['smlmitzrach'] == int(food['smlmitzrach'])]['shmmida'].to_list())
+                    res += "\n"
+                    food_units = "100 גרם"
+                
+                res += "ב-%s של %s יש %.2f %s %s" % (food_units, food['shmmitzrach'], float(val), units, x)
 
             rda_val, rda_units, rda_status, nutrient = get_rda(name_xy, tracker)
 
