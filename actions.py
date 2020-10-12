@@ -386,13 +386,15 @@ class ActionNutritionHowManyXinY(Action):
                 y_common = common_df[common_df.index == y]['shmmitzrach'][0]
             else:
                 y_food = ' '.join(y.split(' ')[1:])
+                food_units = units_aliases_df[units_aliases_df['Unit Alias'] == y.split(' ')[0]]['Zameret unit']
+                if food_units.empty:
+                    food_units = y.split(' ')[0]
+                else:
+                    food_units = food_units.values[0]
                 if y_food in common_df.index:
-                    food_units = units_aliases_df[units_aliases_df['Unit Alias'] == y.split(' ')[0]]['Zameret unit']
-                    if food_units.empty:
-                        food_units = y.split(' ')[0]
-                    else:
-                        food_units = food_units.values[0]
-                    y_common = common_df[common_df.index == y_food]['shmmitzrach'][0]
+                    y_common = common_df[common_df.index == y_food]['shmmitzrach'][0]            
+                else:
+                    y_common = y_food
 
             food = db_df[db_df['shmmitzrach'].str.contains(y_common)].iloc[0,:]    
             feature = lut_df[lut_df.index == x]["Entity"][0]
