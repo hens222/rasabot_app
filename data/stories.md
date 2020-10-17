@@ -65,10 +65,6 @@
 * nutrition_importance
   - action_simple_question
 
-## nutrition howto improve
-* nutrition_howto_improve
-  - action_simple_question
-
 ## nutrition howmanyxiny
 * nutrition_howmanyxiny
   - action_nutrition_howmanyxiny
@@ -337,3 +333,31 @@
     - action_nutrition_howmanyxiny
     - slot{"x":"ברזל"}
     - slot{"y":"ברוקולי"}
+
+## Nutrition how to improve
+
+* nutrition_howto_improve{"goal_or_state":"לרזות"}
+    - action_simple_question
+
+## Nutrition_howto_improve 2 
+
+* nutrition_howto_improve{"goal_or_state":"לעלות מסת שריר"}
+    - action_simple_question
+* nutrition_howto_improve{"goal_or_state":"מערכת חיסונית"}
+    - action_simple_question
+
+## Nutrition_howto_improve 3 
+
+* nutrition_howto_improve{"goal_or_state":"ריכוז"}
+    - action_simple_question
+
+## Nutrition_howto_improve multi goals
+
+* nutrition_howto_improve{"goal_or_state":"רמת האנרגיה"}
+    - action_simple_question
+* nutrition_howto_improve{"goal_or_state":"מידת העייפות"}
+    - action_simple_question
+* nutrition_howto_improve{"goal_or_state":"להוריד כולסטרול"}
+    - action_simple_question
+* nutrition_howto_improve{"goal_or_state":"להעלות כולסטרול טוב"}
+    - action_simple_question

@@ -160,6 +160,7 @@ def get_rda(name, tracker, nutrient=None):
                                      ((micro_nutrients_df['Age Min'] == "ANY")   | (micro_nutrients_df['Age Min'].astype(float) <= int(user_vars['age']))) & \
                                      ((micro_nutrients_df['Age Max'] == "ANY")   | (micro_nutrients_df['Age Max'].astype(float) > int(user_vars['age'])))]
     
+        rda_text = rda_row['Free Text'].values[0]
         rda_value = rda_row['Value'].values[0]
         rda_units = rda_row['Units'].values[0]
 
@@ -172,11 +173,11 @@ def get_rda(name, tracker, nutrient=None):
 
         rda_value = float(rda_value)
 
-        return rda_value, rda_units, status, nutrient
+        return rda_value, rda_text, rda_units, status, nutrient
 
     except:
 
-        return -1, -1, "missmatch", nutrient
+        return -1, -1, "", "missmatch", nutrient
 
 # ------------------------------------------------------------------
 
@@ -306,13 +307,16 @@ class ActionGetRDAQuestion(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        rda_val, rda_units, rda_status, nutrient = get_rda(self.name(), tracker)
+        rda_val, rda_units, rda_text, rda_status, nutrient = get_rda(self.name(), tracker)
 
         if rda_val > 0:
 
             res = "הקצובה היומית המומלצת של %s %s היא\n %.2f %s" % \
                   (nutrient, get_personal_str(rda_status, tracker), rda_val, rda_units)
             
+            if rda_text:
+                res += '\n' + rda_text
+        
         else:
 
             res = "אין לי מושג, מצטער!"
@@ -427,12 +431,15 @@ class ActionNutritionHowManyXinY(Action):
                 
                 res += "ב-%s של %s יש %.2f %s %s" % (food_units, food['shmmitzrach'], float(val), units, x)
 
-            rda_val, rda_units, rda_status, nutrient = get_rda(name_xy, tracker)
+            rda_val, rda_units, rda_text, rda_status, nutrient = get_rda(name_xy, tracker)
 
             if rda_val > 0 and units not in ['יחב"ל']:
                 rda = 100 * float(val) / rda_val
                 res += "\n"
                 res += "שהם כ-%d אחוז מהקצובה היומית המומלצת %s" % (int(rda), get_personal_str(rda_status, tracker))
+            
+            if rda_text:
+                res += '\n' + rda_text
 
             dispatcher.utter_message(text="%s" % res)
         
