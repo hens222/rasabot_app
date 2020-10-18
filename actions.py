@@ -161,7 +161,7 @@ def get_rda(name, tracker, nutrient=None):
                                      ((micro_nutrients_df['Age Max'] == "ANY")   | (micro_nutrients_df['Age Max'].astype(float) > int(user_vars['age'])))]
     
         rda_text = rda_row['Free Text'].values[0]
-        rda_value = rda_row['Value'].values[0]
+        rda_value = str(rda_row['Value'].values[0])
         rda_units = rda_row['Units'].values[0]
 
         if 'slot#' in rda_value:
@@ -173,7 +173,7 @@ def get_rda(name, tracker, nutrient=None):
 
         rda_value = float(rda_value)
 
-        return rda_value, rda_text, rda_units, status, nutrient
+        return rda_value, rda_units, rda_text, status, nutrient
 
     except:
 
@@ -311,15 +311,18 @@ class ActionGetRDAQuestion(Action):
 
         if rda_val > 0:
 
-            res = "הקצובה היומית המומלצת של %s %s היא\n %.2f %s" % \
+            res = "הקצובה היומית המומלצת של %s %s היא\r %.2f %s" % \
                   (nutrient, get_personal_str(rda_status, tracker), rda_val, rda_units)
             
-            res += "\n"
-            res += rda_text
+            res += "\r"
+            res += rda_text if rda_text else ""
         
         else:
 
-            res = "אין לי מושג, מצטער!"
+            if rda_text:
+                res = rda_text
+            else:
+                res = "אין לי מושג, מצטער!"
             
         dispatcher.utter_message(text="%s" % res)
 
@@ -423,10 +426,10 @@ class ActionNutritionHowManyXinY(Action):
             else:
                 res = ""        
                 if not is_food_units_match:            
-                    res = "לא הצלחתי למצוא נתונים במאגר על היחידה %s עליה שאלת\n" % food_units
-                    res += "היחידות הבאות קיימות במאגר, עבור %s:\n" % food['shmmitzrach']
+                    res = "לא הצלחתי למצוא נתונים במאגר על היחידה %s עליה שאלת\r" % food_units
+                    res += "היחידות הבאות קיימות במאגר, עבור %s:\r" % food['shmmitzrach']
                     res += ', '.join(units_df[units_df['smlmitzrach'] == int(food['smlmitzrach'])]['shmmida'].to_list())
-                    res += "\n"
+                    res += "\r"
                     food_units = "100 גרם"
                 
                 res += "ב-%s של %s יש %.2f %s %s" % (food_units, food['shmmitzrach'], float(val), units, x)
@@ -435,11 +438,11 @@ class ActionNutritionHowManyXinY(Action):
 
             if rda_val > 0 and units not in ['יחב"ל']:
                 rda = 100 * float(val) / rda_val
-                res += "\n"
+                res += "\r"
                 res += "שהם כ-%d אחוז מהקצובה היומית המומלצת %s" % (int(rda), get_personal_str(rda_status, tracker))
             
-            res += "\n"
-            res += rda_text
+            res += "\r"
+            res += rda_text if rda_text else ""
 
             dispatcher.utter_message(text="%s" % res)
         
@@ -614,11 +617,11 @@ class ActionWhatIsHealthierQuestion(Action):
                     advantages_cmp.append("היתרונות של %s הם הרבה %s" % (food_entity, ", ".join(advantages)))
         
             if nutrition_density_cmp[0] > nutrition_density_cmp[1]:
-                res = "לפי צפיפות תזונתית %s עדיף על פני %s\n" % (food_entity1, food_entity2)
+                res = "לפי צפיפות תזונתית %s עדיף על פני %s\r" % (food_entity1, food_entity2)
             elif nutrition_density_cmp[0] < nutrition_density_cmp[1]:
-                res = "לפי צפיפות תזונתית %s עדיף על פני %s\n" % (food_entity2, food_entity1)
+                res = "לפי צפיפות תזונתית %s עדיף על פני %s\r" % (food_entity2, food_entity1)
             else:
-                res = "לפי צפיפות תזונתית %s ו-%s שקולים\n" % (food_entity1, food_entity2)
+                res = "לפי צפיפות תזונתית %s ו-%s שקולים\r" % (food_entity1, food_entity2)
        
             if nutrition_density_cmp[0] < nutrition_density_cmp[1]:
                 advantages_cmp.reverse()
@@ -626,11 +629,11 @@ class ActionWhatIsHealthierQuestion(Action):
 
             for advantage in advantages_cmp:
                 if advantage:
-                    res += "%s\n" % advantage
+                    res += "%s\r" % advantage
         
             for disadvantage in disadvantages_cmp:
                 if disadvantage:
-                    res += "%s\n" % disadvantage
+                    res += "%s\r" % disadvantage
             
             dispatcher.utter_message(text="%s" % res)
         
