@@ -314,8 +314,8 @@ class ActionGetRDAQuestion(Action):
             res = "הקצובה היומית המומלצת של %s %s היא\n %.2f %s" % \
                   (nutrient, get_personal_str(rda_status, tracker), rda_val, rda_units)
             
-            if rda_text:
-                res += '\n' + rda_text
+            res += "\n"
+            res += rda_text
         
         else:
 
@@ -438,8 +438,8 @@ class ActionNutritionHowManyXinY(Action):
                 res += "\n"
                 res += "שהם כ-%d אחוז מהקצובה היומית המומלצת %s" % (int(rda), get_personal_str(rda_status, tracker))
             
-            if rda_text:
-                res += '\n' + rda_text
+            res += "\n"
+            res += rda_text
 
             dispatcher.utter_message(text="%s" % res)
         
