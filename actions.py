@@ -90,7 +90,7 @@ def load_db(db_bitmap):
         s = requests.get(url).content
         micro_nutrients_df = pd.read_csv(io.StringIO(s.decode('utf-8')),
                                          header=0).fillna(0)
-        db_dict['micro_nutrients'] = micro_nutrients_df[micro_nutrients_df['Type'] == "RDA"]
+        db_dict['micro_nutrients'] = micro_nutrients_df
  
     # "Newt Machine Readable" - MicroNutrients
     if (db_bitmap & 0x80) > 0:
@@ -119,13 +119,17 @@ def load_db(db_bitmap):
 
 # ------------------------------------------------------------------
 
-def get_rda(name, tracker, nutrient=None):
+def get_rda(name, tracker, intent_upper=False):
 
     db_dict = load_db(0x46) 
     
     lut_df = db_dict['lut']
     custom_df = db_dict['nutrients_qna']
     micro_nutrients_df = db_dict['micro_nutrients']
+    if intent_upper:
+        micro_nutrients_df = micro_nutrients_df[micro_nutrients_df['Type'] == "Upper Limit"]
+    else:
+        micro_nutrients_df = micro_nutrients_df[micro_nutrients_df['Type'] == "RDA"]
     
     status = "match"
     if not (tracker.get_slot('gender') and tracker.get_slot('age') and tracker.get_slot('weight') and tracker.get_slot('height')):
@@ -306,13 +310,17 @@ class ActionGetRDAQuestion(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        user_intent = tracker.latest_message.get('intent').get('name')
+        intent_upper = user_intent == 'nutrition_get_upper_limit'
 
-        rda_val, rda_units, rda_text, rda_status, nutrient = get_rda(self.name(), tracker)
+        rda_val, rda_units, rda_text, rda_status, nutrient = get_rda(self.name(), tracker, intent_upper)
 
         if rda_val > 0:
 
-            res = "הקצובה היומית המומלצת של %s %s היא\r %.2f %s" % \
-                  (nutrient, get_personal_str(rda_status, tracker), rda_val, rda_units)
+            intent_upper_str = "המקסימלית" if intent_upper else "המומלצת"
+            res = "הקצובה היומית %s של %s %s היא\r %.2f %s" % \
+                  (intent_upper_str, nutrient, get_personal_str(rda_status, tracker), rda_val, rda_units)
             
             res += "\r"
             res += rda_text if rda_text else ""
@@ -348,6 +356,8 @@ class ActionNutritionHowManyXinY(Action):
         units_aliases_df = db_dict['food_units_aliases']
       
         user_msg = tracker.latest_message.get('text')    
+        user_intent = tracker.latest_message.get('intent').get('name')
+        intent_upper = user_intent == 'nutrition_get_upper_limit'
       
         # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
         # Fetch X and Y (from slots, from entities or from regex):
@@ -434,12 +444,13 @@ class ActionNutritionHowManyXinY(Action):
                 
                 res += "ב-%s של %s יש %.2f %s %s" % (food_units, food['shmmitzrach'], float(val), units, x)
 
-            rda_val, rda_units, rda_text, rda_status, nutrient = get_rda(name_xy, tracker)
+            rda_val, rda_units, rda_text, rda_status, nutrient = get_rda(name_xy, tracker, intent_upper)
 
             if rda_val > 0 and units not in ['יחב"ל']:
                 rda = 100 * float(val) / rda_val
+                intent_upper_str = "המקסימלית" if intent_upper else "המומלצת"
                 res += "\r"
-                res += "שהם כ-%d אחוז מהקצובה היומית המומלצת %s" % (int(rda), get_personal_str(rda_status, tracker))
+                res += "שהם כ-%d אחוז מהקצובה היומית %s %s" % (int(rda), intent_upper_str, get_personal_str(rda_status, tracker))
             
             res += "\r"
             res += rda_text if rda_text else ""

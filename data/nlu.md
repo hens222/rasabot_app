@@ -236,6 +236,16 @@
 - כמה [קלוריות](nutrient) אישה צריכה לאכול
 - כמה [מים](food_entity) כדאי לי לשתות ביום
 - כמה כוסות [קפה](food_entity) אתה ממליץ לי לשתות
+- כמה [פירות](food_entity) כדאי לי לאכול
+- מהי הקצובה היומית המומלצת של [ירקות](food_entity) עבורי
+- מהי הקצובה היומית המומלצת של [ויטמין בי](nutrient) עבורי
+- כמה [ירקות](food_entity) כדאי לי לאכול
+- כמה [ירקות](food_entity) כדאי לי לאכול ביום
+- כמה [ירקות](food_entity) כדאי לי לאכול
+- כמה [פירות](food_entity) אני צריך לצרוך ביום
+- כמה [ויטמין סי](nutrient) אני אמור לצרוך ביום
+- מהי הקצובה היומית המומלצת של [ויטמין איי](nutrient) עבורי
+- כמה [מים](food_entity) כדאי לי לשתות ביום
 
 ## intent:nutrition_and_what_about_x
 - וכמה [ברזל](nutrient)
@@ -504,6 +514,9 @@
 - כמה [ברזל](nutrient) יש ב[אריזת טונה](food_entity)
 - האם אתה יודע כמה [ברזל](nutrient) יש ב[המבורגר](food_entity)
 - כמה [קלוריות](nutrient) יש ב[שניצל](food_entity)
+- כמה [סידן](nutrient) יש ביוגורט
+- כמה [ברזל](nutrient) יש בהמבורגר
+- כמה [חלבון](nutrient) יש ב[טונה](food_entity)
 
 ## intent:nutrition_is_food_healthy
 - האם [שוקולד](food_entity) זה בריא
@@ -617,6 +630,9 @@
 - האם צריכת [קפה](food_entity) זה בריא
 - מה יש ב[תפוח](food_entity)
 - מה יש ב[פיצה](food_entity)
+- האם [גויאבה](food_entity) זה בריא
+- אחי יש מצב שאתה אומר לי אם [לחם](food_entity) זה בריא
+- תגיד, ניוט - אתה יודע אם [לחם](food_entity) זה בריא
 
 ## intent:nutrition_is_food_recommended
 - האם כדאי לי לאכול [שוקולד](food_entity)
@@ -697,6 +713,8 @@
 - מה יותר בריא [קייל](food_entity) או [מנגולד](food_entity2)
 - מה עדיף [בשר בקר](food_entity) או [טופו](food_entity)
 - מה עדיף לאכול, [פיצה](food_entity) או [ספגטי](food_entity2)
+- מה יותר בריא [חמאת בוטנים](food_entity) או [חמאת שקדים](food_entity2)
+- מה יותר בריא [גויאבה](food_entity) או [לחם](food_entity2)
 
 ## intent:nutrition_bloodtest_generic_question
 - מה הוא ערך תקין עבורי בבדיקת [פריטין](bloodtest_entity)
@@ -820,6 +838,7 @@
 - בוקר!
 - היי ראסה
 - בוקר טוב חיים שלי מה נשמע כפרה
+- אהלן אחי, מה נשמע
 
 ## intent:when_do_you_work
 - ער
@@ -1063,6 +1082,12 @@
 - [31](integer)
 - [רון](name)
 - [נבי](name)
+- [דורון](name)
+- [172](integer)
+- [25](integer)
+- [0542077710](integer)
+- [81](integer)
+- [0505344063](integer)
 
 ## intent:bot_introduction
 - מי אתה
@@ -1438,6 +1463,8 @@
 - האם [מגנזיום](nutrient) זה בריא
 - האם אתה ממליץ לי להיות [קיטוגני](nutrition_concept)
 - האם לצרוך [תוספי תזונה](nutrient) זה בריא
+- האם [נתרן](nutrient) זה בריא
+- האם [מגנזיום](nutrient) זה בריא
 
 ## intent:What type of questions
 - איזה שאלות, למשל
@@ -1576,6 +1603,26 @@
 
 ## intent:Bot_introduction
 - הי איך קוראים לך
+
+## intent:nutrition_get_upper_limit
+- כמה [ביצים](food_entity) מותר לי לאכול ביום
+- כמה [משקאות ממותקים](food_entity) מותר לי לשתות ביום
+- כמה [קפה](food_entity) מותר לי לשתות ביום
+- כמה [מסטיקים ללא סוכר](food_entity) אני יכול לאכול ביום
+- כמה [סוכר](nutrient) מותר לי לאכול ביום
+- כמה הכי הרבה [מגנזיום](nutrient) מותר לי ביום
+- כמה הכי הרבה [ויטמין די](nutrient) מותר לי ביום
+- כמה [ויטמין סי](nutrient) מותר לי לאכול ביום
+- כמה [חלבון](nutrient) מותר לי לאכול ביום
+- כמה [חטיפים מלוחים](food_entity) מותר לי לאכול
+- כמה [חטיפים מתוקים](food_entity) מותר לי לאכול ביום
+- כמה [כוסות חלב](food_entity)[חלב](food_entity) מותר לי לשתות ביום
+- כמה [ביצים](food_entity) מותר לי ביום
+- מה כמות ה[מלח](nutrient) המותרת ביום בודד
+- ביום אחד - מה כמות ה[מלח](nutrient) שמותר לי
+- ביום אחד - כמה [ממתקים](food_entity) מותר לי
+- כמה [מסטיקים](food_entity) מותר לי ביום אחד
+- כמה [קפה](food_entity) מותר לי ביום
 
 ## synonym:אומגה 3
 - אומגה שלוש

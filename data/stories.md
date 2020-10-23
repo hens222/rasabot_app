@@ -89,6 +89,10 @@
 * nutrition_get_rda
   - action_nutrition_get_rda
 
+## nutrition get_upper_limit
+* nutrition_get_upper_limit
+  - action_nutrition_get_rda
+
 ## nutrition bloodtest_generic_question
 * nutrition_bloodtest_generic_question
   - action_nutrition_bloodtest_generic
