@@ -101,6 +101,10 @@
 * nutrition_bloodtest_value_question
   - action_nutrition_bloodtest_value
 
+## nutrition food_substitute_question
+* nutrition_food_substitute_question
+  - action_nutrition_food_substitute
+
 ## personlization list
 * personlization_list
   - action_personlization_list
@@ -218,7 +222,7 @@
   - action_nutrition_is_food_healthy
 
 ## How much x in y, and then is y healty
-* nutrition_howmanyxiny{"simple_entity":"פוטסיום"}
+* nutrition_howmanyxiny{"nutrient":"פוטסיום"}
   - action_nutrition_howmanyxiny
 * nutrition_is_food_healthy{"food_entity":"עגבניה"}
   - action_nutrition_is_food_healthy
@@ -364,4 +368,31 @@
 * nutrition_howto_improve{"goal_or_state":"להוריד כולסטרול"}
     - action_simple_question
 * nutrition_howto_improve{"goal_or_state":"להעלות כולסטרול טוב"}
+    - action_simple_question
+
+## Get upper limit question 
+
+* nutrition_get_upper_limit{"food_entity":"ביצים"}
+    - action_nutrition_get_rda
+
+## Get RDA plus upper limit
+
+* nutrition_get_rda{"food_entity":"ביצים"}
+    - action_nutrition_get_rda
+* nutrition_get_upper_limit{"food_entity":"ביצים"}
+    - action_nutrition_get_rda
+
+## Nutrition bloodtest meanining 1
+
+* nutrition_bloodtest_meaning{"nutrient":"טריגליצרידים"}
+    - action_simple_question
+
+## Nutrition bloodtest meaning 2
+
+* nutrition_bloodtest_meaning{"nutrient":"LDL"}
+    - action_simple_question
+
+## Nutrition bloodtest what if too low 1
+
+* nutrition_bloodtest_whatif_toolow{"nutrient":"ברזל"}
     - action_simple_question

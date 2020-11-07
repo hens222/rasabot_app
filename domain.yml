@@ -2,67 +2,70 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 intents:
-  - nutrition_get_upper_limit
-  - Bot_introduction
-  - inform
-  - nutrition_what_has_little
-  - who_made_you
-  - greet
-  - goodbye
-  - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
-  - nutrition_definition
-  - nutrition_what_has
-  - nutrition_importance
-  - nutrition_get_rda
-  - nutrition_howto_improve
-  - nutrition_howmanyxiny
-  - nutrition_and_what_about_x
-  - nutrition_is_food_healthy
-  - nutrition_what_is_healthier
-  - nutrition_is_food_recommended
-  - nutrition_bloodtest_generic_question
-  - nutrition_bloodtest_value_question
-  - bot_introduction
-  - personlization_list
-  - personlization_remove
-  - got_question
-  - suprised
-  - jokes
-  - what_is_the_source_of_your_data
-  - thank_you
-  - what_type_of_questions
-  - can_you_share_nutrition_tips
-  - I_want_to_eat_or_be_healthy
-  - when_do_you_work
-  - nutrition_what_to_eat_before
-  - nutrition_what_to_eat_after
-  - nutrition_what_impacts
-  - nutrition_how_to_avoid
-  - nutrition_is_healthy
-  - What is the source of your data
-  - What can you do
-  - When do you work
-  - Got Question
-  - nutrition_should_I_avoid
-  - will_X_make_me_fat
-  - request_profile_info
-  - What type of questions
-  - Who made you
+- nutrition_bloodtest_meaning
+- nutrition_bloodtest_whatif_toohigh
+- nutrition_get_upper_limit
+- Bot_introduction
+- inform
+- nutrition_what_has_little
+- who_made_you
+- greet
+- goodbye
+- affirm
+- deny
+- mood_great
+- mood_unhappy
+- bot_challenge
+- nutrition_definition
+- nutrition_what_has
+- nutrition_importance
+- nutrition_get_rda
+- nutrition_howto_improve
+- nutrition_howmanyxiny
+- nutrition_and_what_about_x
+- nutrition_is_food_healthy
+- nutrition_what_is_healthier
+- nutrition_is_food_recommended
+- nutrition_bloodtest_generic_question
+- nutrition_bloodtest_value_question
+- nutrition_food_substitute_question
+- bot_introduction
+- personlization_list
+- personlization_remove
+- got_question
+- suprised
+- jokes
+- what_is_the_source_of_your_data
+- thank_you
+- what_type_of_questions
+- can_you_share_nutrition_tips
+- I_want_to_eat_or_be_healthy
+- when_do_you_work
+- nutrition_what_to_eat_before
+- nutrition_what_to_eat_after
+- nutrition_what_impacts
+- nutrition_how_to_avoid
+- nutrition_is_healthy
+- What is the source of your data
+- What can you do
+- When do you work
+- Got Question
+- nutrition_should_I_avoid
+- will_X_make_me_fat
+- nutrition_bloodtest_whatif_toolow
+- request_profile_info
+- What type of questions
+- Who made you
 entities:
-  - food_entity
-  - food_entity2
-  - simple_entity
-  - nutrition_concept
-  - nutrient
-  - bloodtest_entity
-  - integer
-  - gender
-  - name
-  - goal_or_state
+- food_entity
+- food_entity2
+- nutrition_concept
+- nutrient
+- integer
+- gender
+- name
+- goal_or_state
+- training_type
 slots:
   age:
     type: unfeaturized
@@ -87,156 +90,147 @@ slots:
   x:
     type: unfeaturized
     auto_fill: false
-  'y':
+  y:
     type: unfeaturized
     auto_fill: false
 responses:
   utter_wrong_gender:
-    - text: 'לא הבנתי את הבחירה, נס/י שוב בבקשה'
+  - text: לא הבנתי את הבחירה, נס/י שוב בבקשה
   utter_ask_gender:
-    - buttons:
-        - payload: '/inform{"gender": "זכר"}'
-          title: זכר
-        - payload: '/inform{"gender": "נקבה"}'
-          title: נקבה
-      text: האם את/ה זכר או נקבה?
+  - buttons:
+    - payload: '/inform{"gender": "זכר"}'
+      title: זכר
+    - payload: '/inform{"gender": "נקבה"}'
+      title: נקבה
+    text: האם את/ה זכר או נקבה?
   utter_ask_phone:
-    - text: מה מספר הטלפון הנייד שלך?
+  - text: מה מספר הטלפון הנייד שלך?
   utter_ask_username:
-    - text: באיזה שם או כינוי לפנות אילך?
+  - text: באיזה שם או כינוי לפנות אילך?
   utter_ask_age:
-    - text: מה הגיל שלך?
+  - text: מה הגיל שלך?
   utter_ask_weight:
-    - text: 'מה המשקל שלך, בק״ג?'
+  - text: מה המשקל שלך, בק״ג?
   utter_ask_height:
-    - text: 'מה הגובה שלך, בס״מ?'
+  - text: מה הגובה שלך, בס״מ?
   utter_identication_next_time:
-    - text: 'אין בעיה, תוכל/י להזדהות שוב בכל שלב'
+  - text: אין בעיה, תוכל/י להזדהות שוב בכל שלב
   utter_greet:
-    - buttons:
-        - payload: /affirm
-          title: 'כן, בשמחה'
-        - payload: /deny
-          title: 'לא, בפעם אחרת'
-      text: 'שלום, האם תרצה/י להזדהות?'
+  - buttons:
+    - payload: /affirm
+      title: כן, בשמחה
+    - payload: /deny
+      title: לא, בפעם אחרת
+    text: שלום, האם תרצה/י להזדהות?
   utter_cheer_up:
-    - image: 'https://i.imgur.com/nGF1K8f.jpg'
-      text: 'הנה משהו שיעודד אותך:'
-    - image: 'https://img.mako.co.il/2019/11/04/shutterstock_1065141497_i.jpg'
-      text: אתה יכול לעשות הכל !
-    - text: איך נחש מחייג בטלפון? הוא מקיש מספרים
-    - image: >-
-        https://i.pinimg.com/originals/dc/20/3c/dc203c3fb683fef0b3ebccfd8d38c40c.jpg
-      text: Joey does not share food !
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: 'הנה משהו שיעודד אותך:'
+  - image: https://img.mako.co.il/2019/11/04/shutterstock_1065141497_i.jpg
+    text: אתה יכול לעשות הכל !
+  - text: איך נחש מחייג בטלפון? הוא מקיש מספרים
+  - image: https://i.pinimg.com/originals/dc/20/3c/dc203c3fb683fef0b3ebccfd8d38c40c.jpg
+    text: Joey does not share food !
   utter_did_that_help:
-    - text: האם זה עזר?
+  - text: האם זה עזר?
   utter_happy:
-    - text: מצוין!
-    - text: יופי !
+  - text: מצוין!
+  - text: יופי !
   utter_goodbye:
-    - text: ביי
+  - text: ביי
   utter_iamabot:
-    - text: 'אני בוט, יש לך בעיה עם זה?'
+  - text: אני בוט, יש לך בעיה עם זה?
   utter_my_name_is_newt:
-    - text: קוראים לי ניוט
+  - text: קוראים לי ניוט
   utter_got_question:
-    - text: בטח. אני פה בשביל לענות על השאלות שלך
-    - text: ודאי. אשמח לעזור. אשמח לענות על כל שאלה בנושא תזונה.
-    - text: יאללה. Shoot.
+  - text: בטח. אני פה בשביל לענות על השאלות שלך
+  - text: ודאי. אשמח לעזור. אשמח לענות על כל שאלה בנושא תזונה.
+  - text: יאללה. Shoot.
   utter_what_can_you_do:
-    - text: אני יכול לעזור בשאלות בנושא תזונה
-    - text: אני מבין בנושאי תזונה. תרגיש חופשי לשאול אותי שאלות.
+  - text: אני יכול לעזור בשאלות בנושא תזונה
+  - text: אני מבין בנושאי תזונה. תרגיש חופשי לשאול אותי שאלות.
   utter_source_of_your_data:
-    - text: >-
-        אני קורא במאגרי הנתונים של משרדי הבריאות בעולם. בנוסף אני מסתכל על
-        המלצות של גופי מחקר ואוניברסיטאות. והדבר הכי חשוב - תזונאים וחוקרי
-        התנהגות מאוד חכמים מלמדים אותי משהו חדש כמעט כל יום !
-    - text: כל ההמלצות שלי מבוססות על המחקר וההמלצות הכי עדכניים בתחום התזונה
+  - text: אני קורא במאגרי הנתונים של משרדי הבריאות בעולם. בנוסף אני מסתכל על המלצות
+      של גופי מחקר ואוניברסיטאות. והדבר הכי חשוב - תזונאים וחוקרי התנהגות מאוד חכמים
+      מלמדים אותי משהו חדש כמעט כל יום !
+  - text: כל ההמלצות שלי מבוססות על המחקר וההמלצות הכי עדכניים בתחום התזונה
   utter_whats_your_question:
-    - text: מה תרצה לשאול?
+  - text: מה תרצה לשאול?
   utter_what_types_of_question_can_you_answer:
-    - text: >-
-        אני אני מבין בנושאי תזונה. אפשר לשאול אותי לדוגמה כמה סידן יש במאכל
-        מסויים, או מה היא תזונה צמחונית. 
-
-        אני גם מבין במערכות יחסים בין בוטים אם יש לך שאלות בנושא. בואו תנסו אותי
-        ונראה!
+  - text: "אני אני מבין בנושאי תזונה. אפשר לשאול אותי לדוגמה כמה סידן יש במאכל מסויים,\
+      \ או מה היא תזונה צמחונית. \nאני גם מבין במערכות יחסים בין בוטים אם יש לך שאלות\
+      \ בנושא. בואו תנסו אותי ונראה!"
   utter_nutrition_tips:
-    - text: כדאי לשתות הרבה מים!
+  - text: כדאי לשתות הרבה מים!
   utter_I_wanna_be_healthier:
-    - text: >-
-        תזונה מאוזנת משחקת תפקיד מאוד חשוב בריאות שלנו. מעבר לכך, תזונה נכונה
-        יכולה לסייע לך להרגיש טוב יותר ביומיום, כולל רמות אנרגיה גבוהות יותר
-        ויכולת טובה יותר להתרכז
+  - text: תזונה מאוזנת משחקת תפקיד מאוד חשוב בריאות שלנו. מעבר לכך, תזונה נכונה יכולה
+      לסייע לך להרגיש טוב יותר ביומיום, כולל רמות אנרגיה גבוהות יותר ויכולת טובה יותר
+      להתרכז
   utter_youre_welcome:
-    - text: אין בעד מה! נהנה לדבר איתך.
-    - text: בכיף !
+  - text: אין בעד מה! נהנה לדבר איתך.
+  - text: בכיף !
   utter_Im_always_here:
-    - text: >-
-        אני תמיד פה. בוטים לא ישנים ולצערי סגרו את כל מסיבות היער של הבוטים בגלל
-        הקורונה.
+  - text: אני תמיד פה. בוטים לא ישנים ולצערי סגרו את כל מסיבות היער של הבוטים בגלל
+      הקורונה.
   utter_who_made_you:
-    - text: >-
-        יצרו אותי חברת ניוט. יש שם מומחי תזונה וספורט, אנשים שמבינים בהתנהגות
-        וכמובן אנשים שיודעים לתכנת בוט מקסים שכמוני
+  - text: יצרו אותי חברת ניוט. יש שם מומחי תזונה וספורט, אנשים שמבינים בהתנהגות וכמובן
+      אנשים שיודעים לתכנת בוט מקסים שכמוני
   utter_how_long_running:
-    - text: כמה דקות האימון?
+  - text: כמה דקות האימון?
   utter_suprised:
-    - text: 'כן, בכיף'
-    - text: כן. נפלאות התזונה.
+  - text: כן, בכיף
+  - text: כן. נפלאות התזונה.
   utter_jokes:
-    - text: למה פיל וזברה נכנסו למנהרה ויצאו שלושה? כי למה זו גם חיה!
-    - text: איך נחש מתקשר בטלפון? הוא מקיש מספרים!
+  - text: למה פיל וזברה נכנסו למנהרה ויצאו שלושה? כי למה זו גם חיה!
+  - text: איך נחש מתקשר בטלפון? הוא מקיש מספרים!
   utter_will_it_make_me_fat:
-    - text: >-
-        השמנה היא תוצאה של צריכת קלוריות יומית עודפת ביחס להוצאה הקלורית היומית
-        לאורך זמן ממושך, ואינה נגרמת ממזון או רכיב תזונה ספציפי. הכמות שנצרוך
-        מאותו מזון והצפיפות הקלורית שלו (= כמות הקלוריות פר משקל מסויים של
-        המזון) הם הגורמים המשפיעים על תרומתו הקלורית היחסית לסך הכל היומי.
+  - text: השמנה היא תוצאה של צריכת קלוריות יומית עודפת ביחס להוצאה הקלורית היומית
+      לאורך זמן ממושך, ואינה נגרמת ממזון או רכיב תזונה ספציפי. הכמות שנצרוך מאותו
+      מזון והצפיפות הקלורית שלו (= כמות הקלוריות פר משקל מסויים של המזון) הם הגורמים
+      המשפיעים על תרומתו הקלורית היחסית לסך הכל היומי.
   utter_slot_getter_username_deny_details:
-    - text: >-
-        הכל טוב {username}. התשובות שלי אומנם יותר מדוייקות כשאני יודע עלייך
-        יותר, אבל אני עדיין אשתדל להיות נחמד בלי קשר.
+  - text: הכל טוב {username}. התשובות שלי אומנם יותר מדוייקות כשאני יודע עלייך יותר,
+      אבל אני עדיין אשתדל להיות נחמד בלי קשר.
 actions:
-  - action_simple_question
-  - action_nutrition_get_rda
-  - action_nutrition_howmanyxiny
-  - action_nutrition_is_food_healthy
-  - action_nutrition_what_is_healthier
-  - action_nutrition_is_food_recommended
-  - action_nutrition_bloodtest_generic
-  - action_nutrition_bloodtest_value
-  - action_personlization_list
-  - action_personlization_remove
-  - utter_greet
-  - utter_cheer_up
-  - utter_did_that_help
-  - utter_happy
-  - utter_goodbye
-  - utter_iamabot
-  - utter_my_name_is_newt
-  - utter_got_question
-  - utter_what_can_you_do
-  - utter_source_of_your_data
-  - utter_whats_your_question
-  - utter_what_types_of_question_can_you_answer
-  - utter_nutrition_tips
-  - utter_I_wanna_be_healthier
-  - utter_youre_welcome
-  - utter_Im_always_here
-  - utter_who_made_you
-  - utter_how_long_running
-  - utter_identication_next_time
-  - utter_suprised
-  - utter_jokes
-  - utter_will_it_make_me_fat
-  - utter_wrong_gender
-  - utter_ask_gender
-  - utter_ask_phone
-  - utter_ask_username
-  - utter_ask_age
-  - utter_ask_weight
-  - utter_ask_height
-  - utter_slot_getter_username_deny_details
+- action_simple_question
+- action_nutrition_get_rda
+- action_nutrition_howmanyxiny
+- action_nutrition_is_food_healthy
+- action_nutrition_what_is_healthier
+- action_nutrition_is_food_recommended
+- action_nutrition_bloodtest_generic
+- action_nutrition_bloodtest_value
+- action_nutrition_food_substitute
+- action_personlization_list
+- action_personlization_remove
+- utter_greet
+- utter_cheer_up
+- utter_did_that_help
+- utter_happy
+- utter_goodbye
+- utter_iamabot
+- utter_my_name_is_newt
+- utter_got_question
+- utter_what_can_you_do
+- utter_source_of_your_data
+- utter_whats_your_question
+- utter_what_types_of_question_can_you_answer
+- utter_nutrition_tips
+- utter_I_wanna_be_healthier
+- utter_youre_welcome
+- utter_Im_always_here
+- utter_who_made_you
+- utter_how_long_running
+- utter_identication_next_time
+- utter_suprised
+- utter_jokes
+- utter_will_it_make_me_fat
+- utter_wrong_gender
+- utter_ask_gender
+- utter_ask_phone
+- utter_ask_username
+- utter_ask_age
+- utter_ask_weight
+- utter_ask_height
+- utter_slot_getter_username_deny_details
 forms:
-  - profile_form
+- profile_form

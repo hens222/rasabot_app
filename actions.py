@@ -9,7 +9,9 @@
 
 import re
 import io
+import ast
 import requests
+import numpy as np
 import pandas as pd
 from os import path
 from typing import Any, Text, Dict, List, Union
@@ -46,7 +48,8 @@ def load_db(db_bitmap):
                                               "action_nutrition_what_is_healthier_y",
                                               "action_nutrition_get_rda",
                                               "action_nutrition_bloodtest_generic",
-                                              "action_nutrition_bloodtest_value"]).fillna(0)
+                                              "action_nutrition_bloodtest_value",
+                                              "action_nutrition_food_substitute"]).fillna(0)
   
     # "Zameret_hebrew_features" - nutrients_questions
     if (db_bitmap & 0x4) > 0:    
@@ -114,6 +117,14 @@ def load_db(db_bitmap):
         s = requests.get(url).content
         food_units_aliases_df = pd.read_csv(io.StringIO(s.decode('utf-8')), header=0)
         db_dict['food_units_aliases'] = food_units_aliases_df
+
+    # "Zameret_hebrew_features" - For Noa
+    if (db_bitmap & 0x400) > 0:
+      url = "https://docs.google.com/spreadsheets/d/19rYDpki0jgGeNlKLPnINiDGye8QEfQ4IEEWSkLFo83Y/export?format=csv&gid=82221888"
+      s = requests.get(url).content
+      food_units_features_df = pd.read_csv(io.StringIO(s.decode('utf-8')), header=1)
+      db_dict['food_units_features'] = food_units_features_df.dropna(axis=0, how='all')
+      db_dict['food_units_features'] = db_dict['food_units_features'].rename({'Primary_SN': 'smlmitzrach'}, axis=1)
 
     return db_dict
 
@@ -875,6 +886,112 @@ class ActionBloodtestValueQuestion(Action):
 
         return []
 
+# ------------------------------------------------------------------
+
+class ActionFoodSubstituteQuestion(Action):
+
+    def name(self) -> Text:
+        return "action_nutrition_food_substitute"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+            
+        db_dict = load_db(0x433)
+       
+        db_df = db_dict['tzameret']
+        lut_df = db_dict['lut']
+        features_df = db_dict['food_units_features']
+        common_df = db_dict['common_food']
+        food_ranges_df = db_dict['food_ranges']
+       
+        for ent in tracker.latest_message.get('entities'):
+            if ent['entity'] in lut_df[self.name()].values:
+                food_entity = ent['value']
+                break
+
+        tzameret_groups_lut = {}
+        tzameret_groups_lut['1'] = ['1', '4']            # Milk
+        tzameret_groups_lut['2'] = ['1', '2', '3', '4']  # Meat
+        tzameret_groups_lut['3'] = ['1', '2', '3', '4']  # Eggs
+        tzameret_groups_lut['4'] = ['1', '4']            # Dairy
+        tzameret_groups_lut['5'] = ['5', '6', '7', '9']  # Snacks
+        tzameret_groups_lut['6'] = ['5', '6', '7', '9']  # Fruits
+        tzameret_groups_lut['7'] = ['5', '6', '7', '9']  # Vegetables
+        tzameret_groups_lut['8'] = ['8', '4']            # Fat
+        tzameret_groups_lut['9'] = ['5', '6', '7', '9']  # Beverages
+        
+        food_energy_thr = 0.05
+        
+        def get_advantages(food):
+          advantages = []
+          for idx, row in food_ranges_df.iterrows():
+              if row["tzameret_name"] and row["tzameret_name"] in food:
+                  if row["good_or_bad"] == "good":
+                      value = float(food[row["tzameret_name"]])
+                      if idx == "Protein":
+                          threshold = 250
+                      else:
+                          threshold = float(row["Medium - threshold per 100gr"])
+                      if value > threshold:
+                          advantages.append(row["hebrew_name"])
+          return advantages
+        
+        def get_advantages_score(food):
+          act = food['advantages']  
+          ref = ast.literal_eval(food['advantages_ref'])
+          intersection = []
+          if isinstance(act, list) and isinstance(ref, list):
+            intersection = list(set(act) & set(ref))
+          return len(intersection)
+        
+        try:
+        
+            food = food_entity
+            if food in common_df.index:
+                food = common_df[common_df.index == food]['shmmitzrach'][0]      
+            
+            food_tzameret = db_df[db_df['shmmitzrach'].str.contains(food)].iloc[0,:] 
+            tzameret_code = int(food_tzameret['smlmitzrach'])
+            tzameret_code_msb = food_tzameret['smlmitzrach'][0]
+            food_energy = food_tzameret['food_energy']
+            food_features = features_df[features_df['smlmitzrach'].fillna(0).astype(int) == tzameret_code]
+        
+            food_filter_1 = db_df[db_df['smlmitzrach'].str[0].isin(tzameret_groups_lut[tzameret_code_msb])]
+            food_filter_2 = db_df[abs(db_df['food_energy'] - food_energy)/food_energy < food_energy_thr]
+            food_filter_1_2 = pd.merge(food_filter_1, food_filter_2, how='inner')
+            food_filter_1_2['smlmitzrach'] = food_filter_1_2['smlmitzrach'].astype(float)    
+            food_filter = features_df[features_df['smlmitzrach'].isin(food_filter_1_2['smlmitzrach'].to_list())]
+            food_filter = food_filter.reset_index(drop=True)
+        
+            food_features_compact = food_features.iloc[:,5:-4]
+            food_filter_compact = food_filter.iloc[:,5:-4].reset_index(drop=True)
+            
+            food_features_compact_shaped = pd.DataFrame(np.repeat(food_features_compact.values, len(food_filter_compact), axis=0))
+            food_features_compact_shaped.reset_index(drop=True)
+            food_features_compact_shaped.columns = food_features_compact.columns
+        
+            food_advantages = get_advantages(food_tzameret)
+            food_filter['advantages'] = food_filter_1_2.apply(get_advantages, axis=1)
+            food_filter['advantages_ref'] = str(food_advantages)
+            food_filter['advantages_score'] = food_filter.apply(get_advantages_score, axis=1)
+            
+            food_features_score_df = (food_filter_compact == food_features_compact_shaped).astype(int)
+            food_filter['features_score'] = food_features_score_df.sum(axis=1)
+        
+            food_filter = food_filter.sort_values(['features_score', 'advantages_score'], ascending=False)
+        
+            res = "להלן 5 התחליפים הקרובים ביותר עבור %s" % food_entity
+            res += "\n"
+            res += '\n'.join(list(food_filter['Food_Name'].values[:5]))
+            
+            dispatcher.utter_message(text="%s" % res)
+        
+        except:
+            dispatcher.utter_message(text="אין לי מושג, מצטער!")
+        
+        return []
+        
 # ------------------------------------------------------------------
 
 class ActionPersonalizationList(Action):
