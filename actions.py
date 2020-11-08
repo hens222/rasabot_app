@@ -962,6 +962,7 @@ class ActionFoodSubstituteQuestion(Action):
             food_filter_1_2 = pd.merge(food_filter_1, food_filter_2, how='inner')
             food_filter_1_2['smlmitzrach'] = food_filter_1_2['smlmitzrach'].astype(float)    
             food_filter = features_df[features_df['smlmitzrach'].isin(food_filter_1_2['smlmitzrach'].to_list())]
+            food_filter = food_filter[~food_filter['Food_Name'].str.contains(food_entity)]
             food_filter = food_filter.reset_index(drop=True)
         
             food_features_compact = food_features.iloc[:,5:-4]
