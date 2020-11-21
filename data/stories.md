@@ -121,7 +121,7 @@
   - form{"name": "profile_form"}
   - form{"name": null}
 
-## Introductio
+## Introduction
 * bot_introduction
   - utter_my_name_is_newt
 
@@ -137,17 +137,17 @@
 
 ## what_type_of_questions
 * what_type_of_questions
-  - utter_what_types_of_question_can_you_answer
+	- utter_what_can_you_do
 
 ## Question + what type path
 * got_question
   - utter_got_question
 * what_type_of_questions
-  - utter_what_types_of_question_can_you_answer
+  - utter_what_can_you_do
 
 ## What type of story + ack path
 * what_type_of_questions
-  - utter_what_types_of_question_can_you_answer
+  - utter_what_can_you_do
 * mood_great
   - utter_whats_your_question
 

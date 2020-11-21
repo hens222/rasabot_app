@@ -120,11 +120,19 @@ def load_db(db_bitmap):
 
     # "Zameret_hebrew_features" - For Noa
     if (db_bitmap & 0x400) > 0:
-      url = "https://docs.google.com/spreadsheets/d/19rYDpki0jgGeNlKLPnINiDGye8QEfQ4IEEWSkLFo83Y/export?format=csv&gid=82221888"
-      s = requests.get(url).content
-      food_units_features_df = pd.read_csv(io.StringIO(s.decode('utf-8')), header=1)
-      db_dict['food_units_features'] = food_units_features_df.dropna(axis=0, how='all')
-      db_dict['food_units_features'] = db_dict['food_units_features'].rename({'Primary_SN': 'smlmitzrach'}, axis=1)
+        url = "https://docs.google.com/spreadsheets/d/19rYDpki0jgGeNlKLPnINiDGye8QEfQ4IEEWSkLFo83Y/export?format=csv&gid=82221888"
+        s = requests.get(url).content
+        food_units_features_df = pd.read_csv(io.StringIO(s.decode('utf-8')), header=1)
+        db_dict['food_units_features'] = food_units_features_df.dropna(axis=0, how='all')
+        db_dict['food_units_features'] = db_dict['food_units_features'].rename({'Primary_SN': 'smlmitzrach'}, axis=1)
+
+    # "Zameret_hebrew_features" - subs_tags_alias
+    if (db_bitmap & 0x800) > 0:
+        url = "https://docs.google.com/spreadsheets/d/1VvXmu5l58XwcDDtqz0bkHIl_dC92x3eeVdZo2uni794/export?format=csv&gid=458428667"
+        s = requests.get(url).content
+        db_dict['subs_tags_alias'] = pd.read_csv(io.StringIO(s.decode('utf-8')),
+                                                 header=0,
+                                                 usecols=["Entity Alias", "Entity", "Show_stopers"]).set_index('Entity Alias')
 
     return db_dict
 
@@ -897,18 +905,23 @@ class ActionFoodSubstituteQuestion(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
             
-        db_dict = load_db(0x433)
+        db_dict = load_db(0xc33)
        
         db_df = db_dict['tzameret']
         lut_df = db_dict['lut']
         features_df = db_dict['food_units_features']
         common_df = db_dict['common_food']
         food_ranges_df = db_dict['food_ranges']
+        subs_tags_alias_df = db_dict['subs_tags_alias']
+        
+        user_msg = tracker.latest_message.get('text')    
        
         for ent in tracker.latest_message.get('entities'):
             if ent['entity'] in lut_df[self.name()].values:
-                food_entity = ent['value']
-                break
+                if ent['entity'] == "nutrition_concept":
+                    user_msg_feature_k = ent['value']
+                else:
+                    food_entity = ent['value']
 
         tzameret_groups_lut = {}
         tzameret_groups_lut['1'] = ['1', '4']            # Milk
@@ -956,6 +969,11 @@ class ActionFoodSubstituteQuestion(Action):
             tzameret_code_msb = food_tzameret['smlmitzrach'][0]
             food_energy = food_tzameret['food_energy']
             food_features = features_df[features_df['smlmitzrach'].fillna(0).astype(int) == tzameret_code]
+            if not user_msg_feature_k:
+                user_msg_feature_k = list(set(subs_tags_alias_df.index.to_list()) & set(user_msg.replace(',', '').split(" ")))[0]
+            user_msg_feature_v = None
+            if user_msg_feature_k:
+                user_msg_feature_v = subs_tags_alias_df[subs_tags_alias_df.index == user_msg_feature_k]['Entity'].values[0]
         
             food_filter_1 = db_df[db_df['smlmitzrach'].str[0].isin(tzameret_groups_lut[tzameret_code_msb])]
             food_filter_2 = db_df[abs(db_df['food_energy'] - food_energy)/food_energy < food_energy_thr]
@@ -963,6 +981,8 @@ class ActionFoodSubstituteQuestion(Action):
             food_filter_1_2['smlmitzrach'] = food_filter_1_2['smlmitzrach'].astype(float)    
             food_filter = features_df[features_df['smlmitzrach'].isin(food_filter_1_2['smlmitzrach'].to_list())]
             food_filter = food_filter[~food_filter['Food_Name'].str.contains(food_entity)]
+            if user_msg_feature_v:
+                food_filter = food_filter[food_filter[user_msg_feature_v] == 'Yes']
             food_filter = food_filter.reset_index(drop=True)
         
             food_features_compact = food_features.iloc[:,5:-4]
