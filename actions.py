@@ -984,22 +984,25 @@ class ActionFoodSubstituteQuestion(Action):
             if user_msg_feature_v:
                 food_filter = food_filter[food_filter[user_msg_feature_v] == 'Yes']
             food_filter = food_filter.reset_index(drop=True)
-        
-            food_features_compact = food_features.iloc[:,5:-4]
-            food_filter_compact = food_filter.iloc[:,5:-4].reset_index(drop=True)
+       
+            if food_features.empty:
+                food_filter['features_score'] = 0
+            else:
+                food_features_compact = food_features.iloc[:,5:-4]
+                food_filter_compact = food_filter.iloc[:,5:-4].reset_index(drop=True)
+                
+                food_features_compact_shaped = pd.DataFrame(np.repeat(food_features_compact.values, len(food_filter_compact), axis=0))
+                food_features_compact_shaped.reset_index(drop=True)
+                food_features_compact_shaped.columns = food_features_compact.columns
             
-            food_features_compact_shaped = pd.DataFrame(np.repeat(food_features_compact.values, len(food_filter_compact), axis=0))
-            food_features_compact_shaped.reset_index(drop=True)
-            food_features_compact_shaped.columns = food_features_compact.columns
+                food_features_score_df = (food_filter_compact == food_features_compact_shaped).astype(int)
+                food_filter['features_score'] = food_features_score_df.sum(axis=1)
         
             food_advantages = get_advantages(food_tzameret)
             food_filter['advantages'] = food_filter_1_2.apply(get_advantages, axis=1)
             food_filter['advantages_ref'] = str(food_advantages)
             food_filter['advantages_score'] = food_filter.apply(get_advantages_score, axis=1)
             
-            food_features_score_df = (food_filter_compact == food_features_compact_shaped).astype(int)
-            food_filter['features_score'] = food_features_score_df.sum(axis=1)
-        
             food_filter = food_filter.sort_values(['features_score', 'advantages_score'], ascending=False)
         
             res = "להלן 5 התחליפים הקרובים ביותר עבור %s" % food_entity
