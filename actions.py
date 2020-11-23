@@ -968,13 +968,12 @@ class ActionFoodSubstituteQuestion(Action):
             food_energy = food_tzameret['food_energy']
             food_features = features_df[features_df['smlmitzrach'].fillna(0).astype(int) == tzameret_code]
             
-            user_msg_feature_v = None
+            user_msg_feature_v = []
             user_msg_feature_k = list(set(subs_tags_alias_df.index.to_list()) & set(user_msg.replace(',', '').split(" ")))
-            if user_msg_feature_k:
-                user_msg_feature_k = user_msg_feature_k[0]   
-                user_msg_feature_v = subs_tags_alias_df[subs_tags_alias_df.index == user_msg_feature_k]['Entity']
-                if user_msg_feature_v.any:
-                    user_msg_feature_v = user_msg_feature_v.values[0]
+            for tag in user_msg_feature_k:
+                tag_df = subs_tags_alias_df[subs_tags_alias_df.index == tag]['Entity']
+                    if tag_df.any:
+                        user_msg_feature_v.append(tag_df.values[0])
 
             food_filter_1 = db_df[db_df['smlmitzrach'].str[0].isin(tzameret_groups_lut[tzameret_code_msb])]
             food_filter_2 = db_df[abs(db_df['food_energy'] - food_energy)/food_energy < food_energy_thr]
@@ -982,10 +981,10 @@ class ActionFoodSubstituteQuestion(Action):
             food_filter_1_2['smlmitzrach'] = food_filter_1_2['smlmitzrach'].astype(float)    
             food_filter = features_df[features_df['smlmitzrach'].isin(food_filter_1_2['smlmitzrach'].to_list())]
             food_filter = food_filter[~food_filter['Food_Name'].str.contains(food_entity)]
-            if user_msg_feature_v:
-                food_filter = food_filter[food_filter[user_msg_feature_v] == 'Yes']
+            for tag in user_msg_feature_v:
+                food_filter = food_filter[food_filter[tag] == 'Yes']
             food_filter = food_filter.reset_index(drop=True)
-       
+
             if food_features.empty:
                 food_filter['features_score'] = 0
             else:
