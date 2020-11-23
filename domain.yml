@@ -71,29 +71,38 @@ slots:
   age:
     type: unfeaturized
     auto_fill: false
+    influence_conversation: false
   gender:
     type: unfeaturized
     auto_fill: false
+    influence_conversation: false
   height:
     type: unfeaturized
     auto_fill: false
+    influence_conversation: false
   phone:
     type: unfeaturized
     auto_fill: false
+    influence_conversation: false
   requested_slot:
     type: unfeaturized
+    influence_conversation: false
   username:
     type: unfeaturized
     auto_fill: false
+    influence_conversation: false
   weight:
     type: unfeaturized
     auto_fill: false
+    influence_conversation: false
   x:
     type: unfeaturized
     auto_fill: false
+    influence_conversation: false
   y:
     type: unfeaturized
     auto_fill: false
+    influence_conversation: false
 responses:
   utter_wrong_gender:
   - text: לא הבנתי את הבחירה, נס/י שוב בבקשה
@@ -242,4 +251,4 @@ actions:
 - utter_ask_height
 - utter_slot_getter_username_deny_details
 forms:
-- profile_form
+  profile_form: {}

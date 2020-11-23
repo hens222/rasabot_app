@@ -122,6 +122,7 @@
 - במה יש [b12](nutrient)
 - במה למשל יש הרבה [ברזל](nutrient)
 - באיזה מאכלים יש [חלבון](nutrient)
+- מה אני יכול לאכול במקום [ביצה](food_entity) ל[ארוחת בוקר](nutrition_concept) שהוא גם [פליאו](nutrition_concept)
 
 ## intent:nutrition_importance
 - למה חשוב [חלבון](nutrient)
@@ -263,11 +264,6 @@
 - כמה [אומגה 6](nutrient) כדאי לי לצרוך
 - כמה [אומגה 3](nutrient) כדאי לי לצרוך
 - כמה [מים](food_entity) אני אמור לשתות
-- מהי הקצובה היומית המומלצת של [ירקות](food_entity) עבורי
-- מהי הקצובה היומית המומלצת של [ויטמין בי](nutrient) עבורי
-- כמה [ירקות](food_entity) כדאי לי לאכול ביום
-- מהי הקצובה היומית המומלצת של [ויטמין איי](nutrient) עבורי
-- כמה [ביצים](food_entity) מומלץ לי לאכול
 - כמה [שומן רווי](nutrient) כדאי לי לאכול
 - כמה [סיבים](nutrient) כדאי לי לאכול
 - כמה [סיבים תזונתיים](nutrient) כדאי לי לאכול
@@ -316,7 +312,6 @@
 - וכמה [אומגה 3](nutrient)
 - וב[אשכולית](food_entity)
 - וב[לחם](food_entity)
-- וב[ביצה](food_entity)
 - כמה יש ב[בירה](food_entity)
 - וב[בירה](food_entity)
 - כמה יש ב[ביצה](food_entity)
@@ -420,7 +415,6 @@
 - מה לאכול בשביל [להעלות מסת שריר]{"entity": "goal_or_state", "value": "\u05e2\u05dc\u05d9\u05d9\u05d4 \u05d1\u05de\u05e1\u05ea \u05e9\u05e8\u05d9\u05e8"}
 - כיצד אפשר להמנע מבעיות של [מערכת החיסון]{"entity": "goal_or_state", "value": "\u05de\u05e2\u05e8\u05db\u05ea \u05d7\u05d9\u05e1\u05d5\u05e0\u05d9\u05ea"}[מערכת החיסון](goal_or_state)
 - מה לאכול בכדי לשפר את תפקוד [המערכת החיסונית]{"entity": "goal_or_state", "value": "\u05de\u05e2\u05e8\u05db\u05ea \u05d7\u05d9\u05e1\u05d5\u05e0\u05d9\u05ea"} שלנו
-- כיצד אני יכול לשפר את ה[אומגה 3](nutrient) בגוף
 - איך אפשר [להגדיל מסת שריר](goal_or_state)
 - מה לאכול כדי [להגדיל מסת שריר](goal_or_state)
 
@@ -563,6 +557,10 @@
 - כמה [ויטמין c](nutrient) יש בתפוז
 - כמה [קלוריות](nutrient) יש ב[ביצה](food_entity)
 - כמה [קלוריות](nutrient) יש ב[יין](food_entity)
+- כמה [ויטמין סי](nutrient) יש ב[סלט חצילים קלויים](food_entity)
+- כמה [ויטמין סי](nutrient) יש ב[גמבה](food_entity)
+- כמה [ויטמין סי](nutrient) יש ב[תות שדה](food_entity)
+- כמה [קלוריות](nutrient) יש ב[סלט](food_entity)
 
 ## intent:nutrition_is_food_healthy
 - האם [שוקולד](food_entity) זה בריא
@@ -679,6 +677,8 @@
 - האם [גויאבה](food_entity) זה בריא
 - אחי יש מצב שאתה אומר לי אם [לחם](food_entity) זה בריא
 - תגיד, ניוט - אתה יודע אם [לחם](food_entity) זה בריא
+- האם [סלט](food_entity) זה בריא
+- האם [סלט ירקות](food_entity) זה בריא
 
 ## intent:nutrition_is_food_recommended
 - האם כדאי לי לאכול [שוקולד](food_entity)
@@ -837,7 +837,6 @@
 - מה אפשר לאכול במקום [פיצה](food_entity)
 - מה אפשר לאכול במקום [בשר](food_entity)
 - מה אפשר לשתות במקום [חלב](food_entity)
-- מה אפשר לאכול במקום [בשר בקר](food_entity)
 - מה תחליף טוב ל[בשר](food_entity)
 - מה חלופה טובה ל[לחם](food_entity)
 - מה תחליף ראוי ל[לחם](food_entity)
@@ -861,9 +860,85 @@
 - מה אפשר לאכול במקום [ביצה](food_entity)
 - מה אפשר לאכול במקום [קוטג׳](food_entity)
 - מה אפשר לאכול במקום [אורז](food_entity)
-- מה אפשר לאכול במקום [שניצל](food_entity)
 - תן לי טיפ - מה אפשר לאכול במקום [אורז](food_entity)
 - תן לי איזה רעיון - מה אני יכול לאכול במקום [לחם](food_entity)
+- מה אפשר לאכול במקום [פנקייק](food_entity) אם אני [טבעוני](nutrition_concept)
+- מה אפשר לאכול שהוא [קיטוגני](nutrition_concept) במקום [תפוח אדמה](food_entity)
+- מה אפשר לאכול שהוא [כשר](nutrition_concept) במקום [בשר בקר](food_entity) אם אני [צמחוני](nutrition_concept)
+- מה אפשר לאכול במקום [גבינה צהובה](food_entity) אם אני [פליאו](nutrition_concept)
+- מה אפשר לאכול במקום [גבינה צהובה](food_entity)
+- מה אפשר לאכול ל[ארוחת בוקר](nutrition_concept) [ללא גלוטן](nutrition_concept) במקום [פנקייק](food_entity)
+- אילו דברים [ללא לקטוז](nutrition_concept) אפשר לאכול במקום [גבינה](food_entity)
+- אני [צמחוני](nutrition_concept) ו[רגיש ללקטוז](nutrition_concept). יש לך רעיונות לתחליפים במקום [בשר](food_entity)
+- אני [צמחוני](nutrition_concept) וגם [רגיש לגלוטן](nutrition_concept). מה תמליץ לי לאכול במקום [לחם](food_entity)
+- אילו דברים [טבעוניים](nutrition_concept) אפשר לאכול ל[ארוחת ערב](nutrition_concept) במקום [ביצה](food_entity)
+- מה אפשר לאכול במקום [גבינה](food_entity) ל[ארוחת בוקר](nutrition_concept) אם אני [טבעוני](nutrition_concept)
+- מה [פליאו](nutrition_concept) שאפשר לאכול ל[ארוחת בוקר](nutrition_concept) במקום [ביצה](food_entity)
+- אני [צמחוני](nutrition_concept), מה אפשר לאכול במקום [בשר בקר](food_entity)
+- אם לא בא לי לאכול [דג](food_entity), מה אפשר
+- מה אפשר לאכול במקום [בשר בקר](food_entity)
+- אילו תחליפים ראויים ל[לחם](food_entity) שהם [ללא גלוטן](nutrition_concept), [כשרים](nutrition_concept) ו[טבעוניים](nutrition_concept)
+- אני אוכל [כשר](nutrition_concept) ו[טבעוני](nutrition_concept). מה תמליץ לי ל[ארוחת בוקר](nutrition_concept) במקום [ביצה](food_entity)
+- אילו דברים [טבעוניים](nutrition_concept) אפשר לאכול במקום [סלמון](food_entity)
+- מה אפשר לאכול שהוא גם [חלל](nutrition_concept) וגם [טבעוני](nutrition_concept) במקום [ביצה](food_entity)
+- מה אפשר לאכול שהוא [חלל](nutrition_concept) וגם [צמחוני](nutrition_concept) במקום [ביצה](food_entity)
+- מה אפשר לאכול [ללא גלוטן](nutrition_concept) בתור [חטיף](nutrition_concept) במקום [פנקייק](food_entity)
+- איזה [חטיף](nutrition_concept) אפשר לאכול במקום [פנקייק](food_entity) אם אני [רגיש לגלוטן](nutrition_concept)
+- אני אוכל [כשר](nutrition_concept) ו[קטוגני](nutrition_concept). מה תמליץ לי לאכול במקום [אבטיח](food_entity)
+- מה אפשר לאכול במקום [בוטנים](food_entity) אם אני אוכל [קטוגני](nutrition_concept)
+- אני אוכל [פליאו](nutrition_concept). מה אפשר לאכול במקום [בוטנים](food_entity)
+- מה אפשר לאכול במקום [שקדים](food_entity)
+- מה אפשר לשתות במקום [חלב](food_entity) אם אני [טבעוני](nutrition_concept)
+- אילו תחליפים טובים ל[חלב](food_entity) יש אם אני [טבעוני](nutrition_concept)
+- מה אפשר לאכול במקום [פנקייק](food_entity) שהוא [קטוגני](nutrition_concept)
+- מה אפשר לאכול במקום [פנקייק](food_entity) שהוא [טבעוני](nutrition_concept) וגם [כשר](nutrition_concept)
+- יש לי [צליאק](nutrition_concept). מה אפשר לאכול במקום [לחם](food_entity)
+- מה אפשר לאכול [ללא לקטוז](nutrition_concept) במקום [חלב](food_entity)
+- מה אפשר לאכול אם אני [רגיש ללקטוז](nutrition_concept) במקום [חלב](food_entity)
+- מה אפשר לאכול [ללא לקטוז](nutrition_concept) במקום [פנקייק](food_entity)
+- מה אפשר לאכול במקום [בשר בקר](food_entity) שהוא [צמחוני](nutrition_concept) ו[כשר](nutrition_concept)
+- מה אפשר לאכול במקום [בשר בקר](food_entity) שהוא [צמחוני](nutrition_concept)
+- מה אפשר לאכול במקום [בשר בקר](food_entity) שהוא [קטוגני](nutrition_concept)
+- מה אפשר לאכול במקום [סלמון](food_entity) שהוא [כשר](nutrition_concept) ו[קטוגני](nutrition_concept)
+- מה אפשר לאכול במקום [חסה](food_entity) שהוא [כשר](nutrition_concept), [צמחוני](nutrition_concept) ו[קטוגני](nutrition_concept)
+- מה אפשר לאכול במקום [חסה](food_entity) שהוא [ללא גלוטן](nutrition_concept)
+- מה אפשר לאכול במקום [חסה](food_entity) שהוא [צמחוני](nutrition_concept)\
+- מה אפשר לאכול במקום [גבינה צפתית](food_entity)
+- מה אפשר לאכול אם אני לא אוהב [דג](food_entity)
+- מה אפשר לאכול במקום [תות](food_entity) שהוא [כשר](nutrition_concept)
+- מה אפשר לאכול במקום [תות שדה](food_entity) אם אני [טבעוני](nutrition_concept)
+- מה אפשר לאכול במקום [תות שדה](food_entity) אם אני אוכל [כשר](nutrition_concept)
+- מה אפשר לאכול במקום [תות שדה ](food_entity)שהוא [כשר](nutrition_concept)
+- מה אפשר לאכול במקום [תות שדה](food_entity) שהוא [כשר](nutrition_concept) ו[טבעוני](nutrition_concept)
+- מה אפשר לאכול במקום [תות שדה](food_entity) אם אני אוכל [קטוגני](nutrition_concept)
+- מה אפשר לאכול במקום [תות שדה](food_entity)
+- מה אפשר לאכול במקום [גמבה](food_entity)
+- איזו חלופה טובה יש ל[טונה](food_entity) אם אני אוכל [קטו](nutrition_concept)
+- מה אפשר לאכול במקום [טונה](food_entity) שהוא גם [קיטוגני](nutrition_concept)
+- מה אפשר לאכול במקום [טונה](food_entity) אם אני [טבעוני](nutrition_concept)
+- מה אפשר לאכול במקום [פיצה](food_entity) [ללא גלוטן](nutrition_concept)
+- מה אפשר לאכול במקום [פיצה](food_entity) אם יש לי [צליאק](nutrition_concept)
+- מה אפשר לאכול במקום [פיצה](food_entity) אם אני [טבעוני](nutrition_concept)
+- מה אפשר לאכול [פליאו](nutrition_concept) במקום [פיתה](food_entity) אם אני גם אוכל [כשר](nutrition_concept)
+- מה אפשר לאכול [קטוגני](nutrition_concept) במקום [פיתה](food_entity)
+- מה אפשר לאכול [פליאו](nutrition_concept) במקום [פיתה](food_entity)
+- מה אפשר לאכול [צמחוני](nutrition_concept) במקום [פיתה](food_entity)
+- מה אפשר לאכול במקום [פיתה](food_entity) אם אני אוכל [טבעוני](nutrition_concept)
+- מה אפשר לאכול במקום [פיתה](food_entity) אם אני אוכל [כשר](nutrition_concept) וגם [חלל](nutrition_concept)
+- מה אפשר לאכול במקום [פיתה](food_entity) אם אני אוכל [חלל](nutrition_concept)
+- מה אפשר לאכול במקום [פיתה](food_entity) אם אני אוכל [כשר](nutrition_concept)
+- מה אפשר לאכול במקום [פיתה](food_entity)
+- מה אתה ממליץ לי לאכול לפני תחרות אם אני לא אוהב [פסטה](food_entity)
+- אחי, מה אני יכול לאכול במקום [טונה](food_entity) אחרי חדר כושר. אני ממש רעב
+- מה כדאי לי לאכול אחרי אימון אם אין לי [טונה](food_entity)
+- מה אפשר לאכול במקום [סלט](food_entity)
+- מה אפשר לאכול במקום [סלט](food_entity) ל[ארוחת ערב](nutrition_concept)
+- מה אפשר לאכול במקום [שניצל](food_entity) ל[ארוחת בוקר](nutrition_concept)
+- מה אפשר לאכול במקום [אורז](food_entity) ל[ארוחת צהריים](nutrition_concept)
+- אני [צמחוני](nutrition_concept). מה אתה חושב שכדאי לי לאכול במקום [המבורגר](food_entity)
+- אני [טבעוני](nutrition_concept). תמליץ לי מה לאכול במקום [המבורגר](food_entity)
+- מה אפשר לאכול לארוחת ערב במקום [סלט](food_entity) אם אני [טבעוני](nutrition_concept)
+- מה אפשר לאכול לארוחת ערב אם לא בא לי [סלט](food_entity)
 
 ## intent:greet
 - היי
@@ -1348,10 +1423,11 @@
 - תסביר לי מה בעצם אתה יודע לעשות
 - אילו דברים שימושיים אתה יודע להגיד לי
 - הי ניוט, מה אתה יודע לעשות
-- מה אתה יודע
 - אתה מבין בבדיקות דם
 - מה הכישורים שלך
 - תגיד, מה אתה מסוגל לעשות
+- מה את יודעת לעשות
+- מה אפשר לשאול אותך
 
 ## intent:What is the source of your data
 - איך אתה יודע את זה
@@ -1503,8 +1579,8 @@
 - מה כדאי לי לאכול כדי להתאושש מ[רכיבת אופניים ארוכה](training_type)
 - מה תמליץ לאכול אחרי [אימון כח](training_type)
 - נתרכז באוכל אחרי [אימון](training_type)
-- אילו מאכלים כדאי לאכול לאחר [אימון טניס](training_type)
 - מה מומלץ לאכול אחרי [ריצה](simple_entity)
+- אילו מאכלים כדאי לאכול לאחר [אימון טניס](training_type)
 
 ## intent:nutrition_how_to_avoid
 - כיצד אפשר להמנע מ[להשמין](goal_or_state)
@@ -1630,6 +1706,7 @@
 - אני [צמחונית](nutrition_concept). זה בריא לי
 - האם להיות [טבעוני](nutrition_concept) יכול להיות בריא
 - האם להיות [צמחוני](nutrition_concept) יכול להיות בריא
+- אני [צמחונית](nutrition_concept). זה בריא לי
 
 ## intent:What type of questions
 - איזה שאלות, למשל
@@ -1710,7 +1787,6 @@
 - אפשר לוותר על [ארוחת בוקר](nutrition_concept)
 - האם אתה ממליץ לי להמנע מ[נתרן](nutrient)
 - האם זה בסדר לדלג על [ארוחה](nutrition_concept)
-- האם אתה ממליץ לי להמנע מ[נתרן](nutrient)
 - האם כדאי לי להגביל את כמות ה[מתוקים](food_entity)
 
 ## intent:will_X_make_me_fat
@@ -1815,18 +1891,12 @@
 - כמה [מתוקים](food_entity) אתה מרשה לי ביום
 - כמה [חטיפים מלוחים](food_entity) מותר לי ביום
 - כמה הכי הרבה [מים](food_entity) זה בסדר לשתות
-- האם יש מגבלה לכמות ה[קפה](food_entity) שמותר לי לצרוך ביום
-- כמה כוסות [חלב](food_entity) מותר לי לשתות ביום
-- ביום אחד - כמה [ממתקים](food_entity) מותר לי
-- כמה [מיץ](food_entity) אפשר לשתות
-- כמה [מלח](nutrient) מותר לי לאכול
-- כמה הכי הרבה [ביצים](food_entity) אני יכול לאכול ביום
-- כמה [ויטמין סי](nutrient) מותר לי לצרוך
 - כמה [שומן רווי](nutrient) מותר לי לאכול
 - כמה [סטיביה](food_entity) מותר לאכול ביום
 - כמה [קולה](food_entity) אתה מרשה לי לשתות
 - כמה [פנטה](food_entity) אפשר לשתות ביום
 - כמה [סוכרלוז](nutrient) מותר לי לצרוך
+- ביום אחד - כמה [ממתקים](food_entity) מותר לי
 
 ## intent:nutrition_bloodtest_meaning
 - מה המשמעות של בדיקת [כולסטרול](nutrient) בדם
@@ -1858,7 +1928,6 @@
 - מה הקטע עם בדיקת [סידן](nutrient)
 - מה המשמעות של בדיקת [ברזל](nutrient)
 - מה תפקידה של בדיקת [כלור](nutrient)
-- מה המשמעות של בדיקת [כולסטרול](nutrient) בדם
 - מה בודקת בדיקת [פריטין](nutrient)
 
 ## intent:nutrition_bloodtest_whatif_toohigh

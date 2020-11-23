@@ -916,15 +916,10 @@ class ActionFoodSubstituteQuestion(Action):
         
         user_msg = tracker.latest_message.get('text')    
 
-        user_msg_feature_k = None
-        user_msg_feature_v = None
-        
         for ent in tracker.latest_message.get('entities'):
             if ent['entity'] in lut_df[self.name()].values:
-                if ent['entity'] == "nutrition_concept":
-                    user_msg_feature_k = ent['value']
-                else:
-                    food_entity = ent['value']
+                food_entity = ent['value']
+                break
 
         tzameret_groups_lut = {}
         tzameret_groups_lut['1'] = ['1', '4']            # Milk
@@ -972,15 +967,15 @@ class ActionFoodSubstituteQuestion(Action):
             tzameret_code_msb = food_tzameret['smlmitzrach'][0]
             food_energy = food_tzameret['food_energy']
             food_features = features_df[features_df['smlmitzrach'].fillna(0).astype(int) == tzameret_code]
+            
+            user_msg_feature_v = None
+            user_msg_feature_k = list(set(subs_tags_alias_df.index.to_list()) & set(user_msg.replace(',', '').split(" ")))
             if user_msg_feature_k:
+                user_msg_feature_k = user_msg_feature_k[0]   
                 user_msg_feature_v = subs_tags_alias_df[subs_tags_alias_df.index == user_msg_feature_k]['Entity']
                 if user_msg_feature_v.any:
                     user_msg_feature_v = user_msg_feature_v.values[0]
-            else:
-                user_msg_feature_k = list(set(subs_tags_alias_df.index.to_list()) & set(user_msg.replace(',', '').split(" ")))
-                if user_msg_feature_k:
-                    user_msg_feature_k = user_msg_feature_k[0]
-        
+
             food_filter_1 = db_df[db_df['smlmitzrach'].str[0].isin(tzameret_groups_lut[tzameret_code_msb])]
             food_filter_2 = db_df[abs(db_df['food_energy'] - food_energy)/food_energy < food_energy_thr]
             food_filter_1_2 = pd.merge(food_filter_1, food_filter_2, how='inner')
