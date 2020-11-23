@@ -972,8 +972,8 @@ class ActionFoodSubstituteQuestion(Action):
             user_msg_feature_k = list(set(subs_tags_alias_df.index.to_list()) & set(user_msg.replace(',', '').split(" ")))
             for tag in user_msg_feature_k:
                 tag_df = subs_tags_alias_df[subs_tags_alias_df.index == tag]['Entity']
-                    if tag_df.any:
-                        user_msg_feature_v.append(tag_df.values[0])
+                if tag_df.any:
+                    user_msg_feature_v.append(tag_df.values[0])
 
             food_filter_1 = db_df[db_df['smlmitzrach'].str[0].isin(tzameret_groups_lut[tzameret_code_msb])]
             food_filter_2 = db_df[abs(db_df['food_energy'] - food_energy)/food_energy < food_energy_thr]
