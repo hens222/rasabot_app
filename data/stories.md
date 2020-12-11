@@ -396,3 +396,15 @@
 
 * nutrition_bloodtest_whatif_toolow{"nutrient":"ברזל"}
     - action_simple_question
+
+## Food subs - beef 
+
+* nutrition_food_substitute_question{"food_entity":"בקר"}
+    - action_nutrition_food_substitute
+
+## What to eat after 2 step
+
+* nutrition_what_to_eat_after{"training_type":"אימון"}
+    - action_simple_question
+* nutrition_what_to_eat_after{"training_type":"אימון כדורסל"}
+    - action_simple_question

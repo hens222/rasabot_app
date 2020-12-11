@@ -56,6 +56,8 @@ intents:
 - request_profile_info
 - What type of questions
 - Who made you
+- Ex_which_training_is_good_for
+- Ex_which_muscles_work
 entities:
 - food_entity
 - food_entity2
@@ -176,8 +178,7 @@ responses:
   - text: אין בעד מה! נהנה לדבר איתך.
   - text: בכיף !
   utter_Im_always_here:
-  - text: אני תמיד פה. בוטים לא ישנים ולצערי סגרו את כל מסיבות היער של הבוטים בגלל
-      הקורונה.
+  - text: אני תמיד פה. בוטים לא ישנים ולצערי סגרו את כל המסיבות של הבוטים בגלל הקורונה.
   utter_who_made_you:
   - text: יצרו אותי חברת ניוט. יש שם מומחי תזונה וספורט, אנשים שמבינים בהתנהגות וכמובן
       אנשים שיודעים לתכנת בוט מקסים שכמוני

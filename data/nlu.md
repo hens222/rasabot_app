@@ -52,7 +52,12 @@
 - מה זה [ויטמין סי](nutrient)
 - מה זה [אימון אירובי](training_type)
 - מה זה [קטו](nutrition_concept)
-- מה זה [קטו](nutrition_concept)
+- מה זה [דיאטת פליאו](nutrition_concept)
+- מה זה בדיוק [ניוט](name)
+- מה זה [מיץ](food_entity)
+- מה זה [פלאנק](training_type)
+- מה זה [סקוואט](training_type)
+- מה זה [סקווט](training_type)
 
 ## intent:nutrition_what_has
 - במה יש [חלבון](nutrient)
@@ -123,6 +128,7 @@
 - במה למשל יש הרבה [ברזל](nutrient)
 - באיזה מאכלים יש [חלבון](nutrient)
 - מה אני יכול לאכול במקום [ביצה](food_entity) ל[ארוחת בוקר](nutrition_concept) שהוא גם [פליאו](nutrition_concept)
+- ובמה יש הרבה [חלבון](nutrient)
 
 ## intent:nutrition_importance
 - למה חשוב [חלבון](nutrient)
@@ -139,8 +145,8 @@
 - למה בעצם חשוב לי לאכול [חלבון](nutrient)
 - למה בעצם כדאי לי לאכול [חלבון](nutrient)
 - למה כדאי לי לאכול [חלבון](nutrient)
-- ניוט, למה כדאי לי לאכול [חלבון](nutrient)
-- ניוט האם כדאי לי לאכול [חלבון](nutrient)
+- [ניוט](name), למה כדאי לי לאכול [חלבון](nutrient)
+- [ניוט](name) האם כדאי לי לאכול [חלבון](nutrient)
 - מה החשיבות של [חלבון](nutrient) בגוף שלנו
 - מה התפקיד של [חלבון](nutrient)
 - למה זה נחוץ לאכול [חלבון](nutrient)
@@ -267,6 +273,9 @@
 - כמה [שומן רווי](nutrient) כדאי לי לאכול
 - כמה [סיבים](nutrient) כדאי לי לאכול
 - כמה [סיבים תזונתיים](nutrient) כדאי לי לאכול
+- אתה במקרה יודע כמה [קלוריות](nutrient) אני צריך לאכול ביום
+- כמה [מים](food_entity) אני צריך לשתות
+- תגיד [ניוט](name), אתה יודע כמה [ויטמין סי](nutrient) אני אמור לאכול ביום
 
 ## intent:nutrition_and_what_about_x
 - וכמה [ברזל](nutrient)
@@ -318,6 +327,9 @@
 - ו[קלוריות](nutrient)
 - ומה לגבי [קלוריות](nutrient)
 - כמה יש ב[אשכולית](food_entity)
+- וכמה יש ב[סטייק](food_entity)
+- וב[חלב](food_entity)
+- וכמה יש ב[חלב](food_entity)
 
 ## intent:nutrition_howto_improve
 - איך ניתן לשפר [ריכוז](goal_or_state)
@@ -561,6 +573,10 @@
 - כמה [ויטמין סי](nutrient) יש ב[גמבה](food_entity)
 - כמה [ויטמין סי](nutrient) יש ב[תות שדה](food_entity)
 - כמה [קלוריות](nutrient) יש ב[סלט](food_entity)
+- כמה [ויטמין C](nutrient) יש ב[תפוז](food_entity)
+- האם אתה יודע במקרה כמה [ברזל](nutrient) יש ב[בשר בקר](food_entity)
+- כמה [חלבון](nutrient) יש ביחידה גדולה של ביצה
+- כמה [חלבון](nutrient) יש ביחידה בינונית של ביצה
 
 ## intent:nutrition_is_food_healthy
 - האם [שוקולד](food_entity) זה בריא
@@ -661,7 +677,7 @@
 - אם אתה ממליץ לי לצרוך הרבה [מלפפונים](food_entity)
 - האם מומלץ לאכול הרבה [עוף](food_entity)
 - חבר אמר לי שכדאי לי לאכול הרבה [פופקורן](food_entity). האם זה נכון
-- ניוט האם אתה ממליץ לי לאכול הרבה [לחם](food_entity)
+- [ניוט](name) האם אתה ממליץ לי לאכול הרבה [לחם](food_entity)
 - האם [סלמון](food_entity) זה אוכל מומלץ
 - האם [יוגורט](food_entity) זה בריא
 - האם [בשר בקר](food_entity) זה בריא
@@ -763,6 +779,7 @@
 - מה יותר בריא [גויאבה](food_entity) או [לחם](food_entity2)
 - מה עדיף [תפוח](food_entity) או [תפוז](food_entity2)
 - מה יותר בריא, [תפוז](food_entity) או [פיצה](food_entity2)
+- תגיד לי, אתה יודע מה יותר בריא, [לחם](food_entity2) או [אורז](food_entity)
 
 ## intent:nutrition_bloodtest_generic_question
 - מה הוא ערך תקין עבורי בבדיקת [פריטין](nutrient)
@@ -819,6 +836,7 @@
 - יצא לי ערך [10](integer) בבדיקת [כולסטרול](nutrient) בדם. זה תקין
 - האם ערך [כלוריד](nutrient) של [100](integer) הוא תקין עבורי
 - האם ערך אל די אל של [132](integer) תקין עבורי
+- קיבלתי [0.78](integer) בבדיקת [A1C](nutrient), האם זה טוב
 
 ## intent:nutrition_food_substitute_question
 - מה אפשר לאכול במקום [בשר בקר](food_entity)
@@ -875,8 +893,6 @@
 - מה אפשר לאכול במקום [גבינה](food_entity) ל[ארוחת בוקר](nutrition_concept) אם אני [טבעוני](nutrition_concept)
 - מה [פליאו](nutrition_concept) שאפשר לאכול ל[ארוחת בוקר](nutrition_concept) במקום [ביצה](food_entity)
 - אני [צמחוני](nutrition_concept), מה אפשר לאכול במקום [בשר בקר](food_entity)
-- אם לא בא לי לאכול [דג](food_entity), מה אפשר
-- מה אפשר לאכול במקום [בשר בקר](food_entity)
 - אילו תחליפים ראויים ל[לחם](food_entity) שהם [ללא גלוטן](nutrition_concept), [כשרים](nutrition_concept) ו[טבעוניים](nutrition_concept)
 - אני אוכל [כשר](nutrition_concept) ו[טבעוני](nutrition_concept). מה תמליץ לי ל[ארוחת בוקר](nutrition_concept) במקום [ביצה](food_entity)
 - אילו דברים [טבעוניים](nutrition_concept) אפשר לאכול במקום [סלמון](food_entity)
@@ -939,6 +955,19 @@
 - אני [טבעוני](nutrition_concept). תמליץ לי מה לאכול במקום [המבורגר](food_entity)
 - מה אפשר לאכול לארוחת ערב במקום [סלט](food_entity) אם אני [טבעוני](nutrition_concept)
 - מה אפשר לאכול לארוחת ערב אם לא בא לי [סלט](food_entity)
+- מה תחליף [טבעוני](nutrition_concept),[ ללא גלוטן](nutrition_concept) ו[כשר](nutrition_concept) ל[עגבנייה](food_entity)
+- מה אפשר לאכול במקום [עגבנייה](food_entity)
+- מה אפשר לאכול שהוא [כשר](nutrition_concept) במקום [עגבנייה](food_entity)
+- מה אפשר לאכול שהוא [כשר](nutrition_concept) ו[טבעוני](nutrition_concept) במקום [עגבנייה](food_entity)
+- מה אפשר לאכול ל[ארוחת צהריים](nutrition_concept) במקום [ביצה](food_entity), שהוא גם [טבעוני](nutrition_concept)
+- מה אפשר לאכול ל[ארוחת ערב](nutrition_concept) במקום [ביצה](food_entity)
+- מה אפשר לאכול ל[ארוחת בוקר](nutrition_concept) במקום [ביצה](food_entity)
+- מה אפשר לאכול ל[ארוחת ערב](nutrition_concept) במקום [עוף](food_entity) אני[ רגיש לגלוטן](nutrition_concept), סתם שתדע
+- מה אפשר לאכול לארוחת צהריים במקום [סטייק](food_entity) אם יש לי [צליאק](nutrition_concept)
+- מה אפשר לאכול במקום [פלאפל](food_entity) שהוא [ללא גלוטן](nutrition_concept) ו[כשר](nutrition_concept)
+- אם אני לא אוהב לאכול [קייל](food_entity), מה אפשר לאכול ל[ארוחת צהריים](nutrition_concept) במקום
+- מה אני יכול לאכול ל[ארוחת ערב](nutrition_concept) במקום [בקר](food_entity)
+- מה אני יכול לאכול במקום [ביצה](food_entity) ל[ארוחת בוקר](nutrition_concept)
 
 ## intent:greet
 - היי
@@ -1032,6 +1061,13 @@
 - עד מתי אתה פה גבר
 - אתה שם
 - עד מתי אתה פה
+- עד מתי אתה פה, [ניוט](name)
+- הי אתה פה
+- הי, אתה פה
+- הי [ניוט](name) אתה פה
+- אתה תמיד עובד
+- הי אתה שם
+- אתה עובד היום
 
 ## intent:goodbye
 - ביי
@@ -1428,6 +1464,8 @@
 - תגיד, מה אתה מסוגל לעשות
 - מה את יודעת לעשות
 - מה אפשר לשאול אותך
+- מה אפשר לשאול אותך [ניוט](name)
+- מה אפשר לשאול
 
 ## intent:What is the source of your data
 - איך אתה יודע את זה
@@ -1513,6 +1551,7 @@
 - מי בנה אותך
 - מי יצר אותך ניוט
 - מי יצר אותך, בוט
+- מי עשה אותך בדיוק
 
 ## intent:nutrition_what_to_eat_before
 - מה לאכול לפני [אימון ריצה](training_type)
@@ -1545,6 +1584,7 @@
 - מה ההמלצה לארוחת קטנה לפני [רכיבה ארוכה](training_type)
 - בריא לאכול לפני ה[שינה](goal_or_state)
 - וכדאי לאכול לפני ה[שינה](goal_or_state)
+- מה כדאי לי לאכול לפני [אימון הליכה](training_type)
 
 ## intent:nutrition_what_to_eat_after
 - מה כדאי לאכול אחרי [ריצה](training_type)
@@ -1580,7 +1620,9 @@
 - מה תמליץ לאכול אחרי [אימון כח](training_type)
 - נתרכז באוכל אחרי [אימון](training_type)
 - מה מומלץ לאכול אחרי [ריצה](simple_entity)
-- אילו מאכלים כדאי לאכול לאחר [אימון טניס](training_type)
+- מה כדאי לי לאכול אחרי [אימון ריצה](training_type)
+- מה לאכול אחרי [אימון משקולות](training_type)
+- [אימון כדורסל](training_type)
 
 ## intent:nutrition_how_to_avoid
 - כיצד אפשר להמנע מ[להשמין](goal_or_state)
@@ -1706,7 +1748,7 @@
 - אני [צמחונית](nutrition_concept). זה בריא לי
 - האם להיות [טבעוני](nutrition_concept) יכול להיות בריא
 - האם להיות [צמחוני](nutrition_concept) יכול להיות בריא
-- אני [צמחונית](nutrition_concept). זה בריא לי
+- האם [צום לסרוגין](nutrition_concept) זה בריא לי
 
 ## intent:What type of questions
 - איזה שאלות, למשל
@@ -1739,6 +1781,7 @@
 - יש לך תוכניות להערב
 - עד מתי אתה כאן
 - מה שעות העבודה שלך
+- אתה נמצא
 
 ## intent:nutrition_should_I_avoid
 - האם מותר לדלג על [ארוחת בוקר](nutrition_concept)
@@ -1815,6 +1858,7 @@
 - האם [רימונים](nutrient) זה דבר משמין
 - האם לאכול [אגוזים](food_entity) זה ישמין אותי
 - זה לא משמין
+- האם [במבה](food_entity) זה משמין
 
 ## intent:nutrition_what_has_little
 - במה יש מעט [סוכר](nutrient)
@@ -1896,7 +1940,6 @@
 - כמה [קולה](food_entity) אתה מרשה לי לשתות
 - כמה [פנטה](food_entity) אפשר לשתות ביום
 - כמה [סוכרלוז](nutrient) מותר לי לצרוך
-- ביום אחד - כמה [ממתקים](food_entity) מותר לי
 
 ## intent:nutrition_bloodtest_meaning
 - מה המשמעות של בדיקת [כולסטרול](nutrient) בדם
@@ -1954,6 +1997,29 @@
 - מה לעשות אם בדיקת ה[ברזל](nutrient) יצאה לי נמוכה
 - מה תמליץ למקרה של תוצאה נמוכה מדי בבדיקת [כלור](nutrient)
 - מה ההמלצה אם יש לי ערך נמוך מדי בבדיקת [פריטין](nutrient)
+
+## intent:Ex_which_training_is_good_for
+- איזה תרגיל עובד על שריר הבטן
+- אילו תרגילים עובדים על החזה
+- מה אפשר לעשות כדי לחזק את שרירי החזה
+- כיצד ניתן לחזק את שרירי הגב התחתון
+- איזה תרגילים אפשר לעשות בשביל הבטן
+- איך אפשר לחזק את שריר הכתפיים
+- אילו תרגילים אפשר לעשות בשביל שריר הבטן
+- איך עובדים על התאומים
+- מה עוזר לחזק את התאומים
+- מה מחזק את הארבע ראשי
+- מה עובד על שרירי הבטן
+- מה אפשר לעשות כדי לעבוד על הכתפיים
+- אילו תרגילים אפשר לעשות כדי לעבוד על הגב העליון
+- מה אתה ממליץ לי לעשות כדי לחזק את שרירי הטוסיק
+
+## intent:Ex_which_muscles_work
+- על איזה שריר עובד סקווט
+- איזה שרירים אני מאמץ בכפיפות בטן
+- איזה שריר עובד במיוחד בדדליפט
+- על איזה שריר עובד תרגיל הסופרמן
+- על מה עובד כפיפות מרפקים
 
 ## synonym:אומגה 3
 - אומגה שלוש
