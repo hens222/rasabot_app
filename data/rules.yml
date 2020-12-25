@@ -1,0 +1,16 @@
+# rules:
+#   - rule: Activate form
+#     steps:
+#     - intent: request_profile_info
+#     - action: profile_form
+#     - active_loop: profile_form
+# 
+#   - rule: Submit form
+#     condition:
+#     # Condition that form is active.
+#     - active_loop: profile_form
+#     steps:
+#     - action: profile_form
+#     - active_loop: null
+#     # The action we want to run when the form is submitted.
+#     - action: utter_happy

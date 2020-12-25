@@ -71,38 +71,38 @@ entities:
 - simple_entity
 slots:
   age:
-    type: unfeaturized
+    type: any
     auto_fill: false
     influence_conversation: false
   gender:
-    type: unfeaturized
+    type: any
     auto_fill: false
     influence_conversation: false
   height:
-    type: unfeaturized
+    type: any
     auto_fill: false
     influence_conversation: false
   phone:
-    type: unfeaturized
+    type: any
     auto_fill: false
     influence_conversation: false
   requested_slot:
-    type: unfeaturized
+    type: any
     influence_conversation: false
   username:
-    type: unfeaturized
+    type: any
     auto_fill: false
     influence_conversation: false
   weight:
-    type: unfeaturized
+    type: any
     auto_fill: false
     influence_conversation: false
   x:
-    type: unfeaturized
+    type: any
     auto_fill: false
     influence_conversation: false
   y:
-    type: unfeaturized
+    type: any
     auto_fill: false
     influence_conversation: false
 responses:
@@ -110,9 +110,9 @@ responses:
   - text: לא הבנתי את הבחירה, נס/י שוב בבקשה
   utter_ask_gender:
   - buttons:
-    - payload: '/inform{"gender": "זכר"}'
+    - payload: '/inform{{"gender": "זכר"}}'
       title: זכר
-    - payload: '/inform{"gender": "נקבה"}'
+    - payload: '/inform{{"gender": "נקבה"}}'
       title: נקבה
     text: האם את/ה זכר או נקבה?
   utter_ask_phone:
@@ -221,6 +221,7 @@ actions:
 - action_nutrition_food_substitute
 - action_personlization_list
 - action_personlization_remove
+- validate_profile_form
 - utter_greet
 - utter_cheer_up
 - utter_did_that_help
@@ -252,4 +253,39 @@ actions:
 - utter_ask_height
 - utter_slot_getter_username_deny_details
 forms:
-  profile_form: {}
+  profile_form:
+    age:
+    - entity: integer
+      role: age
+      type: from_entity
+    - entity: integer
+      type: from_entity
+    - type: from_text
+    gender:
+    - entity: gender
+      type: from_entity
+    height:
+    - entity: integer
+      role: height
+      type: from_entity
+    - entity: integer
+      type: from_entity
+    - type: from_text
+    phone:
+    - entity: integer
+      role: phone
+      type: from_entity
+    - entity: integer
+      type: from_entity
+    - type: from_text
+    username:
+    - entity: name
+      type: from_entity
+    - type: from_text
+    weight:
+    - entity: integer
+      role: weight
+      type: from_entity
+    - entity: integer
+      type: from_entity
+    - type: from_text

@@ -14,10 +14,11 @@ import requests
 import numpy as np
 import pandas as pd
 from os import path
-from typing import Any, Text, Dict, List, Union
+from typing import Any, Text, Dict, List, Union, Optional
 from rasa_sdk import Action, Tracker
-from rasa_sdk.forms import FormAction
+from rasa_sdk import FormValidationAction
 from rasa_sdk.events import SlotSet
+from rasa_sdk.types import DomainDict
 from rasa_sdk.executor import CollectingDispatcher
 
 def load_db(db_bitmap):
@@ -1066,21 +1067,24 @@ class ActionPersonalizationRemove(Action):
 
 # ------------------------------------------------------------------
 
-class ProfileForm(FormAction):
-    """Example of a custom form action"""
-
+class ProfileFormValidator(FormValidationAction):
+    """ProfileForm Validator"""
+    
     def name(self) -> Text:
-        """Unique identifier of the form"""
-
-        return "profile_form"
+        return "validate_profile_form"
 
     # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
-    @staticmethod
-    def required_slots(tracker: Tracker) -> List[Text]:
-        """A list of required slots that the form has to fill"""
-
-        return ["phone", "username", "gender", "age", "weight", "height"]
+    async def required_slots(
+        self,
+        slots_mapped_in_domain: List[Text],
+        dispatcher: "CollectingDispatcher",
+        tracker: "Tracker",
+        domain: "DomainDict",
+    ) -> Optional[List[Text]]:
+        required_slots = ["phone", "username", "gender", "age", "weight", "height"]
+        
+        return required_slots
 
     # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 

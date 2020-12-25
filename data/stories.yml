@@ -1,0 +1,552 @@
+version: "2.0"
+stories:
+- story: Suprised
+  steps:
+  - intent: suprised
+  - action: utter_suprised
+- story: Jokes
+  steps:
+  - intent: jokes
+  - action: utter_jokes
+- story: Greet happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: affirm
+  - action: profile_form
+  - active_loop: profile_form
+  - slot_was_set:
+    - requested_slot: phone
+  - intent: inform
+    entities:
+    - integer: '0501234567'
+  - action: profile_form
+  - slot_was_set:
+    - phone: '0501234567'
+  - slot_was_set:
+    - requested_slot: username
+  - intent: inform
+    entities:
+    - name: גיל
+  - action: profile_form
+  - slot_was_set:
+    - username: גיל
+  - slot_was_set:
+    - requested_slot: gender
+  - intent: inform
+    entities:
+    - gender: זכר
+  - action: profile_form
+  - slot_was_set:
+    - gender: זכר
+  - slot_was_set:
+    - requested_slot: age
+  - intent: inform
+    entities:
+    - integer: '38'
+  - action: profile_form
+  - slot_was_set:
+    - age: '38'
+  - slot_was_set:
+    - requested_slot: weight
+  - intent: inform
+    entities:
+    - integer: '72'
+  - action: profile_form
+  - slot_was_set:
+    - weight: '72'
+  - slot_was_set:
+    - requested_slot: height
+  - intent: inform
+    entities:
+    - integer: '172'
+  - action: profile_form
+  - slot_was_set:
+    - height: '172'
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+- story: Greet sad path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: deny
+  - action: utter_identication_next_time
+- story: say goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+- story: Bot challenge
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+- story: nutrition definition
+  steps:
+  - intent: nutrition_definition
+  - action: action_simple_question
+- story: nutrition what has
+  steps:
+  - intent: nutrition_what_has
+  - action: action_simple_question
+- story: nutrition importance
+  steps:
+  - intent: nutrition_importance
+  - action: action_simple_question
+- story: nutrition howmanyxiny
+  steps:
+  - intent: nutrition_howmanyxiny
+  - action: action_nutrition_howmanyxiny
+- story: nutrition and_what_about_x
+  steps:
+  - intent: nutrition_and_what_about_x
+  - action: action_nutrition_howmanyxiny
+- story: nutrition is_food_healthy
+  steps:
+  - intent: nutrition_is_food_healthy
+  - action: action_nutrition_is_food_healthy
+- story: nutrition what_is_healthier
+  steps:
+  - intent: nutrition_what_is_healthier
+  - action: action_nutrition_what_is_healthier
+- story: nutrition is_food_recommended
+  steps:
+  - intent: nutrition_is_food_recommended
+  - action: action_nutrition_is_food_recommended
+- story: nutrition get_rda
+  steps:
+  - intent: nutrition_get_rda
+  - action: action_nutrition_get_rda
+- story: nutrition get_upper_limit
+  steps:
+  - intent: nutrition_get_upper_limit
+  - action: action_nutrition_get_rda
+- story: nutrition bloodtest_generic_question
+  steps:
+  - intent: nutrition_bloodtest_generic_question
+  - action: action_nutrition_bloodtest_generic
+- story: nutrition bloodtest_value_question
+  steps:
+  - intent: nutrition_bloodtest_value_question
+  - action: action_nutrition_bloodtest_value
+- story: nutrition food_substitute_question
+  steps:
+  - intent: nutrition_food_substitute_question
+  - action: action_nutrition_food_substitute
+- story: personlization list
+  steps:
+  - intent: personlization_list
+  - action: action_personlization_list
+- story: personlization remove
+  steps:
+  - intent: personlization_remove
+  - action: action_personlization_remove
+  - action: profile_form
+  - active_loop: null
+- story: personlization information
+  steps:
+  - intent: request_profile_info
+  - action: profile_form
+  - active_loop: profile_form
+  - active_loop: null
+- story: Introduction
+  steps:
+  - intent: bot_introduction
+  - action: utter_my_name_is_newt
+- story: I have a question
+  steps:
+  - intent: got_question
+  - action: utter_got_question
+- story: Question + thank you path
+  steps:
+  - intent: got_question
+  - action: utter_got_question
+  - intent: thank_you
+  - action: utter_whats_your_question
+- story: what_type_of_questions
+  steps:
+  - intent: what_type_of_questions
+  - action: utter_what_can_you_do
+- story: Question + what type path
+  steps:
+  - intent: got_question
+  - action: utter_got_question
+  - intent: what_type_of_questions
+  - action: utter_what_can_you_do
+- story: What type of story + ack path
+  steps:
+  - intent: what_type_of_questions
+  - action: utter_what_can_you_do
+  - intent: mood_great
+  - action: utter_whats_your_question
+- story: got_question +a fffirm path
+  steps:
+  - intent: got_question
+  - action: utter_got_question
+  - intent: affirm
+  - action: utter_whats_your_question
+- story: Got questions + mood great path
+  steps:
+  - intent: got_question
+  - action: utter_got_question
+  - intent: mood_great
+  - action: utter_whats_your_question
+- story: Nutrition tip
+  steps:
+  - intent: can_you_share_nutrition_tips
+  - action: utter_nutrition_tips
+- story: I want to be healthier
+  steps:
+  - intent: I_want_to_eat_or_be_healthy
+  - action: utter_I_wanna_be_healthier
+- story: General thank you
+  steps:
+  - intent: thank_you
+  - action: utter_youre_welcome
+- story: What is your work scedule
+  steps:
+  - intent: when_do_you_work
+  - action: utter_Im_always_here
+- story: who_made_you
+  steps:
+  - intent: who_made_you
+  - action: utter_who_made_you
+- story: Question plus whats the source
+  steps:
+  - intent: nutrition_definition
+  - action: action_simple_question
+- story: What to eat before X
+  steps:
+  - intent: nutrition_what_to_eat_before
+  - action: action_simple_question
+- story: What to eat after X
+  steps:
+  - intent: nutrition_what_to_eat_after
+  - action: action_simple_question
+- story: What impacts
+  steps:
+  - intent: nutrition_what_impacts
+  - action: action_simple_question
+- story: Should I avoid X?
+  steps:
+  - intent: nutrition_should_I_avoid
+  - action: action_simple_question
+- story: Will X make me fat
+  steps:
+  - intent: will_X_make_me_fat
+  - action: utter_will_it_make_me_fat
+- story: How much X in Y multiple questions
+  steps:
+  - intent: nutrition_howmanyxiny
+    entities:
+    - nutrient: קלוריות
+  - action: action_nutrition_howmanyxiny
+  - intent: nutrition_howmanyxiny
+    entities:
+    - nutrient: חלבון
+  - action: action_nutrition_howmanyxiny
+  - intent: nutrition_howmanyxiny
+    entities:
+    - nutrient: סודיום
+  - action: action_nutrition_howmanyxiny
+  - intent: thank_you
+  - action: utter_youre_welcome
+- story: Is food healthy with entity
+  steps:
+  - intent: nutrition_is_food_healthy
+    entities:
+    - food_entity: אגס
+  - action: action_nutrition_is_food_healthy
+- story: How much x in y, and then is y healty
+  steps:
+  - intent: nutrition_howmanyxiny
+    entities:
+    - nutrient: פוטסיום
+  - action: action_nutrition_howmanyxiny
+  - intent: nutrition_is_food_healthy
+    entities:
+    - food_entity: עגבניה
+  - action: action_nutrition_is_food_healthy
+- story: Is healthy enhanced
+  steps:
+  - intent: nutrition_definition
+    entities:
+    - nutrition_concept: קיטו
+  - action: action_simple_question
+  - intent: nutrition_is_healthy
+    entities:
+    - nutrition_concept: קיטו
+  - action: action_simple_question
+- story: Is healthy story
+  steps:
+  - intent: nutrition_is_healthy
+    entities:
+    - nutrition_concept: צמחונות
+  - action: action_simple_question
+- story: Is healthy two kinds working great
+  steps:
+  - intent: nutrition_is_healthy
+    entities:
+    - nutrition_concept: צמחונות
+  - action: action_simple_question
+  - intent: nutrition_is_healthy
+    entities:
+    - nutrition_concept: קיטו
+  - action: action_simple_question
+  - intent: nutrition_is_food_healthy
+    entities:
+    - food_entity: לחם
+  - action: action_nutrition_is_food_healthy
+  - intent: nutrition_is_food_healthy
+    entities:
+    - food_entity: תפוח עץ
+  - action: action_nutrition_is_food_healthy
+- story: What is healthier switch the foods
+  steps:
+  - intent: nutrition_what_is_healthier
+    entities:
+    - food_entity: חומוס
+    - food_entity2: טחינה
+  - action: action_nutrition_what_is_healthier
+  - intent: nutrition_what_is_healthier
+    entities:
+    - food_entity: טחינה
+    - food_entity2: חומוס
+  - action: action_nutrition_what_is_healthier
+- story: Multiple what is healthier 3x
+  steps:
+  - intent: nutrition_what_is_healthier
+    entities:
+    - food_entity: חלב שקדים
+    - food_entity2: חלב סויה
+  - action: action_nutrition_what_is_healthier
+  - intent: nutrition_what_is_healthier
+    entities:
+    - food_entity: חומוס
+    - food_entity2: טחינה
+  - action: action_nutrition_what_is_healthier
+  - intent: nutrition_what_is_healthier
+    entities:
+    - food_entity: פיצה
+  - action: action_nutrition_what_is_healthier
+- story: Is healthy simple question
+  steps:
+  - intent: nutrition_is_healthy
+  - action: action_simple_question
+- story: What doesnt have too much of X
+  steps:
+  - intent: nutrition_what_has_little
+    entities:
+    - nutrient: סוכר
+  - action: action_simple_question
+- story: What does not have X
+  steps:
+  - intent: nutrition_what_has_little
+    entities:
+    - nutrient: סוכר
+  - action: action_simple_question
+- story: What has little saturated fat
+  steps:
+  - intent: nutrition_what_has_little
+    entities:
+    - nutrient: שומן רווי
+  - action: action_simple_question
+- story: What can you do
+  steps:
+  - intent: What can you do
+  - action: utter_what_can_you_do
+- story: Great Onboarding 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: affirm
+  - action: profile_form
+  - active_loop: profile_form
+  - slot_was_set:
+    - requested_slot: phone
+  - intent: inform
+    entities:
+    - integer: '0587100788'
+  - action: profile_form
+  - slot_was_set:
+    - age: null
+  - slot_was_set:
+    - weight: null
+  - slot_was_set:
+    - height: null
+  - slot_was_set:
+    - phone: '0587100788'
+  - slot_was_set:
+    - requested_slot: username
+  - intent: inform
+    entities:
+    - name: גיל
+  - action: profile_form
+  - slot_was_set:
+    - username: גיל
+  - slot_was_set:
+    - requested_slot: gender
+  - intent: inform
+    entities:
+    - gender: זכר
+  - action: profile_form
+  - slot_was_set:
+    - gender: זכר
+  - slot_was_set:
+    - requested_slot: age
+  - intent: inform
+    entities:
+    - integer: '38'
+  - action: profile_form
+  - slot_was_set:
+    - phone: '0587100788'
+  - slot_was_set:
+    - weight: null
+  - slot_was_set:
+    - height: null
+  - slot_was_set:
+    - age: '38'
+  - slot_was_set:
+    - requested_slot: weight
+  - intent: inform
+    entities:
+    - integer: '73'
+  - action: profile_form
+  - slot_was_set:
+    - phone: '0587100788'
+  - slot_was_set:
+    - age: '38'
+  - slot_was_set:
+    - height: null
+  - slot_was_set:
+    - weight: '73'
+  - slot_was_set:
+    - requested_slot: height
+  - intent: inform
+    entities:
+    - integer: '182.5'
+  - action: profile_form
+  - slot_was_set:
+    - phone: '0587100788'
+  - slot_was_set:
+    - age: '38'
+  - slot_was_set:
+    - weight: '73'
+  - slot_was_set:
+    - height: '182.5'
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+- story: Nutrition and what about X 2
+  steps:
+  - intent: nutrition_howmanyxiny
+    entities:
+    - nutrient: קלוריות
+  - action: action_nutrition_howmanyxiny
+  - slot_was_set:
+    - x: קלוריות
+  - slot_was_set:
+    - y: קייל
+  - intent: nutrition_and_what_about_x
+    entities:
+    - nutrient: ברזל
+  - action: action_nutrition_howmanyxiny
+  - slot_was_set:
+    - x: ברזל
+  - slot_was_set:
+    - y: קייל
+  - intent: nutrition_howmanyxiny
+  - action: action_nutrition_howmanyxiny
+  - slot_was_set:
+    - x: ברזל
+  - slot_was_set:
+    - y: ברוקולי
+- story: Nutrition how to improve
+  steps:
+  - intent: nutrition_howto_improve
+    entities:
+    - goal_or_state: לרזות
+  - action: action_simple_question
+- story: Nutrition_howto_improve 2
+  steps:
+  - intent: nutrition_howto_improve
+    entities:
+    - goal_or_state: לעלות מסת שריר
+  - action: action_simple_question
+  - intent: nutrition_howto_improve
+    entities:
+    - goal_or_state: מערכת חיסונית
+  - action: action_simple_question
+- story: Nutrition_howto_improve 3
+  steps:
+  - intent: nutrition_howto_improve
+    entities:
+    - goal_or_state: ריכוז
+  - action: action_simple_question
+- story: Nutrition_howto_improve multi goals
+  steps:
+  - intent: nutrition_howto_improve
+    entities:
+    - goal_or_state: רמת האנרגיה
+  - action: action_simple_question
+  - intent: nutrition_howto_improve
+    entities:
+    - goal_or_state: מידת העייפות
+  - action: action_simple_question
+  - intent: nutrition_howto_improve
+    entities:
+    - goal_or_state: להוריד כולסטרול
+  - action: action_simple_question
+  - intent: nutrition_howto_improve
+    entities:
+    - goal_or_state: להעלות כולסטרול טוב
+  - action: action_simple_question
+- story: Get upper limit question
+  steps:
+  - intent: nutrition_get_upper_limit
+    entities:
+    - food_entity: ביצים
+  - action: action_nutrition_get_rda
+- story: Get RDA plus upper limit
+  steps:
+  - intent: nutrition_get_rda
+    entities:
+    - food_entity: ביצים
+  - action: action_nutrition_get_rda
+  - intent: nutrition_get_upper_limit
+    entities:
+    - food_entity: ביצים
+  - action: action_nutrition_get_rda
+- story: Nutrition bloodtest meanining 1
+  steps:
+  - intent: nutrition_bloodtest_meaning
+    entities:
+    - nutrient: טריגליצרידים
+  - action: action_simple_question
+- story: Nutrition bloodtest meaning 2
+  steps:
+  - intent: nutrition_bloodtest_meaning
+    entities:
+    - nutrient: LDL
+  - action: action_simple_question
+- story: Nutrition bloodtest what if too low 1
+  steps:
+  - intent: nutrition_bloodtest_whatif_toolow
+    entities:
+    - nutrient: ברזל
+  - action: action_simple_question
+- story: Food subs - beef
+  steps:
+  - intent: nutrition_food_substitute_question
+    entities:
+    - food_entity: בקר
+  - action: action_nutrition_food_substitute
+- story: What to eat after 2 step
+  steps:
+  - intent: nutrition_what_to_eat_after
+    entities:
+    - training_type: אימון
+  - action: action_simple_question
+  - intent: nutrition_what_to_eat_after
+    entities:
+    - training_type: אימון כדורסל
+  - action: action_simple_question
