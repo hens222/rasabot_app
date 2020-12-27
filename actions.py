@@ -155,6 +155,7 @@ def get_rda(name, tracker, intent_upper=False):
     if not (tracker.get_slot('gender') and tracker.get_slot('age') and tracker.get_slot('weight') and tracker.get_slot('height')):
         status = "default"
    
+    nutrient = None
     for ent in tracker.latest_message.get('entities'):
         if ent['entity'] in lut_df[name].values:
             nutrient = ent['value']
