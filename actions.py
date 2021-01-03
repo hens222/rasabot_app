@@ -408,7 +408,7 @@ class ActionNutritionHowManyXinY(Action):
                 y = regex_res.group(1)
        
         food_units = "100 גרם"
-        regex_units_res = re.search('(.*) של (.*)', y)
+        regex_units_res = re.search('(.*) של (.*)', y) if y else None
         if regex_units_res:
             food_units = regex_units_res.group(1)
             y = regex_units_res.group(2)

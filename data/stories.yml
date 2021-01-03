@@ -550,3 +550,211 @@ stories:
     entities:
     - training_type: אימון כדורסל
   - action: action_simple_question
+- story: Story from Conversation ID 7b23b46fc9d247a9b6e09d70afaa55a2
+  steps:
+  - intent: nutrition_get_rda
+    entities:
+    - nutrient: ויטמין סי
+  - action: action_nutrition_get_rda
+- story: Story from Conversation ID e9cb0517778f4357b136cc928da16f30
+  steps:
+  - intent: nutrition_bloodtest_value_question
+    entities:
+    - integer: '100'
+    - nutrient: כולסטרול
+  - action: action_nutrition_bloodtest_value
+- story: Story from Conversation ID 892a59a79882494cab24477f726b0172
+  steps:
+  - intent: nutrition_bloodtest_value_question
+    entities:
+    - integer: '85'
+    - nutrient: פריטין
+  - action: action_nutrition_bloodtest_value
+- story: Story from Conversation ID 8e287f2d7c3f4026ab2c0ebc922d2cc0
+  steps:
+  - intent: nutrition_bloodtest_value_question
+    entities:
+    - integer: '94'
+    - nutrient: ברזל
+  - action: action_nutrition_bloodtest_value
+- story: Story from Conversation ID 8cc8efda564b4fdc8f4990f1d2317a02
+  steps:
+  - intent: nutrition_food_substitute_question
+    entities:
+    - food_entity: עוף
+    - nutrition_concept: צמחוני
+  - action: action_nutrition_food_substitute
+- story: Story from Conversation ID f0fe5bd8a4064bf783d3112cc283468b
+  steps:
+  - intent: nutrition_food_substitute_question
+    entities:
+    - food_entity: תפוח
+  - action: action_nutrition_food_substitute
+- story: Story from Conversation ID 28534af3a90d455dae16446677b66752
+  steps:
+  - intent: nutrition_bloodtest_meaning
+    entities:
+    - nutrient: פריטין
+  - action: action_simple_question
+- story: Story from Conversation ID 8644bff97dff4cbeadff1cb6c87bc0ec
+  steps:
+  - intent: nutrition_bloodtest_whatif_toohigh
+    entities:
+    - nutrient: פריטין
+  - action: action_simple_question
+- story: Story from Conversation ID ffb3fe6682a648e8b73cca8374f46f53
+  steps:
+  - intent: nutrition_bloodtest_whatif_toolow
+    entities:
+    - nutrient: ברזל
+  - action: action_simple_question
+- story: Story from Conversation ID 5cd788028f924ad298bd843a59545d54
+  steps:
+  - intent: nutrition_get_upper_limit
+    entities:
+    - food_entity: קפה
+  - action: action_nutrition_get_rda
+- story: Story from Conversation ID b4cc9901160041a7867f8fdb5c93cfe5
+  steps:
+  - intent: nutrition_howto_improve
+    entities:
+    - goal_or_state: לרזות
+  - action: action_simple_question
+- story: Story from Conversation ID a81e914e09f74248bfaef9a9bd6e1e63
+  steps:
+  - intent: nutrition_is_healthy
+    entities:
+    - nutrition_concept: טבעוני
+  - action: action_simple_question
+- story: Story from Conversation ID 1b6f6fe788f44d09b3c898f4de5feb41
+  steps:
+  - intent: nutrition_is_food_recommended
+    entities:
+    - food_entity: לחם
+  - action: action_nutrition_is_food_recommended
+- story: Story from Conversation ID 1ed4207da6764cfe81850f03a8c59986
+  steps:
+  - intent: nutrition_what_is_healthier
+    entities:
+    - food_entity: תפוח
+    - food_entity2: בננה
+  - action: action_nutrition_what_is_healthier
+- story: Story from Conversation ID 1488b313e51c4f4e80c5dc2d14f3c32e
+  steps:
+  - intent: nutrition_what_has_little
+    entities:
+    - nutrient: נתרן
+  - action: action_simple_question
+- story: Story from Conversation ID ff851c25a4ee4311b70f9cbfe6e037ae
+  steps:
+  - intent: will_X_make_me_fat
+    entities:
+    - food_entity: עוגה
+    - goal_or_state: השמנה
+  - action: utter_will_it_make_me_fat
+- story: Story from Conversation ID 4f17194c418c4e7f97eb0804355cd6ad
+  steps:
+  - intent: nutrition_what_to_eat_after
+    entities:
+    - training_type: אימון
+  - action: action_simple_question
+  - intent: nutrition_what_to_eat_after
+    entities:
+    - training_type: אימון אירובי
+  - action: action_simple_question
+- story: Story from Conversation ID 5107ebb185b5481799098dc7eef54e4c
+  steps:
+  - intent: nutrition_what_to_eat_after
+    entities:
+    - training_type: אימון
+  - action: action_simple_question
+  - intent: nutrition_what_to_eat_after
+    entities:
+    - training_type: אימון משקולות
+  - action: action_simple_question
+- story: Story from Conversation ID 752b7ae72c73440da95284967dc3ed50
+  steps:
+  - intent: when_do_you_work
+    entities:
+    - name: ניוט
+  - action: utter_Im_always_here
+- story: Story from Conversation ID 5cda1e2186034598ad61ba73297dbd7d
+  steps:
+  - intent: Ex_which_muscles_work
+    entities:
+    - training_type: מתח
+  - action: action_simple_question
+- story: Story from Conversation ID 331bb7f664b94bb6ac635191314430a6
+  steps:
+  - intent: Ex_which_training_is_good_for
+  - action: action_simple_question
+- story: Story from Conversation ID 6b9b82a2e70144c7a858ec6d50b0ce02
+  steps:
+  - intent: nutrition_what_to_eat_before
+    entities:
+    - training_type: אימון
+  - action: action_simple_question
+  - intent: nutrition_what_to_eat_before
+    entities:
+    - training_type: אימון ריצה
+  - action: action_simple_question
+- story: Story from Conversation ID 87fef403f53749d29bb9e8b8138445c1
+  steps:
+  - intent: nutrition_what_to_eat_before
+    entities:
+    - training_type: אימון
+  - action: action_simple_question
+  - intent: nutrition_what_to_eat_before
+    entities:
+    - training_type: משקולות
+  - action: action_simple_question
+- story: Story from Conversation ID 34e8dc3ac36d4c78a1259715a84aca22
+  steps:
+  - intent: nutrition_what_to_eat_before
+    entities:
+    - training_type: אימון
+  - action: action_simple_question
+  - intent: nutrition_what_to_eat_before
+    entities:
+    - name: יוגה
+  - action: action_simple_question
+- story: Story from Conversation ID e563a7c901d24989ba7ad47208ff11f8
+  steps:
+  - intent: nutrition_what_to_eat_before
+    entities:
+    - training_type: אימון
+  - action: action_simple_question
+  - intent: nutrition_what_to_eat_before
+    entities:
+    - name: כדורסל
+  - action: action_simple_question
+- story: Story from Conversation ID 571f53b793ef433b84d5b877a94d5eb9
+  steps:
+  - intent: nutrition_what_to_eat_after
+    entities:
+    - training_type: אימון
+  - action: action_simple_question
+  - intent: nutrition_what_to_eat_after
+    entities:
+    - name: כדורסל
+  - action: action_simple_question
+- story: Story from Conversation ID bda3f3a7d0464c019d0780465db69448
+  steps:
+  - intent: nutrition_what_to_eat_before
+    entities:
+    - training_type: אימון
+  - action: action_simple_question
+  - intent: nutrition_what_to_eat_before
+    entities:
+    - name: שחייה
+  - action: action_simple_question
+- story: Story from Conversation ID 8e9411bdf7ad4de880ffe28100d5ee41
+  steps:
+  - intent: nutrition_what_to_eat_after
+    entities:
+    - training_type: אימון
+  - action: action_simple_question
+  - intent: nutrition_what_to_eat_after
+    entities:
+    - name: שחייה
+  - action: action_simple_question
