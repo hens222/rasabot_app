@@ -1,0 +1,4 @@
+version: '3.4'
+services:
+  app:
+    image: sgino209/rasabot_app:newt_actions
