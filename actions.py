@@ -264,6 +264,59 @@ def get_food_energy_density(food, food_ranges_db):
 
 # ------------------------------------------------------------------
 
+def term_decoder(res, get_slot):
+
+    res_list = res.split(' ')
+
+    for i,el in enumerate(res_list):
+
+        if el.startswith('{') and el.endswith('}'):
+            
+            term = el[1:-1]
+
+            if "#" in term:
+                
+                k,v = term.split('#', 1)
+                
+                if k == "slot":
+                    if v.endswith(','):
+                        token = get_slot(v.replace(',','')) + ','
+                    else:
+                        token = get_slot(v.replace(',',''))
+                    if token:
+                        res_list[i] = token
+                    else:
+                        res_list[i] = "_"
+                
+                elif k == "equation":
+                    op = None
+                    if '*' in v:
+                        op = '*'
+                    elif '/' in v:
+                        op = '/'                        
+                    elif '+' in v:
+                        op = '+'
+                    elif '-' in v:
+                        op = '-'
+
+                    if op:
+                        left, right = v.split(op, 1)
+                        res_list[i] = term_decoder(op.join([term_decoder(left, get_slot),
+                                                            term_decoder(right, get_slot)]), get_slot)
+                    else:
+                        res_list[i] = term_decoder(v, get_slot)
+        else:
+            try:
+                res_list[i] = str(eval(el))
+            except:
+                res_list[i] = el
+
+    res_out = ' '.join(res_list)
+
+    return res_out
+
+# ------------------------------------------------------------------
+
 class ActionSimpleQuestion(Action):
 
     def name(self) -> Text:
@@ -293,27 +346,8 @@ class ActionSimpleQuestion(Action):
             else:
                 res = custom_df[[str(s) in feature for s in custom_df.index.tolist()]][user_intent][0]
 
-            res_list = res.split(' ')
-            for i,el in enumerate(res_list):
-                if "#" in el:
-                    k,v = el.split('#')
-                    if k == "slot":
-                        if v.endswith(','):
-                            token = tracker.get_slot(v.replace(',','')) + ','
-                        else:
-                            token = tracker.get_slot(v.replace(',',''))
-                        if token:
-                            res_list[i] = token
-                        else:
-                            res_list[i] = "_"
-                    elif k == "equation":
-                        try:
-                            res_list[i] = str(eval(v))
-                        except:
-                            res_list[i] = "_"
+            res = term_decoder(res, tracker.get_slot)
 
-            res = ' '.join(res_list)
-            
             dispatcher.utter_message(text="%s" % res)
 
         except:

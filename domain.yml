@@ -1,4 +1,3 @@
-version: "2.0"
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
@@ -16,6 +15,8 @@ intents:
 - deny
 - mood_great
 - mood_unhappy
+- unhappy_with_bot
+- happy_with_bot
 - bot_challenge
 - nutrition_definition
 - nutrition_what_has
@@ -59,6 +60,8 @@ intents:
 - Who made you
 - Ex_which_training_is_good_for
 - Ex_which_muscles_work
+- Ex_how_to_do
+- nutrition_can_i_substitute
 entities:
 - food_entity
 - food_entity2
@@ -69,8 +72,8 @@ entities:
 - name
 - goal_or_state
 - training_type
-- simple_entity
 - body_part
+- training_concept
 slots:
   age:
     type: any
@@ -136,23 +139,13 @@ responses:
     - payload: /deny
       title: לא, בפעם אחרת
     text: שלום, האם תרצה/י להזדהות?
-  utter_cheer_up:
-  - image: https://i.imgur.com/nGF1K8f.jpg
-    text: 'הנה משהו שיעודד אותך:'
-  - image: https://img.mako.co.il/2019/11/04/shutterstock_1065141497_i.jpg
-    text: אתה יכול לעשות הכל !
-  - text: איך נחש מחייג בטלפון? הוא מקיש מספרים
-  - image: https://i.pinimg.com/originals/dc/20/3c/dc203c3fb683fef0b3ebccfd8d38c40c.jpg
-    text: Joey does not share food !
   utter_did_that_help:
   - text: האם זה עזר?
-  utter_happy:
-  - text: מצוין!
-  - text: יופי !
   utter_goodbye:
   - text: ביי
   utter_iamabot:
   - text: אני בוט, יש לך בעיה עם זה?
+  - text: אני בוט, לא בנאדם אמיתי.
   utter_my_name_is_newt:
   - text: קוראים לי ניוט
   utter_got_question:
@@ -179,8 +172,12 @@ responses:
   utter_youre_welcome:
   - text: אין בעד מה! נהנה לדבר איתך.
   - text: בכיף !
+  - text: בטח ! אין בעיה
+  - text: שמח להיות פה בשבילך !
   utter_Im_always_here:
   - text: אני תמיד פה. בוטים לא ישנים ולצערי סגרו את כל המסיבות של הבוטים בגלל הקורונה.
+  - text: אני תמיד עובד , תמיד לשרותך.
+  - text: אני פה בשבילך 24 שעות ביממה 7 ימים בשבוע !
   utter_who_made_you:
   - text: יצרו אותי חברת ניוט. יש שם מומחי תזונה וספורט, אנשים שמבינים בהתנהגות וכמובן
       אנשים שיודעים לתכנת בוט מקסים שכמוני
@@ -189,9 +186,6 @@ responses:
   utter_suprised:
   - text: כן, בכיף
   - text: כן. נפלאות התזונה.
-  utter_jokes:
-  - text: למה פיל וזברה נכנסו למנהרה ויצאו שלושה? כי למה זו גם חיה!
-  - text: איך נחש מתקשר בטלפון? הוא מקיש מספרים!
   utter_will_it_make_me_fat:
   - text: השמנה היא תוצאה של צריכת קלוריות יומית עודפת ביחס להוצאה הקלורית היומית
       לאורך זמן ממושך, ואינה נגרמת ממזון או רכיב תזונה ספציפי. הכמות שנצרוך מאותו
@@ -211,6 +205,28 @@ responses:
       \ החיסון 6. חלופות – אם אני לא אוהב בשר, מה אפשר לאכול במקום  \nאני גם לומד\
       \ כל יום דברים חדשים (בזום בגלל הקורונה). תנסו אותי. אתם מוזמנים לשאול בצורה\
       \ הנוחה והטבעית ביותר לכם, אני אשתדל להבין!"
+  utter_happy:
+  - text: נהדר !
+  utter_unhappy_with_bot:
+  - text: מצטער שאיכזבתי אותך, אני בוט די צעיר ומשתפר כל יום !
+  - text: אוי, סליחה.. באמת שאני מנסה. אולי אוכל לעזור במשהו אחר ?
+  - text: לא התכוונתי ! יצא לי ככה בטעות. אולי אם אני אלמד עוד קצת אצליח.
+  - text: אני ממש רוצה שתהיה שמח. סליחה שלא הצלחתי הפעם.
+  - text: אוף. לא יצא לי כמו שרציתי. מקווה שאצליח יותר בפעם הבאה !
+  - text: אופס. היתה לי כוונה טובה , אני מבטיח !
+  utter_happy_with_bot:
+  - text: שמח שהצלחתי לתת לך את מה שחיפשת
+  - text: כיף שיכולתי לעזור !
+  - text: גם אני חושב שאני די תותח. תודה.
+  - text: אמא שלי תמיד אמרה לי שאגיע רחוק.
+  - text: תודה על המחמאה, במיוחד כשזה מגיע ממך
+  utter_nutrition_can_i_substitute:
+  - text: 'אין מאכל אחד מסויים שחייבים לאכול. התזונה שלך צריכה להיות בריאה, מגוונת,
+      מאוזנת ומתאימה לך: טעימה ומשתלבת בחייך בצורה טבעית. לכן, כמובן שאפשר להחליף
+      מוצר מזון מסויים או אפילו ארוחה שלמה במשהו שהוא פחות או יותר שקול ערך מבחינה
+      תזונתית. אני כמובן אשמח לעזור. אם יש לך מגבלות, כגון אם המאכל צריך להיות צמחוני,
+      או להשתלב בארוחה מסויימת, תרגיש חופשי להגיד לי ואתאים את התשובה שלי. לדוגמה,
+      תוכל לשאול אותי: "מה אפשר לאכול לארוחת בוקר במקום יוגורט ושהוא גם צמחוני?'
 actions:
 - action_simple_question
 - action_nutrition_get_rda

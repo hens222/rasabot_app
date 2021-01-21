@@ -758,3 +758,29 @@ stories:
     entities:
     - name: שחייה
   - action: action_simple_question
+- story: Story from Conversation ID 5fde8473544f4ed4b3947d68766a2206
+  steps:
+  - intent: unhappy_with_bot
+  - action: utter_unhappy_with_bot
+- story: Story from Conversation ID fdb5fbd3a4e6448ebde182de82c08627
+  steps:
+  - intent: happy_with_bot
+    entities:
+    - name: ניוט
+  - action: utter_happy_with_bot
+- story: Story from Conversation ID b3227c04c0664dcdb86e2c2b1ad880af
+  steps:
+  - intent: nutrition_can_i_substitute
+  - action: utter_nutrition_can_i_substitute
+- story: Story from Conversation ID b2b282fb77384c44b338afb8020ff116
+  steps:
+  - intent: nutrition_get_rda
+    entities:
+    - goal_or_state: לישון
+  - action: action_nutrition_get_rda
+- story: Story from Conversation ID 31992e3933e54b5e88bd85f23fd335df
+  steps:
+  - intent: nutrition_get_rda
+    entities:
+    - goal_or_state: שינה
+  - action: action_nutrition_get_rda
