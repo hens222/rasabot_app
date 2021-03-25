@@ -394,12 +394,12 @@ class ActionNutritionHowManyXinY(Action):
         regex_res = re.search('כמה (.*) יש ב(.*)', user_msg.replace('?',''))
         if regex_res:
             x = regex_res.group(1)
-            y = regex_res.group(2)
+            y = regex_res.group(2).strip()
         
         if not y:
             regex_res = re.search('.* ב(.*)', user_msg.replace('?',''))
             if regex_res:
-                y = regex_res.group(1)
+                y = regex_res.group(1).strip()
        
         food_units = "100 גרם"
         regex_units_res = re.search('(.*) של (.*)', y) if y else None
@@ -590,7 +590,7 @@ class ActionWhatIsHealthierQuestion(Action):
         if not food_entity2:
             regex_res = re.search('.* או (.*)', user_msg.replace('?',''))
             if regex_res:
-                food_entity2 = regex_res.group(1)
+                food_entity2 = regex_res.group(1).strip()
 
         try:
         
@@ -835,7 +835,7 @@ class ActionBloodtestValueQuestion(Action):
         if not val:
             regex_res = re.search('האם (.*) הוא .*', user_msg.replace('?',''))
             if regex_res:
-                val = regex_res.group(1)
+                val = regex_res.group(1).strip()
 
         try:
             if not val:
