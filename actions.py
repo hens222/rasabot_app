@@ -301,12 +301,9 @@ class ActionSimpleQuestion(Action):
               
                 res = ' '.join(res_list)
 
-            res_list = re.findall(r'\{.*?\}|\w+', res)
-            for k,match in enumerate(res_list):
-                if match.startswith('{') and match.endswith('}'):
-                    res_list[k] = str(eval(match[1:-1]))
-
-            res = ' '.join(res_list)
+            res_list = re.findall('\{.*?\}', res)
+            for match in res_list:
+                res = res.replace(match, str(eval(match[1:-1])))
 
             dispatcher.utter_message(text="%s" % res)
 
