@@ -288,7 +288,7 @@ class ActionSimpleQuestion(Action):
         try:
             feature = lut_df['Entity'][simple_entity]
             
-            if feature in custom_df:
+            if feature in custom_df.index:
                 res = custom_df.loc[feature][user_intent]
             else:
                 res = custom_df[[str(s) in feature for s in custom_df.index.tolist()]][user_intent][0]

@@ -2,6 +2,9 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 intents:
+- nlu_fallback
+- English
+- profanity
 - nutrition_bloodtest_meaning
 - nutrition_bloodtest_whatif_toohigh
 - nutrition_get_upper_limit
@@ -63,6 +66,8 @@ intents:
 - Ex_how_to_do
 - nutrition_can_i_substitute
 - nutrition_calculate
+- Ex_calc_calories
+- needs_affirmation
 entities:
 - food_entity
 - food_entity2
@@ -235,6 +240,20 @@ responses:
   utter_please_rephrase:
   - text: מצטער, לא בטוח שהבנתי את השאלה, ולכן מעדיף שלא לענות. תוכל לנסות להבהיר
       את השאלה?
+  utter_profanity:
+  - text: אני לא כל כך מתחבר לדיבורים כאלה. סליחה
+  - text: אני לא אוהב לדבר על דברים כאלה.
+  - text: התבטאויות כאלה זה לא ממש הקטע שלי, סליחה
+  - text: לא אוהב סוג כזה של דיבורים, מצטער
+  utter_other_languages:
+  - text: הי , מצטער אני לא תומך כרגע בשפות מלבד עברית.
+  - text: סליחה. כרגע אני יודע לדבר רק עברית.
+  utter_needs_affirmation:
+  - text: בטח !!!
+  - text: ב-ר-ו-ר !!
+  - text: איך אפשר שלא ?!
+  utter_jokes:
+  - text: למה פיל וזברה נכנסו למנהרה שניים ויצאו שלושה? כי למה היא גם חיה
 actions:
 - action_simple_question
 - action_nutrition_get_rda
@@ -249,7 +268,6 @@ actions:
 - action_personlization_remove
 - validate_profile_form
 - utter_greet
-- utter_cheer_up
 - utter_did_that_help
 - utter_happy
 - utter_goodbye
@@ -268,7 +286,6 @@ actions:
 - utter_how_long_running
 - utter_identication_next_time
 - utter_suprised
-- utter_jokes
 - utter_will_it_make_me_fat
 - utter_wrong_gender
 - utter_ask_gender
@@ -278,6 +295,8 @@ actions:
 - utter_ask_weight
 - utter_ask_height
 - utter_slot_getter_username_deny_details
+- utter_other_languages
+- utter_jokes
 forms:
   profile_form:
     age:
