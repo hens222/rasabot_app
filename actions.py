@@ -281,10 +281,9 @@ class ActionSimpleQuestion(Action):
         user_intent = tracker.latest_message.get('intent').get('name')    
          
         for ent in tracker.latest_message.get('entities'):
-            if ent['entity'] in lut_df[self.name()].values:
+            if ent['entity'] in lut_df[self.name()].values and ent['value'] in lut_df['Entity']:
                 simple_entity = ent['value']
-                break
-
+        
         try:
             feature = lut_df['Entity'][simple_entity]
             
