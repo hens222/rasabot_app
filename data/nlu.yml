@@ -75,6 +75,10 @@
 - מהו [המשקל האידיאלי](nutrition_concept) עבורי
 - מה [המשקל האידיאלי](nutrition_concept) בשבילי
 - מה הוא [המשקל האופטימלי](nutrition_concept) שלי
+- מה זה [אומגה 3](nutrient)
+- מה זה דיאטת [צום לסירוגין]{"entity": "nutrition_concept", "value": "\u05e6\u05d5\u05dd \u05dc\u05e1\u05e8\u05d5\u05d2\u05d9\u05df"}
+- מה זה דיאטת [צום לסירוגין]{"entity": "nutrition_concept", "value": "\u05e6\u05d5\u05dd \u05dc\u05e1\u05e8\u05d5\u05d2\u05d9\u05df"}
+- מה זו [ריצה מהירה](training_type)
 
 ## intent:nutrition_what_has
 - במה יש [חלבון](nutrient)
@@ -208,6 +212,8 @@
 - למה חשוב לאכול [חלבון](nutrient)
 - האם חשוב לאכול [ארוחת בוקר](nutrition_concept)
 - האם חשוב לאכול [ארוחת בוקר](nutrition_concept)
+- חייבים לאכול [ארוחת בוקר](nutrition_concept)
+- האם חייבים לאכול [ארוחת בוקר](nutrition_concept)
 
 ## intent:nutrition_get_rda
 - כמה [קלוריות](nutrient) כדאי לי לצרוך ביום
@@ -690,6 +696,8 @@
 - כמה [חלבון](nutrient) יש ב[כנפיים](food_entity)
 - כמה [קלוריות](nutrient) ב[עוגת גבינה](food_entity)
 - כמה [קלוריות](nutrient) ב[בשר בקר](food_entity)
+- כמה [קלוריות](nutrient) יש ב[מילקשייק פירות](food_entity)
+- כמה [קלוריות](nutrient) יש ב[בולגרית](food_entity)
 
 ## intent:nutrition_is_food_healthy
 - האם [שוקולד](food_entity) זה בריא
@@ -910,6 +918,7 @@
 - מה כדאי לי לאכול יותר [בשר](food_entity2) או [עוף](food_entity2)
 - יש הבדל אם אני אוכל [עוף](food_entity) או [בשר](food_entity2) בארוחה
 - האם מומלץ לאכול [פנקק](food_entity) או [תפוז](food_entity2)
+- מה יותר בריא [בולגרית](food_entity) או [צפתית](food_entity2)
 
 ## intent:nutrition_bloodtest_generic_question
 - מה הוא ערך תקין עבורי בבדיקת [פריטין](nutrient)
@@ -1619,7 +1628,7 @@
 - ואללה ואללה
 - איזה מגניב !
 - מעניין !
-- באמת
+- באמת?
 
 ## intent:jokes
 - ספר לי משהו מצחיק
@@ -1834,6 +1843,9 @@
 - מה כדאי לאכול אחרי [אימון](training_type)
 - מה מומלץ לאכול אחרי [פילאטיס](training_type)
 - מה מומלץ לאכול אחרי [אימון תחנות](training_type)
+- מה לאכול אחרי [הליכה איטית](training_type)
+- מה לאכול לאחר [רכיבת אופניים](training_type)
+- מה לאכול אחרי אימון [כח](training_type)
 
 ## intent:nutrition_how_to_avoid
 - כיצד אפשר להמנע מ[להשמין](goal_or_state)
@@ -1962,6 +1974,9 @@
 - האם זה בסדר להיות [טבעוני](nutrition_concept)
 - האם כדאי לי לעשות [צום לסירוגין]{"entity": "nutrition_concept", "value": "\u05e6\u05d5\u05dd \u05dc\u05e1\u05e8\u05d5\u05d2\u05d9\u05df"}
 - האם [שומן טראנס](nutrient) זה דבר רע
+- האם זה בסדר לאכול [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"}
+- האם זה בסדר לאכול [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"}
+- האם [שומן רווי](nutrient) זה בריא
 
 ## intent:What type of questions
 - איזה שאלות, למשל
@@ -2047,6 +2062,11 @@
 - האם זה בסדר לדלג על [ארוחה](nutrition_concept)
 - האם כדאי לי להגביל את כמות ה[מתוקים](food_entity)
 - אפשר לוותר על [ארוחת בוקר](nutrition_concept) אם אין לי זמן
+- האם כדאי לי להימנע מ[שומן](nutrient)
+- כדאי לי להימנע מ[כולסטרול](nutrient)
+- כדאי לי להמנע מ[כולסטרול](nutrient)
+- אפשר לדלג על [ארוחת בוקר](nutrition_concept)
+- האם אפשר לדלג על [ארוחת ערב](nutrition_concept)
 
 ## intent:will_X_make_me_fat
 - האם [שומן](nutrient) זה משמין
@@ -2078,6 +2098,7 @@
 - [עוגה](food_entity) יגרום לי [להשמין]{"entity": "goal_or_state", "value": "\u05d4\u05e9\u05de\u05e0\u05d4"}
 - איזה מאכלים הכי משמינים
 - מה המאכלים הכי משמינים
+- האם [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"} זה משמין
 
 ## intent:nutrition_what_has_little
 - במה יש מעט [סוכר](nutrient)
@@ -2168,6 +2189,7 @@
 - כמה [ביצים](food_entity) אפשר לאכול ביום
 - מה ההמלצה של איכלת [ביצים](food_entity) ליום
 - תגיד, כמה כוסות [קפה](food_entity) מותר לי לשתות ביום
+- כמה [פירות](food_entity) מותר לי לאכול ביום
 
 ## intent:nutrition_bloodtest_meaning
 - מה המשמעות של בדיקת [כולסטרול](nutrient) בדם
@@ -2200,6 +2222,8 @@
 - מה המשמעות של בדיקת [ברזל](nutrient)
 - מה תפקידה של בדיקת [כלור](nutrient)
 - מה בודקת בדיקת [פריטין](nutrient)
+- מה המשמעות של בדיקת [glucose](nutrient)
+- מה המשמעות של בדיקת [Glucose](nutrient)
 
 ## intent:nutrition_bloodtest_whatif_toohigh
 - מה לעשות אם ערך ה[כולסטרול](nutrient) שלי גבוה מדי
@@ -2440,6 +2464,28 @@
 - כמה אנרגיה שורפים בזמן [הליכה איטית](training_type)
 - כמה קלוריות אני שורף [בהליכה איטית](training_type)
 - כמה קלוריות שורפים במהלך [ריצה בקצב איטי](training_type)
+- כמה קלוריות אני שורף במהלך [הליכה איטית](training_type)
+- כמה קלוריות אני שורף ב[ריצה מהירה](training_type)
+- כמה קלוריות אני שורף בשעת [רכיבה](training_type)
+- כמה קלוריות אני שורף ב[רכיבה על אופניים](training_type)
+- כמה קלוריות שורפים בזמן [רכיבת אופניים](training_type)
+- כמה קלוריות שורפים ב[שחייה](training_type)
+- כמה קלוריות שורפים באימון [משקולות](training_type)
+- כמה קלוריות אני שורף באימון [כח](training_type)
+- כמה קלוריות אני אשרוף במהלך שעה של [שחיה](training_type)
+- כמה אנרגיה אני אוציא ב[שחייה](training_type)
+- כמה קלוריות שורפים על [אופניים](training_type)
+- כמה קלוריות שורפים באימון [כוח](training_type)
+- כמה קלוריות שורפים בזמן [יוגה](training_type)
+- כמה קלוריות שורפים במהלך משחק [כדורגל](training_type)
+- כמה קלוריות שורפים במהלך משחק [כדורסל](training_type)
+- כמה קלוריות שורפים ב[כדורגל](training_type)
+- כמה קלוריות שורפים ב[כדורסל](training_type)
+- כמה קלוריות שורפים ב[ריצה בקצב מהיר](training_type)
+- כמה קלוריות אני שורף בשעה של אימון [כוח](training_type)
+- כמה קלוריות אני שורף בזמן משחק [הוקי](training_type)
+- כמה קלוריות שורפים [בסקווש](training_type)
+- כמה קלוריות אני שורף ב[סקי](training_type)
 
 ## intent:needs_affirmation
 - התגעגעת אלי
