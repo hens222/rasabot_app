@@ -198,6 +198,18 @@ def get_rda(name, tracker, intent_upper=False):
 
         rda_value = float(rda_value)
 
+        if 'slot#' in rda_text:
+            rda_text_list = rda_text.split(' ')
+            for k,el in enumerate(rda_text_list):
+                if 'slot#' in el:
+                    rda_text_list[k] = tracker.get_slot(el.split('#')[1])
+          
+            rda_text = ' '.join(rda_text_list)
+
+        rda_text_list = re.findall('\{.*?\}', rda_text)
+        for match in rda_text_list:
+            rda_text = rda_text.replace(match, str(eval(match[1:-1])))
+
         return rda_value, rda_units, rda_text, status, nutrient
 
     except:
