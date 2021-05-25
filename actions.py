@@ -185,7 +185,7 @@ def get_rda(name, tracker, intent_upper=False):
                                      ((micro_nutrients_df['Age Min'] == "ANY")   | (micro_nutrients_df['Age Min'].astype(float) <= int(user_vars['age']))) & \
                                      ((micro_nutrients_df['Age Max'] == "ANY")   | (micro_nutrients_df['Age Max'].astype(float) > int(user_vars['age'])))]
     
-        rda_text = rda_row['Free Text'].values[0]
+        rda_text = str(rda_row['Free Text'].values[0])
         rda_value = str(rda_row['Value'].values[0])
         rda_units = rda_row['Units'].values[0]
 
