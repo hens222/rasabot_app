@@ -211,7 +211,7 @@ def get_rda(name, tracker, intent_upper=False):
             rda_text = rda_text.replace(match, str(eval(match[1:-1])))
 
         if rda_text == "0":
-            rda_text = None
+            rda_text = ""
 
         return rda_value, rda_units, rda_text, status, nutrient
 
