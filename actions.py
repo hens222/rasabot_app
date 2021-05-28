@@ -768,9 +768,8 @@ class ActionMealQuestion(Action):
                 if 'יום' in s or 'יומי' in s or 'םוי' in s or 'ימוי' in s:
                     meal = ['breakfast', 'lunch', 'dinner']
 
-            res = buildmealFile.Core_fun(meal, meal_sheets())
+            res = Core_fun(meal, meal_sheets())
             dispatcher.utter_message(res)
-
 
         except:
             dispatcher.utter_message(text="אין למושג, מצטער!")
