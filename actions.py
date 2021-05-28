@@ -321,11 +321,6 @@ def get_food_energy_density(food, food_ranges_db):
 # ------------------------------------------------------------------
 
 # Dictionary that is equivalent to user inputs and filters the df_noa Database based on the inputs
-
-types = []
-
-dic = {'breakfast': 'ארוחת בוקר', 'lunch': 'ארוחת צהריים', 'dinner': 'ארוחת ערב'}
-
 def arrayToString(s):
     str1 = ""
 
@@ -430,6 +425,7 @@ def build_meal(meals_bank, meal_type, budget):
     uti_score = []
     ind_score = []
     meals = []
+    types = []
     meal_cals = 0
 
     total_budget = budget.copy()
@@ -638,7 +634,7 @@ def displayMeal(data, mealType):
             menu = menu + items
     # one meal for the user
     else:
-        menu, calories = getMeal(data, mealType[0])
+        menu, calories = getMeal(data, mealType)
     menu = menu + "כמות קלוריות -> " + arrayToString(str(calories))
     return menu
 
@@ -648,12 +644,13 @@ def getMeal(data, meal_type):
         'Item 3'].head(
         1).values
     calories = temp_meal['meal_cals'].head(1).values
+    dic = {'breakfast': 'ארוחת בוקר', 'lunch': 'ארוחת צהריים', 'dinner': 'ארוחת ערב'}
     return dic[meal_type]+":\n1. " + arrayToString(first) + "\n2. " + arrayToString(second) + "\n3. " + arrayToString(third) + "\n", int(calories)
 
 def Core_fun(meal_type, sheets):
     global snacks, user_params, units_thr, type_thr, budget_weights_meals, budget_weights_snacks_fruits_fat, budget_weights_savoury_snacks, budget_weights_sweets, inputs, display_user_parameter, debug
 
-    global user_meals_num, total_cals, user_snacks_num, candidate_calories, types
+    global user_meals_num, total_cals, user_snacks_num, candidate_calories
 
     global df_noa, df_tzameret_food_group, df_weights, df_nutrition
 
