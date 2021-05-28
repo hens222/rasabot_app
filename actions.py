@@ -634,7 +634,7 @@ def displayMeal(data, mealType):
             menu = menu + items
     # one meal for the user
     else:
-        menu, calories = getMeal(data, mealType)
+        menu, calories = getMeal(data, mealType[0])
     menu = menu + "כמות קלוריות -> " + arrayToString(str(calories))
     return menu
 
