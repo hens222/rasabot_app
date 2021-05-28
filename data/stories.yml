@@ -92,6 +92,10 @@ stories:
   steps:
   - intent: nutrition_importance
   - action: action_simple_question
+- story: nutrition build meal question
+  steps:
+  - intent: nutrition_build_meal_question
+  - action: action_meal_question
 - story: nutrition howmanyxiny
   steps:
   - intent: nutrition_howmanyxiny

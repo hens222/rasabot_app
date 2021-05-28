@@ -13,6 +13,7 @@ import ast
 import requests
 import numpy as np
 import pandas as pd
+import buildmeal_functions as buildmealFile
 from os import path
 from typing import Any, Text, Dict, List, Union, Optional
 from rasa_sdk import Action, Tracker
@@ -139,10 +140,51 @@ def load_db(db_bitmap):
 
 # ------------------------------------------------------------------
 
-def get_rda(name, tracker, intent_upper=False):
+def meal_sheets(debug=False):
+    '''Import the df noa and tzameret food group tabs from the suggested meal planning sheet as a DataFrame. Import weights and measures, and tzameret food list from Tzameret DB as a DataFrame'''
 
-    db_dict = load_db(0x46) 
+    sheet_id = '19rYDpki0jgGeNlKLPnINiDGye8QEfQ4IEEWSkLFo83Y'
+
+    # import seperalty
+    gid_2 = '428717261'
+    df_tzameret_food_group = pd.read_csv(
+        f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={gid_2}")
+
+    df = load_db(0x481)
+    df_nutrition = df['tzameret']
+    df_nutrition.fillna(0, inplace=True)
+    df_nutrition.rename(columns={'carbohydrates': 'carbs'}, inplace=True)
+    df_weights = df['food_units']
+    df_weights.head()
+    df_noa_pre_1 = df['food_units_features']
+
+    df_noa = df['food_units_features']
+    header = list(df_noa_pre_1.columns.values)
+    df_noa.loc[-1] = header  # adding a row
+    df_noa.index = df_noa.index + 1  # shifting index
+    df_noa = df_noa.sort_index()  # sorting by index
+    df_noa.head()
+
+    df_noa.columns = df_noa.columns.str.lower()
+    df_noa = df_noa.iloc[1:]  # df_noa doesn not have the first row with the numbers to make it easier to filter data
+    df_noa['lactose_free'] = df_noa['lactose_free'].replace({'Low Lactose': 'Yes', 'Lactose Free': 'Yes'})
+    df_noa['food_category'] = df_noa['food_category'].replace({'N/A': 'Savoury_Snacks'})
+    df_noa.dropna(subset=["food_name"],
+                  inplace=True)  # dropping all meals that don't have a meal name to get complete list of actual meals
+
+    df_noa = df_noa.rename(columns={'smlmitzrach': 'primary_sn'})
+
+    df_noa['sn_1'] = df_noa['primary_sn'].astype(str).str[:1]
+    df_noa['sn_2'] = df_noa['primary_sn'].astype(str).str[1:2]
+
+    return df_noa, df_tzameret_food_group, df_weights, df_nutrition
+
+# ------------------------------------------------------------------
+
+def get_rda(name, tracker, intent_upper=False):
     
+    db_dict = load_db(0x46)
+
     lut_df = db_dict['lut']
     custom_df = db_dict['nutrients_qna']
     micro_nutrients_df = db_dict['micro_nutrients']
@@ -276,6 +318,42 @@ def get_food_energy_density(food, food_ranges_db):
         res = "med"
   
     return density, res
+
+# ------------------------------------------------------------------
+
+class ActionMealQuestion(Action):
+
+    def name(self) -> Text:
+        return "action_meal_question"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        meal = []
+        s = tracker.latest_message.get('text')
+        try:
+            for ent in tracker.latest_message.get('entities'):
+                if ent['value'] == "ערב" or "ברע":
+                    meal = ['dinner']
+                    break
+                if ent['value'] == "צהריים" or ent['value'] == "םיירהצ":
+                    meal = ['lunch']
+                    break
+                if ent['value'] == "בוקר" or ent['value'] == "רקוב":
+                    meal = ['breakfast']
+                    break
+            if not meal:
+                if 'יום' in s or 'יומי' in s or 'םוי' in s or 'ימוי' in s:
+                    meal = ['breakfast', 'lunch', 'dinner']
+
+            res = buildmealFile.Core_fun(meal, meal_sheets())
+            dispatcher.utter_message(res)
+
+
+        except:
+            dispatcher.utter_message(text="אין למושג, מצטער!")
+
+        return []
 
 # ------------------------------------------------------------------
 

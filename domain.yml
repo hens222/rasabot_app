@@ -34,6 +34,7 @@ intents:
 - nutrition_bloodtest_generic_question
 - nutrition_bloodtest_value_question
 - nutrition_food_substitute_question
+- nutrition_build_meal_question
 - bot_introduction
 - personlization_list
 - personlization_remove
@@ -255,6 +256,7 @@ responses:
   utter_jokes:
   - text: למה פיל וזברה נכנסו למנהרה שניים ויצאו שלושה? כי למה היא גם חיה
 actions:
+- action_meal_question
 - action_simple_question
 - action_nutrition_get_rda
 - action_nutrition_howmanyxiny

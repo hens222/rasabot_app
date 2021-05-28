@@ -76,8 +76,7 @@
 - מה [המשקל האידיאלי](nutrition_concept) בשבילי
 - מה הוא [המשקל האופטימלי](nutrition_concept) שלי
 - מה זה [אומגה 3](nutrient)
-- מה זה דיאטת [צום לסירוגין]{"entity": "nutrition_concept", "value": "\u05e6\u05d5\u05dd \u05dc\u05e1\u05e8\u05d5\u05d2\u05d9\u05df"}
-- מה זה דיאטת [צום לסירוגין]{"entity": "nutrition_concept", "value": "\u05e6\u05d5\u05dd \u05dc\u05e1\u05e8\u05d5\u05d2\u05d9\u05df"}
+- מה זה דיאטת [צום לסירוגין](nutrition_concept)
 - מה זו [ריצה מהירה](training_type)
 
 ## intent:nutrition_what_has
@@ -315,7 +314,7 @@
 - כמה [מים](food_entity) אני צריך לשתות
 - תגיד [ניוט](name), אתה יודע כמה [ויטמין סי](nutrient) אני אמור לאכול ביום
 - כמה [פירות](food_entity) כדאי לאכול ביום
-- כמה [חלבונים]{"entity": "nutrient", "value": "\u05d7\u05dc\u05d1\u05d5\u05df"} כדאי לאכול
+- כמה [חלבונים](food_entity) כדאי לאכול
 - כמה [קפה](food_entity) כדאי לשתות ביום
 - מהי כמות ה[קלוריות](nutrient) היומית המומלצת עבורי
 - מהי כמות ה[קלוריות](nutrient) המומלצת עבורי
@@ -1972,10 +1971,9 @@
 - האם להיות [צמחוני](nutrition_concept) יכול להיות בריא
 - האם [צום לסרוגין](nutrition_concept) זה בריא לי
 - האם זה בסדר להיות [טבעוני](nutrition_concept)
-- האם כדאי לי לעשות [צום לסירוגין]{"entity": "nutrition_concept", "value": "\u05e6\u05d5\u05dd \u05dc\u05e1\u05e8\u05d5\u05d2\u05d9\u05df"}
+- האם כדאי לי לעשות [צום לסירוגין](nutrition_concept)
 - האם [שומן טראנס](nutrient) זה דבר רע
-- האם זה בסדר לאכול [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"}
-- האם זה בסדר לאכול [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"}
+- האם זה בסדר לאכול [פחמימות](nutrient)
 - האם [שומן רווי](nutrient) זה בריא
 
 ## intent:What type of questions
@@ -2095,10 +2093,10 @@
 - האם לאכול [אגוזים](food_entity) זה ישמין אותי
 - זה לא משמין
 - האם [במבה](food_entity) זה משמין
-- [עוגה](food_entity) יגרום לי [להשמין]{"entity": "goal_or_state", "value": "\u05d4\u05e9\u05de\u05e0\u05d4"}
+- [עוגה](food_entity) יגרום לי [להשמין](goal_or_state)
 - איזה מאכלים הכי משמינים
 - מה המאכלים הכי משמינים
-- האם [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"} זה משמין
+- האם [פחמימות](nutrient) זה משמין
 
 ## intent:nutrition_what_has_little
 - במה יש מעט [סוכר](nutrient)
@@ -2486,6 +2484,30 @@
 - כמה קלוריות אני שורף בזמן משחק [הוקי](training_type)
 - כמה קלוריות שורפים [בסקווש](training_type)
 - כמה קלוריות אני שורף ב[סקי](training_type)
+
+## intent:nutrition_build_meal_question
+- מה אפשר לאכול לארוחת [בוקר](nutrition_concept)
+- מה כדאי לאכול לארוחת [בוקר](nutrition_concept)
+- מה מומלץ לי לאכול לארוחת [בוקר](nutrition_concept)
+- מה מומלץ לאכול לארוחת [בוקר](nutrition_concept)
+- מה עם ארוחת [בוקר] שלי(nutrition_concept)
+- מה אפשר לאכול לארוחת [צהריים](nutrition_concept)
+- מה כדאי לאכול לארוחת [צהריים](nutrition_concept)
+- מה מומלץ לי לאכול לארוחת [צהריים](nutrition_concept)
+- מה מומלץ לאכול לארוחת [צהריים](nutrition_concept)
+- מה עם ארוחת [צהריים] שלי(nutrition_concept)
+- מה יש לי לאכול ל[צהריים] היום(nutrition_concept)
+- מה אפשר לאכול לארוחת [ערב](nutrition_concept)
+- מה כדאי לאכול לארוחת [ערב](nutrition_concept)
+- מה מומלץ לי לאכול לארוחת [ערב](nutrition_concept)
+- מה מומלץ לאכול לארוחת [ערב](nutrition_concept)
+- מה עם ארוחת [ערב] שלי(nutrition_concept)
+- מה כדאי לי לאכול ה[יום](nutrition_concept)
+- מה מומלץ לי לאכול ה[יום](nutrition_concept)
+- מה התפריט ה[יומי] שלי(nutrition_concept)
+- מה אני יכול לאכול ה[יום](nutrition_concept)
+- מה יש ה[יום] בתפריט(nutrition_concept)
+- מה אפשר לאכול ה[יום](nutrition_concept)
 
 ## intent:needs_affirmation
 - התגעגעת אלי
