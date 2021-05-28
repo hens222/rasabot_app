@@ -76,8 +76,11 @@
 - מה [המשקל האידיאלי](nutrition_concept) בשבילי
 - מה הוא [המשקל האופטימלי](nutrition_concept) שלי
 - מה זה [אומגה 3](nutrient)
-- מה זה דיאטת [צום לסירוגין](nutrition_concept)
+- מה זה דיאטת [צום לסירוגין]{"entity": "nutrition_concept", "value": "\u05e6\u05d5\u05dd \u05dc\u05e1\u05e8\u05d5\u05d2\u05d9\u05df"}
 - מה זו [ריצה מהירה](training_type)
+- מה זה [אומגה 3](nutrient)?
+- מה זה דיאטת [צום לסירוגין]{"entity": "nutrition_concept", "value": "\u05e6\u05d5\u05dd \u05dc\u05e1\u05e8\u05d5\u05d2\u05d9\u05df"}?
+- כמה אמור להיות [המשקל האידיאלי](nutrition_concept) שלי
 
 ## intent:nutrition_what_has
 - במה יש [חלבון](nutrient)
@@ -151,7 +154,6 @@
 - ובמה יש הרבה [חלבון](nutrient)
 - יש מאכלים עם [ויטמין d](nutrient)
 - היי בוט, באיזה מאכלים יש הרבה [ברזל](nutrient)
-- במה יש [חלבון](nutrient)
 - באיזה מוצרים יש הרבה [ברזל](nutrient)
 - באיזה מאכלים יש הרה [סידן](nutrient)
 - מקורות עשירים ב[סידן](nutrient)
@@ -159,6 +161,10 @@
 - באיזה מאכלים יש הרבה [סידן](nutrient)
 - במה יש הכי הרבה [חלבון](nutrient)
 - במה יש הכי הרבה [סידן](nutrient)
+- מה אתה ממליץ לי לאכול לצרוך יותר [חלבון](nutrient)
+- איזה מזונות מהטבע עשירים ב[חלבון](nutrient)?
+- במה יש הרבה [פוטסיום](nutrient)
+- במה יש הרבה [אשלגן](nutrient)
 
 ## intent:nutrition_importance
 - למה חשוב [חלבון](nutrient)
@@ -207,12 +213,12 @@
 - האם [ארוחת בוקר](nutrition_concept) חשובה
 - האם [ארוחת בוקר](nutrition_concept) זה דבר חשוב
 - למה צריך לאכול [סידן](nutrient)
-- למה צריך לאכול [חלבון](nutrient)
-- למה חשוב לאכול [חלבון](nutrient)
-- האם חשוב לאכול [ארוחת בוקר](nutrition_concept)
 - האם חשוב לאכול [ארוחת בוקר](nutrition_concept)
 - חייבים לאכול [ארוחת בוקר](nutrition_concept)
 - האם חייבים לאכול [ארוחת בוקר](nutrition_concept)
+- למה חשוב לאכול [חלבון](nutrient)?
+- חייבים לאכול [ארוחת בוקר](nutrition_concept)?
+- האם חייבים לאכול [ארוחת בוקר](nutrition_concept)?
 
 ## intent:nutrition_get_rda
 - כמה [קלוריות](nutrient) כדאי לי לצרוך ביום
@@ -314,7 +320,7 @@
 - כמה [מים](food_entity) אני צריך לשתות
 - תגיד [ניוט](name), אתה יודע כמה [ויטמין סי](nutrient) אני אמור לאכול ביום
 - כמה [פירות](food_entity) כדאי לאכול ביום
-- כמה [חלבונים](food_entity) כדאי לאכול
+- כמה [חלבונים]{"entity": "nutrient", "value": "\u05d7\u05dc\u05d1\u05d5\u05df"} כדאי לאכול
 - כמה [קפה](food_entity) כדאי לשתות ביום
 - מהי כמות ה[קלוריות](nutrient) היומית המומלצת עבורי
 - מהי כמות ה[קלוריות](nutrient) המומלצת עבורי
@@ -340,6 +346,25 @@
 - מה כמות [הפחממות](nutrient) המומלצת
 - מה כמות [הפחממות](nutrient) המומלצת ליום
 - כמה [קפה](food_entity) לשתות ביום
+- כמה [קפה](food_entity) לשתות ביום?
+- מה כמות ה[פחמימות](nutrient) המומלצת ליום?
+- כמה [קלוריות](nutrient) לאכול ביום ?
+- כמה אני אמור [לשקול](nutrition_concept)
+- כמה כדאי לי [לשקול](nutrition_concept)
+- מה ה[משקל](nutrition_concept) שאתה ממליץ לי
+- מה הוא [המשקל](nutrition_concept) המומלץ בשבילי
+- מה [המשקל](nutrition_concept) המומלץ שלי
+- מהו [משקל מומלץ](nutrition_concept) עבורי
+- מה כמות ה[צעדים](training_type) המומלצת לאדם ליום?
+- כמה [חלבון](nutrient) צריך לצורך ביום?
+- מה אמור להיות [המשקל](nutrition_concept) שלי
+- כמה [צעדים](training_type) כדאי לי לעשות ביום
+- מה צריך להיות [המשקל](nutrition_concept) שלי
+- מה הוא [משקל](nutrition_concept) בריא בשבילי
+- מהו [משקל](nutrition_concept) בריא בשבילי ?
+- מה זה [משקל](nutrition_concept) שיהיה בריא לי ?
+- מהו [משקל](nutrition_concept) תקין עבורי ?
+- האם ניתן להעריך את צריכת ה[קלוריות](nutrient) המומלצת עבורי?
 
 ## intent:nutrition_and_what_about_x
 - וכמה [ברזל](nutrient)
@@ -396,6 +421,8 @@
 - וכמה יש ב[חלב](food_entity)
 - וכמה יש ב[תפוח](food_entity)
 - וכמה [סידן](nutrient)
+- וכמה [סידן](nutrient)?
+- וכמה יש ב[תפוח](food_entity)?
 
 ## intent:nutrition_howto_improve
 - איך ניתן לשפר [ריכוז](goal_or_state)
@@ -648,7 +675,6 @@
 - כמה [קלוריות](nutrient) יש בקילו אורז
 - כמה [קלוריות](nutrient) יש ב[קלמנטינה](food_entity) אחת
 - כמה [קלוריות](nutrient) יש ב[סטייק אנטריקוט](food_entity) 350 גרם
-- כמה [קלוריות](nutrient) יש בקילו אורז
 - כמה [קלוריות](nutrient) יש ב[קלמנטינה](food_entity)
 - כמה [קלוריות](nutrient) יש ב[עוגת גבינה](food_entity)
 - כמה [קלוריות](nutrient) יש ב[עוגת שוקולד](food_entity)
@@ -663,7 +689,6 @@
 - כמה [סידן](nutrient) יש בטחינה
 - כמה [סידן](nutrient) יש בשקדים
 - כמה [סידן](nutrient) יש בברוקולי
-- כמה [ברזל](nutrient) יש ב[ביצה](food_entity)
 - כמה [ברזל](nutrient) יש ב[קינואה](food_entity)
 - כמה [קלוריות](nutrient) יש בגביע יוגורט
 - כמה [חלבון](nutrient) יש ב[סינטה](food_entity)
@@ -677,12 +702,10 @@
 - כמה [חלבון](nutrient) יש ב[דג](food_entity)
 - כמה [חלבון](nutrient) יש ב[אפונה](food_entity)
 - כמה [ברזל](nutrient) יש ב[אפונה](food_entity)
-- כמה [ברזל](nutrient) יש ב[ברוקולי](food_entity)
 - כמה אחוז [חלבון](nutrient) יש ב[שוקולד מריר](food_entity)
 - כמה [סידן](nutrient) יש ב [אנטריקוט](food_entity)
 - כמה [שומן](nutrient) יש ב[שמן קנולה](food_entity)
 - כמה [שומן](nutrient) יש ב[גלידה](food_entity)
-- כמה [קלוריות](nutrient) יש ב[עוגת שוקולד](food_entity)
 - כמה [קלוריות](nutrient) יש ב[סופגניה](food_entity)
 - כמה [שומן](nutrient) יש בברוקולי
 - כמה [קלוריות](nutrient) יש בעוגה
@@ -697,6 +720,19 @@
 - כמה [קלוריות](nutrient) ב[בשר בקר](food_entity)
 - כמה [קלוריות](nutrient) יש ב[מילקשייק פירות](food_entity)
 - כמה [קלוריות](nutrient) יש ב[בולגרית](food_entity)
+- כמה קלוריות שוריפים בשעה [הליכה](training_type)?
+- כמה [קלוריות](nutrient) יש ב[קולה](food_entity)?
+- כמה [שומן](nutrient) יש ב[גלידה](food_entity)?
+- כמה [סידן](nutrient) יש ב [אנטריקוט](food_entity)?
+- כמה [חלבון](nutrient) יש ב[כנפיים](food_entity)?
+- כמה [חלבון](nutrient) יש ב[אפונה](food_entity)?
+- כמה [חלבון](nutrient) יש ב[דג](food_entity)?
+- כמה [קלוריות](nutrient) יש ב[בלינצס](food_entity)
+- כמה [קלוריות](nutrient) יש ב[בלינצס גבינה](food_entity)
+- כמה [קלוריות](nutrient) יש בפרוסת [גבינה צהובה](food_entity)
+- כמה [קלוריות](nutrient) יש בפרוסת [עמק](food_entity)
+- כמה [קלוריות](nutrient) יש ב[קוטג](food_entity)'
+- מה ה[קלוריות](nutrient) של [כרובית](food_entity)
 
 ## intent:nutrition_is_food_healthy
 - האם [שוקולד](food_entity) זה בריא
@@ -821,6 +857,7 @@
 - [ניוט](name), [תמר](food_entity) זה בריא
 - האם [שוקו](food_entity) בריא
 - האם [עוגת שוקולד](food_entity) זה בריא
+- האם [שוקו](food_entity) בריא?
 
 ## intent:nutrition_is_food_recommended
 - האם כדאי לי לאכול [שוקולד](food_entity)
@@ -857,7 +894,9 @@
 - צריך לאכול [בננה](food_entity)
 - היי כדאי לי לאכול [פנקייקים](food_entity)
 - האם כדאי לי לאכול [המבורגר](food_entity)
-- האם כדאי לי לאכול [המבורגר](food_entity)
+- האם זה בסדר לאכול [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"}?
+- היי כדאי לי לאכול [פנקייקים](food_entity)?
+- האם כדאי לי לאכול [המבורגר](food_entity)?
 
 ## intent:nutrition_what_is_healthier
 - מה בריא יותר, [שוקולד](food_entity) או [תפוז](food_entity2)
@@ -918,6 +957,7 @@
 - יש הבדל אם אני אוכל [עוף](food_entity) או [בשר](food_entity2) בארוחה
 - האם מומלץ לאכול [פנקק](food_entity) או [תפוז](food_entity2)
 - מה יותר בריא [בולגרית](food_entity) או [צפתית](food_entity2)
+- מה יותר בריא [בולגרית](food_entity) או [צפתית](food_entity2) ?
 
 ## intent:nutrition_bloodtest_generic_question
 - מה הוא ערך תקין עבורי בבדיקת [פריטין](nutrient)
@@ -957,6 +997,8 @@
 - מה רמת ה[ברזל](nutrient) התקינה בדם
 - מה רמת [ברזל](nutrient) תקינה בדם
 - מה ערך תקין עבורי של בדיקת [ברזל](nutrient)
+- מה ערך תקין עבורי של בדיקת [ברזל](nutrient) ?
+- הי מה היא רמת [כולסטרול](nutrient) תקינה?
 
 ## intent:nutrition_bloodtest_value_question
 - האם [17](integer) הוא ערך תקין עבורי בבדיקת [פריטין](nutrient)
@@ -979,6 +1021,7 @@
 - אוי תגיד, קיבלתי [100](integer) בבדיקת [כולסטרול](nutrient). זה תקין
 - קיבלתי [1](integer) בבדיקת [סידן](nutrient). האם זה תקין
 - תגיד ניוט, קיבלתי [100](integer) בבדיקות דם של [ברזל](nutrient), זה בסדר
+- תגיד ניוט, קיבלתי [100](integer) בבדיקות דם של [ברזל](nutrient), זה בסדר ?
 
 ## intent:nutrition_food_substitute_question
 - מה אפשר לאכול במקום [בשר בקר](food_entity)
@@ -1191,17 +1234,18 @@
 - אהלן אחי, מה נשמע
 - נעים מאוד
 - היי שלום
-- מה קורה
 - היי מה שלומך
 - חג שמח!
 - 1איך אתה מרגיש היום
 - הי ניוט מה המצב גבר
 - שלום שלום
 - הי ניוט מה נשמע
-- ממצב
-- מה שלומך
 - היי ממצב
 - היי, בוקר טוב
+- מה שלומך?
+- היי ממצב?
+- ממצב?
+- מה קורה?
 
 ## intent:English
 - hello
@@ -1221,6 +1265,15 @@
 - Who [are](nutrient) you
 - hgdfgb
 - gfdg
+- How do I do a pushup ?
+- Who framed Roger Rabit ?
+- Where do you come from?
+- What's your name?
+- Do you know what I should be eating ?
+- How much Iron should I be eating ?
+- Who are you?
+- Ping
+- Test
 
 ## intent:when_do_you_work
 - ער
@@ -1249,10 +1302,9 @@
 - אתה עובד היום
 - עד מתי אתה פה היום
 - עד מתי אתה פה היום [ניוט](name)
-- עד מתי אתה פה היום
-- אתה תמיד פה
-- אתה פה
-- עד מתי אתה עובד היום
+- עד מתי אתה עובד היום?
+- אתה פה ?
+- אתה תמיד פה?
 
 ## intent:goodbye
 - ביי
@@ -1279,6 +1331,7 @@
 - מעולה
 - תודה ניוט !
 - מעולה !
+- תודה על התשובה המפורטת
 
 ## intent:affirm
 - כן
@@ -1389,6 +1442,7 @@
 - היי רוצה מכות
 - רוצה מכות
 - מה אתה כן יודע
+- רוצה מכות?
 
 ## intent:bot_challenge
 - האם אתה בוט
@@ -1577,6 +1631,7 @@
 - רציתי לשאול
 - רציתי לברר כמה דברים
 - יכול לעזור לי
+- יכול לעזור לי?
 
 ## intent:got_question
 - אפשר לשאול שאלה
@@ -1618,6 +1673,7 @@
 - מוכן
 - יאללה. מוכן לכמה שאלות
 - יש לי שאלה
+- יש לי שאלה?
 
 ## intent:suprised
 - ואללה
@@ -1628,6 +1684,7 @@
 - איזה מגניב !
 - מעניין !
 - באמת?
+- באמת ???
 
 ## intent:jokes
 - ספר לי משהו מצחיק
@@ -1651,6 +1708,7 @@
 - אז שניה. תספר לי בדיחה
 - יש עוד בדיחות
 - אתה מכיר בדיחות
+- אתה מכיר בדיחות ?
 
 ## intent:What can you do
 - מה אתה מסוגל לעשות
@@ -1679,8 +1737,11 @@
 - איך אתה יודע לעזור לי
 - היי מה אתה עוד יכול לעשות
 - האם אתה יודע הכל
-- מה אתה יודע לעשות
 - איזה שאלות אפשר לשאול
+- מה אתה יודע לעשות?
+- האם אתה יודע הכל ?
+- מה אתה כן יודע?
+- מה אתה יודע לישות
 
 ## intent:What is the source of your data
 - איך אתה יודע את זה
@@ -1971,10 +2032,14 @@
 - האם להיות [צמחוני](nutrition_concept) יכול להיות בריא
 - האם [צום לסרוגין](nutrition_concept) זה בריא לי
 - האם זה בסדר להיות [טבעוני](nutrition_concept)
-- האם כדאי לי לעשות [צום לסירוגין](nutrition_concept)
+- האם כדאי לי לעשות [צום לסירוגין]{"entity": "nutrition_concept", "value": "\u05e6\u05d5\u05dd \u05dc\u05e1\u05e8\u05d5\u05d2\u05d9\u05df"}
 - האם [שומן טראנס](nutrient) זה דבר רע
-- האם זה בסדר לאכול [פחמימות](nutrient)
+- האם זה בסדר לאכול [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"}
 - האם [שומן רווי](nutrient) זה בריא
+- האם זה בסדר לאכול [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"} ?
+- האם [דיאטה קיטוגנית](nutrition_concept) מומלצת?
+- האם [כולסטרול](nutrient) זה רע לגוף?
+- האם [צום לסירוגין](nutrition_concept) ממולץ?
 
 ## intent:What type of questions
 - איזה שאלות, למשל
@@ -2010,6 +2075,7 @@
 - עד מתי אתה כאן
 - מה שעות העבודה שלך
 - אתה באמת תמיד עובד
+- אתה באמת תמיד עובד ?
 
 ## intent:nutrition_should_I_avoid
 - האם מותר לדלג על [ארוחת בוקר](nutrition_concept)
@@ -2065,6 +2131,8 @@
 - כדאי לי להמנע מ[כולסטרול](nutrient)
 - אפשר לדלג על [ארוחת בוקר](nutrition_concept)
 - האם אפשר לדלג על [ארוחת ערב](nutrition_concept)
+- כדאי לי להמנע מ[כולסטרול](nutrient) ?
+- כדאי לי להימנע מ[כולסטרול](nutrient)?
 
 ## intent:will_X_make_me_fat
 - האם [שומן](nutrient) זה משמין
@@ -2093,10 +2161,12 @@
 - האם לאכול [אגוזים](food_entity) זה ישמין אותי
 - זה לא משמין
 - האם [במבה](food_entity) זה משמין
-- [עוגה](food_entity) יגרום לי [להשמין](goal_or_state)
+- [עוגה](food_entity) יגרום לי [להשמין]{"entity": "goal_or_state", "value": "\u05d4\u05e9\u05de\u05e0\u05d4"}
 - איזה מאכלים הכי משמינים
 - מה המאכלים הכי משמינים
-- האם [פחמימות](nutrient) זה משמין
+- האם [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"} זה משמין
+- האם [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"} זה משמין ?
+- מה המאכלים הכי משמינים ?
 
 ## intent:nutrition_what_has_little
 - במה יש מעט [סוכר](nutrient)
@@ -2124,13 +2194,14 @@
 - באיזה דברים אין [פחממות](nutrient)
 - במה יש מעט [נתרן](nutrient)
 - מה דל ב[נתרן](nutrient)
-- מה דל ב[נתרן](nutrient)
 
 ## intent:Bot_introduction
 - הי איך קוראים לך
 - איך קוראים לך
 - איך קוראים לך דבר ראשון
 - מי אתה
+- מי אתה?
+- איך קוראים לך?
 
 ## intent:nutrition_get_upper_limit
 - כמה [ביצים](food_entity) מותר לי לאכול ביום
@@ -2188,6 +2259,8 @@
 - מה ההמלצה של איכלת [ביצים](food_entity) ליום
 - תגיד, כמה כוסות [קפה](food_entity) מותר לי לשתות ביום
 - כמה [פירות](food_entity) מותר לי לאכול ביום
+- תגיד, כמה כוסות [קפה](food_entity) מותר לי לשתות ביום ?
+- האם זה בסדר לשתות הרבה [קפה](food_entity) ?
 
 ## intent:nutrition_bloodtest_meaning
 - מה המשמעות של בדיקת [כולסטרול](nutrient) בדם
@@ -2222,6 +2295,8 @@
 - מה בודקת בדיקת [פריטין](nutrient)
 - מה המשמעות של בדיקת [glucose](nutrient)
 - מה המשמעות של בדיקת [Glucose](nutrient)
+- מה המשמעות של בדיקת [Glucose](nutrient)?
+- מה המשמעות של בדיקת [glucose](nutrient)?
 
 ## intent:nutrition_bloodtest_whatif_toohigh
 - מה לעשות אם ערך ה[כולסטרול](nutrient) שלי גבוה מדי
@@ -2320,7 +2395,6 @@
 - על איזה שריר עובד [פלאנק](training_type)
 - על איזה שריר עובדים [ברפיז](training_type)
 - על איזה שרירים עובד בעיקר תרגיל [מתח](training_type)
-- על איזה שריר עובדים [ברפיז](training_type)
 - על איזה שרירים עובד [פלנק](training_type)
 - על מה עובד [כפיפות בטן](training_type)
 - על מה עובד [מתח](training_type)
@@ -2371,6 +2445,9 @@
 - איך עושים [בננה](food_entity)
 - תסביר לי איך עושים [כפיפות מרפקים](training_type)
 - טוב לדעת.. אני [באימון](training_type) - תוכל להסביר לי איך עושים [כפיפות מרפקים](training_type)
+- תסביר לי איך עושים [כפיפות מרפקים](training_type) ?
+- איך עושים [בננה](training_type) ?
+- טוב לדעת.. אני באימון - תוכל להסביר לי איך עושים [כפיפות מרפקים](training_type) ?
 
 ## intent:happy_with_bot
 - אתה ענק !
@@ -2396,7 +2473,6 @@
 - אתה ממש אחלה [ניוט](name)
 - יותר טוב
 - [ניוט](name), אתה ממש תותח
-- [ניוט](name) אתה תותח
 - מלך
 - אתה תותח
 - יא גבר
@@ -2431,6 +2507,10 @@
 - תעזור לי לחשב את [המשקל האידיאלי](nutrition_concept) שלי
 - תחשב לי את [הבי אם איי](nutrition_concept)
 - מה יהיה [המשקל האופטימלי](nutrition_concept) שלי
+- אני [שמן](nutrition_concept)?
+- תעזור לי לבדוק האם אני [שמן](nutrition_concept)
+- האם אני [שמן](nutrition_concept)
+- תעזור לי לחשוב את [המשקל האידיאלי](nutrition_concept) שלי
 
 ## intent:profanity
 - אחותך צולעת
@@ -2441,6 +2521,12 @@
 - האם אתה אוהב בנים
 - האם נועם הומו
 - האם אמא שלך זונה
+- בת כמה אחותך ?
+- מה שלום אחותך ?
+- סבתא שלך
+- מה עם אחותך
+- איך קוראים לאמא שלך
+- למה אחותך צולעת ברגל שמאל ?
 
 ## intent:Ex_calc_calories
 - כמה קלוריות שורפים בשעה [הליכה](training_type)
@@ -2453,7 +2539,6 @@
 - כמה קלוריות אני שורף במהלך שעת [ריצה](training_type)
 - כמה קלוריות אני שורף [בריצה](training_type)
 - כמה קלוריות שורפים [בריצה](training_type)
-- כמה קלוריות אני שורף [בריצה](training_type)
 - כמה קלוריות שורפים במהלך [ריצה](training_type)
 - כמה קלוריות שורפים [בריצה איטית](training_type)
 - כמה אנרגיה אני שורף במהלך [ריצה איטית](training_type)
@@ -2484,6 +2569,13 @@
 - כמה קלוריות אני שורף בזמן משחק [הוקי](training_type)
 - כמה קלוריות שורפים [בסקווש](training_type)
 - כמה קלוריות אני שורף ב[סקי](training_type)
+- מה לגבי [ריצה](training_type) - כמה קלוריות אני שורף בשעה ?
+- וכמה קלוריות אני שורף בשעה של אימון [משקולות](training_type)
+- הי - כמה קלוריות אני שורף במהלך אימון [שחייה](training_type)
+- כמה קלוריות אני שורף בזמן משחק [הוקי](training_type) ?
+- כמה קלוריות אני שורף ב[ריצה](training_type)?
+- כמה קלוריות אני מוציא בשעה [הליכה](training_type) ?
+- כמה קלוריות אני שורף ב[כדורסל](training_type)
 
 ## intent:nutrition_build_meal_question
 - מה אפשר לאכול לארוחת [בוקר](nutrition_concept)
@@ -2516,8 +2608,14 @@
 - אתה אוהב אותי
 - נכון שאתה מת עלי
 - מתגעגע
-- התגעגעת
 - אתה נחמד
+- אתה מחבב אותי ?
+- התגעגעת ?
+- נכון שאתה מת עלי ?
+- מתגעגע ?
+- אתה אוהב אותי ?
+- התגעגעת?
+- התגעגעת אלי ?
 
 ## synonym:אומגה 3
 - אומגה שלוש
