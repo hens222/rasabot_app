@@ -96,6 +96,10 @@ stories:
   steps:
   - intent: nutrition_build_meal_question
   - action: action_meal_question
+- story: nutrition what x can be in y
+  steps:
+  - intent: nutrition_what_x_can_be_in_y
+  - action: action_nutrition_what_x_can_be_in_y
 - story: nutrition howmanyxiny
   steps:
   - intent: nutrition_howmanyxiny

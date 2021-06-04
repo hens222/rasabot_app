@@ -13,6 +13,7 @@ import ast
 import requests
 import numpy as np
 import pandas as pd
+import random
 from os import path
 from typing import Any, Text, Dict, List, Union, Optional
 from rasa_sdk import Action, Tracker
@@ -232,7 +233,7 @@ def get_rda(name, tracker, intent_upper=False):
 
         if 'slot#' in rda_value:
             rda_value_list = rda_value.split(' ')
-            for k,el in enumerate(rda_value_list):
+            for k, el in enumerate(rda_value_list):
                 if 'slot#' in el and el.split('#')[1] in user_vars:
                     rda_value_list[k] = user_vars[el.split('#')[1]]
             rda_value = eval(' '.join(rda_value_list))
@@ -241,7 +242,7 @@ def get_rda(name, tracker, intent_upper=False):
 
         if 'slot#' in rda_text:
             rda_text_list = rda_text.split(' ')
-            for k,el in enumerate(rda_text_list):
+            for k, el in enumerate(rda_text_list):
                 if 'slot#' in el:
                     rda_text_list[k] = tracker.get_slot(el.split('#')[1])
 
@@ -645,7 +646,7 @@ def getMeal(data, meal_type):
         1).values
     calories = temp_meal['meal_cals'].head(1).values
     dic = {'breakfast': 'ארוחת בוקר', 'lunch': 'ארוחת צהריים', 'dinner': 'ארוחת ערב'}
-    return dic[meal_type]+":\n1. " + arrayToString(first) + "\n2. " + arrayToString(second) + "\n3. " + arrayToString(third) + "\n", int(calories)
+    return dic[meal_type] + ":\n1. " + arrayToString(first) + "\n2. " + arrayToString(second) + "\n3. " + arrayToString(third) + "\n", int(calories)
 
 def Core_fun(meal_type, sheets):
     global snacks, user_params, units_thr, type_thr, budget_weights_meals, budget_weights_snacks_fruits_fat, budget_weights_savoury_snacks, budget_weights_sweets, inputs, display_user_parameter, debug
@@ -654,8 +655,8 @@ def Core_fun(meal_type, sheets):
 
     global df_noa, df_tzameret_food_group, df_weights, df_nutrition
 
-    #get the sheets from the actions
-    df_noa,df_tzameret_food_group,df_weights,df_nutrition = sheets
+    # get the sheets from the actions
+    df_noa, df_tzameret_food_group, df_weights, df_nutrition = sheets
 
     user_params = {'eggs': 'No',  # If eggs = Yes, filters out all the meals with eggs
                    'vegetables': 'No',  # If vegetables = Yes, fiters out all meals with vegetables
@@ -739,6 +740,63 @@ def Core_fun(meal_type, sheets):
     return items
 
 # ------------------------------------------------------------------
+class ActionCanXinY(Action):
+
+    def name(self) -> Text:
+        return "action_nutrition_what_x_can_be_in_y"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        try:
+            meal = ""
+            # loading data frame
+            db_dict = load_db(0x402)
+            lut = db_dict['lut']
+            df_noa = db_dict['food_units_features']
+
+            # get the meal type
+            message = tracker.latest_message.get('text')
+            if 'בוקר' in message:
+                meal = "IL_Breakfast"
+            if 'צהריים' in message:
+                meal = "IL_Lunch"
+            if 'ערב' in message:
+                meal = 'IL_Dinner'
+            entity = ""
+            # get the entity value from the bot
+            prediction = tracker.latest_message
+            entity_value = prediction['entities'][0]['value']
+            if entity_value == 'צמחוני':
+                entity = "Vegetarian"
+            elif entity_value == 'טבעוני':
+                entity = "Vegan"
+            elif entity_value == 'Paleo':
+                entity = "Vegan"
+            else:
+                # get the alias entity from the data frame
+                entity_temp = lut[lut.index == entity_value]
+                entity = str(entity_temp['Entity'].values[0])
+                entity2 = ""
+                for i in entity:
+                    if (i >= 'a' and i <= 'z') or (i >= 'A' and i <= 'Z') or i == '_':
+                        entity2 += i
+
+                if entity2[0].islower():
+                    entity = entity2.capitalize()
+
+            # get the items by ranmdom 5 of them
+            items = df_noa.loc[((df_noa[entity] == 'Yes') & (df_noa[meal] == 'Yes')), ['Food_Name', entity, meal]]
+            indeX = items.index.tolist()
+            y = ""
+            for i in range(1, 6):
+                temp = random.randint(0, len(items) - 1)
+                y += str(i) + ". " + str(items[items.index == indeX[temp]]['Food_Name'].values[0]) + "\n"
+            dispatcher.utter_message(y)
+        except:
+            dispatcher.utter_message(text="אין למושג, מצטער!")
+
+# ------------------------------------------------------------------
 
 class ActionMealQuestion(Action):
 
@@ -752,17 +810,17 @@ class ActionMealQuestion(Action):
         s = tracker.latest_message.get('text')
         try:
             for ent in tracker.latest_message.get('entities'):
-                if ent['value'] == "ערב" or "ברע":
+                if ent['value'] == "ערב":
                     meal = ['dinner']
                     break
-                if ent['value'] == "צהריים" or ent['value'] == "םיירהצ":
+                if ent['value'] == "צהריים":
                     meal = ['lunch']
                     break
-                if ent['value'] == "בוקר" or ent['value'] == "רקוב":
+                if ent['value'] == "בוקר":
                     meal = ['breakfast']
                     break
             if not meal:
-                if 'יום' in s or 'יומי' in s or 'םוי' in s or 'ימוי' in s:
+                if 'יום' in s or 'יומי' in s:
                     meal = ['breakfast', 'lunch', 'dinner']
 
             res = Core_fun(meal, meal_sheets())
@@ -805,7 +863,7 @@ class ActionSimpleQuestion(Action):
 
             if 'slot#' in res:
                 res_list = res.split(' ')
-                for k,el in enumerate(res_list):
+                for k, el in enumerate(res_list):
                     if 'slot#' in el:
                         res_list[k] = tracker.get_slot(el.split('#')[1])
 
@@ -898,13 +956,13 @@ class ActionNutritionHowManyXinY(Action):
                 y = ent['value']
                 name_xy = self.name() + "_y"
 
-        regex_res = re.search('כמה (.*) יש ב(.*)', user_msg.replace('?',''))
+        regex_res = re.search('כמה (.*) יש ב(.*)', user_msg.replace('?', ''))
         if regex_res:
             x = regex_res.group(1)
             y = regex_res.group(2).strip()
 
         if not y:
-            regex_res = re.search('.* ב(.*)', user_msg.replace('?',''))
+            regex_res = re.search('.* ב(.*)', user_msg.replace('?', ''))
             if regex_res:
                 y = regex_res.group(1).strip()
 
@@ -935,7 +993,7 @@ class ActionNutritionHowManyXinY(Action):
                 else:
                     y_common = y_food
 
-            food = db_df[db_df['shmmitzrach'].str.contains(y_common)].iloc[0,:]
+            food = db_df[db_df['shmmitzrach'].str.contains(y_common)].iloc[0, :]
             feature = lut_df[lut_df.index == x]["Entity"][0]
             units = lut_df[lut_df.index == x]["Units"][0]
 
@@ -948,10 +1006,9 @@ class ActionNutritionHowManyXinY(Action):
 
             food_units_factor = 1.0
             if not food_units_row.empty:
-                food_units_factor = food_units_row['mishkal'].values[0]/100
+                food_units_factor = food_units_row['mishkal'].values[0] / 100
 
             val = food[feature] * food_units_factor
-
 
             if units == 0:
                 res = "ב-%s של %s יש %.2f %s" % (food_units, food['shmmitzrach'], float(val), x)
@@ -1012,7 +1069,7 @@ class ActionIsFoodHealthyQuestion(Action):
             if food in common_df.index:
                 food = common_df[common_df.index == food]['shmmitzrach'][0]
 
-            food = db_df[db_df['shmmitzrach'].str.contains(food)].iloc[0,:]
+            food = db_df[db_df['shmmitzrach'].str.contains(food)].iloc[0, :]
 
             _, nutrition_density_res = get_food_nutrition_density(food, food_ranges_df)
 
@@ -1095,7 +1152,7 @@ class ActionWhatIsHealthierQuestion(Action):
                 food_entity2 = ent['value']
 
         if not food_entity2:
-            regex_res = re.search('.* או (.*)', user_msg.replace('?',''))
+            regex_res = re.search('.* או (.*)', user_msg.replace('?', ''))
             if regex_res:
                 food_entity2 = regex_res.group(1).strip()
 
@@ -1112,7 +1169,7 @@ class ActionWhatIsHealthierQuestion(Action):
                 if food in common_df.index:
                     food = common_df[common_df.index == food]['shmmitzrach'][0]
 
-                food = db_df[db_df['shmmitzrach'].str.contains(food)].iloc[0,:]
+                food = db_df[db_df['shmmitzrach'].str.contains(food)].iloc[0, :]
 
                 nutrition_density, _ = get_food_nutrition_density(food, food_ranges_df)
 
@@ -1204,7 +1261,7 @@ class ActionWhatIsRecommendedQuestion(Action):
             if food in common_df.index:
                 food = common_df[common_df.index == food]['shmmitzrach'][0]
 
-            food = db_df[db_df['shmmitzrach'].str.contains(food)].iloc[0,:]
+            food = db_df[db_df['shmmitzrach'].str.contains(food)].iloc[0, :]
 
             _, nutrition_density_res = get_food_nutrition_density(food, food_ranges_df)
             _, nutrition_energy_res = get_food_energy_density(food, food_ranges_df)
@@ -1289,8 +1346,8 @@ class ActionBloodtestGenericQuestion(Action):
 
             bloodtest_row = bloodtest_df[(bloodtest_df['Element'] == feature) & \
                                         ((bloodtest_df['Gender'] == "ANY") | (bloodtest_df['Gender'] == gender_str)) & \
-                                        ((bloodtest_df['Age min'] == "ANY") | (bloodtest_df['Age min'].replace('ANY',-1).astype(float) <= age)) & \
-                                        ((bloodtest_df['Age Max'] == "ANY") | (bloodtest_df['Age Max'].replace('ANY',-1).astype(float) > age))]
+                                        ((bloodtest_df['Age min'] == "ANY") | (bloodtest_df['Age min'].replace('ANY', -1).astype(float) <= age)) & \
+                                        ((bloodtest_df['Age Max'] == "ANY") | (bloodtest_df['Age Max'].replace('ANY', -1).astype(float) > age))]
 
             bloodtest_type = bloodtest_row['Graph type'].values[0]
             bloodtest_min = bloodtest_row['Min'].values[0]
@@ -1340,7 +1397,7 @@ class ActionBloodtestValueQuestion(Action):
                     bloodtest_entity = ent['value']
 
         if not val:
-            regex_res = re.search('האם (.*) הוא .*', user_msg.replace('?',''))
+            regex_res = re.search('האם (.*) הוא .*', user_msg.replace('?', ''))
             if regex_res:
                 val = regex_res.group(1).strip()
 
@@ -1360,8 +1417,8 @@ class ActionBloodtestValueQuestion(Action):
 
             bloodtest_row = bloodtest_df[(bloodtest_df['Element'] == feature) & \
                                         ((bloodtest_df['Gender'] == "ANY") | (bloodtest_df['Gender'] == gender_str)) & \
-                                        ((bloodtest_df['Age min'] == "ANY") | (bloodtest_df['Age min'].replace('ANY',-1).astype(float) <= age)) & \
-                                        ((bloodtest_df['Age Max'] == "ANY") | (bloodtest_df['Age Max'].replace('ANY',-1).astype(float) > age))]
+                                        ((bloodtest_df['Age min'] == "ANY") | (bloodtest_df['Age min'].replace('ANY', -1).astype(float) <= age)) & \
+                                        ((bloodtest_df['Age Max'] == "ANY") | (bloodtest_df['Age Max'].replace('ANY', -1).astype(float) > age))]
 
             bloodtest_type = bloodtest_row['Graph type'].values[0]
             bloodtest_min = bloodtest_row['Min'].values[0]
@@ -1465,7 +1522,7 @@ class ActionFoodSubstituteQuestion(Action):
             if food in common_df.index:
                 food = common_df[common_df.index == food]['shmmitzrach'][0]
 
-            food_tzameret = db_df[db_df['shmmitzrach'].str.contains(food)].iloc[0,:]
+            food_tzameret = db_df[db_df['shmmitzrach'].str.contains(food)].iloc[0, :]
             tzameret_code = int(food_tzameret['smlmitzrach'])
             tzameret_code_msb = food_tzameret['smlmitzrach'][0]
             food_energy = food_tzameret['food_energy']
@@ -1479,7 +1536,7 @@ class ActionFoodSubstituteQuestion(Action):
                     user_msg_feature_v.append(tag_df.values[0])
 
             food_filter_1 = db_df[db_df['smlmitzrach'].str[0].isin(tzameret_groups_lut[tzameret_code_msb])]
-            food_filter_2 = db_df[abs(db_df['food_energy'] - food_energy)/food_energy < food_energy_thr]
+            food_filter_2 = db_df[abs(db_df['food_energy'] - food_energy) / food_energy < food_energy_thr]
             food_filter_1_2 = pd.merge(food_filter_1, food_filter_2, how='inner')
             food_filter_1_2['smlmitzrach'] = food_filter_1_2['smlmitzrach'].astype(float)
             food_filter = features_df[features_df['smlmitzrach'].isin(food_filter_1_2['smlmitzrach'].to_list())]
@@ -1491,8 +1548,8 @@ class ActionFoodSubstituteQuestion(Action):
             if food_features.empty:
                 food_filter['features_score'] = 0
             else:
-                food_features_compact = food_features.iloc[:,5:-4]
-                food_filter_compact = food_filter.iloc[:,5:-4].reset_index(drop=True)
+                food_features_compact = food_features.iloc[:, 5:-4]
+                food_filter_compact = food_filter.iloc[:, 5:-4].reset_index(drop=True)
 
                 food_features_compact_shaped = pd.DataFrame(np.repeat(food_features_compact.values, len(food_filter_compact), axis=0))
                 food_features_compact_shaped.reset_index(drop=True)
@@ -1643,19 +1700,19 @@ class ProfileFormValidator(FormValidationAction):
 
         phone_value = None
         if requested_slot == "phone":
-            phone_value = value.replace('-','').replace(' ','')
+            phone_value = value.replace('-', '').replace(' ', '')
 
             pkl_db = './persons.pkl'
             if path.exists(pkl_db):
                 df = pd.read_pickle(pkl_db)
                 if phone_value in df.index:
                     dispatcher.utter_message(text="פרטיך נטענו בהצלחה, ברוכים השבים %s" % df.loc[phone_value].username)
-                    return { 'phone': phone_value,
-                             'username': df.loc[phone_value].username,
-                             'gender': df.loc[phone_value].gender,
-                             'age': df.loc[phone_value].age,
-                             'weight': df.loc[phone_value].weight,
-                             'height': df.loc[phone_value].height }
+                    return {'phone': phone_value,
+                            'username': df.loc[phone_value].username,
+                            'gender': df.loc[phone_value].gender,
+                            'age': df.loc[phone_value].age,
+                            'weight': df.loc[phone_value].weight,
+                            'height': df.loc[phone_value].height}
             else:
                 df = pd.DataFrame(columns=["username", "gender", "age", "weight", "height"])
                 df.to_pickle(pkl_db)
