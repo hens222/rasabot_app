@@ -828,6 +828,7 @@ class Actionxcaniny(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
         try:
             meal = ""
             # loading data frame
@@ -872,6 +873,7 @@ class Actionxcaniny(Action):
                 temp = random.randint(0, len(items) - 1)
                 y += str(i) + ". " + str(items[items.index == indeX[temp]]['Food_Name'].values[0]) + "\n"
             dispatcher.utter_message(y)
+        
         except:
             dispatcher.utter_message(text="אין למושג, מצטער!")
 
@@ -885,8 +887,10 @@ class ActionMealQuestion(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
         meal = []
         message = tracker.latest_message.get('text') if tracker.latest_message.get('text') else None
+        
         # get the question from the slot
         if message is None:
             message = tracker.get_slot('x') if tracker.get_slot('x') else None
@@ -901,7 +905,6 @@ class ActionMealQuestion(Action):
         try:
             res = Core_fun(meal, meal_sheets())
             dispatcher.utter_message(res)
-
 
         except:
             dispatcher.utter_message(text="אין למושג, מצטער!")
