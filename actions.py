@@ -18,12 +18,12 @@ from os import path
 from typing import Any, Text, Dict, List, Union, Optional
 from rasa_sdk import Action, Tracker
 from rasa_sdk import FormValidationAction
-from rasa_sdk.events import SlotSet
+from rasa_sdk.events import SlotSet, FollowupAction
 from rasa_sdk.types import DomainDict
 from rasa_sdk.executor import CollectingDispatcher
 
-def load_db(db_bitmap):
 
+def load_db(db_bitmap):
     db_dict = {}
 
     # "Zameret food list 22_JAN_2020"
@@ -68,7 +68,8 @@ def load_db(db_bitmap):
         db_dict['food_qna'] = pd.read_csv(io.StringIO(s.decode('utf-8')),
                                           header=0,
                                           index_col=["nutrition_density"],
-                                          usecols=["nutrition_density", "energy_density", "description_density"]).fillna(0)
+                                          usecols=["nutrition_density", "energy_density",
+                                                   "description_density"]).fillna(0)
 
     # "Zameret_hebrew_features" - List of common foods
     if (db_bitmap & 0x10) > 0:
@@ -86,7 +87,8 @@ def load_db(db_bitmap):
         db_dict['food_ranges'] = pd.read_csv(io.StringIO(s.decode('utf-8')),
                                              header=0,
                                              index_col=["Nutrient"],
-                                             usecols=["Nutrient", "Medium - threshold per 100gr", "High - threshold per 100gr",
+                                             usecols=["Nutrient", "Medium - threshold per 100gr",
+                                                      "High - threshold per 100gr",
                                                       "good_or_bad", "tzameret_name", "hebrew_name"]).fillna(0)
 
     # "Newt Machine Readable" - MicroNutrients
@@ -134,7 +136,8 @@ def load_db(db_bitmap):
         s = requests.get(url).content
         db_dict['subs_tags_alias'] = pd.read_csv(io.StringIO(s.decode('utf-8')),
                                                  header=0,
-                                                 usecols=["Entity Alias", "Entity", "Show_stopers"]).set_index('Entity Alias')
+                                                 usecols=["Entity Alias", "Entity", "Show_stopers"]).set_index(
+            'Entity Alias')
 
     return db_dict
 
@@ -182,7 +185,6 @@ def meal_sheets(debug=False):
 # ------------------------------------------------------------------
 
 def get_rda(name, tracker, intent_upper=False):
-
     db_dict = load_db(0x46)
 
     lut_df = db_dict['lut']
@@ -194,7 +196,8 @@ def get_rda(name, tracker, intent_upper=False):
         micro_nutrients_df = micro_nutrients_df[micro_nutrients_df['Type'] == "RDA"]
 
     status = "match"
-    if not (tracker.get_slot('gender') and tracker.get_slot('age') and tracker.get_slot('weight') and tracker.get_slot('height')):
+    if not (tracker.get_slot('gender') and tracker.get_slot('age') and tracker.get_slot('weight') and tracker.get_slot(
+            'height')):
         status = "default"
 
     nutrient = None
@@ -221,11 +224,17 @@ def get_rda(name, tracker, intent_upper=False):
         user_vars['height'] = tracker.get_slot('height') if tracker.get_slot('height') else "180"
 
         rda_row = micro_nutrients_df[(micro_nutrients_df['Micronutrient'] == feature_rda) & \
-                                     ((micro_nutrients_df['Gender'] == "ANY")    | (micro_nutrients_df['Gender'] == gender)) & \
-                                     ((micro_nutrients_df['Pregnancy'] == "ANY") | (micro_nutrients_df['Pregnancy'] == "No")) & \
-                                     ((micro_nutrients_df['Lactating'] == "ANY") | (micro_nutrients_df['Lactating'] == "No")) & \
-                                     ((micro_nutrients_df['Age Min'] == "ANY")   | (micro_nutrients_df['Age Min'].astype(float) <= int(user_vars['age']))) & \
-                                     ((micro_nutrients_df['Age Max'] == "ANY")   | (micro_nutrients_df['Age Max'].astype(float) > int(user_vars['age'])))]
+                                     ((micro_nutrients_df['Gender'] == "ANY") | (
+                                             micro_nutrients_df['Gender'] == gender)) & \
+                                     ((micro_nutrients_df['Pregnancy'] == "ANY") | (
+                                             micro_nutrients_df['Pregnancy'] == "No")) & \
+                                     ((micro_nutrients_df['Lactating'] == "ANY") | (
+                                             micro_nutrients_df['Lactating'] == "No")) & \
+                                     ((micro_nutrients_df['Age Min'] == "ANY") | (
+                                             micro_nutrients_df['Age Min'].astype(float) <= int(
+                                         user_vars['age']))) & \
+                                     ((micro_nutrients_df['Age Max'] == "ANY") | (
+                                             micro_nutrients_df['Age Max'].astype(float) > int(user_vars['age'])))]
 
         rda_text = str(rda_row['Free Text'].values[0])
         rda_value = str(rda_row['Value'].values[0])
@@ -264,7 +273,6 @@ def get_rda(name, tracker, intent_upper=False):
 # ------------------------------------------------------------------
 
 def get_personal_str(rda_status, tracker):
-
     age = tracker.get_slot('age') if tracker.get_slot('age') and rda_status == "match" else '40'
     gender = tracker.get_slot('gender') if tracker.get_slot('gender') and rda_status == "match" else 'זכר'
     weight = tracker.get_slot('weight') if tracker.get_slot('weight') and rda_status == "match" else '80'
@@ -280,7 +288,6 @@ def get_personal_str(rda_status, tracker):
 # ------------------------------------------------------------------
 
 def get_food_nutrition_density(food, food_ranges_db):
-
     # Nutrition Density is defined in Tzameret:
     density_normalized = float(food["Nutrition density normalized"])
 
@@ -301,7 +308,6 @@ def get_food_nutrition_density(food, food_ranges_db):
 # ------------------------------------------------------------------
 
 def get_food_energy_density(food, food_ranges_db):
-
     # Energy Density is defined in Tzameret:
     density_normalized = float(food["Energy density"])
 
@@ -329,6 +335,7 @@ def arrayToString(s):
         str1 += str(ele)
     return str1.replace(',', '')
 
+
 def update_budgets(daily_budget, meals_num, snacks_num, weights):
     """Takes total budget, number of meals and snacks, and weights as paramters. Returns budget for each category for
     every meal """
@@ -351,6 +358,7 @@ def update_budgets(daily_budget, meals_num, snacks_num, weights):
 
     return budgets
 
+
 def filter_meals_by_features(user_params, df_feature):
     '''Takes user inputs and a Dataframe as parameters and returns a DataFrame filtered by the user inputs'''
     for k, v in user_params.items():
@@ -358,11 +366,13 @@ def filter_meals_by_features(user_params, df_feature):
             df_feature = df_feature.loc[df_feature[k] == v]
     return df_feature
 
+
 def filter_meals_by_meal_type(df, meal_type):
     '''Filters the DataFrame by the meal type to be used in making a scoreboard for each meal like breakfast, lunch etc.'''
 
     if debug:
         return df.loc[(df['il_' + meal_type] == 'Yes')]
+
 
 def candidate_units_amounts(item, sn, items_type):
     '''Returns the different options for mida amount and servings for each amount'''
@@ -394,6 +404,7 @@ def candidate_units_amounts(item, sn, items_type):
                 amounts_intersection.append(max_amount_snack_amounts[k])
     return units_intersection, amounts_intersection
 
+
 def get_item_property(sn, grams, serving):
     '''Returns the total item calories for each item'''
 
@@ -409,11 +420,13 @@ def get_item_property(sn, grams, serving):
     total = attribute_total * mishkal * serving
     return total
 
+
 def update_calorie_budgets(candidate_calories, item_type, bud):
     '''Updates the calories budget based on how many calories were already used'''
 
     bud[item_type] = bud[item_type] - candidate_calories
     return bud
+
 
 def build_meal(meals_bank, meal_type, budget):
     '''Builds a meal taking a DataFrame, meal type and budget as parameters. Meal takes item from each category (Carbs, Protein etc.) and returns the meal, weighted average score and total meal calories'''
@@ -498,6 +511,7 @@ def build_meal(meals_bank, meal_type, budget):
     score = total_utilization - (penalty_score * inputs.get('penalty_weight')) - extra_penalty
 
     return meals, score, meal_cals
+
 
 def build_meal_wrapper():
     # Builds and populates a scoreboard that sorts the meals based on their score
@@ -624,6 +638,7 @@ def build_meal_wrapper():
 
     return df_final
 
+
 def displayMeal(data, mealType):
     menu = ""
     calories = 0
@@ -639,6 +654,7 @@ def displayMeal(data, mealType):
     menu = menu + "כמות קלוריות -> " + arrayToString(str(calories))
     return menu
 
+
 def getMeal(data, meal_type):
     temp_meal = data[data.index == meal_type]
     first, second, third = temp_meal['Item 1'].head(1).values, temp_meal['Item 2'].head(1).values, temp_meal[
@@ -646,7 +662,9 @@ def getMeal(data, meal_type):
         1).values
     calories = temp_meal['meal_cals'].head(1).values
     dic = {'breakfast': 'ארוחת בוקר', 'lunch': 'ארוחת צהריים', 'dinner': 'ארוחת ערב'}
-    return dic[meal_type] + ":\n1. " + arrayToString(first) + "\n2. " + arrayToString(second) + "\n3. " + arrayToString(third) + "\n", int(calories)
+    return dic[meal_type] + ":\n1. " + arrayToString(first) + "\n2. " + arrayToString(second) + "\n3. " + arrayToString(
+        third) + "\n", int(calories)
+
 
 def Core_fun(meal_type, sheets):
     global snacks, user_params, units_thr, type_thr, budget_weights_meals, budget_weights_snacks_fruits_fat, budget_weights_savoury_snacks, budget_weights_sweets, inputs, display_user_parameter, debug
@@ -740,10 +758,72 @@ def Core_fun(meal_type, sheets):
     return items
 
 # ------------------------------------------------------------------
-class ActionCanXinY(Action):
+
+class Actionwhataboutx(Action):
 
     def name(self) -> Text:
-        return "action_nutrition_what_x_can_be_in_y"
+        return "action_nutrition_what_aboutx"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        # get the right actions according to the intent
+        intens_dict = {"nutrition_howmanyxiny": "action_nutrition_howmanyxiny",
+                       "nutrition_meal_question": "action_nutrition_meal_question"}
+        user_messge = tracker.latest_message.get('text')
+        previous_intent = tracker.get_slot('previous_intent')
+
+        try:
+            next_action = intens_dict[previous_intent]
+            # ---------------------------------------------
+            # meal question
+            if previous_intent == "nutrition_meal_question":
+                return [FollowupAction(next_action), SlotSet("y", ""),
+                        SlotSet("x", user_messge), SlotSet("previous_intent", previous_intent)]
+
+            # ------------------------------------------------
+            # how many x in y
+            if previous_intent == "nutrition_howmanyxiny":
+
+                db_dict = load_db(0x2)
+
+                lut_df = db_dict['lut']
+
+                y = None
+                x = tracker.get_slot('x') if tracker.get_slot('x') else None
+                if tracker.latest_message.get('entities'):
+                    y = tracker.get_slot('y') if tracker.get_slot('y') else None
+                for ent in tracker.latest_message.get('entities'):
+                    if ent['entity'] in lut_df[self.name() + "_x"].values:
+                        x = ent['value']
+                    elif ent['entity'] in lut_df[self.name() + "_y"].values:
+                        y = ent['value']
+
+                regex_res = re.search('כמה (.*) יש ב(.*)', user_messge.replace('?', ''))
+                if regex_res:
+                    x = regex_res.group(1)
+                    y = regex_res.group(2).strip()
+
+                if not y:
+                    regex_res = re.search('.* ב(.*)', user_messge.replace('?', ''))
+                    if regex_res:
+                        y = regex_res.group(1).strip()
+                regex_units_res = re.search('(.*) של (.*)', y) if y else None
+                if regex_units_res:
+                    y = regex_units_res.group(2)
+
+                return [FollowupAction(next_action),
+                        SlotSet("x", x), SlotSet("y", y),
+                        SlotSet("previous_intent", previous_intent)]
+        except:
+            dispatcher.utter_message(text="אין למושג, מצטער!")
+        return []
+
+# ------------------------------------------------------------------
+class Actionxcaniny(Action):
+
+    def name(self) -> Text:
+        return "action_nutrition_what_xcanbeiny"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
@@ -763,7 +843,6 @@ class ActionCanXinY(Action):
                 meal = "IL_Lunch"
             if 'ערב' in message:
                 meal = 'IL_Dinner'
-            entity = ""
             # get the entity value from the bot
             prediction = tracker.latest_message
             entity_value = prediction['entities'][0]['value']
@@ -771,7 +850,7 @@ class ActionCanXinY(Action):
                 entity = "Vegetarian"
             elif entity_value == 'טבעוני':
                 entity = "Vegan"
-            elif entity_value == 'Paleo':
+            elif entity_value == 'פלאו':
                 entity = "Vegan"
             else:
                 # get the alias entity from the data frame
@@ -801,35 +880,32 @@ class ActionCanXinY(Action):
 class ActionMealQuestion(Action):
 
     def name(self) -> Text:
-        return "action_meal_question"
+        return "action_nutrition_meal_question"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         meal = []
-        s = tracker.latest_message.get('text')
+        message = tracker.latest_message.get('text') if tracker.latest_message.get('text') else None
+        # get the question from the slot
+        if message is None:
+            message = tracker.get_slot('x') if tracker.get_slot('x') else None
+        if 'בוקר' in message:
+            meal = ['breakfast']
+        if 'צהריים' in message:
+            meal = ['lunch']
+        if 'ערב' in message:
+            meal = ['dinner']
+        if 'יום' in message or 'יומי' in message:
+            meal = ['breakfast', 'lunch', 'dinner']
         try:
-            for ent in tracker.latest_message.get('entities'):
-                if ent['value'] == "ערב":
-                    meal = ['dinner']
-                    break
-                if ent['value'] == "צהריים":
-                    meal = ['lunch']
-                    break
-                if ent['value'] == "בוקר":
-                    meal = ['breakfast']
-                    break
-            if not meal:
-                if 'יום' in s or 'יומי' in s:
-                    meal = ['breakfast', 'lunch', 'dinner']
-
             res = Core_fun(meal, meal_sheets())
             dispatcher.utter_message(res)
 
+
         except:
             dispatcher.utter_message(text="אין למושג, מצטער!")
-
-        return []
+        return [SlotSet("x", ""), SlotSet("y", ""), SlotSet("previous_intent", "nutrition_meal_question")]
 
 # ------------------------------------------------------------------
 
@@ -1029,7 +1105,8 @@ class ActionNutritionHowManyXinY(Action):
                 rda = 100 * float(val) / rda_val
                 intent_upper_str = "המקסימלית" if intent_upper else "המומלצת"
                 res += "\r"
-                res += "שהם כ-%d אחוז מהקצובה היומית %s %s" % (int(rda), intent_upper_str, get_personal_str(rda_status, tracker))
+                res += "שהם כ-%d אחוז מהקצובה היומית %s %s" % (
+                    int(rda), intent_upper_str, get_personal_str(rda_status, tracker))
 
             res += "\r"
             res += rda_text if rda_text else ""
@@ -1039,7 +1116,7 @@ class ActionNutritionHowManyXinY(Action):
         except:
             dispatcher.utter_message(text="אין לי מושג כמה, מצטער!")
 
-        return [SlotSet("x", x), SlotSet("y", y)]
+        return [SlotSet("x", x), SlotSet("y", y), SlotSet("previous_intent", "nutrition_howmanyxiny")]
 
 # ------------------------------------------------------------------
 
@@ -1345,9 +1422,11 @@ class ActionBloodtestGenericQuestion(Action):
             age = float(tracker.get_slot('age') if tracker.get_slot('age') else "40")
 
             bloodtest_row = bloodtest_df[(bloodtest_df['Element'] == feature) & \
-                                        ((bloodtest_df['Gender'] == "ANY") | (bloodtest_df['Gender'] == gender_str)) & \
-                                        ((bloodtest_df['Age min'] == "ANY") | (bloodtest_df['Age min'].replace('ANY', -1).astype(float) <= age)) & \
-                                        ((bloodtest_df['Age Max'] == "ANY") | (bloodtest_df['Age Max'].replace('ANY', -1).astype(float) > age))]
+                                         ((bloodtest_df['Gender'] == "ANY") | (bloodtest_df['Gender'] == gender_str)) & \
+                                         ((bloodtest_df['Age min'] == "ANY") | (
+                                                 bloodtest_df['Age min'].replace('ANY', -1).astype(float) <= age)) & \
+                                         ((bloodtest_df['Age Max'] == "ANY") | (
+                                                 bloodtest_df['Age Max'].replace('ANY', -1).astype(float) > age))]
 
             bloodtest_type = bloodtest_row['Graph type'].values[0]
             bloodtest_min = bloodtest_row['Min'].values[0]
@@ -1356,10 +1435,12 @@ class ActionBloodtestGenericQuestion(Action):
             bloodtest_max = bloodtest_row['Max'].values[0]
 
             if bloodtest_type == 1:
-                res = 'ערך תקין עבור בדיקת %s בין %.2f ועד %.2f, ערך מעל %.2f נחשב חריג' % (bloodtest_entity, bloodtest_min, bloodtest_thr1, bloodtest_thr2)
+                res = 'ערך תקין עבור בדיקת %s בין %.2f ועד %.2f, ערך מעל %.2f נחשב חריג' % (
+                    bloodtest_entity, bloodtest_min, bloodtest_thr1, bloodtest_thr2)
 
             elif bloodtest_type == 2:
-                res = 'ערך תקין עבור בדיקת %s בין %.2f ועד %.2f, ערך מתחת %.2f נחשב חריג' % (bloodtest_entity, bloodtest_thr2, bloodtest_max, bloodtest_thr1)
+                res = 'ערך תקין עבור בדיקת %s בין %.2f ועד %.2f, ערך מתחת %.2f נחשב חריג' % (
+                    bloodtest_entity, bloodtest_thr2, bloodtest_max, bloodtest_thr1)
 
             elif bloodtest_type == 3:
                 res = 'ערך תקין עבור בדיקת %s בין %.2f ועד %.2f' % (bloodtest_entity, bloodtest_thr1, bloodtest_thr2)
@@ -1416,9 +1497,11 @@ class ActionBloodtestValueQuestion(Action):
             age = float(tracker.get_slot('age') if tracker.get_slot('age') else "40")
 
             bloodtest_row = bloodtest_df[(bloodtest_df['Element'] == feature) & \
-                                        ((bloodtest_df['Gender'] == "ANY") | (bloodtest_df['Gender'] == gender_str)) & \
-                                        ((bloodtest_df['Age min'] == "ANY") | (bloodtest_df['Age min'].replace('ANY', -1).astype(float) <= age)) & \
-                                        ((bloodtest_df['Age Max'] == "ANY") | (bloodtest_df['Age Max'].replace('ANY', -1).astype(float) > age))]
+                                         ((bloodtest_df['Gender'] == "ANY") | (bloodtest_df['Gender'] == gender_str)) & \
+                                         ((bloodtest_df['Age min'] == "ANY") | (
+                                                 bloodtest_df['Age min'].replace('ANY', -1).astype(float) <= age)) & \
+                                         ((bloodtest_df['Age Max'] == "ANY") | (
+                                                 bloodtest_df['Age Max'].replace('ANY', -1).astype(float) > age))]
 
             bloodtest_type = bloodtest_row['Graph type'].values[0]
             bloodtest_min = bloodtest_row['Min'].values[0]
@@ -1428,21 +1511,27 @@ class ActionBloodtestValueQuestion(Action):
 
             if bloodtest_type == 1:
                 if bloodtest_min <= float(val) <= bloodtest_thr1:
-                    res = 'כן, זהו ערך תקין עבור בדיקת %s היות והוא נופל בטווח בין %.2f ועד %.2f. ערך מעל %.2f נחשב לחריג' % (bloodtest_entity, bloodtest_min, bloodtest_thr1, bloodtest_thr2)
+                    res = 'כן, זהו ערך תקין עבור בדיקת %s היות והוא נופל בטווח בין %.2f ועד %.2f. ערך מעל %.2f נחשב לחריג' % (
+                        bloodtest_entity, bloodtest_min, bloodtest_thr1, bloodtest_thr2)
                 else:
-                    res = 'לא, זהו אינו ערך תקין עבור בדיקת %s. ערך תקין הינו בטווח בין %.2f ועד %.2f. ערך מעל %.2f נחשב לחריג' % (bloodtest_entity, bloodtest_min, bloodtest_thr1, bloodtest_thr2)
+                    res = 'לא, זהו אינו ערך תקין עבור בדיקת %s. ערך תקין הינו בטווח בין %.2f ועד %.2f. ערך מעל %.2f נחשב לחריג' % (
+                        bloodtest_entity, bloodtest_min, bloodtest_thr1, bloodtest_thr2)
 
             elif bloodtest_type == 2:
                 if bloodtest_thr2 <= float(val) <= bloodtest_max:
-                    res = 'כן, זהו ערך תקין עבור בדיקת %s היות והוא נופל בטווח בין %.2f ועד %.2f. ערך מתחת %.2f נחשב לחריג' % (bloodtest_entity, bloodtest_thr2, bloodtest_max, bloodtest_thr1)
+                    res = 'כן, זהו ערך תקין עבור בדיקת %s היות והוא נופל בטווח בין %.2f ועד %.2f. ערך מתחת %.2f נחשב לחריג' % (
+                        bloodtest_entity, bloodtest_thr2, bloodtest_max, bloodtest_thr1)
                 else:
-                    res = 'לא, זהו אינו ערך תקין עבור בדיקת %s. ערך תקין הינו בטווח בין %.2f ועד %.2f. ערך מתחת %.2f נחשב לחריג' % (bloodtest_entity, bloodtest_thr2, bloodtest_max, bloodtest_thr1)
+                    res = 'לא, זהו אינו ערך תקין עבור בדיקת %s. ערך תקין הינו בטווח בין %.2f ועד %.2f. ערך מתחת %.2f נחשב לחריג' % (
+                        bloodtest_entity, bloodtest_thr2, bloodtest_max, bloodtest_thr1)
 
             elif bloodtest_type == 3:
                 if bloodtest_thr1 <= float(val) <= bloodtest_thr2:
-                    res = 'כן, זהו ערך תקין עבור בדיקת %s היות והוא נופל בטווח בין %.2f ועד %.2f' % (bloodtest_entity, bloodtest_thr1, bloodtest_thr2)
+                    res = 'כן, זהו ערך תקין עבור בדיקת %s היות והוא נופל בטווח בין %.2f ועד %.2f' % (
+                        bloodtest_entity, bloodtest_thr1, bloodtest_thr2)
                 else:
-                    res = 'לא, זהו אינו ערך תקין עבור בדיקת %s. ערך תקין הינו בטווח בין %.2f ועד %.2f.' % (bloodtest_entity, bloodtest_thr1, bloodtest_thr2)
+                    res = 'לא, זהו אינו ערך תקין עבור בדיקת %s. ערך תקין הינו בטווח בין %.2f ועד %.2f.' % (
+                        bloodtest_entity, bloodtest_thr1, bloodtest_thr2)
 
             else:
                 raise Exception()
@@ -1482,39 +1571,39 @@ class ActionFoodSubstituteQuestion(Action):
                 break
 
         tzameret_groups_lut = {}
-        tzameret_groups_lut['1'] = ['1', '4']            # Milk
+        tzameret_groups_lut['1'] = ['1', '4']  # Milk
         tzameret_groups_lut['2'] = ['1', '2', '3', '4']  # Meat
         tzameret_groups_lut['3'] = ['1', '2', '3', '4']  # Eggs
-        tzameret_groups_lut['4'] = ['1', '4']            # Dairy
+        tzameret_groups_lut['4'] = ['1', '4']  # Dairy
         tzameret_groups_lut['5'] = ['5', '6', '7', '9']  # Snacks
         tzameret_groups_lut['6'] = ['5', '6', '7', '9']  # Fruits
         tzameret_groups_lut['7'] = ['5', '6', '7', '9']  # Vegetables
-        tzameret_groups_lut['8'] = ['8', '4']            # Fat
+        tzameret_groups_lut['8'] = ['8', '4']  # Fat
         tzameret_groups_lut['9'] = ['5', '6', '7', '9']  # Beverages
 
         food_energy_thr = 0.05
 
         def get_advantages(food):
-          advantages = []
-          for idx, row in food_ranges_df.iterrows():
-              if row["tzameret_name"] and row["tzameret_name"] in food:
-                  if row["good_or_bad"] == "good":
-                      value = float(food[row["tzameret_name"]])
-                      if idx == "Protein":
-                          threshold = 250
-                      else:
-                          threshold = float(row["Medium - threshold per 100gr"])
-                      if value > threshold:
-                          advantages.append(row["hebrew_name"])
-          return advantages
+            advantages = []
+            for idx, row in food_ranges_df.iterrows():
+                if row["tzameret_name"] and row["tzameret_name"] in food:
+                    if row["good_or_bad"] == "good":
+                        value = float(food[row["tzameret_name"]])
+                        if idx == "Protein":
+                            threshold = 250
+                        else:
+                            threshold = float(row["Medium - threshold per 100gr"])
+                        if value > threshold:
+                            advantages.append(row["hebrew_name"])
+            return advantages
 
         def get_advantages_score(food):
-          act = food['advantages']
-          ref = ast.literal_eval(food['advantages_ref'])
-          intersection = []
-          if isinstance(act, list) and isinstance(ref, list):
-            intersection = list(set(act) & set(ref))
-          return len(intersection)
+            act = food['advantages']
+            ref = ast.literal_eval(food['advantages_ref'])
+            intersection = []
+            if isinstance(act, list) and isinstance(ref, list):
+                intersection = list(set(act) & set(ref))
+            return len(intersection)
 
         try:
 
@@ -1529,7 +1618,8 @@ class ActionFoodSubstituteQuestion(Action):
             food_features = features_df[features_df['smlmitzrach'].fillna(0).astype(int) == tzameret_code]
 
             user_msg_feature_v = []
-            user_msg_feature_k = list(set(subs_tags_alias_df.index.to_list()) & set(user_msg.replace(',', '').split(" ")))
+            user_msg_feature_k = list(
+                set(subs_tags_alias_df.index.to_list()) & set(user_msg.replace(',', '').split(" ")))
             for tag in user_msg_feature_k:
                 tag_df = subs_tags_alias_df[subs_tags_alias_df.index == tag]['Entity']
                 if tag_df.any:
@@ -1551,7 +1641,8 @@ class ActionFoodSubstituteQuestion(Action):
                 food_features_compact = food_features.iloc[:, 5:-4]
                 food_filter_compact = food_filter.iloc[:, 5:-4].reset_index(drop=True)
 
-                food_features_compact_shaped = pd.DataFrame(np.repeat(food_features_compact.values, len(food_filter_compact), axis=0))
+                food_features_compact_shaped = pd.DataFrame(
+                    np.repeat(food_features_compact.values, len(food_filter_compact), axis=0))
                 food_features_compact_shaped.reset_index(drop=True)
                 food_features_compact_shaped.columns = food_features_compact.columns
 
@@ -1635,11 +1726,11 @@ class ProfileFormValidator(FormValidationAction):
     # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     async def required_slots(
-        self,
-        slots_mapped_in_domain: List[Text],
-        dispatcher: "CollectingDispatcher",
-        tracker: "Tracker",
-        domain: "DomainDict",
+            self,
+            slots_mapped_in_domain: List[Text],
+            dispatcher: "CollectingDispatcher",
+            tracker: "Tracker",
+            domain: "DomainDict",
     ) -> Optional[List[Text]]:
         required_slots = ["phone", "username", "gender", "age", "weight", "height"]
 
@@ -1687,11 +1778,11 @@ class ProfileFormValidator(FormValidationAction):
     # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     def validate_phone(
-        self,
-        value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
+            self,
+            value: Text,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         """Validate phone value."""
 
@@ -1724,11 +1815,11 @@ class ProfileFormValidator(FormValidationAction):
     # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     def validate_username(
-        self,
-        value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
+            self,
+            value: Text,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         """Validate username value."""
 
@@ -1746,11 +1837,11 @@ class ProfileFormValidator(FormValidationAction):
     # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     def validate_gender(
-        self,
-        value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
+            self,
+            value: Text,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         """Validate gender value."""
 
@@ -1768,11 +1859,11 @@ class ProfileFormValidator(FormValidationAction):
     # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     def validate_age(
-        self,
-        value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
+            self,
+            value: Text,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         """Validate age value."""
 
@@ -1790,11 +1881,11 @@ class ProfileFormValidator(FormValidationAction):
     # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     def validate_weight(
-        self,
-        value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
+            self,
+            value: Text,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         """Validate weight value."""
 
@@ -1812,11 +1903,11 @@ class ProfileFormValidator(FormValidationAction):
     # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     def validate_height(
-        self,
-        value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
+            self,
+            value: Text,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
         """Validate height value."""
 
@@ -1848,10 +1939,10 @@ class ProfileFormValidator(FormValidationAction):
     # -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
     def submit(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
+            self,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any],
     ) -> List[Dict]:
         """ Define what the form has to do after all required slots are filled"""
 

@@ -92,14 +92,14 @@ stories:
   steps:
   - intent: nutrition_importance
   - action: action_simple_question
-- story: nutrition build meal question
+- story: nutrition meal question
   steps:
-  - intent: nutrition_build_meal_question
-  - action: action_meal_question
-- story: nutrition what x can be in y
+  - intent: nutrition_meal_question
+  - action: action_nutrition_meal_question
+- story: nutrition what x canbein y
   steps:
-  - intent: nutrition_what_x_can_be_in_y
-  - action: action_nutrition_what_x_can_be_in_y
+  - intent: nutrition_what_x_in_y
+  - action: action_nutrition_what_xcanbeiny
 - story: nutrition howmanyxiny
   steps:
   - intent: nutrition_howmanyxiny
@@ -107,7 +107,7 @@ stories:
 - story: nutrition and_what_about_x
   steps:
   - intent: nutrition_and_what_about_x
-  - action: action_nutrition_howmanyxiny
+  - action: action_nutrition_what_aboutx
 - story: nutrition is_food_healthy
   steps:
   - intent: nutrition_is_food_healthy

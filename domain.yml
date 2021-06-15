@@ -34,8 +34,8 @@ intents:
 - nutrition_bloodtest_generic_question
 - nutrition_bloodtest_value_question
 - nutrition_food_substitute_question
-- nutrition_build_meal_question
-- nutrition_what_x_can_be_in_y
+- nutrition_meal_question
+- nutrition_what_x_in_y
 - bot_introduction
 - personlization_list
 - personlization_remove
@@ -70,7 +70,6 @@ intents:
 - nutrition_calculate
 - Ex_calc_calories
 - needs_affirmation
-- action_nutrition_what_x_can_be_in_y
 entities:
 - food_entity
 - food_entity2
@@ -82,7 +81,6 @@ entities:
 - goal_or_state
 - training_type
 - body_part
-- training_concept
 slots:
   age:
     type: any
@@ -116,6 +114,10 @@ slots:
     auto_fill: false
     influence_conversation: false
   y:
+    type: any
+    auto_fill: false
+    influence_conversation: false
+  previous_intent:
     type: any
     auto_fill: false
     influence_conversation: false
@@ -258,8 +260,9 @@ responses:
   utter_jokes:
   - text: למה פיל וזברה נכנסו למנהרה שניים ויצאו שלושה? כי למה היא גם חיה
 actions:
-- action_nutrition_what_x_can_be_in_y
-- action_meal_question
+- action_nutrition_what_aboutx
+- action_nutrition_what_xcanbeiny
+- action_nutrition_meal_question
 - action_simple_question
 - action_nutrition_get_rda
 - action_nutrition_howmanyxiny
