@@ -81,6 +81,7 @@ entities:
 - goal_or_state
 - training_type
 - body_part
+- training_concept
 slots:
   age:
     type: any
@@ -260,7 +261,7 @@ responses:
   utter_jokes:
   - text: למה פיל וזברה נכנסו למנהרה שניים ויצאו שלושה? כי למה היא גם חיה
 actions:
-- action_nutrition_what_aboutx
+- action_nutrition_and_what_aboutx
 - action_nutrition_what_xcanbeiny
 - action_nutrition_meal_question
 - action_simple_question

@@ -762,7 +762,7 @@ def Core_fun(meal_type, sheets):
 class Actionwhataboutx(Action):
 
     def name(self) -> Text:
-        return "action_nutrition_what_aboutx"
+        return "action_nutrition_and_what_aboutx"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
@@ -788,7 +788,6 @@ class Actionwhataboutx(Action):
                 db_dict = load_db(0x2)
 
                 lut_df = db_dict['lut']
-
                 y = None
                 x = tracker.get_slot('x') if tracker.get_slot('x') else None
                 if tracker.latest_message.get('entities'):
@@ -828,7 +827,6 @@ class Actionxcaniny(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
         try:
             meal = ""
             # loading data frame
@@ -873,7 +871,6 @@ class Actionxcaniny(Action):
                 temp = random.randint(0, len(items) - 1)
                 y += str(i) + ". " + str(items[items.index == indeX[temp]]['Food_Name'].values[0]) + "\n"
             dispatcher.utter_message(y)
-        
         except:
             dispatcher.utter_message(text="אין למושג, מצטער!")
 
@@ -887,10 +884,8 @@ class ActionMealQuestion(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
         meal = []
         message = tracker.latest_message.get('text') if tracker.latest_message.get('text') else None
-        
         # get the question from the slot
         if message is None:
             message = tracker.get_slot('x') if tracker.get_slot('x') else None
@@ -1952,4 +1947,3 @@ class ProfileFormValidator(FormValidationAction):
         # utter submit template
         dispatcher.utter_message(text="מה נעשה היום?")
         return []
-

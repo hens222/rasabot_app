@@ -107,7 +107,7 @@ stories:
 - story: nutrition and_what_about_x
   steps:
   - intent: nutrition_and_what_about_x
-  - action: action_nutrition_what_aboutx
+  - action: action_nutrition_and_what_aboutx
 - story: nutrition is_food_healthy
   steps:
   - intent: nutrition_is_food_healthy
