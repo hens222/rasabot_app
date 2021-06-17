@@ -96,9 +96,15 @@ stories:
   steps:
   - intent: nutrition_meal_question
   - action: action_nutrition_meal_question
-- story: nutrition what x canbein y
+- story: nutrition what x can be in y
   steps:
   - intent: nutrition_what_x_in_y
+  - action: action_nutrition_what_xcanbeiny
+- story: nutrition what x can be in y with nutrition_concept entity
+  steps:
+  - intent: nutrition_what_x_in_y
+    entities:
+    - nutrition_concept: טבעוני
   - action: action_nutrition_what_xcanbeiny
 - story: nutrition howmanyxiny
   steps:
