@@ -1,75 +1,148 @@
+version: '2.0'
+config:
+  store_entities_as_slots: true
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 intents:
-- nlu_fallback
-- English
-- profanity
-- nutrition_bloodtest_meaning
-- nutrition_bloodtest_whatif_toohigh
-- nutrition_get_upper_limit
-- Bot_introduction
-- inform
-- nutrition_what_has_little
-- who_made_you
-- greet
-- goodbye
-- affirm
-- deny
-- mood_great
-- mood_unhappy
-- unhappy_with_bot
-- happy_with_bot
-- bot_challenge
-- nutrition_definition
-- nutrition_what_has
-- nutrition_importance
-- nutrition_get_rda
-- nutrition_howto_improve
-- nutrition_howmanyxiny
-- nutrition_and_what_about_x
-- nutrition_is_food_healthy
-- nutrition_what_is_healthier
-- nutrition_is_food_recommended
-- nutrition_bloodtest_generic_question
-- nutrition_bloodtest_value_question
-- nutrition_food_substitute_question
-- nutrition_meal_question
-- nutrition_what_x_in_y
-- bot_introduction
-- personlization_list
-- personlization_remove
-- got_question
-- suprised
-- jokes
-- what_is_the_source_of_your_data
-- thank_you
-- what_type_of_questions
-- can_you_share_nutrition_tips
-- I_want_to_eat_or_be_healthy
-- when_do_you_work
-- nutrition_what_to_eat_before
-- nutrition_what_to_eat_after
-- nutrition_what_impacts
-- nutrition_how_to_avoid
-- nutrition_is_healthy
-- What is the source of your data
-- What can you do
-- When do you work
-- Got Question
-- nutrition_should_I_avoid
-- will_X_make_me_fat
-- nutrition_bloodtest_whatif_toolow
-- request_profile_info
-- What type of questions
-- Who made you
-- Ex_which_training_is_good_for
-- Ex_which_muscles_work
-- Ex_how_to_do
-- nutrition_can_i_substitute
-- nutrition_calculate
-- Ex_calc_calories
-- needs_affirmation
+- nlu_fallback:
+    use_entities: true
+- English:
+    use_entities: true
+- profanity:
+    use_entities: true
+- nutrition_bloodtest_meaning:
+    use_entities: true
+- nutrition_bloodtest_whatif_toohigh:
+    use_entities: true
+- nutrition_get_upper_limit:
+    use_entities: true
+- Bot_introduction:
+    use_entities: true
+- inform:
+    use_entities: true
+- nutrition_what_has_little:
+    use_entities: true
+- who_made_you:
+    use_entities: true
+- greet:
+    use_entities: true
+- goodbye:
+    use_entities: true
+- affirm:
+    use_entities: true
+- deny:
+    use_entities: true
+- mood_great:
+    use_entities: true
+- mood_unhappy:
+    use_entities: true
+- unhappy_with_bot:
+    use_entities: true
+- happy_with_bot:
+    use_entities: true
+- bot_challenge:
+    use_entities: true
+- nutrition_definition:
+    use_entities: true
+- nutrition_what_has:
+    use_entities: true
+- nutrition_importance:
+    use_entities: true
+- nutrition_get_rda:
+    use_entities: true
+- nutrition_howto_improve:
+    use_entities: true
+- nutrition_howmanyxiny:
+    use_entities: true
+- nutrition_and_what_about_x:
+    use_entities: true
+- nutrition_is_food_healthy:
+    use_entities: true
+- nutrition_what_is_healthier:
+    use_entities: true
+- nutrition_is_food_recommended:
+    use_entities: true
+- nutrition_bloodtest_generic_question:
+    use_entities: true
+- nutrition_bloodtest_value_question:
+    use_entities: true
+- nutrition_food_substitute_question:
+    use_entities: true
+- nutrition_meal_question:
+    use_entities: true
+- nutrition_what_x_in_y:
+    use_entities: true
+- bot_introduction:
+    use_entities: true
+- personlization_list:
+    use_entities: true
+- personlization_remove:
+    use_entities: true
+- got_question:
+    use_entities: true
+- suprised:
+    use_entities: true
+- jokes:
+    use_entities: true
+- what_is_the_source_of_your_data:
+    use_entities: true
+- thank_you:
+    use_entities: true
+- what_type_of_questions:
+    use_entities: true
+- can_you_share_nutrition_tips:
+    use_entities: true
+- I_want_to_eat_or_be_healthy:
+    use_entities: true
+- when_do_you_work:
+    use_entities: true
+- nutrition_what_to_eat_before:
+    use_entities: true
+- nutrition_what_to_eat_after:
+    use_entities: true
+- nutrition_what_impacts:
+    use_entities: true
+- nutrition_how_to_avoid:
+    use_entities: true
+- nutrition_is_healthy:
+    use_entities: true
+- What is the source of your data:
+    use_entities: true
+- What can you do:
+    use_entities: true
+- When do you work:
+    use_entities: true
+- Got Question:
+    use_entities: true
+- nutrition_should_I_avoid:
+    use_entities: true
+- will_X_make_me_fat:
+    use_entities: true
+- nutrition_bloodtest_whatif_toolow:
+    use_entities: true
+- request_profile_info:
+    use_entities: true
+- What type of questions:
+    use_entities: true
+- Who made you:
+    use_entities: true
+- Ex_which_training_is_good_for:
+    use_entities: true
+- Ex_which_muscles_work:
+    use_entities: true
+- Ex_how_to_do:
+    use_entities: true
+- nutrition_can_i_substitute:
+    use_entities: true
+- nutrition_calculate:
+    use_entities: true
+- Ex_calc_calories:
+    use_entities: true
+- needs_affirmation:
+    use_entities: true
+- timing now is good:
+    use_entities: true
 entities:
 - food_entity
 - food_entity2
@@ -84,42 +157,53 @@ entities:
 - training_concept
 slots:
   age:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
     auto_fill: false
     influence_conversation: false
   gender:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
     auto_fill: false
     influence_conversation: false
   height:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
     auto_fill: false
     influence_conversation: false
   phone:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
     auto_fill: false
     influence_conversation: false
   requested_slot:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   username:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
     auto_fill: false
     influence_conversation: false
   weight:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
     auto_fill: false
     influence_conversation: false
   x:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
     auto_fill: false
     influence_conversation: false
   y:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
     auto_fill: false
     influence_conversation: false
   previous_intent:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
     auto_fill: false
     influence_conversation: false
 responses:
@@ -165,22 +249,25 @@ responses:
   - text: ודאי. אשמח לעזור. אשמח לענות על כל שאלה בנושא תזונה.
   - text: יאללה. Shoot.
   utter_source_of_your_data:
-  - text: "אני קורא במאגרי הנתונים של משרדי הבריאות בעולם. בנוסף אני מסתכל על המלצות\n\
-      \      של גופי מחקר ואוניברסיטאות. והדבר הכי חשוב - תזונאים וחוקרי התנהגות מאוד\
-      \ חכמים\n      מלמדים אותי משהו חדש כמעט כל יום !"
+  - text: |-
+      אני קורא במאגרי הנתונים של משרדי הבריאות בעולם. בנוסף אני מסתכל על המלצות
+            של גופי מחקר ואוניברסיטאות. והדבר הכי חשוב - תזונאים וחוקרי התנהגות מאוד חכמים
+            מלמדים אותי משהו חדש כמעט כל יום !
   - text: כל ההמלצות שלי מבוססות על המחקר וההמלצות הכי עדכניים בתחום התזונה
   utter_whats_your_question:
   - text: מה תרצה לשאול?
   utter_what_types_of_question_can_you_answer:
-  - text: "\"אני אני מבין בנושאי תזונה. אפשר לשאול אותי לדוגמה כמה סידן יש במאכל מסויים,\\\
-      \n      \\ או מה היא תזונה צמחונית. \\nאני גם מבין במערכות יחסים בין בוטים אם\
-      \ יש לך שאלות\\\n      \\ בנושא. בואו תנסו אותי ונראה!\""
+  - text: |-
+      "אני אני מבין בנושאי תזונה. אפשר לשאול אותי לדוגמה כמה סידן יש במאכל מסויים,\
+            \ או מה היא תזונה צמחונית. \nאני גם מבין במערכות יחסים בין בוטים אם יש לך שאלות\
+            \ בנושא. בואו תנסו אותי ונראה!"
   utter_nutrition_tips:
   - text: כדאי לשתות הרבה מים!
   utter_I_wanna_be_healthier:
-  - text: "תזונה מאוזנת משחקת תפקיד מאוד חשוב בריאות שלנו. מעבר לכך, תזונה נכונה יכולה\n\
-      \      לסייע לך להרגיש טוב יותר ביומיום, כולל רמות אנרגיה גבוהות יותר ויכולת\
-      \ טובה יותר\n      להתרכז"
+  - text: |-
+      תזונה מאוזנת משחקת תפקיד מאוד חשוב בריאות שלנו. מעבר לכך, תזונה נכונה יכולה
+            לסייע לך להרגיש טוב יותר ביומיום, כולל רמות אנרגיה גבוהות יותר ויכולת טובה יותר
+            להתרכז
   utter_youre_welcome:
   - text: אין בעד מה! נהנה לדבר איתך.
   - text: בכיף !
@@ -191,8 +278,9 @@ responses:
   - text: אני תמיד עובד , תמיד לשרותך.
   - text: אני פה בשבילך 24 שעות ביממה 7 ימים בשבוע !
   utter_who_made_you:
-  - text: "יצרו אותי חברת ניוט. יש שם מומחי תזונה וספורט, אנשים שמבינים בהתנהגות וכמובן\n\
-      \      אנשים שיודעים לתכנת בוט מקסים שכמוני"
+  - text: |-
+      יצרו אותי חברת ניוט. יש שם מומחי תזונה וספורט, אנשים שמבינים בהתנהגות וכמובן
+            אנשים שיודעים לתכנת בוט מקסים שכמוני
   utter_how_long_running:
   - text: כמה דקות האימון?
   utter_suprised:
@@ -200,26 +288,27 @@ responses:
   - text: כן. נפלאות התזונה.
   - text: כן. כל פעם גם אני מופתע מחדש.
   utter_will_it_make_me_fat:
-  - text: "השמנה היא תוצאה של צריכת קלוריות יומית עודפת ביחס להוצאה הקלורית היומית\n\
-      \      לאורך זמן ממושך, ואינה נגרמת ממזון או רכיב תזונה ספציפי. הכמות שנצרוך\
-      \ מאותו\n      מזון והצפיפות הקלורית שלו (= כמות הקלוריות פר משקל מסויים של\
-      \ המזון) הם הגורמים\n      המשפיעים על תרומתו הקלורית היחסית לסך הכל היומי."
+  - text: |-
+      השמנה היא תוצאה של צריכת קלוריות יומית עודפת ביחס להוצאה הקלורית היומית
+            לאורך זמן ממושך, ואינה נגרמת ממזון או רכיב תזונה ספציפי. הכמות שנצרוך מאותו
+            מזון והצפיפות הקלורית שלו (= כמות הקלוריות פר משקל מסויים של המזון) הם הגורמים
+            המשפיעים על תרומתו הקלורית היחסית לסך הכל היומי.
   utter_slot_getter_username_deny_details:
-  - text: הכל טוב {username}. התשובות שלי אומנם יותר מדוייקות כשאני יודע עלייך יותר,
-      אבל אני עדיין אשתדל להיות נחמד בלי קשר.
+  - text: הכל טוב {username}. התשובות שלי אומנם יותר מדוייקות כשאני יודע עלייך יותר, אבל אני עדיין אשתדל להיות נחמד בלי קשר.
   utter_what_can_you_do:
-  - text: "תחשבו עלי כמו התזונאי האישי שלכם. אפשר לשאול אותי שאלות מגוונות בנושא תזונה\
-      \ ובריאות כגון:  1. ערכים תזונתיים – כמה קלוריות יש בפיצה, כמה ברזל יש בברוקולי\
-      \ , באילו מאכלים יש הרבה חלבון  2.המלצות תזונה אישיות – כמה סידן כדאי לי לאכול,\
-      \ כמה קפה מותר לי לשתות ביום  3. מושגים בתזונה – מהי דיאטה ים תיכונית, מה זה\
-      \ ביוטין, האם צום לסרוגין זה בריא 4. בדיקות דם – מה זה בדיקת פריטין בדם, האם\
-      \  ערך כולסטרול 100 תקין עבורי  5. המלצות תזונה מוכוונות מטרה – מה לאכול אחרי\
-      \ אימון ריצה, אילו מאכלים כדאי לאכול בשביל לפתח מסת שריר, כיצד לחזק את מערכת\
-      \ החיסון 6. חלופות – אם אני לא אוהב בשר, מה אפשר לאכול במקום  \nאני גם לומד\
-      \ כל יום דברים חדשים (בזום בגלל הקורונה). תנסו אותי. אתם מוזמנים לשאול בצורה\
-      \ הנוחה והטבעית ביותר לכם, אני אשתדל להבין!"
+  - text: |-
+      תחשבו עלי כמו התזונאי האישי שלכם. אפשר לשאול אותי שאלות מגוונות בנושא תזונה ובריאות כגון:  1. ערכים תזונתיים – כמה קלוריות יש בפיצה, כמה ברזל יש בברוקולי , באילו מאכלים יש הרבה חלבון  2.המלצות תזונה אישיות – כמה סידן כדאי לי לאכול, כמה קפה מותר לי לשתות ביום  3. מושגים בתזונה – מהי דיאטה ים תיכונית, מה זה ביוטין, האם צום לסרוגין זה בריא 4. בדיקות דם – מה זה בדיקת פריטין בדם, האם  ערך כולסטרול 100 תקין עבורי  5. המלצות תזונה מוכוונות מטרה – מה לאכול אחרי אימון ריצה, אילו מאכלים כדאי לאכול בשביל לפתח מסת שריר, כיצד לחזק את מערכת החיסון 6. חלופות – אם אני לא אוהב בשר, מה אפשר לאכול במקום  
+      אני גם לומד כל יום דברים חדשים (בזום בגלל הקורונה). תנסו אותי. אתם מוזמנים לשאול בצורה הנוחה והטבעית ביותר לכם, אני אשתדל להבין!
   utter_happy:
   - text: נהדר !
+  - text: מצויין !
+  - text: יופי.
+  - text: 🙏🙏
+  - text: 😎
+  - text: 👏👏👏
+  - text: 💪💪
+  - text: 😃
+  - text: ליגה.  🏆
   utter_unhappy_with_bot:
   - text: מצטער שאיכזבתי אותך, אני בוט די צעיר ומשתפר כל יום !
   - text: אוי, סליחה.. באמת שאני מנסה. אולי אוכל לעזור במשהו אחר ?
@@ -234,23 +323,17 @@ responses:
   - text: אמא שלי תמיד אמרה לי שאגיע רחוק.
   - text: תודה על המחמאה, במיוחד כשזה מגיע ממך
   utter_nutrition_can_i_substitute:
-  - text: 'אין מאכל אחד מסויים שחייבים לאכול. התזונה שלך צריכה להיות בריאה, מגוונת,
-      מאוזנת ומתאימה לך: טעימה ומשתלבת בחייך בצורה טבעית. לכן, כמובן שאפשר להחליף
-      מוצר מזון מסויים או אפילו ארוחה שלמה במשהו שהוא פחות או יותר שקול ערך מבחינה
-      תזונתית. אני כמובן אשמח לעזור. אם יש לך מגבלות, כגון אם המאכל צריך להיות צמחוני,
-      או להשתלב בארוחה מסויימת, תרגיש חופשי להגיד לי ואתאים את התשובה שלי. לדוגמה,
-      תוכל לשאול אותי: "מה אפשר לאכול לארוחת בוקר במקום יוגורט ושהוא גם צמחוני?'
+  - text: 'אין מאכל אחד מסויים שחייבים לאכול. התזונה שלך צריכה להיות בריאה, מגוונת, מאוזנת ומתאימה לך: טעימה ומשתלבת בחייך בצורה טבעית. לכן, כמובן שאפשר להחליף מוצר מזון מסויים או אפילו ארוחה שלמה במשהו שהוא פחות או יותר שקול ערך מבחינה תזונתית. אני כמובן אשמח לעזור. אם יש לך מגבלות, כגון אם המאכל צריך להיות צמחוני, או להשתלב בארוחה מסויימת, תרגיש חופשי להגיד לי ואתאים את התשובה שלי. לדוגמה, תוכל לשאול אותי: "מה אפשר לאכול לארוחת בוקר במקום יוגורט ושהוא גם צמחוני?'
   utter_default:
-  - text: מצטער, לא בטוח שהבנתי את השאלה, ולכן מעדיף שלא לענות. תוכל לנסות להבהיר
-      את השאלה?
+  - text: מצטער, לא בטוח שהבנתי את השאלה, ולכן מעדיף שלא לענות. תוכל לנסות להבהיר את השאלה?
   utter_please_rephrase:
-  - text: מצטער, לא בטוח שהבנתי את השאלה, ולכן מעדיף שלא לענות. תוכל לנסות להבהיר
-      את השאלה?
+  - text: מצטער, לא בטוח שהבנתי את השאלה, ולכן מעדיף שלא לענות. תוכל לנסות להבהיר את השאלה?
   utter_profanity:
   - text: אני לא כל כך מתחבר לדיבורים כאלה. סליחה
   - text: אני לא אוהב לדבר על דברים כאלה.
   - text: התבטאויות כאלה זה לא ממש הקטע שלי, סליחה
   - text: לא אוהב סוג כזה של דיבורים, מצטער
+  - text: 🤐 סליחה, לא מרשים לי לדבר ככה
   utter_other_languages:
   - text: הי , מצטער אני לא תומך כרגע בשפות מלבד עברית.
   - text: סליחה. כרגע אני יודע לדבר רק עברית.
@@ -343,3 +426,4 @@ forms:
     - entity: integer
       type: from_entity
     - type: from_text
+e2e_actions: []

@@ -80,6 +80,10 @@ nlu:
     - מה הוא [המשקל האופטימלי](nutrition_concept) שלי
     - מה זה [אומגה 3](nutrient)
     - מה זו [ריצה מהירה](training_type)
+    - מה זה [אומגה 3](nutrient)?
+    - מה זה דיאטת [צום לסירוגין]{"entity": "nutrition_concept", "value": "\u05e6\u05d5\u05dd \u05dc\u05e1\u05e8\u05d5\u05d2\u05d9\u05df"}
+    - מה זה דיאטת [צום לסירוגין]{"entity": "nutrition_concept", "value": "\u05e6\u05d5\u05dd \u05dc\u05e1\u05e8\u05d5\u05d2\u05d9\u05df"}?
+    - מה תפקידו של ה[ברזל](nutrient) בגוף האדם?
 - intent: nutrition_what_has
   examples: |
     - במה יש [חלבון](nutrient)
@@ -164,6 +168,10 @@ nlu:
     - איזה מזונות מהטבע עשירים ב[חלבון](nutrient)
     - במה יש הרבה [פוטסיום](nutrient)
     - במה יש הרבה [אשלגן](nutrient)
+    - במה יש הרבה [ויטמין](nutrient) [B12](nutrient)?
+    - מה במאכלים המכילים [b12](nutrient)
+    - אני לא מצליחה להגיע לזה ביום, מה המאכלים הכי עתירי [חלבון](nutrient)?
+    - איזה מזונות מהטבע עשירים ב[חלבון](nutrient)?
 - intent: nutrition_importance
   examples: |
     - למה חשוב [חלבון](nutrient)
@@ -213,6 +221,7 @@ nlu:
     - האם חשוב לאכול [ארוחת בוקר](nutrition_concept)
     - חייבים לאכול [ארוחת בוקר](nutrition_concept)
     - האם חייבים לאכול [ארוחת בוקר](nutrition_concept)
+    - למה חשוב לאכול [חלבון](nutrient)?
 - intent: nutrition_get_rda
   examples: |
     - כמה [קלוריות](nutrient) כדאי לי לצרוך ביום
@@ -354,6 +363,8 @@ nlu:
     - מה זה [משקל](nutrition_concept) שיהיה בריא לי
     - מהו [משקל](nutrition_concept) תקין עבורי
     - האם ניתן להעריך את צריכת ה[קלוריות](nutrient) המומלצת עבורי
+    - כמה [חלבון](nutrient) צריך לצורך ביום?
+    - מה הכמות ה[קלוריות](nutrient) בשבילי ליום
 - intent: nutrition_and_what_about_x
   examples: |
     - ומה אתה חושב שאני צריך לאכול לארוחת בוקר
@@ -375,14 +386,11 @@ nlu:
     - ומה עם ארוחת הבוקר שלי
     - ומה אתה חושב צריכה להיות ארוחת בוקר שלי
     - ומה אתה חושב צריכה להיות ארוחת הבוקר שלי
-    - ומה אתה חושב שאני צריך לאכול לבוקר
     - ומה עם הבוקר
     - ומה ההמלצה לבוקר
     - ומה עבור הבוקר
-    - ותתן לי בבקשה תפריט לבוקר
     - ותתן לי בבקשה תפריט עבור הבוקר
     - ומה יש לך לתת לי לבוקר
-    - ומה עם ארוחת הבוקר שלי
     - ומה אתה חושב שאני צריך לאכול לארוחת צהריים
     - ומה אתה חושב שאני צריך לאכול צהריים
     - ומה אתה חושב שאני צריך לאכול לצהריים
@@ -402,14 +410,11 @@ nlu:
     - ומה עם ארוחת הצהריים שלי
     - ומה אתה חושב צריכה להיות ארוחת צהריים שלי
     - ומה אתה חושב צריכה להיות ארוחת הצהריים שלי
-    - ומה אתה חושב שאני צריך לאכול לצהריים
     - ומה עם הצהריים
     - ומה ההמלצה לצהריים
     - ומה עבור הצהריים
-    - ותתן לי בבקשה תפריט לצהריים
     - ותתן לי בבקשה תפריט עבור הצהריים
     - ומה יש לך לתת לי לצהריים
-    - ומה עם ארוחת הצהריים שלי
     - ומה אתה חושב שאני צריך לאכול לארוחת ערב
     - ומה אתה חושב שאני צריך לאכול ערב
     - ומה אתה חושב שאני צריך לאכול לערב
@@ -429,14 +434,11 @@ nlu:
     - ומה עם ארוחת הערב שלי
     - ומה אתה חושב צריכה להיות ארוחת ערב שלי
     - ומה אתה חושב צריכה להיות ארוחת הערב שלי
-    - ומה אתה חושב שאני צריך לאכול לערב
     - ומה עם הערב
     - ומה ההמלצה לערב
     - ומה עבור הערב
-    - ותתן לי בבקשה תפריט לערב
     - ותתן לי בבקשה תפריט עבור הערב
     - ומה יש לך לתת לי לערב
-    - ומה עם ארוחת הערב שלי
     - וכמה [ברזל](nutrient)
     - ומה לגבי [ברזל](nutrient)
     - וכמה [ברזל](nutrient) יש
@@ -577,21 +579,11 @@ nlu:
     - וכמה [חלבונים](nutrient) יש
     - ו[חלבונים](nutrient)
     - ומה עם [חלבונים](nutrient)
-    - וכמה [חלבון](nutrient)
-    - ומה לגבי [חלבון](nutrient)
-    - וכמה [חלבון](nutrient) יש
-    - ו[חלבון](nutrient)
-    - ומה עם [חלבון](nutrient)
     - וכמה [אומגה 3](nutrient)
     - ומה לגבי [אומגה 3](nutrient)
     - וכמה [אומגה 3](nutrient) יש
     - ו[אומגה 3](nutrient)
     - ומה עם [אומגה 3](nutrient)
-    - וכמה [סיבים](nutrient)
-    - ומה לגבי [סיבים](nutrient)
-    - וכמה [סיבים](nutrient) יש
-    - ו[סיבים](nutrient)
-    - ומה עם [סיבים](nutrient)
     - ותן לי מידע על [חלב](food_entity)
     - [חלב]ו(food_entity)
     - ומה לגבי [חלב](food_entity)
@@ -614,8 +606,6 @@ nlu:
     - [חביתה]ו(food_entity)
     - ומה לגבי [חביתה](food_entity)
     - ומה עם [חביתה](food_entity)
-    - וכמה ב[חביתה](food_entity)
-    - וכמה יש ב[חביתה](food_entity)
     - וכמה ב[חביתה](food_entity)
     - וכמה יש ב[חביתה](food_entity)
     - ותן לי מידע על [טחינה גולמית](food_entity)
@@ -822,12 +812,6 @@ nlu:
     - ומה עם [דובדבנים](food_entity)
     - וכמה ב[דובדבנים](food_entity)
     - וכמה יש ב[דובדבנים](food_entity)
-    - [עגבנייה]ו(food_entity)
-    - ותן לי מידע על [עגבנייה](food_entity)
-    - ומה לגבי [עגבנייה](food_entity)
-    - ומה עם [עגבנייה](food_entity)
-    - וכמה ב[עגבנייה](food_entity)
-    - וכמה יש ב[עגבנייה](food_entity)
     - [גלידה]ו(food_entity)
     - ותן לי מידע על [גלידה](food_entity)
     - ומה לגבי [גלידה](food_entity)
@@ -846,12 +830,6 @@ nlu:
     - ומה עם [גבינה לבנה](food_entity)
     - וכמה ב[גבינה לבנה](food_entity)
     - וכמה יש ב[גבינה לבנה](food_entity)
-    - [לחם אחיד]ו(food_entity)
-    - ותן לי מידע על [לחם אחיד](food_entity)
-    - ומה לגבי [לחם אחיד](food_entity)
-    - ומה עם [לחם אחיד](food_entity)
-    - וכמה ב[לחם אחיד](food_entity)
-    - וכמה יש ב[לחם אחיד](food_entity)
     - [ניוקי]ו(food_entity)
     - ותן לי מידע על [ניוקי](food_entity)
     - ומה לגבי [ניוקי](food_entity)
@@ -924,7 +902,6 @@ nlu:
     - ומה עם [עדשים כתומים](food_entity)
     - וכמה ב[עדשים כתומים](food_entity)
     - וכמה יש ב[עדשים כתומים](food_entity)
-    - ומה לגבי [עדשים כתומים](food_entity)
     - [עדשים ירוקות]ו(food_entity)
     - ותן לי מידע על [עדשים ירוקות](food_entity)
     - ומה עם [עדשים ירוקות](food_entity)
@@ -943,12 +920,6 @@ nlu:
     - וכמה ב[תפוחים](food_entity)
     - וכמה יש ב[תפוחים](food_entity)
     - ומה לגבי [תפוחים](food_entity)
-    - [אבוקדו]ו(food_entity)
-    - ותן לי מידע על [אבוקדו](food_entity)
-    - ומה עם [אבוקדו](food_entity)
-    - וכמה ב[אבוקדו](food_entity)
-    - וכמה יש ב[אבוקדו](food_entity)
-    - ומה לגבי [אבוקדו](food_entity)
     - [קפה]ו(food_entity)
     - ותן לי מידע על [קפה](food_entity)
     - ומה עם [קפה] (food_entity)
@@ -996,6 +967,14 @@ nlu:
     - ומה עם [פחית קוקה קולה](food_entity)
     - וכמה ב[פחית קוקה קולה](food_entity)
     - וכמה יש ב[פחית קוקה קולה](food_entity)
+    - ופופקורן
+    - וטופו
+    - ומה עם [קפה](food_entity)
+    - ומה עם [חסה](food_entity)
+    - ו[קפה](food_entity)
+    - ומה עם [סטייק](food_entity)
+    - וכמה [סידן](nutrient)?
+    - וכמה יש ב[תפוח](food_entity)?
 - intent: nutrition_howto_improve
   examples: |
     - איך ניתן לשפר [ריכוז](goal_or_state)
@@ -1096,6 +1075,7 @@ nlu:
     - איך אפשר [להגדיל מסת שריר](goal_or_state)
     - מה לאכול כדי [להגדיל מסת שריר](goal_or_state)
     - מה אחוז ה[שומן](nutrient) ב[תפוז](food_entity)
+    - אם אני אוכל [חלבון](nutrient) לפני שאני הולך [לישון](goal_or_state) זה יגדיל לי את [מסת השריר]{"entity": "goal_or_state", "value": "\u05e2\u05dc\u05d9\u05d9\u05d4 \u05d1\u05de\u05e1\u05ea \u05e9\u05e8\u05d9\u05e8"}?
 - intent: nutrition_howmanyxiny
   examples: |
     - כמה [חלבון](nutrient) יש ב[חלב](food_entity)
@@ -1300,6 +1280,18 @@ nlu:
     - כמה [קלוריות](nutrient) יש בפרוסת [עמק](food_entity)
     - כמה [קלוריות](nutrient) יש ב[קוטג](food_entity)'
     - מה ה[קלוריות](nutrient) של [כרובית](food_entity)
+    - כמה [קלוריות](nutrient) יש ב[בירה מאלט](food_entity)
+    - כמה [קלוריות](nutrient) יש ב[בירה](food_entity)?
+    - כמה [קלוריות](nutrient) יש ב[בירה שחורה](food_entity)
+    - כמה [חלבון](nutrient) יש ב[ביצה](food_entity)
+    - כמה [חלבון](nutrient) יש ב[יוגורט דל לקטוז](food_entity)
+    - רציתי לשאול מה כמות ה[חלבון](nutrient) שיש ב[בננה](food_entity)
+    - מה כמות ה[חלבון](nutrient) שיש ב[בננה](food_entity)
+    - כמה [סידן](nutrient) יש ב [אנטריקוט](food_entity)?
+    - כמה [חלבון](nutrient) יש ב[כנפיים](food_entity)?
+    - כמה [חלבון](nutrient) יש ב[דג](food_entity)?
+    - כמה [קלוריות](nutrient) יש ב[גבינה לבנה סקי](food_entity)
+    - כמה [קלוריות](nutrient) יש ב[סקי](food_entity)
 - intent: nutrition_is_food_healthy
   examples: |
     - האם [שוקולד](food_entity) זה בריא
@@ -1398,6 +1390,8 @@ nlu:
     - מה יש ב[אורז](food_entity)
     - האם [שוקו](food_entity) בריא
     - האם [עוגת שוקולד](food_entity) זה בריא
+    - האם [שוקו](food_entity) בריא?
+    - האם [גבינה](food_entity) מזיקה לגוף?
 - intent: nutrition_is_food_recommended
   examples: |
     - האם כדאי לי לאכול [שוקולד](food_entity)
@@ -1434,6 +1428,7 @@ nlu:
     - צריך לאכול [בננה](food_entity)
     - היי כדאי לי לאכול [פנקייקים](food_entity)
     - האם כדאי לי לאכול [המבורגר](food_entity)
+    - היי כדאי לי לאכול [פנקייקים](food_entity)?
 - intent: nutrition_what_is_healthier
   examples: |
     - מה בריא יותר, [שוקולד](food_entity) או [תפוז](food_entity2)
@@ -1532,6 +1527,8 @@ nlu:
     - מה רמת [ברזל](nutrient) תקינה בדם
     - מה ערך תקין עבורי של בדיקת [ברזל](nutrient)
     - הי מה היא רמת [כולסטרול](nutrient) תקינה
+    - הי מה היא רמת [כולסטרול](nutrient) תקינה?
+    - מה ערך תקין עבורי של בדיקת [ברזל](nutrient) ?
 - intent: nutrition_bloodtest_value_question
   examples: |
     - האם [17](integer) הוא ערך תקין עבורי בבדיקת [פריטין](nutrient)
@@ -1796,6 +1793,14 @@ nlu:
     - Who are you
     - Ping
     - Test
+    - what's up my ninja
+    - How do I do a pushup ?
+    - Who framed Roger Rabit ?
+    - Where do you come from?
+    - What's your name?
+    - Who are you?
+    - Do you know what I should be eating ?
+    - How much Iron should I be eating ?
 - intent: when_do_you_work
   examples: |
     - ער
@@ -1824,6 +1829,8 @@ nlu:
     - אתה עובד היום
     - עד מתי אתה פה היום
     - עד מתי אתה פה היום [ניוט](name)
+    - עד מתי אתה עובד היום?
+    - אתה תמיד פה?
 - intent: goodbye
   examples: |
     - ביי
@@ -1873,6 +1880,17 @@ nlu:
     - טוב...
     - אשמח
     - בטח
+    - 💪🏻
+    - 😀
+    - 💪🏼
+    - 💪
+    - 😃
+    - 🙂
+    - 😀😀
+    - 👍
+    - 😄
+    - 😁
+    - 👍🏻
 - intent: deny
   examples: |
     - לא
@@ -1916,6 +1934,8 @@ nlu:
     - אחלה בחלה.
     - אחלה, מה איתך
     - נעשה חיים
+    - יופי מעולה!
+    - יאללה
 - intent: mood_unhappy
   examples: |
     - עצוב
@@ -1961,6 +1981,7 @@ nlu:
     - היי רוצה מכות
     - רוצה מכות
     - מה אתה כן יודע
+    - רוצה מכות?
 - intent: bot_challenge
   examples: |
     - האם אתה בוט
@@ -2058,6 +2079,8 @@ nlu:
     - רציתי לשאול
     - רציתי לברר כמה דברים
     - יכול לעזור לי
+    - יכול לעזור
+    - יכול לעזור לי?
 - intent: got_question
   examples: |
     - אפשר לשאול שאלה
@@ -2099,6 +2122,7 @@ nlu:
     - מוכן
     - יאללה. מוכן לכמה שאלות
     - יש לי שאלה
+    - יש לי שאלה?
 - intent: suprised
   examples: |
     - ואללה
@@ -2108,6 +2132,7 @@ nlu:
     - ואללה ואללה
     - איזה מגניב !
     - מעניין !
+    - באמת ???
 - intent: jokes
   examples: |
     - ספר לי משהו מצחיק
@@ -2131,6 +2156,7 @@ nlu:
     - אז שניה. תספר לי בדיחה
     - יש עוד בדיחות
     - אתה מכיר בדיחות
+    - אתה מכיר בדיחות ?
 - intent: What can you do
   examples: |
     - מה אתה מסוגל לעשות
@@ -2162,6 +2188,8 @@ nlu:
     - איזה שאלות אפשר לשאול
     - מה אתה כן יודע
     - מה אתה יודע לישות
+    - מה אתה יודע לעשות?
+    - מה אתה כן יודע?
 - intent: What is the source of your data
   examples: |
     - איך אתה יודע את זה
@@ -2444,6 +2472,9 @@ nlu:
     - האם זה בסדר להיות [טבעוני](nutrition_concept)
     - האם [שומן טראנס](nutrient) זה דבר רע
     - האם [שומן רווי](nutrient) זה בריא
+    - האם [כולסטרול](nutrient) זה רע לגוף?
+    - האם [צום לסירוגין](nutrition_concept) ממולץ?
+    - האם [דיאטה קיטוגנית](nutrition_concept) מומלצת?
 - intent: What type of questions
   examples: |
     - איזה שאלות, למשל
@@ -2479,6 +2510,7 @@ nlu:
     - עד מתי אתה כאן
     - מה שעות העבודה שלך
     - אתה באמת תמיד עובד
+    - אתה באמת תמיד עובד ?
 - intent: nutrition_should_I_avoid
   examples: |
     - האם מותר לדלג על [ארוחת בוקר](nutrition_concept)
@@ -2534,6 +2566,9 @@ nlu:
     - כדאי לי להמנע מ[כולסטרול](nutrient)
     - אפשר לדלג על [ארוחת בוקר](nutrition_concept)
     - האם אפשר לדלג על [ארוחת ערב](nutrition_concept)
+    - כדאי לי להמנע מ[כולסטרול](nutrient) ?
+    - האם כדאי לדלג על [ארוחת בוקר](nutrition_concept)?
+    - האם לוותר על [ארוחות ביניים](nutrition_concept) ?
 - intent: will_X_make_me_fat
   examples: |
     - האם [שומן](nutrient) זה משמין
@@ -2564,6 +2599,7 @@ nlu:
     - האם [במבה](food_entity) זה משמין
     - איזה מאכלים הכי משמינים
     - מה המאכלים הכי משמינים
+    - מה המאכלים הכי משמינים ?
 - intent: nutrition_what_has_little
   examples: |
     - במה יש מעט [סוכר](nutrient)
@@ -2597,6 +2633,8 @@ nlu:
     - איך קוראים לך
     - איך קוראים לך דבר ראשון
     - מי אתה
+    - איך קוראים לך?
+    - מי אתה?
 - intent: nutrition_get_upper_limit
   examples: |
     - כמה [ביצים](food_entity) מותר לי לאכול ביום
@@ -2654,6 +2692,9 @@ nlu:
     - מה ההמלצה של איכלת [ביצים](food_entity) ליום
     - תגיד, כמה כוסות [קפה](food_entity) מותר לי לשתות ביום
     - כמה [פירות](food_entity) מותר לי לאכול ביום
+    - כמה [קפה](food_entity) לשתות ביום?
+    - תגיד, כמה כוסות [קפה](food_entity) מותר לי לשתות ביום ?
+    - האם זה בסדר לשתות הרבה [קפה](food_entity) ?
 - intent: nutrition_bloodtest_meaning
   examples: |
     - מה המשמעות של בדיקת [כולסטרול](nutrient) בדם
@@ -2790,6 +2831,7 @@ nlu:
     - על מה עובד [כפיפות בטן](training_type)
     - על מה עובד [מתח](training_type)
     - על איזה שריר עובד [שכיבות סמיכה](training_type)
+    - טוב לדעת.. אני באימון - תוכל להסביר לי איך עושים [כפיפות מרפקים](training_type) ?
 - intent: Ex_how_to_do
   examples: |
     - איך עושים [כפיפות בטן](training_type)
@@ -2836,6 +2878,7 @@ nlu:
     - איך עושים [בננה](food_entity)
     - תסביר לי איך עושים [כפיפות מרפקים](training_type)
     - טוב לדעת.. אני [באימון](training_type) - תוכל להסביר לי איך עושים [כפיפות מרפקים](training_type)
+    - תסביר לי איך עושים [כפיפות מרפקים](training_type) ?
 - intent: happy_with_bot
   examples: |
     - אתה ענק !
@@ -2876,7 +2919,7 @@ nlu:
     - אם אני לא אוהב, אפשר לשנות את הארוחות
     - אם יש דברים שאני לא אוהב לאכול, האם זה יפגע לי בבריאות
     - מותר לי להחליף בין מאכלים
-    - האם אני [חייב](food_entity) לאכול גם דברים שאני לא אוהב
+    - האם אני חייב לאכול גם דברים שאני לא אוהב
     - אני חייב לאכול בדיוק מהתפריט או שאפשר לשנות לפעמים
     - אם אני לא אוהב משהו, האם אני חייב לאכול את זה למרות זאת
     - האם אני חייב לאכול בדיוק לפי מה שאתה אומר לי
@@ -2893,6 +2936,7 @@ nlu:
     - תעזור לי לחשב את [המשקל האידיאלי](nutrition_concept) שלי
     - תחשב לי את [הבי אם איי](nutrition_concept)
     - מה יהיה [המשקל האופטימלי](nutrition_concept) שלי
+    - האם ניתן להעריך את צריכת ה[קלוריות](nutrient) המומלצת עבורי?
 - intent: profanity
   examples: |
     - אחותך צולעת
@@ -2903,6 +2947,10 @@ nlu:
     - האם אתה אוהב בנים
     - האם נועם הומו
     - האם אמא שלך זונה
+    - מה עם אחותך
+    - סבתא שלך
+    - איך קוראים לאמא שלך
+    - בת כמה אחותך ?
 - intent: Ex_calc_calories
   examples: |
     - כמה קלוריות שורפים בשעה [הליכה](training_type)
@@ -2950,6 +2998,9 @@ nlu:
     - הי - כמה קלוריות אני שורף במהלך אימון [שחייה](training_type)
     - כמה קלוריות אני שורף ב[ריצה](training_type)
     - כמה קלוריות אני שורף ב[כדורסל](training_type)
+    - כמה קלוריות אני שורף ב[ריצה](training_type)?
+    - מה לגבי [ריצה](training_type) - כמה קלוריות אני שורף בשעה ?
+    - כמה קלוריות אני מוציא בשעה [הליכה](training_type) ?
 - intent: nutrition_meal_question
   examples: |
     - מה אפשר לאכול לארוחת בוקר
@@ -3006,30 +3057,12 @@ nlu:
     - תמליץ לי בבקשה על תפריט היומי
     - תמליץ לי בבקשה על תפריט היומי שלי
     - תמליץ לי על תפריט היומי שלי
-
 - intent: nutrition_what_x_in_y
   examples: |
-    - [מאכלים עם [ירקות(food_entity) לארוחת ערב
-    - [מאכלים עם [ירקות(food_entity) לארוחת בוקר
-    - [מאכלים עם [ירקות(food_entity) לארוחת צהריים
-    - [מאכלים עם [ירקות(food_entity) לערב
-    - [מאכלים עם [ירקות(food_entity) לבוקר
-    - [מאכלים עם [ירקות(food_entity) לצהריים
-    - [מאכל עם [ירקות(food_entity) לארוחת ערב
-    - [מאכל עם [ירקות(food_entity) לארוחת בוקר
-    - [מאכל עם [ירקות(food_entity) לארוחת צהריים
-    - [מאכל עם [ירקות(food_entity) לערב
-    - [מאכל עם [ירקות(food_entity) לבוקר
-    - [מאכל עם [ירקות(food_entity) לצהריים
-    - [תמליץ לי על ארוחת בוקר עם [ירקות(food_entity)
     - תמליץ לי על ארוחת בוקר הכוללת [ירקות](food_entity)
-    - [תמליץ לי על תפריט בוקר הכולל [ירקות(food_entity)
     - תמליץ לי על בוקר עם [ירקות](food_entity)
-    - [תמליץ לי על ארוחת צהריים עם [ירקות(food_entity)
     - תמליץ לי על ארוחת צהריים הכוללת [ירקות](food_entity)
-    - [תמליץ לי על תפריט צהריים הכולל [ירקות(food_entity)
     - תמליץ לי על צהריים עם [ירקות](food_entity)
-    - [תמליץ לי על ארוחת ערב עם [ירקות(food_entity)
     - תמליץ לי על ארוחת ערב הכוללת [ירקות](food_entity)
     - [תמליץ לי על תפריט ערב הכולל [ירקות(food_entity)
     - תמליץ לי על ערב עם [ירקות](food_entity)
@@ -3052,32 +3085,11 @@ nlu:
     - אילו מאכלים מכילים [ירקות](food_entity)לערב
     - אילו מאכלים כוללים [ירקות](food_entity)בשביל ארוחת ערב
     - אילו מאכלים יש עם [ירקות](food_entity)בשביל ארוחת ערב
-    - [מאכל עם [ביצים(food_entity) לארוחת ערב
-    - [מאכל עם [ביצים(food_entity) לארוחת בוקר
-    - [מאכל עם [ביצים(food_entity) לארוחת צהריים
-    - [מאכל עם [ביצים(food_entity) לערב
-    - [מאכל עם [ביצים(food_entity) לבוקר
-    - [מאכל עם [ביצים(food_entity) לצהריים
-    - [מאכל עם [ביצים(food_entity) לערב
-    - [מאכל עם [ביצים(food_entity) לבוקר
-    - [מאכל עם [ביצים(food_entity) לצהריים
-    - [מאכלים עם [ביצים(food_entity) לארוחת ערב
-    - [מאכלים עם [ביצים(food_entity) לארוחת בוקר
-    - [מאכלים עם [ביצים(food_entity) לארוחת צהריים
-    - [מאכלים עם [ביצים(food_entity) לערב
-    - [מאכלים עם [ביצים(food_entity) לבוקר
-    - [מאכלים עם [ביצים(food_entity) לצהריים
-    - [תמליץ לי על ארוחת בוקר עם [ביצים(food_entity)
     - תמליץ לי על ארוחת בוקר הכוללת [ביצים](food_entity)
-    - [תמליץ לי על תפריט בוקר הכולל [ביצים(food_entity)
     - תמליץ לי על בוקר עם [ביצים](food_entity)
-    - [תמליץ לי על ארוחת צהריים עם [ביצים(food_entity)
     - תמליץ לי על ארוחת צהריים הכוללת [ביצים](food_entity)
-    - [תמליץ לי על תפריט צהריים הכולל [ביצים(food_entity)
     - תמליץ לי על צהריים עם [ביצים](food_entity)
-    - [תמליץ לי על ארוחת ערב עם [ביצים(food_entity)
     - תמליץ לי על ארוחת ערב הכוללת [ביצים](food_entity)
-    - [תמליץ לי על תפריט ערב הכולל [ביצים(food_entity)
     - תמליץ לי על ערב עם [ביצים](food_entity)
     - במה יש [ביצים](food_entity) שאפשר לאכול לארוחת ערב
     - במה יש [ביצים](food_entity) שאפשר לאכול לארוחת צהריים
@@ -3098,32 +3110,11 @@ nlu:
     - אילו מאכלים מכילים [ביצים](food_entity)לערב
     - אילו מאכלים כוללים [ביצים](food_entity)בשביל ארוחת ערב
     - אילו מאכלים יש עם [ביצים](food_entity)בשביל ארוחת ערב
-    - [תמליץ לי על ארוחת בוקר עם [ביצים(food_entity)
-    - [מאכל עם [פירות(food_entity) לארוחת ערב
-    - [מאכל עם [פירות(food_entity) לארוחת בוקר
-    - [מאכל עם [פירות(food_entity) לארוחת צהריים
-    - [מאכל עם [פירות(food_entity) לערב
-    - [מאכל עם [פירות(food_entity) לבוקר
-    - [מאכל עם [פירות(food_entity) לצהריים
-    - [מאכל עם [פירות(food_entity) לערב
-    - [מאכל עם [פירות(food_entity) לבוקר
-    - [מאכל עם [פירות(food_entity) לצהריים
-    - [מאכלים עם [פירות(food_entity) לארוחת ערב
-    - [מאכלים עם [פירות(food_entity) לארוחת בוקר
-    - [מאכלים עם [פירות(food_entity) לארוחת צהריים
-    - [מאכלים עם [פירות(food_entity) לערב
-    - [מאכלים עם [פירות(food_entity) לבוקר
-    - [מאכלים עם [פירות(food_entity) לצהריים
     - תמליץ לי על ארוחת בוקר הכוללת [פירות](food_entity)
-    - [תמליץ לי על תפריט בוקר הכולל [פירות(food_entity)
     - תמליץ לי על בוקר עם [פירות](food_entity)
-    - [תמליץ לי על ארוחת צהריים עם [פירות(food_entity)
     - תמליץ לי על ארוחת צהריים הכוללת [פירות](food_entity)
-    - [תמליץ לי על תפריט צהריים הכולל [פירות(food_entity)
     - תמליץ לי על צהריים עם [פירות](food_entity)
-    - [תמליץ לי על ארוחת ערב עם [פירות(food_entity)
     - תמליץ לי על ארוחת ערב הכוללת [פירות](food_entity)
-    - [תמליץ לי על תפריט ערב הכולל [פירות(food_entity)
     - תמליץ לי על ערב עם [פירות](food_entity)
     - במה יש [פירות](food_entity) שאפשר לאכול לארוחת ערב
     - במה יש [פירות](food_entity) שאפשר לאכול לארוחת צהריים
@@ -3143,32 +3134,11 @@ nlu:
     - אילו מאכלים מכילים [פירות](food_entity)בשביל הערב
     - אילו מאכלים מכילים [פירות](food_entity)לערב
     - אילו מאכלים כוללים [פירות](food_entity)בשביל ארוחת ערב
-    - אילו מאכלים יש עם [פירות](food_entity)בשביל ארוחת ערב
-    - [מאכל עם [בשר(food_entity) לארוחת ערב
-    - [מאכל עם [בשר(food_entity) לארוחת בוקר
-    - [מאכל עם [בשר(food_entity) לארוחת צהריים
-    - [מאכל עם [בשר(food_entity) לערב
-    - [מאכל עם [בשר(food_entity) לבוקר
-    - [מאכל עם [בשר(food_entity) לצהריים
-    - [מאכל עם [בשר(food_entity) לערב
-    - [מאכל עם [בשר(food_entity) לבוקר
-    - [מאכל עם [בשר(food_entity) לצהריים
-    - [מאכלים עם [בשר(food_entity) לארוחת ערב
-    - [מאכלים עם [בשר(food_entity) לארוחת בוקר
-    - [מאכלים עם [בשר(food_entity) לארוחת צהריים
-    - [מאכלים עם [בשר(food_entity) לערב
-    - [מאכלים עם [בשר(food_entity) לבוקר
-    - [מאכלים עם [בשר(food_entity) לצהריים
     - תמליץ לי על ארוחת בוקר הכוללת [בשר](food_entity)
-    - [תמליץ לי על תפריט בוקר הכולל [בשר(food_entity)
     - תמליץ לי על בוקר עם [בשר](food_entity)
-    - [תמליץ לי על ארוחת צהריים עם [בשר(food_entity)
     - תמליץ לי על ארוחת צהריים הכוללת [בשר](food_entity)
-    - [תמליץ לי על תפריט צהריים הכולל [בשר(food_entity)
     - תמליץ לי על צהריים עם [בשר](food_entity)
-    - [תמליץ לי על ארוחת ערב עם [בשר(food_entity)
     - תמליץ לי על ארוחת ערב הכוללת [בשר](food_entity)
-    - [תמליץ לי על תפריט ערב הכולל [בשר(food_entity)
     - תמליץ לי על ערב עם [בשר](food_entity)
     - במה יש [בשר](food_entity) שאפשר לאכול לארוחת ערב
     - במה יש [בשר](food_entity) שאפשר לאכול לארוחת צהריים
@@ -3190,15 +3160,10 @@ nlu:
     - אילו מאכלים כוללים [בשר](food_entity)בשביל ארוחת ערב
     - אילו מאכלים יש עם [בשר](food_entity)בשביל ארוחת ערב
     - תמליץ לי על ארוחת בוקר הכוללת [חלב](food_entity)
-    - [תמליץ לי על תפריט בוקר הכולל [חלב(food_entity)
     - תמליץ לי על בוקר עם [חלב](food_entity)
-    - [תמליץ לי על ארוחת צהריים עם [חלב(food_entity)
     - תמליץ לי על ארוחת צהריים הכוללת [חלב](food_entity)
-    - [תמליץ לי על תפריט צהריים הכולל [חלב(food_entity)
     - תמליץ לי על צהריים עם [חלב](food_entity)
-    - [תמליץ לי על ארוחת ערב עם [חלב(food_entity)
     - תמליץ לי על ארוחת ערב הכוללת [חלב](food_entity)
-    - [תמליץ לי על תפריט ערב הכולל [חלב(food_entity)
     - תמליץ לי על ערב עם [חלב](food_entity)
     - במה יש [חלב](food_entity) שאפשר לאכול לארוחת ערב
     - במה יש [חלב](food_entity) שאפשר לאכול לארוחת צהריים
@@ -3213,33 +3178,24 @@ nlu:
     - אילו מאכלים יש עם [חלב](food_entity)בשביל ארוחת צהריים
     - אילו מאכלים מכילים [חלב](food_entity)בשביל הבוקר
     - אילו מאכלים מכילים [חלב](food_entity)לבוקר
-    - אילו מאכלים כוללים [חלב](nutrition_concept)בשביל ארוחת בוקר
+    - אילו מאכלים כוללים [חלב](food_entity)בשביל ארוחת בוקר
     - אילו מאכלים יש עם [חלב](food_entity)בשביל ארוחת בוקר
     - אילו מאכלים מכילים [חלב](food_entity)בשביל הערב
     - אילו מאכלים מכילים [חלב](food_entity)לערב
     - אילו מאכלים כוללים [חלב](food_entity)בשביל ארוחת ערב
     - אילו מאכלים יש עם [חלב](food_entity)בשביל ארוחת ערב
-    - [מאכל [חלבי(food_entity) לארוחת ערב
-    - [מאכל [חלבי(food_entity) לארוחת בוקר
-    - [מאכל  [חלבי(food_entity) לארוחת צהריים
-    - [מאכל  [חלבי(food_entity) לערב
-    - [מאכל [חלבי(food_entity) לבוקר
-    - [מאכל [חלבי(food_entity) לצהריים
-    - [מאכל [חלבי(food_entity) לערב
-    - [מאכל [חלבי(food_entity) לבוקר
-    - [מאכל [חלבי(food_entity) לצהריים
-    - תמליץ לי על תפריט [חלבי](food_entity) לארוחת צהריים
-    - תמליץ לי על תפריט [חלבי](food_entity) לארוחת ערב
-    - תמליץ לי על תפריט [חלבי](food_entity) לארוחת בוקר
-    - תמליץ לי על תפריט [חלבי](food_entity) לבוקר
-    - תמליץ לי על תפריט [חלבי](food_entity) לערב
-    - תמליץ לי על תפריט [חלבי](food_entity) לצהריים
-    - מה אפשר לאכול [חלבי](food_entity) לארוחת צהריים
-    - מה אפשר לאכול [חלבי](food_entity) לארוחת ערב
-    - מה אפשר לאכול [חלבי](food_entity) לארוחת בוקר
-    - מה אפשר לאכול [חלבי](food_entity) לבוקר
-    - מה אפשר לאכול [חלבי](food_entity) לערב
-    - מה אפשר לאכול [חלבי](food_entity) לצהריים
+    - תמליץ לי על תפריט [חלבי](nutrition_concept) לארוחת צהריים
+    - תמליץ לי על תפריט [חלבי](nutrition_concept) לארוחת ערב
+    - תמליץ לי על תפריט [חלבי](nutrition_concept) לארוחת בוקר
+    - תמליץ לי על תפריט [חלבי](nutrition_concept) לבוקר
+    - תמליץ לי על תפריט [חלבי](nutrition_concept) לערב
+    - תמליץ לי על תפריט [חלבי](nutrition_concept) לצהריים
+    - מה אפשר לאכול [חלבי](nutrition_concept) לארוחת צהריים
+    - מה אפשר לאכול [חלבי](nutrition_concept) לארוחת ערב
+    - מה אפשר לאכול [חלבי](nutrition_concept) לארוחת בוקר
+    - מה אפשר לאכול [חלבי](nutrition_concept) לבוקר
+    - מה אפשר לאכול [חלבי](nutrition_concept) לערב
+    - מה אפשר לאכול [חלבי](nutrition_concept) לצהריים
     - אילו מאכלים [כשרים](nutrition_concept) יש לארוחת בוקר
     - אילו מאכלים [כשרים](nutrition_concept) יש לארוחת ערב
     - אילו מאכלים [כשרים](nutrition_concept) יש לארוחת צהריים
@@ -3258,9 +3214,6 @@ nlu:
     - תמליץ לי על מאכל [כשר](nutrition_concept) לארוחת ערב
     - תמליץ לי על מאכל [כשר](nutrition_concept) לארוחת בוקר
     - תמליץ לי על מאכל [כשר](nutrition_concept) לארוחת צהריים
-    - איזה אוכל [כשר] (nutrition_concept) יש לארוחת צהריים
-    - איזה אוכל [כשר] (nutrition_concept) יש לארוחת ערב
-    - איזה אוכל [כשר] (nutrition_concept) יש לארוחת בוקר
     - מה יש [צמחוני](nutrition_concept) לארוחת ערב
     - מה יש [צמחוני](nutrition_concept) לארוחת צהריים
     - מה יש [צמחוני](nutrition_concept) לארוחת בוקר
@@ -3278,7 +3231,6 @@ nlu:
     - איזה מאכל [צמחוני](nutrition_concept) לצהריים
     - תן מאכל [צמחוני](nutrition_concept) לצהריים
     - תן מאכל [צמחוני](nutrition_concept) לערב
-    - תן מאכל [צמחוני](nutrition_concept) לצהריים
     - תמליץ על מאכל [צמחוני](nutrition_concept) לצהריים
     - תמליץ על מאכל [צמחוני](nutrition_concept) לערב
     - תמליץ על מאכל [צמחוני](nutrition_concept) לבוקר
@@ -3290,7 +3242,6 @@ nlu:
     - איזה מאכל [צמחוני](nutrition_concept) לארוחת צהריים
     - תן מאכל [צמחוני](nutrition_concept) לארוחת צהריים
     - תן מאכל [צמחוני](nutrition_concept) לארוחת ערב
-    - תן מאכל [צמחוני](nutrition_concept) לארוחת צהריים
     - תמליץ על מאכל [צמחוני](nutrition_concept) לארוחת צהריים
     - תמליץ על מאכל [צמחוני](nutrition_concept) לארוחת ערב
     - תמליץ על מאכל [צמחוני](nutrition_concept) לארוחת בוקר
@@ -3311,7 +3262,6 @@ nlu:
     - איזה מאכל [טבעוני](nutrition_concept) לצהריים
     - תן מאכל [טבעוני](nutrition_concept) לצהריים
     - תן מאכל [טבעוני](nutrition_concept) לערב
-    - תן מאכל [טבעוני](nutrition_concept) לצהריים
     - תמליץ על מאכל [טבעוני](nutrition_concept) לצהריים
     - תמליץ על מאכל [טבעוני](nutrition_concept) לערב
     - תמליץ על מאכל [טבעוני](nutrition_concept) לבוקר
@@ -3323,21 +3273,14 @@ nlu:
     - איזה מאכל [טבעוני](nutrition_concept) לארוחת צהריים
     - תן מאכל [טבעוני](nutrition_concept) לארוחת צהריים
     - תן מאכל [טבעוני](nutrition_concept) לארוחת ערב
-    - תן מאכל [טבעוני](nutrition_concept) לארוחת צהריים
     - תמליץ על מאכל [טבעוני](nutrition_concept) לארוחת צהריים
     - תמליץ על מאכל [טבעוני](nutrition_concept) לארוחת ערב
     - תמליץ על מאכל [טבעוני](nutrition_concept) לארוחת בוקר
-    - [תמליץ לי על ארוחת בוקר עם ללא [פלאו(nutrition_concept)
     - תמליץ לי על ארוחת בוקר שכוללת [פלאו](nutrition_concept)
-    - [תמליץ לי על תפריט בוקר לא הכולל [פלאו(nutrition_concept)
     - תמליץ לי על בוקר ללא [פלאו](nutrition_concept)
-    - [תמליץ לי על ארוחת צהריים ללא [פלאו(nutrition_concept)
     - תמליץ לי על ארוחת צהריים הלא כוללת [פלאו](nutrition_concept)
-    - [תמליץ לי על תפריט צהריים הלא כולל [פלאו(nutrition_concept)
     - תמליץ לי על צהריים ללא [פלאו](nutrition_concept)
-    - [תמליץ לי על ארוחת ערב ללא [פלאו(nutrition_concept)
     - תמליץ לי על ארוחת ערב הלא כוללת [פלאו](nutrition_concept)
-    - [תמליץ לי על תפריט ערב הלא כולל [פלאו(nutrition_concept)
     - תמליץ לי על ערב ללא [פלאו](nutrition_concept)
     - במה אין [פלאו](nutrition_concept) שאפשר לאכול לארוחת ערב
     - במה אין [פלאו](nutrition_concept) שאפשר לאכול לארוחת צהריים
@@ -3367,89 +3310,71 @@ nlu:
     - מה יש [תיכוניים](nutrition_concept) יש לארוחת ערב
     - מה יש [תיכוניים](nutrition_concept) יש לארוחת צהריים
     - מה יש [תיכוניים](nutrition_concept) יש לארוחת בוקר
-    - [תמליץ לי על ארוחת בוקר עם ללא [לקטוז(nutrition_concept)
-    - תמליץ לי על ארוחת בוקר שכוללת [לקטוז](nutrition_concept)
-    - [תמליץ לי על תפריט בוקר לא הכולל [לקטוז(nutrition_concept)
-    - תמליץ לי על בוקר ללא [לקטוז](nutrition_concept)
-    - [תמליץ לי על ארוחת צהריים ללא [לקטוז(nutrition_concept)
-    - תמליץ לי על ארוחת צהריים הלא כוללת [לקטוז](nutrition_concept)
-    - [תמליץ לי על תפריט צהריים הלא כולל [לקטוז(nutrition_concept)
-    - תמליץ לי על צהריים ללא [לקטוז](nutrition_concept)
-    - [תמליץ לי על ארוחת ערב ללא [לקטוז(nutrition_concept)
-    - תמליץ לי על ארוחת ערב הלא כוללת [לקטוז](nutrition_concept)
-    - [תמליץ לי על תפריט ערב הלא כולל [לקטוז(nutrition_concept)
-    - תמליץ לי על ערב ללא [לקטוז](nutrition_concept)
-    - במה אין [לקטוז](nutrition_concept) שאפשר לאכול לארוחת ערב
-    - במה אין [לקטוז](nutrition_concept) שאפשר לאכול לארוחת צהריים
-    - במה אין [לקטוז](nutrition_concept) שאפשר לאכול לבארוחת בוקר
-    - במה אין [לקטוז](nutrition_concept) לארוחת לבוקר
-    - במה אין [לקטוז](nutrition_concept) לארוחת לערב
-    - במה אין [לקטוז](nutrition_concept) לארוחת לצהריים
-    - במה אין [לקטוז](nutrition_concept)בשביל הצהריים
-    - אילו מאכלים  לא מכילים [לקטוז](nutrition_concept)בשביל הצהריים
-    - אילו מאכלים לא מכילים [לקטוז](nutrition_concept)לצהריים
-    - אילו מאכלים לא כוללים [לקטוז](nutrition_concept)בשביל ארוחת צהריים
-    - אילו מאכלים אין עם [לקטוז](nutrition_concept)בשביל ארוחת צהריים
-    - אילו מאכלים לא מכילים [לקטוז](nutrition_concept)בשביל הבוקר
-    - אילו מאכלים לא מכילים [לקטוז](nutrition_concept)לבוקר
-    - אילו מאכלים לא כוללים [לקטוז](nutrition_concept)בשביל ארוחת בוקר
-    - אילו מאכלים אין עם [לקטוז](nutrition_concept)בשביל ארוחת בוקר
-    - אילו מאכלים לא מכילים [לקטוז](nutrition_concept)בשביל הערב
-    - אילו מאכלים לא מכילים [לקטוז](nutrition_concept)לערב
-    - אילו מאכלים לא כוללים [לקטוז](nutrition_concept)בשביל ארוחת ערב
-    - אילו מאכלים לא עם [לקטוז](nutrition_concept)בשביל ארוחת ערב
-    - אילו מאכלים לא מכילים [לקטוז](nutrition_concept) לארוחת ערב
-    - אילו מאכלים לא מכילים [לקטוז](nutrition_concept) לארוחת צהריים
-    - באילו מאכלים אין [לקטוז](nutrition_concept) לארוחת צהריים
-    - באילו מאכלים אין [לקטוז](nutrition_concept) לארוחת ערב
-    - באילו מאכלים אין [לקטוז](nutrition_concept) לארוחת בוקר
-    - [תמליץ לי על ארוחת בוקר עם ללא [גלוטן(nutrition_concept)
-    - תמליץ לי על ארוחת בוקר שכוללת [גלוטן](nutrition_concept)
-    - [תמליץ לי על תפריט בוקר לא הכולל [גלוטן(nutrition_concept)
-    - תמליץ לי על בוקר ללא [גלוטן](nutrition_concept)
-    - [תמליץ לי על ארוחת צהריים ללא [גלוטן(nutrition_concept)
-    - תמליץ לי על ארוחת צהריים הלא כוללת [גלוטן](nutrition_concept)
-    - [תמליץ לי על תפריט צהריים הלא כולל [גלוטן(nutrition_concept)
-    - תמליץ לי על צהריים ללא [גלוטן](nutrition_concept)
-    - [תמליץ לי על ארוחת ערב ללא [גלוטן(nutrition_concept)
-    - תמליץ לי על ארוחת ערב הלא כוללת [גלוטן](nutrition_concept)
-    - [תמליץ לי על תפריט ערב הלא כולל [גלוטן(nutrition_concept)
-    - תמליץ לי על ערב ללא [גלוטן](nutrition_concept)
-    - במה אין [גלוטן](nutrition_concept) שאפשר לאכול לארוחת ערב
-    - במה אין [גלוטן](nutrition_concept) שאפשר לאכול לארוחת צהריים
-    - במה אין [גלוטן](nutrition_concept) שאפשר לאכול לבארוחת בוקר
-    - במה אין [גלוטן](nutrition_concept) לארוחת לבוקר
-    - במה אין [גלוטן](nutrition_concept) לארוחת לערב
-    - במה אין [גלוטן](nutrition_concept) לארוחת לצהריים
-    - במה אין [גלוטן](nutrition_concept)בשביל הצהריים
-    - אילו מאכלים  לא מכילים [גלוטן](nutrition_concept)בשביל הצהריים
-    - אילו מאכלים לא מכילים [גלוטן](nutrition_concept)לצהריים
-    - אילו מאכלים לא כוללים [גלוטן](nutrition_concept)בשביל ארוחת צהריים
-    - אילו מאכלים אין עם [גלוטן](nutrition_concept)בשביל ארוחת צהריים
-    - אילו מאכלים לא מכילים [גלוטן](nutrition_concept)בשביל הבוקר
-    - אילו מאכלים לא מכילים [גלוטן](nutrition_concept)לבוקר
-    - אילו מאכלים לא כוללים [גלוטן](nutrition_concept)בשביל ארוחת בוקר
-    - אילו מאכלים אין עם [גלוטן](nutrition_concept)בשביל ארוחת בוקר
-    - אילו מאכלים לא מכילים [גלוטן](nutrition_concept)בשביל הערב
-    - אילו מאכלים לא מכילים [גלוטן](nutrition_concept)לערב
-    - אילו מאכלים לא כוללים [גלוטן](nutrition_concept)בשביל ארוחת ערב
-    - אילו מאכלים לא עם [גלוטן](nutrition_concept)בשביל ארוחת ערב
-    - אילו מאכלים לא מכילים [גלוטן](nutrition_concept) לארוחת ערב
-    - אילו מאכלים לא מכילים [גלוטן](nutrition_concept) לארוחת צהריים
-    - באילו מאכלים אין [גלוטן](nutrition_concept) לארוחת צהריים
-    - באילו מאכלים אין [גלוטן](nutrition_concept) לארוחת ערב
-    - באילו מאכלים אין [גלוטן](nutrition_concept) לארוחת בוקר
-    - [תמליץ לי על ארוחת בוקר עם ללא [חיטה(food_entity)
+    - תמליץ לי על ארוחת בוקר שכוללת [לקטוז](nutrient)
+    - תמליץ לי על בוקר ללא [לקטוז](nutrient)
+    - תמליץ לי על ארוחת צהריים הלא כוללת [לקטוז](nutrient)
+    - תמליץ לי על צהריים ללא [לקטוז](nutrient)
+    - תמליץ לי על ארוחת ערב הלא כוללת [לקטוז](nutrient)
+    - תמליץ לי על ערב ללא [לקטוז](nutrient)
+    - במה אין [לקטוז](nutrient) שאפשר לאכול לארוחת ערב
+    - במה אין [לקטוז](nutrient) שאפשר לאכול לארוחת צהריים
+    - במה אין [לקטוז](nutrient) שאפשר לאכול לבארוחת בוקר
+    - במה אין [לקטוז](nutrient) לארוחת לבוקר
+    - במה אין [לקטוז](nutrient) לארוחת לערב
+    - במה אין [לקטוז](nutrient) לארוחת לצהריים
+    - במה אין [לקטוז](nutrient)בשביל הצהריים
+    - אילו מאכלים  לא מכילים [לקטוז](nutrient)בשביל הצהריים
+    - אילו מאכלים לא מכילים [לקטוז](nutrient)לצהריים
+    - אילו מאכלים לא כוללים [לקטוז](nutrient)בשביל ארוחת צהריים
+    - אילו מאכלים אין עם [לקטוז](nutrient)בשביל ארוחת צהריים
+    - אילו מאכלים לא מכילים [לקטוז](nutrient)בשביל הבוקר
+    - אילו מאכלים לא מכילים [לקטוז](nutrient)לבוקר
+    - אילו מאכלים לא כוללים [לקטוז](nutrient)בשביל ארוחת בוקר
+    - אילו מאכלים אין עם [לקטוז](nutrient)בשביל ארוחת בוקר
+    - אילו מאכלים לא מכילים [לקטוז](nutrient)בשביל הערב
+    - אילו מאכלים לא מכילים [לקטוז](nutrient)לערב
+    - אילו מאכלים לא כוללים [לקטוז](nutrient)בשביל ארוחת ערב
+    - אילו מאכלים לא עם [לקטוז](nutrient)בשביל ארוחת ערב
+    - אילו מאכלים לא מכילים [לקטוז](nutrient) לארוחת ערב
+    - אילו מאכלים לא מכילים [לקטוז](nutrient) לארוחת צהריים
+    - באילו מאכלים אין [לקטוז](nutrient) לארוחת צהריים
+    - באילו מאכלים אין [לקטוז](nutrient) לארוחת ערב
+    - באילו מאכלים אין [לקטוז](nutrient) לארוחת בוקר
+    - תמליץ לי על ארוחת בוקר שכוללת [גלוטן](nutrient)
+    - תמליץ לי על בוקר ללא [גלוטן](nutrient)
+    - תמליץ לי על ארוחת צהריים הלא כוללת [גלוטן](nutrient)
+    - תמליץ לי על צהריים ללא [גלוטן](nutrient)
+    - תמליץ לי על ארוחת ערב הלא כוללת [גלוטן](nutrient)
+    - תמליץ לי על ערב ללא [גלוטן](nutrient)
+    - במה אין [גלוטן](nutrient) שאפשר לאכול לארוחת ערב
+    - במה אין [גלוטן](nutrient) שאפשר לאכול לארוחת צהריים
+    - במה אין [גלוטן](nutrient) שאפשר לאכול לבארוחת בוקר
+    - במה אין [גלוטן](nutrient) לארוחת לבוקר
+    - במה אין [גלוטן](nutrient) לארוחת לערב
+    - במה אין [גלוטן](nutrient) לארוחת לצהריים
+    - במה אין [גלוטן](nutrient)בשביל הצהריים
+    - אילו מאכלים  לא מכילים [גלוטן](nutrient)בשביל הצהריים
+    - אילו מאכלים לא מכילים [גלוטן](nutrient)לצהריים
+    - אילו מאכלים לא כוללים [גלוטן](nutrient)בשביל ארוחת צהריים
+    - אילו מאכלים אין עם [גלוטן](nutrient)בשביל ארוחת צהריים
+    - אילו מאכלים לא מכילים [גלוטן](nutrient)בשביל הבוקר
+    - אילו מאכלים לא מכילים [גלוטן](nutrient)לבוקר
+    - אילו מאכלים לא כוללים [גלוטן](nutrient)בשביל ארוחת בוקר
+    - אילו מאכלים אין עם [גלוטן](nutrient)בשביל ארוחת בוקר
+    - אילו מאכלים לא מכילים [גלוטן](nutrient)בשביל הערב
+    - אילו מאכלים לא מכילים [גלוטן](nutrient)לערב
+    - אילו מאכלים לא כוללים [גלוטן](nutrient)בשביל ארוחת ערב
+    - אילו מאכלים לא עם [גלוטן](nutrient)בשביל ארוחת ערב
+    - אילו מאכלים לא מכילים [גלוטן](nutrient) לארוחת ערב
+    - אילו מאכלים לא מכילים [גלוטן](nutrient) לארוחת צהריים
+    - באילו מאכלים אין [גלוטן](nutrient) לארוחת צהריים
+    - באילו מאכלים אין [גלוטן](nutrient) לארוחת ערב
+    - באילו מאכלים אין [גלוטן](nutrient) לארוחת בוקר
     - תמליץ לי על ארוחת בוקר שכוללת [חיטה](food_entity)
-    - [תמליץ לי על תפריט בוקר לא הכולל [חיטה(food_entity)
     - תמליץ לי על בוקר ללא [חיטה](food_entity)
-    - [תמליץ לי על ארוחת צהריים ללא [חיטה(food_entity)
     - תמליץ לי על ארוחת צהריים הלא כוללת [חיטה](food_entity)
-    - [תמליץ לי על תפריט צהריים הלא כולל [חיטה(food_entity)
     - תמליץ לי על צהריים ללא [חיטה](food_entity)
-    - [תמליץ לי על ארוחת ערב ללא [חיטה(food_entity)
     - תמליץ לי על ארוחת ערב הלא כוללת [חיטה](food_entity)
-    - [תמליץ לי על תפריט ערב הלא כולל [חיטה(food_entity)
     - תמליץ לי על ערב ללא [חיטה](food_entity)
     - במה אין [חיטה](food_entity) שאפשר לאכול לארוחת ערב
     - במה אין [חיטה](food_entity) שאפשר לאכול לארוחת צהריים
@@ -3475,17 +3400,11 @@ nlu:
     - באילו מאכלים אין [חיטה](food_entity) לארוחת צהריים
     - באילו מאכלים אין [חיטה](food_entity) לארוחת ערב
     - באילו מאכלים אין [חיטה](food_entity) לארוחת בוקר
-    - [תמליץ לי על ארוחת בוקר עם ללא [סויה(food_entity)
     - תמליץ לי על ארוחת בוקר שכוללת [סויה](food_entity)
-    - [תמליץ לי על תפריט בוקר לא הכולל [סויה(food_entity)
     - תמליץ לי על בוקר ללא [סויה](food_entity)
-    - [תמליץ לי על ארוחת צהריים ללא [סויה(food_entity)
     - תמליץ לי על ארוחת צהריים הלא כוללת [סויה](food_entity)
-    - [תמליץ לי על תפריט צהריים הלא כולל [סויה(food_entity)
     - תמליץ לי על צהריים ללא [סויה](food_entity)
-    - [תמליץ לי על ארוחת ערב ללא [סויה(food_entity)
     - תמליץ לי על ארוחת ערב הלא כוללת [סויה](food_entity)
-    - [תמליץ לי על תפריט ערב הלא כולל [סויה(food_entity)
     - תמליץ לי על ערב ללא [סויה](food_entity)
     - במה אין [סויה](food_entity) שאפשר לאכול לארוחת ערב
     - במה אין [סויה](food_entity) שאפשר לאכול לארוחת צהריים
@@ -3511,17 +3430,11 @@ nlu:
     - באילו מאכלים אין [סויה](food_entity) לארוחת צהריים
     - באילו מאכלים אין [סויה](food_entity) לארוחת ערב
     - באילו מאכלים אין [סויה](food_entity) לארוחת בוקר
-    - [תמליץ לי על ארוחת בוקר עם ללא [אגוזים(food_entity)
     - תמליץ לי על ארוחת בוקר שכוללת [אגוזים](food_entity)
-    - [תמליץ לי על תפריט בוקר לא הכולל [אגוזים(food_entity)
     - תמליץ לי על בוקר ללא [אגוזים](food_entity)
-    - [תמליץ לי על ארוחת צהריים ללא [אגוזים(food_entity)
     - תמליץ לי על ארוחת צהריים הלא כוללת [אגוזים](food_entity)
-    - [תמליץ לי על תפריט צהריים הלא כולל [אגוזים(food_entity)
     - תמליץ לי על צהריים ללא [אגוזים](food_entity)
-    - [תמליץ לי על ארוחת ערב ללא [אגוזים(food_entity)
-    - תמליץ לי על ארוחת ערב הלא כוללת [אגוזים](nutrition_concept)
-    - [תמליץ לי על תפריט ערב הלא כולל [אגוזים(food_entity)
+    - תמליץ לי על ארוחת ערב הלא כוללת [אגוזים](food_entity)
     - תמליץ לי על ערב ללא [אגוזים](food_entity)
     - במה אין [אגוזים](food_entity) שאפשר לאכול לארוחת ערב
     - במה אין [אגוזים](food_entity) שאפשר לאכול לארוחת צהריים
@@ -3547,17 +3460,11 @@ nlu:
     - באילו מאכלים אין [אגוזים](food_entity) לארוחת צהריים
     - באילו מאכלים אין [אגוזים](food_entity) לארוחת ערב
     - באילו מאכלים אין [אגוזים](food_entity) לארוחת בוקר
-    - [תמליץ לי על ארוחת בוקר עם ללא [בוטנים(food_entity)
     - תמליץ לי על ארוחת בוקר שכוללת [בוטנים](food_entity)
-    - [תמליץ לי על תפריט בוקר לא הכולל [בוטנים(food_entity)
     - תמליץ לי על בוקר ללא [בוטנים](food_entity)
-    - [תמליץ לי על ארוחת צהריים ללא [בוטנים(food_entity)
     - תמליץ לי על ארוחת צהריים הלא כוללת [בוטנים](food_entity)
-    - [תמליץ לי על תפריט צהריים הלא כולל [בוטנים(food_entity)
     - תמליץ לי על צהריים ללא [בוטנים](food_entity)
-    - [תמליץ לי על ארוחת ערב ללא [בוטנים(food_entity)
     - תמליץ לי על ארוחת ערב הלא כוללת [בוטנים](food_entity)
-    - [תמליץ לי על תפריט ערב הלא כולל [בוטנים(food_entity)
     - תמליץ לי על ערב ללא [בוטנים](food_entity)
     - במה אין [בוטנים](food_entity) שאפשר לאכול לארוחת ערב
     - במה אין [בוטנים](food_entity) שאפשר לאכול לארוחת צהריים
@@ -3583,11 +3490,8 @@ nlu:
     - באילו מאכלים אין [בוטנים](food_entity) לארוחת צהריים
     - באילו מאכלים אין [בוטנים](food_entity) לארוחת ערב
     - באילו מאכלים אין [בוטנים](food_entity) לארוחת בוקר
-    - [תמליץ לי על ארוחת בוקר עם ללא [דגים(food_entity)
     - תמליץ לי על ארוחת בוקר שכוללת [דגים](food_entity)
-    - [תמליץ לי על תפריט בוקר לא הכולל [דגים(food_entity)
     - תמליץ לי על בוקר ללא [דגים](food_entity)
-    - [תמליץ לי על ארוחת צהריים ללא [דגים(food_entity)
     - תמליץ לי על ארוחת צהריים הלא כוללת [דגים](food_entity)
     - [תמליץ לי על תפריט צהריים הלא כולל [דגים(food_entity)
     - תמליץ לי על צהריים ללא [דגים](food_entity)
@@ -3628,6 +3532,22 @@ nlu:
     - נכון שאתה מת עלי
     - מתגעגע
     - אתה נחמד
+    - התגעגעת ?
+    - נכון שאתה מת עלי ?
+    - מתגעגע ?
+    - אתה אוהב אותי ?
+    - התגעגעת?
+    - התגעגעת אלי ?
+- intent: timing now is good
+  examples: |
+    - עכשיו זמן נהדר
+    - עכשיו זמן נהדר !
+    - עכשיו זה זמן נהדר!
+    - עכשיו זה זמן נהדר
+    - עכשיו זה טוב
+    - עכשיו טוב
+    - עכשיו
+    - עכשיו זמן נהדר!
 - synonym: אומגה 3
   examples: |
     - אומגה שלוש

@@ -798,3 +798,7 @@ stories:
     entities:
     - goal_or_state: שינה
   - action: action_nutrition_get_rda
+- story: Affirm happy utter
+  steps:
+  - intent: affirm
+  - action: utter_happy
