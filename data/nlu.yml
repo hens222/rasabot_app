@@ -1487,6 +1487,9 @@ nlu:
     - יש הבדל אם אני אוכל [עוף](food_entity) או [בשר](food_entity2) בארוחה
     - האם מומלץ לאכול [פנקק](food_entity) או [תפוז](food_entity2)
     - מה יותר בריא [בולגרית](food_entity) או [צפתית](food_entity2)
+    - מה עדיף לשתות [יין](food_entity) או [בירה](food_entity2)
+    - מה עדיף [בירה](food_entity) או [יין](food_entity2) ?
+    - האם שתיית בקבוק בירה בשעות הערב זה משמין במיוחד ? \nהאם עדיף לשתות כוס [יין](food_entity) או [בירה](food_entity2) ?
 - intent: nutrition_bloodtest_generic_question
   examples: |
     - מה הוא ערך תקין עבורי בבדיקת [פריטין](nutrient)
@@ -1771,6 +1774,7 @@ nlu:
     - הי ניוט מה נשמע
     - היי ממצב
     - היי, בוקר טוב
+    - היי בוט
 - intent: English
   examples: |
     - hello
@@ -2157,6 +2161,7 @@ nlu:
     - יש עוד בדיחות
     - אתה מכיר בדיחות
     - אתה מכיר בדיחות ?
+    - מכיר בדיחה ?
 - intent: What can you do
   examples: |
     - מה אתה מסוגל לעשות
@@ -2219,6 +2224,7 @@ nlu:
     - אתה באמת יודע לעזור לי
     - ואתה בטוח בזה
     - איך אתה הבוקר
+    - מאיפה אתה מבין בדברים כאלה
 - intent: what_is_the_source_of_your_data
   examples: |
     - אתה משוכנע במה שאתה אומר
@@ -2276,6 +2282,7 @@ nlu:
     - מי יצר אותך ניוט
     - מי יצר אותך, בוט
     - מי עשה אותך בדיוק
+    - מי עשה אותךל
 - intent: nutrition_what_to_eat_before
   examples: |
     - מה לאכול לפני [אימון ריצה](training_type)
@@ -3057,6 +3064,21 @@ nlu:
     - תמליץ לי בבקשה על תפריט היומי
     - תמליץ לי בבקשה על תפריט היומי שלי
     - תמליץ לי על תפריט היומי שלי
+    - תבנה לי תפריט בבקשה
+    - תן לי המלצה לארוחת בוקר
+    - תן לי המלצה לערב
+    - תן לי המלצה לארוחת ערב
+    - תן לי המלצה להערב
+    - מה כדאי לי לאכול לארוחת ערב
+    - תבנה לי תפריט יומי
+    - תעזור לי לבנות תפריט
+    - מה כדאי לי לאכול הבוקר
+    - מה כדאי לי לאכול בבוקר
+    - תבנה לי תפריט
+    - הי - תוכל בבקשה לתת לי המלצה לתפריט יומי
+    - הי ניוט תוכל לבנות לי תפריט יומי
+    - מה כדאי לאכול לארוחת הערב
+    - מה אתה יכול לתת לי לארוחת בוקר
 - intent: nutrition_what_x_in_y
   examples: |
     - תמליץ לי על ארוחת בוקר הכוללת [ירקות](food_entity)
@@ -3548,6 +3570,11 @@ nlu:
     - עכשיו טוב
     - עכשיו
     - עכשיו זמן נהדר!
+    - עכשי💪
+    - עכשיו סמן נהדר
+- intent: nutrition_build_meal_question
+  examples: |
+    - המלצות לתפריט נניח?
 - synonym: אומגה 3
   examples: |
     - אומגה שלוש

@@ -802,3 +802,99 @@ stories:
   steps:
   - intent: affirm
   - action: utter_happy
+- story: Build me a meal story
+  steps:
+  - intent: nutrition_meal_question
+  - action: action_nutrition_meal_question
+  - slot_was_set:
+    - x: ''
+  - slot_was_set:
+    - y: ''
+  - slot_was_set:
+    - previous_intent: nutrition_meal_question
+- story: Two meal questions one after the other
+  steps:
+  - intent: nutrition_meal_question
+  - action: action_nutrition_meal_question
+  - slot_was_set:
+    - x: ''
+  - slot_was_set:
+    - y: ''
+  - slot_was_set:
+    - previous_intent: nutrition_meal_question
+  - intent: nutrition_meal_question
+  - action: action_nutrition_meal_question
+  - slot_was_set:
+    - x: ''
+  - slot_was_set:
+    - y: ''
+  - slot_was_set:
+    - previous_intent: nutrition_meal_question
+- story: RDA question followed by meal question
+  steps:
+  - intent: nutrition_get_rda
+    entities:
+    - nutrient: ברזל
+  - action: action_nutrition_get_rda
+  - intent: nutrition_meal_question
+  - action: action_nutrition_meal_question
+  - slot_was_set:
+    - x: ''
+  - slot_was_set:
+    - y: ''
+  - slot_was_set:
+    - previous_intent: nutrition_meal_question
+- story: Two meal questions from a whatsapp user stroy
+  steps:
+  - slot_was_set:
+    - age: '39'
+  - slot_was_set:
+    - gender: $g0
+  - slot_was_set:
+    - height: '182'
+  - slot_was_set:
+    - phone: '+972587100788'
+  - slot_was_set:
+    - username: גיל
+  - slot_was_set:
+    - weight: '73'
+  - slot_was_set:
+    - age: '39'
+  - slot_was_set:
+    - gender: $g0
+  - slot_was_set:
+    - height: '182'
+  - slot_was_set:
+    - phone: '+972587100788'
+  - slot_was_set:
+    - username: גיל
+  - slot_was_set:
+    - weight: '73'
+  - intent: nutrition_meal_question
+  - action: action_nutrition_meal_question
+  - slot_was_set:
+    - x: ''
+  - slot_was_set:
+    - y: ''
+  - slot_was_set:
+    - previous_intent: nutrition_meal_question
+  - slot_was_set:
+    - age: '39'
+  - slot_was_set:
+    - gender: $g0
+  - slot_was_set:
+    - height: '182'
+  - slot_was_set:
+    - phone: '+972587100788'
+  - slot_was_set:
+    - username: גיל
+  - slot_was_set:
+    - weight: '73'
+  - intent: nutrition_meal_question
+  - action: action_nutrition_meal_question
+  - slot_was_set:
+    - x: ''
+  - slot_was_set:
+    - y: ''
+  - slot_was_set:
+    - previous_intent: nutrition_meal_question
