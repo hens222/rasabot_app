@@ -14,13 +14,135 @@ import requests
 import numpy as np
 import pandas as pd
 import random
-from os import path
 from typing import Any, Text, Dict, List, Union, Optional
 from rasa_sdk import Action, Tracker
 from rasa_sdk import FormValidationAction
 from rasa_sdk.events import SlotSet, FollowupAction
 from rasa_sdk.types import DomainDict
 from rasa_sdk.executor import CollectingDispatcher
+
+import warnings
+from statistics import mean
+from os import path
+from datetime import datetime
+import matplotlib.pyplot as plt
+from botocore.exceptions import ClientError
+from boto3.exceptions import S3UploadFailedError
+import boto3
+
+DB_AWS_ACCESS_KEY_ID = 'AKIAVEUVOUI6JX6LYNNM'
+DB_AWS_SECRET_ACCESS_KEY = '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'
+DB_AWS_BUCKET = 'journeypic'
+
+
+def upload_file_to_s3(local_file, s3_folder, s3_file, aws_access_key_id, aws_secret_access_key, aws_bucket,
+                      debug_en=False):
+    """ upload a given file to given location on Amazon-S3 """
+
+    success = True
+    HTTP_OK = 200
+
+    # Connect to Amazon-S3 client:
+    s3_client = boto3.client('s3', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
+
+    # Make a new directory on S3 (if not already exists):
+    if s3_folder + '/' in [x['Key'] for x in s3_client.list_objects(Bucket=aws_bucket)['Contents']]:
+        if debug_en:
+            x = 3
+    else:
+        if debug_en:
+            x = 3
+        else:
+            res = s3_client.put_object(Bucket=aws_bucket, Key='%s/' % s3_folder)
+            success = res['ResponseMetadata']['HTTPStatusCode'] == HTTP_OK
+            if not success:
+                return success, ""
+
+    # Upload local_file to S3:
+    x = 3
+    if not debug_en:
+        try:
+            if path.exists(local_file):
+                s3_client.upload_file(local_file, aws_bucket, path.join(s3_folder, s3_file))
+                s3_client.put_object_acl(ACL='public-read', Bucket=aws_bucket, Key=path.join(s3_folder, s3_file))
+        except (ClientError, S3UploadFailedError) as e:
+            success = False, ""
+
+    return success, "https://%s.s3.eu-central-1.amazonaws.com/%s/%s" % (aws_bucket, s3_folder, s3_file)
+
+
+def donut_generator(names, sizes, radius=0.7, textstr_title='',
+                    colors=None, figname="image.png"):
+    if colors is None:
+        colors = []
+    my_circle = plt.Circle((0, 0), radius, color='white')
+    fig, ax = plt.subplots()
+
+    labels = [':%s\nתוירולק %d' % (k1, k2) for k1, k2 in zip(names, sizes)]
+
+    if colors:
+        ax.pie(sizes, colors=colors)
+    else:
+        ax.pie(sizes)
+    plt.legend(bbox_to_anchor=(1.0, 0.88), fontsize=18, labels=labels)
+    p = plt.gcf()
+    p.gca().add_artist(my_circle)
+
+    if textstr_title:
+        ax.text(0.34, 1.05, textstr_title, transform=ax.transAxes, weight='bold',
+                fontsize=30, verticalalignment='center_baseline')
+
+    textstr_center1 = str(sum(sizes))
+    textstr_center2 = 'קלוריות'[::-1]
+
+    ax.text(0.39, 0.56, textstr_center1, transform=ax.transAxes, weight='bold',
+            fontsize=24, verticalalignment='center_baseline')
+
+    ax.text(0.37, 0.44, textstr_center2, transform=ax.transAxes,
+            fontsize=18, verticalalignment='center_baseline')
+
+    if figname:
+        fig.patch.set_facecolor('white')
+        fig.savefig(figname, bbox_inches='tight', facecolor='white')
+
+    else:
+        plt.show()
+
+
+def donut_generator_wrapper(title, data):
+    names = [x[::-1] for x in list(data.keys())]
+    sizes = list(data.values())
+
+    colors = ['darkorange', 'lightgreen', 'blue']
+
+    textstr_title = title[::-1]
+
+    figname = "donut_image1.png"
+
+    donut_generator(names=names,
+                    sizes=sizes,
+                    radius=0.7,
+                    textstr_title=textstr_title,
+                    colors=colors,
+                    figname=figname)
+
+    return figname
+
+
+def iniliatize_Diagram(title, data):
+    unique_filename = lambda fname: "%s_%s%s" % (path.splitext(fname)[0],
+                                                 datetime.now().strftime("%m%d%Y_%H%M%S"),
+                                                 path.splitext(fname)[1])
+
+    figname = donut_generator_wrapper(title, data)
+
+    res, figure_url = upload_file_to_s3(local_file=figname,
+                                        s3_folder="auto_generated",
+                                        s3_file=unique_filename(figname),
+                                        aws_access_key_id=DB_AWS_ACCESS_KEY_ID,
+                                        aws_secret_access_key=DB_AWS_SECRET_ACCESS_KEY,
+                                        aws_bucket=DB_AWS_BUCKET)
+    return figure_url
 
 
 def load_db(db_bitmap):
@@ -128,7 +250,8 @@ def load_db(db_bitmap):
         s = requests.get(url).content
         food_units_features_df = pd.read_csv(io.StringIO(s.decode('utf-8')), header=1)
         db_dict['food_units_features'] = food_units_features_df.dropna(axis=0, how='all')
-        db_dict['food_units_features'] = db_dict['food_units_features'].rename({'Primary_SN': 'smlmitzrach'}, axis=1)
+        db_dict['food_units_features'] = db_dict['food_units_features'].rename({'Primary_SN': 'smlmitzrach'},
+                                                                               axis=1)
 
     # "Zameret_hebrew_features" - subs_tags_alias
     if (db_bitmap & 0x800) > 0:
@@ -141,9 +264,11 @@ def load_db(db_bitmap):
 
     return db_dict
 
+
 # ------------------------------------------------------------------
 
-def meal_sheets(debug=False):
+
+def import_sheets(debug=False):
     '''Import the df noa and tzameret food group tabs from the suggested meal planning sheet as a DataFrame. Import weights and measures, and tzameret food list from Tzameret DB as a DataFrame'''
 
     sheet_id = '19rYDpki0jgGeNlKLPnINiDGye8QEfQ4IEEWSkLFo83Y'
@@ -181,14 +306,13 @@ def meal_sheets(debug=False):
     df_noa['sn_2'] = df_noa['primary_sn'].astype(str).str[1:2]
 
     return df_noa, df_tzameret_food_group, df_weights, df_nutrition
+    # ------------------------------------------------------------------
 
-# ------------------------------------------------------------------
 
 def get_rda(name, tracker, intent_upper=False):
     db_dict = load_db(0x46)
 
     lut_df = db_dict['lut']
-    custom_df = db_dict['nutrients_qna']
     micro_nutrients_df = db_dict['micro_nutrients']
     if intent_upper:
         micro_nutrients_df = micro_nutrients_df[micro_nutrients_df['Type'] == "Upper Limit"]
@@ -196,15 +320,20 @@ def get_rda(name, tracker, intent_upper=False):
         micro_nutrients_df = micro_nutrients_df[micro_nutrients_df['Type'] == "RDA"]
 
     status = "match"
-    if not (tracker.get_slot('gender') and tracker.get_slot('age') and tracker.get_slot('weight') and tracker.get_slot(
-            'height')):
+    if not (tracker.get_slot('gender') and tracker.get_slot('age') and tracker.get_slot(
+            'weight') and tracker.get_slot(
+        'height')):
         status = "default"
 
     nutrient = None
-    for ent in tracker.latest_message.get('entities'):
-        if ent['entity'] in lut_df[name].values:
-            nutrient = ent['value']
-            break
+    x = tracker.get_slot('x') if tracker.get_slot('x') else None
+    if x is not None and x is not "":
+        nutrient = x
+    else:
+        for ent in tracker.latest_message.get('entities'):
+            if ent['entity'] in lut_df[name].values:
+                nutrient = ent['value']
+                break
 
     try:
 
@@ -270,7 +399,8 @@ def get_rda(name, tracker, intent_upper=False):
 
         return -1, -1, "", "missmatch", nutrient
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 def get_personal_str(rda_status, tracker):
     age = tracker.get_slot('age') if tracker.get_slot('age') and rda_status == "match" else '40'
@@ -285,7 +415,8 @@ def get_personal_str(rda_status, tracker):
 
     return personal_str
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 def get_food_nutrition_density(food, food_ranges_db):
     # Nutrition Density is defined in Tzameret:
@@ -305,7 +436,8 @@ def get_food_nutrition_density(food, food_ranges_db):
 
     return density, res
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 def get_food_energy_density(food, food_ranges_db):
     # Energy Density is defined in Tzameret:
@@ -325,7 +457,8 @@ def get_food_energy_density(food, food_ranges_db):
 
     return density, res
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 # Dictionary that is equivalent to user inputs and filters the df_noa Database based on the inputs
 def arrayToString(s):
@@ -337,21 +470,20 @@ def arrayToString(s):
 
 
 def update_budgets(daily_budget, meals_num, snacks_num, weights):
-    """Takes total budget, number of meals and snacks, and weights as paramters. Returns budget for each category for
-    every meal """
+    '''Takes total budget, number of meals and snacks, and weights as paramters. Returns budget for each category for every meal'''
     # change 0.3 to a user params
     budgets = {}
     div = (meals_num + inputs.get(
         'budget_var') * snacks_num)  # Is this supposed to be budget_var(0.3) times snacks num or budget_var times meals_num
     if div > 0:
         budgets['meal'] = round(daily_budget / div, 1)
-        budgets['snack'] = round(inputs.get('budget_var') * daily_budget, 1)
-
+        budgets['snack'] = round(inputs.get('budget_var') * daily_budget / div, 1)
         budgets['Carbs'] = round(weights[0] * budgets['meal'], 1)
         budgets['Protein'] = round(weights[1] * budgets['meal'], 1)
         budgets['Vegetables'] = round(weights[2] * budgets['meal'], 1)
         budgets['Fruits'] = round(weights[3] * budgets['snack'], 1)
         budgets['Fat'] = round(weights[4] * budgets['snack'], 1)
+        budgets['Fat_meal'] = round(weights[4] * budgets['meal'], 1)
         budgets['Savoury_Snacks'] = round(weights[5] * budgets['snack'], 1)
         budgets['Sweets'] = round(weights[6] * budgets['snack'], 1)
         budgets['all'] = round(daily_budget, 1)
@@ -418,7 +550,8 @@ def get_item_property(sn, grams, serving):
     attribute = df_nutrition.loc[df_nutrition['smlmitzrach'] == str(int(sn))]
     attribute_total = attribute.iloc[0]['food_energy']
     total = attribute_total * mishkal * serving
-    return total
+
+    return total, weights.iloc[0]['shmmida'], weights.iloc[0]['mishkal'], weights, serving
 
 
 def update_calorie_budgets(candidate_calories, item_type, bud):
@@ -429,19 +562,24 @@ def update_calorie_budgets(candidate_calories, item_type, bud):
 
 
 def build_meal(meals_bank, meal_type, budget):
+    # make histogram without penalty score of runnning the simulator 50 times and picking the winners. Run it again with the penalty score
     '''Builds a meal taking a DataFrame, meal type and budget as parameters. Meal takes item from each category (Carbs, Protein etc.) and returns the meal, weighted average score and total meal calories'''
     budget_weights = {**budget_weights_meals, **budget_weights_snacks_fruits_fat, **budget_weights_savoury_snacks,
                       **budget_weights_sweets}
     bud = {}
-    max_meal_items = inputs.get('max_items')
+    meal_similarity_list = []
+    df_health = df_nutrition.iloc[1:]
+    max_meal_items = inputs.get('max_items_snack') if meal_type == 'snack' else inputs.get('max_items_meal')
+    nutrition_density_list = []
+    energy_density_list = []
     meal_score = 0
     score_list = []
     uti_score = []
     ind_score = []
+    score = 0
     meals = []
-    types = []
     meal_cals = 0
-
+    types = []
     total_budget = budget.copy()
     item_types = {'breakfast': ['Carbs', 'Protein', 'Vegetables'],
                   'lunch': ['Carbs', 'Protein', 'Vegetables'],
@@ -459,30 +597,55 @@ def build_meal(meals_bank, meal_type, budget):
             success = False
             if (len(meals_bank.loc[meals_bank['food_category'] == item_type]) > 0):
                 df = meals_bank.loc[meals_bank['food_category'] == item_type].sample()
-                types.append(df['food_category'])
             candidate_units = candidate_units_amounts(df, int(df['primary_sn'].values[0]), item_type)
             candidate_grams = candidate_units[0]
             for can_grams in candidate_grams:
                 sn = float(df['primary_sn'].values[0])
                 for candidate_amount in candidate_units[1]:
                     for amount in reversed(candidate_amount):
-                        calories = get_item_property(sn, can_grams, amount)
+                        calories, weight, grams, x, y = get_item_property(sn, can_grams, amount)
                         can_cals = getattr(calories, "tolist", lambda: candidate_calories)()
                         if can_cals < budget[item_type]:
                             success = True
                             if success:
-                                sn1 = float(df['primary_sn'].values[0])
-                                calories1 = get_item_property(sn1, can_grams, amount)
-                                bud[item_type] = getattr(calories1, "tolist", lambda: candidate_calories)()
-                                units_priority = candidate_grams.index(can_grams) + 1
-                                meal_score += 1 / units_priority
-                                item_score = (bud[item_type]) / (budget[item_type])
-                                df['score'] = item_score
-                                score_list.append(item_score)
-                                dataframe = df[['food_name', 'primary_sn']]
-                                meals.append(dataframe)
-                                meal_cals = meal_cals + calories1
-                                budget = update_calorie_budgets(can_cals, item_type, budget)
+                                if success:
+                                    sn_int = int(df['primary_sn'].astype(str).str[:1])
+                                    sn1 = float(df['primary_sn'].values[0])
+                                    calories1, weight, grams, x, y = get_item_property(sn1, can_grams, amount)
+                                    bud[item_type] = getattr(calories1, "tolist", lambda: candidate_calories)()
+                                    units_priority = candidate_grams.index(can_grams) + 1
+                                    meal_score += 1 / units_priority
+                                    df_sn1 = df_tzameret_food_group.loc[
+                                        df_tzameret_food_group['ספרה ראשונה בקוד'] == sn_int]
+                                    df_fish = df_noa.loc[df_noa['primary_sn'] == sn1]
+                                    food_group = df_sn1['קבוצת המזון']
+                                    if sn_int == 2:
+                                        if df_fish['fish_free'].iloc[0] == 'Yes':
+                                            meal_similarity_list.append(2.1)
+                                        else:
+                                            meal_similarity_list.append(2.2)
+                                    else:
+                                        meal_similarity_list.append(sn_int)
+                                    item_score = (bud[item_type]) / (budget[item_type])
+                                    df['score'] = item_score
+                                    score_list.append(item_score)
+                                    types.append(df['food_category'])
+                                    nutrition_density_normalized = df_nutrition.loc[
+                                        df_nutrition['smlmitzrach'] == str(
+                                            int(sn1)), 'Nutrition density normalized']
+                                    energy_density = df_health.loc[
+                                        df_health['smlmitzrach'] == str(int(sn1)), 'Energy density']
+                                    nutrition_density_normalized = nutrition_density_normalized.astype(float)
+                                    energy_density = energy_density.astype(float)
+                                    dataframe = df[['food_name', 'primary_sn']]
+                                    dataframe.insert(2, 'Weight', [grams])
+                                    dataframe.insert(3, 'Unit', [weight])
+                                    dataframe.insert(4, 'Amount', [amount])
+                                    meals.append(dataframe)
+                                    nutrition_density_list.append(nutrition_density_normalized.values.tolist())
+                                    energy_density_list.append(energy_density.values.tolist())
+                                    meal_cals = meal_cals + calories1
+                                    budget = update_calorie_budgets(can_cals, item_type, budget)
                                 break
                     if success or budget[item_type] < units_thr[item_type] or len(meals) >= max_meal_items:
                         break
@@ -496,35 +659,75 @@ def build_meal(meals_bank, meal_type, budget):
     for each_type in reversed(types_list_no_duplicates):
         each_score = (float(total_budget.get(each_type)) - float(budget.get(each_type))) / float(
             total_budget.get(each_type))
-
         ind_score.append(each_score)
         uti_score.append(budget_weights.get(each_type))
-    if len(ind_score) < len(item_types[meal_type]):
+    if (len(ind_score) < len(item_types[meal_type])):
         ind_score.append(0.000001)
         uti_score.append(.35)
     if (min(ind_score) < 0.7) and (meal_type != 'snack'):
         extra_penalty = inputs.get('extra_penalty')
     else:
         extra_penalty = 0
+    if (len(meals)) > 4:
+        meal_penalty_length = (len(meals) - 4) * inputs.get('meal_penalty_length')
+    else:
+        meal_penalty_length = 0
     total_utilization = sum(x * y for x, y in zip(ind_score, uti_score)) / sum(uti_score)
-    penalty_score = 1 - meal_score / len(meals)
-    score = total_utilization - (penalty_score * inputs.get('penalty_weight')) - extra_penalty
 
-    return meals, score, meal_cals
+    if len(meal_similarity_list) != len(set(meal_similarity_list)):
+        meal_similarity_penalty = inputs.get('meal_similarity_penalty')
+    else:
+        meal_similarity_penalty = 0
+    nutrition_density_list = [float(x) for [x] in nutrition_density_list]
+    try:
+        avg_nutrition = round(mean(nutrition_density_list), 4)
+    except:
+        avg_nutrition = nutrition_density_list
+    energy_density_list = [float(x) for [x] in energy_density_list]
+    avg_energy = round(mean(energy_density_list), 4)
+
+    penalty_score = 1 - meal_score / len(meals)
+    nutrition_boost = avg_nutrition * inputs.get('nutrition_bonus')
+    energy_boost = avg_energy * inputs.get('energy_bonus')
+    if scoring.get('legacy'):
+        score = total_utilization - (
+                penalty_score * inputs.get('penalty_weight')) - extra_penalty - meal_penalty_length
+    elif scoring.get('legacy_nut'):
+        score = total_utilization - (penalty_score * inputs.get(
+            'penalty_weight')) - extra_penalty - meal_penalty_length + nutrition_boost
+    elif scoring.get('legacy_ene'):
+        total_utilization - (
+                penalty_score * inputs.get('penalty_weight')) - extra_penalty - meal_penalty_length + energy_boost
+    else:
+        score = total_utilization - (penalty_score * inputs.get(
+            'penalty_weight')) - extra_penalty - meal_penalty_length + energy_boost + nutrition_boost
+    return meals, score, meal_cals, ind_score, meal_penalty_length, avg_nutrition, avg_energy, meal_similarity_penalty, meal_similarity_list
 
 
 def build_meal_wrapper():
+    energy_density_listy = 0.0
+    meal_similarity_listy = []
+    nutrition_density_listy = []
+    meal_similarity_penaltyy = []
+    nutrition_density_listx = []
+    energy_density_listx = 0.0
+    meal_similarity_penaltyx = []
+    meal_similarity_listx = []
+    penalty_lengthy = []
     # Builds and populates a scoreboard that sorts the meals based on their score
     x = -3
-
     pd.set_option('precision', 2)
+    max_iterations = inputs.get('max_iter')
     budget_weights = {**budget_weights_meals, **budget_weights_snacks_fruits_fat, **budget_weights_savoury_snacks,
                       **budget_weights_sweets}
     budget_weights_list = []
+
     for k, v in budget_weights.items():
         budget_weights_list.append(v)
 
     score_tracker = -2
+    total_cals = 0
+
     meals = {}
     user_meals_num = inputs.get('meals_num')
     user_snacks_num = inputs.get('snacks_num')
@@ -534,7 +737,6 @@ def build_meal_wrapper():
         meal_types.append('snack')
 
     features = filter_meals_by_features(user_params, df_noa)
-
     for meal_type in meal_types:
         bank = filter_meals_by_meal_type(features, meal_type)
         x += 1
@@ -542,20 +744,27 @@ def build_meal_wrapper():
         for k in range(inputs.get('max_iter')):
             budgets_dynamic = update_budgets(inputs.get('total_cals'), inputs.get('meals_num'),
                                              inputs.get('snacks_num'), budget_weights_list)
-            meal_budget = update_budgets(inputs.get('total_cals'), inputs.get('meals_num'), inputs.get('snacks_num'),
+            meal_budget = update_budgets(inputs.get('total_cals'), inputs.get('meals_num'),
+                                         inputs.get('snacks_num'),
                                          budget_weights_list)
+
             if meal_type != 'snack':
-                mealy, scorey, calsy = build_meal(bank, meal_type, budgets_dynamic)
-                if mealy:
+                mealy, scorey, calsy, ut_scorey, penalty_lengthy, nutrition_density_listy, energy_density_listy, meal_similarity_penaltyy, meal_similarity_listy = build_meal(
+                    bank, meal_type, budgets_dynamic)
+
+                if mealy and scorey and min(ut_scorey) > 0:
                     scoreboard[meal_type] = mealy, scorey, calsy
                     if scoreboard[meal_type][1] > score_tracker:
                         score_tracker = scoreboard[meal_type][1]
                         total_cals = scoreboard[meal_type][2]
-            else:
-                mealx, scorex, calsx = build_meal(bank, meal_type, meal_budget)
 
+
+            else:
+                mealx, scorex, calsx, ut_scorex, penalty_lengthx, nutrition_density_listx, energy_density_listx, meal_similarity_penaltyx, meal_similarity_listx = build_meal(
+                    bank, meal_type, meal_budget)
                 if mealx:
-                    scoreboard[meal_type] = mealx, scorex, calsx
+                    scoreboard[
+                        meal_type] = mealx, scorex, calsx, nutrition_density_listx, energy_density_listx, meal_similarity_penaltyx, meal_similarity_listx
 
             if scoreboard:
                 meals[meal_type] = scoreboard[meal_type]
@@ -566,116 +775,202 @@ def build_meal_wrapper():
                 df['score'] = float(scoreboard[meal_type][1])
                 df['meal_cals'] = scoreboard[meal_type][2]
                 if meal_name != 'snack':
-                    df['meal_name'] = meal_name
+                    df['name'] = meal_name
                     df['budget per meal'] = meal_budget.get('meal')
                     df['meal budget utilization'] = (df['meal_cals'] / df['budget per meal'])
-                    # df['meal budget utilization'] = ((df['meal_cals']/df['budget per meal']) * 100).astype(str) + '%'
+                    df['average nutrtition'] = nutrition_density_listy
+                    df['average energy'] = energy_density_listy
+                    df['meal_similarity_penalty'] = meal_similarity_penaltyy
+                    df['meal_similarity_list'] = pd.Series([meal_similarity_listy])
+                    df.set_index('name', drop=True, inplace=True)
                 else:
-                    df['meal_name'] = meal_name
+                    df['name'] = meal_name + " " + str(x)
                     df['budget per snack'] = budgets_dynamic.get('snack')
-                    df['snack budget utilization'] = (df['meal_cals'] / df['budget per snack']) * 100
-                df.set_index('meal_name', drop=True, inplace=True)
-                filler.append(df)
+                    df['snack budget utilization'] = (df['meal_cals'] / df['budget per snack'])
+                    df['average nutrtition'] = nutrition_density_listx
+                    df['average energy'] = energy_density_listx
+                    df['meal_similarity_penalty'] = meal_similarity_penaltyx
+                    df['meal_similarity_list'] = pd.Series([meal_similarity_listx])
+                    df.set_index('name', drop=True, inplace=True)
+
                 if meal_name != 'snack':
                     # rename all the budget as budget leftover so its carbs budget leftover etc.
-                    df['carb budget per meal'] = float(format(meal_budget.get('Carbs'), '.2f'))
-                    df['carbs budget remaining'] = float(format(budgets_dynamic.get('Carbs'), ".2f"))
-                    df['carb budget utilization'] = float(
-                        format((meal_budget.get('Carbs') - budgets_dynamic.get('Carbs')) / meal_budget.get('Carbs'),
-                               '.2f'))
-                    df['protein budget per meal'] = float(format(meal_budget.get('Protein'), '.2f'))
-                    df['protein budget remaining'] = float(format(budgets_dynamic.get('Protein'), '.2f'))
-                    df['protein budget utilization'] = float(format(
-                        (meal_budget.get('Protein') - budgets_dynamic.get('Protein')) / meal_budget.get('Protein'),
-                        '.2f'))
-                    df['vegetable budget per meal'] = float(format(meal_budget.get('Vegetables'), '.2f'))
-                    df['vegetable budget remaining'] = float(format(budgets_dynamic.get('Vegetables'), '.2f'))
-                    df['vegetable budget utilization'] = float(format(
-                        (meal_budget.get('Vegetables') - budgets_dynamic.get('Vegetables')) / meal_budget.get(
-                            'Vegetables'), '.2f'))
+                    df['meal penalty length'] = penalty_lengthy
+                    df['carb budget per meal'] = int(meal_budget.get('Carbs'))
+                    df['carbs budget remaining'] = budgets_dynamic.get('Carbs')
+                    df['carb budget utilization'] = (meal_budget.get('Carbs') - budgets_dynamic.get(
+                        'Carbs')) / meal_budget.get('Carbs')
+                    df['protein budget per meal'] = meal_budget.get('Protein')
+                    df['protein budget remaining'] = budgets_dynamic.get('Protein')
+                    df['protein budget utilization'] = (meal_budget.get('Protein') - budgets_dynamic.get(
+                        'Protein')) / meal_budget.get('Protein')
+                    df['vegetable budget per meal'] = meal_budget.get('Vegetables')
+                    df['vegetable budget remaining'] = budgets_dynamic.get('Vegetables')
+                    df['vegetable budget utilization'] = (meal_budget.get('Vegetables') - budgets_dynamic.get(
+                        'Vegetables')) / meal_budget.get('Vegetables')
+                    df['fat budget per meal'] = meal_budget.get('Fat_meal')
+                    df['fat budget remaining'] = budgets_dynamic.get('Fat_meal')
+                    df['fat budget utilization'] = (meal_budget.get('Fat_meal') - budgets_dynamic.get(
+                        'Fat_meal')) / meal_budget.get('Fat_meal')
+
+
                 else:
                     if snacks.get('sweets') == "Yes":
-                        df['sweets budget per snack'] = float(format(budgets_dynamic.get('Sweets'), '.2f'))
-                        df['sweets budget remaining'] = float(format(meal_budget.get('Sweets'), '.2f'))
-                        df['sweets budget utilization'] = float(format(
-                            (budgets_dynamic.get('Sweets') - meal_budget.get('Sweets')) / budgets_dynamic.get('Sweets'),
-                            '.2f'))
+                        df['sweets budget per snack'] = meal_budget.get('Sweets')
+                        df['sweets budget remaining'] = budgets_dynamic.get('Sweets')
+                        df['sweets budget utilization'] = (meal_budget.get('Sweets') - budgets_dynamic.get(
+                            'Sweets')) / meal_budget.get('Sweets')
                     if snacks.get('Savoury_Snacks') == 'Yes':
-                        df['savoury budget per snack'] = float(format(budgets_dynamic.get('Savoury_Snacks'), '.2f'))
-                        df['savoury budget remaining'] = float(format(meal_budget.get('Savoury_Snacks'), '.2f'))
-                        df['savoury budget utilization'] = float(format((budgets_dynamic.get(
-                            'Savoury_Snacks') - meal_budget.get('Savoury_Snacks')) / budgets_dynamic.get(
-                            'Savoury_Snacks'), '.2f'))
+                        df['savoury budget per snack'] = meal_budget.get('Savoury_Snacks')
+                        df['savoury budget remaining'] = budgets_dynamic.get('Savoury_Snacks')
+                        df['savoury budget utilization'] = (meal_budget.get('Savoury_Snacks') - budgets_dynamic.get(
+                            'Savoury_Snacks')) / meal_budget.get('Savoury_Snacks')
                     if user_params.get('fruits') == 'No':
-                        df['fruits budget per snack'] = float(format(budgets_dynamic.get('Fruits'), '.2f'))
-                        df['fruits budget remaining'] = float(format(meal_budget.get('Fruits'), '.2f'))
-                        df['fruits budget utilization'] = float(format(
-                            (budgets_dynamic.get('Fruits') - meal_budget.get('Fruits')) / budgets_dynamic.get('Fruits'),
-                            '.2f'))
-                    df['fat budget per snack'] = float(format(budgets_dynamic.get('Fat'), '.2f'))
-                    df['fat budget remaining'] = float(format(meal_budget.get('Fat'), '.2f'))
-                    df['fat budget utilization'] = float(
-                        format((budgets_dynamic.get('Fat') - meal_budget.get('Fat')) / budgets_dynamic.get('Fat'),
-                               '.2f'))
-
+                        df['fruits budget per snack'] = meal_budget.get('Fruits')
+                        df['fruits budget remaining'] = budgets_dynamic.get('Fruits')
+                        df['fruits budget utilization'] = (meal_budget.get('Fruits') - budgets_dynamic.get(
+                            'Fruits')) / meal_budget.get('Fruits')
+                    df['fat budget per snack'] = meal_budget.get('Fat')
+                    df['fat budget remaining'] = budgets_dynamic.get('Fat')
+                    df['fat budget utilization'] = (meal_budget.get('Fat') - budgets_dynamic.get(
+                        'Fat')) / meal_budget.get('Fat')
+            filler.append(df)
         if meal_type == 'snack':
             user_snacks_num -= 1
         else:
             user_meals_num -= 1
+        budgets_dynamic = update_budgets(float(inputs.get('total_cals') - total_cals), user_meals_num, user_snacks_num,
+                                         budget_weights_list)
 
     df_meals = pd.concat(filler)
-    df_final = df_meals.sort_values(by=['meal_name', 'score'], ascending=[True, False])
-    x = 1
-    y = 1
-    for b in range(0, inputs.get('max_items') * 2, 2):
-        df_final.rename(columns={b: ('Item ' + str(x))}, inplace=True)
-        x = x + 1
-    for m in range(1, inputs.get('max_items') * 2, 2):
-        df_final.rename(columns={m: ('Primary SN ' + str(y))}, inplace=True)
-        df_final.fillna(0, inplace=True)
-        df_final[('Primary SN ' + str(y))] = df_final[('Primary SN ' + str(y))].apply(int)
-        y = y + 1
+    df_final = df_meals.sort_values(by=['name', 'score'], ascending=[True, False])
+
+    df_final.rename(columns={0: "Item 1", 1: "Primary SN 1", 2: "Weight", 3: "Unit1", 4: "Amount1",
+                             5: "Item 2", 6: "Primary SN 2", 7: "Weight", 8: "Unit2", 9: "Amount2",
+                             10: "Item 3", 11: "Primary SN 3", 12: "Weight", 13: "Unit3", 14: "Amount3",
+                             15: "Item 4", 16: "Primary SN 4", 17: "Weight", 18: "Unit4", 19: "Amount4"}
+                    , inplace=True)
 
     return df_final
 
 
-def displayMeal(data, mealType):
+def displayMeal(data, mealType, items_meal_number, sncack_numbers):
     menu = ""
     calories = 0
     # hole day menu
+    carbs = 0
+    protein = 0
+    vegetable = 0
     if len(mealType) > 1:
         for meal in mealType:
-            items, temp_calories = getMeal(data, meal)
+            items, temp_calories, temp_carbs, temp_protein, temp_vegetable = getMeal(data, meal, items_meal_number)
             calories += temp_calories
             menu = menu + items
+            carbs = carbs + temp_carbs
+            protein = protein + temp_protein
+            vegetable = vegetable + vegetable
     # one meal for the user
     else:
-        menu, calories = getMeal(data, mealType[0])
-    menu = menu + "כמות קלוריות -> " + arrayToString(str(calories))
-    return menu
+        menu, calories, carbs, protein, vegetable = getMeal(data, mealType[0], items_meal_number)
+        return menu, carbs, protein, vegetable
+
+    snacks, calories_sn = getSnack(data, sncack_numbers)
+    menu = menu + snacks
+    calories += calories_sn
+    menu = menu + "סך הכל קלוריות -> " + arrayToString(str(calories))
+    return menu, carbs, protein, vegetable
 
 
-def getMeal(data, meal_type):
-    temp_meal = data[data.index == meal_type]
-    first, second, third = temp_meal['Item 1'].head(1).values, temp_meal['Item 2'].head(1).values, temp_meal[
-        'Item 3'].head(
-        1).values
-    calories = temp_meal['meal_cals'].head(1).values
+def getMeal(data, meal_type, meal_items_nubmer):
+    # item[0]-> food name
+    # item[1]-> unit
+    # item[2]-> amount
+
     dic = {'breakfast': 'ארוחת בוקר', 'lunch': 'ארוחת צהריים', 'dinner': 'ארוחת ערב'}
-    return dic[meal_type] + ":\n1. " + arrayToString(first) + "\n2. " + arrayToString(second) + "\n3. " + arrayToString(
-        third) + "\n", int(calories)
+    temp_meal = data[data.index == meal_type]
+    items = get_items(temp_meal, meal_items_nubmer)
+    calories = temp_meal['meal_cals'].head(1).values
+    # calulate the Nutritional values of the meal
+    carbs = temp_meal['carb budget per meal'].head(1).values * temp_meal['carb budget utilization'].head(1).values
+    protein = temp_meal['protein budget per meal'].head(1).values * temp_meal['protein budget utilization'].head(
+        1).values
+    vegetables = temp_meal['vegetable budget per meal'].head(1).values * temp_meal['vegetable budget utilization'].head(
+        1).values
+    carbs = int(carbs)
+    protein = int(protein)
+    vegetables = int(vegetables)
+    calories = int(calories)
+
+    if meal_items_nubmer == 4:
+        return "*" + dic[meal_type] + "*:\n1. " + buildItem(items['item1']) + "\n2. " + buildItem(
+            items["item2"]) + "\n3. " + buildItem(
+            items['item3']) + "\n4. " + buildItem(
+            items['item4']) + "\nכמות קלוריות ->" + str(calories) + "\n\n", calories, carbs, protein, vegetables
+
+    return "*" + dic[meal_type] + "*:\n1. " + buildItem(items['item1']) + "\n2. " + buildItem(
+        items["item2"]) + "\n3. " + buildItem(
+        items['item3']) + "\nכמות קלוריות ->" + str(calories) + "\n\n", calories, carbs, protein, vegetables
 
 
-def Core_fun(meal_type, sheets):
+def get_items(temp_meal, items_number):
+    meal = {}
+    for index in range(1, items_number + 1):
+        meal['item' + str(index)] = [temp_meal['Item ' + str(index)].head(1).values,
+                                     temp_meal['Unit' + str(index)].head(1).values,
+                                     temp_meal['Amount' + str(index)].head(1).values]
+    return meal
+
+
+def getSnack(snackData, snack_number):
+    # get the line of each snack
+    snack1 = snackData[snackData.index == "snack 1"]
+    snack2 = snackData[snackData.index == "snack 2"]
+    # get the items
+    snack1_ = get_items(snack1, snack_number)
+    snack2_ = get_items(snack2, snack_number)
+    snack1_calories = snack1['meal_cals'].head(1).values
+    snack2_calories = snack2['meal_cals'].head(1).values
+    snack1_calories = int(snack1_calories)
+    snack2_calories = int(snack2_calories)
+    if snack_number == 2:
+        return "*ארוחות ביניים 1*:\n1. " + buildItem(snack1_['item1']) + "\n2. " + buildItem(
+            snack1_['item2']) + "\n*ארוחות ביניים 2*:\n1." + buildItem(snack2_['item1']) + "\n2. " + buildItem(
+            snack2_['item2']) + "\nכמות קלוריות -> " + str(
+            snack1_calories + snack2_calories) + "\n\n", snack1_calories + snack2_calories
+    return "*ארוחות ביניים *:\n1. " + buildItem(snack1_['item1']) + "\n2. " + buildItem(
+        snack2_['item1']) + "\nכמות קלוריות -> " + str(
+        snack1_calories + snack2_calories) + "\n\n", snack1_calories + snack2_calories
+
+
+def buildItem(item):
+    return arrayToString(item[0]) + " " + arrayToString(item[2]) + " " + arrayToString(
+        unitHebrew(arrayToString(item[1]), item[2]))
+
+
+def unitHebrew(unit, amount):
+    unit_dic = {"כף": "כפות", "מנה": "מנות", "יחידה קטנה": "יחידות קטנות", "פרח": "פרחים",
+                "פרוסה בינונית": "פרוסות בינונוית",
+                "יחידה": "יחידות", "כף גדושה": "כפות גדושות",
+                "פרוסה": "פרוסות", "מנה קטנה": "מנות קטנות", "יחידה בינונית": "יחידות בינונוית", "כפית": "כפיות",
+                "כוס": "כוסות", "כוס קצוץ": "כוסות"}
+    if unit not in unit_dic:
+        return unit
+    if amount > 1:
+        return unit_dic[unit]
+    return unit
+
+
+def core_fun(meal_type, title=""):
     global snacks, user_params, units_thr, type_thr, budget_weights_meals, budget_weights_snacks_fruits_fat, budget_weights_savoury_snacks, budget_weights_sweets, inputs, display_user_parameter, debug
 
-    global user_meals_num, total_cals, user_snacks_num, candidate_calories
+    global user_meals_num, total_cals, user_snacks_num, candidate_calories, scoring
 
     global df_noa, df_tzameret_food_group, df_weights, df_nutrition
+    pd.set_option("display.precision", 2)
 
-    # get the sheets from the actions
-    df_noa, df_tzameret_food_group, df_weights, df_nutrition = sheets
+    warnings.filterwarnings("ignore")
 
+    # Dictionary that is equivalent to user inputs and filters the df_noa Database based on the inputs
     user_params = {'eggs': 'No',  # If eggs = Yes, filters out all the meals with eggs
                    'vegetables': 'No',  # If vegetables = Yes, fiters out all meals with vegetables
                    'fruits': 'No',
@@ -684,141 +979,199 @@ def Core_fun(meal_type, sheets):
                    'beef_chicken_fish': 'No',
                    # If beef_chicken_fish = Yes, filters out all the meals with beef chicken or fish
                    # For remaining if Yes, filters only the food its for (i.e if kosher = Yes, only shows kosher food)
-                   'kosher': 'yes',
-                   'halal': 'No',
+                   'kosher': 'Yes',
+                   'halal': 'Yes',
                    'vegetarian': 'No',
                    'vegan': 'No',
-                   'ketogenic': 'Yes',
+                   'ketogenic': 'No',
                    'paleo': 'No',
-                   'mediterranean': 'Yes',
+                   'mediterranean': 'No',
                    'lactose_free': 'No',
                    'gluten_free': 'No',
                    'milk_free': 'No',
                    'wheat_free': 'No',
-                   'egg_free': 'yes',
+                   'egg_free': 'No',
                    'soy_free': 'No',
                    'tree_nut_free': 'No',
                    'peanut_free': 'No',
                    'fish_free': 'No',
                    'shellfish_free': 'No'}
     # Dictionary to see if want to add certain snack elements to the snacks on the scoreboard
-    snacks = {'sweets': 'Yes',
+    snacks = {'sweets': 'No',
               'Savoury_Snacks': 'Yes'}
 
     # Threshold for the build meal to stop looking for another item (If there are only 20 Carb calories left the meal exits the Carb code and moves to Protein):
-    units_thr = {'Carbs': 10,
-                 'Protein': 12,
-                 'Vegetables': 15,
-                 'Fat': 30,
+    units_thr = {'Carbs': 25,
+                 'Protein': 10,
+                 'Vegetables': 10,
+                 'Fat': 25,
                  'Fruits': 25,
                  'Sweets': 25,
                  'Savoury_Snacks': 25}
 
-    # Another threshold for build meal to stop looking for another item in the category if there is less budget than
-    # the threshold:
+    # Another threshold for build meal to stop looking for another item in the category if there is less budget than the threshold:
     type_thr = {'Carbs': 25,
                 'Protein': 10,
                 'Vegetables': 10,
                 'Fat': 25,
-                'Fruits': 10,
+                'Fruits': 25,
                 'Sweets': 25,
                 'Savoury_Snacks': 25}
 
     # For snacks its either fruits and fat or savoury or sweets
-    budget_weights_meals = {'Carbs': 0.15,
-                            'Protein': 0.60,
-                            'Vegetables': 0.45}
+    budget_weights_meals = {'Carbs': 0.4,
+                            'Protein': 0.5,
+                            'Vegetables': 0.2}
 
-    budget_weights_snacks_fruits_fat = {'Fruits': 0.75,
-                                        'Fat': 0.35}
+    budget_weights_snacks_fruits_fat = {'Fruits': 0.7,
+                                        'Fat': 0.4}
 
-    budget_weights_savoury_snacks = {'Savoury_Snacks': 1.05}
+    budget_weights_savoury_snacks = {'Savoury_Snacks': 1.1}
 
-    budget_weights_sweets = {'Sweets': 1.05}
+    budget_weights_sweets = {'Sweets': 1.1}
+
+    scoring = {'legacy': False,  # legacy scoring system composed of budget utilization
+               'legacy_nut': True,  # legacy scoring system with a bonus based on average nutritional density
+               'legacy_ene': False,  # legacy scroing system with a bonus based on higher energy density
+               'legacy_nut_ene': False
+               # legacy scoring system with a bonus based on nutrtion density and energy density with higher density the better
+               }
 
     # User inputs that control different variables:
-    inputs = {'budget_var': 0.3,  # Budget variable to see the weighting for snacks and individual meals
-              'item_thr': 4,  # Threshold used to decided when to break code if there is less than 5 total budget left
-              'max_items': 3,  # Max amount of items per meal
+    inputs = {'for_noa_gid': 2106834268,
+              # Gid that controls which for noa tab is shown, to switch just paste another Gid
+              'budget_var': 0.3,  # Budget variable to see the weighting for snacks and individual meals
+              'item_thr': 4,
+              # Threshold used to decided when to break code if there is less than 5 total budget left
+              'max_items_meal': 4,  # Max amount of items per meal
+              'max_items_snack': 2,  # Max amount of items per snack
               'penalty_weight': 1,
-              # Penalty weight for the meal score if the meal doesnt take the first option at the intersection of
-              # mida max amount meal
+              # Penalty weight for the meal score if the meal doesnt take the first option at the intersection of mida max amount meal
+              'nutrition_bonus': 0.1,  # Bonus multiplier for the average nutrition density
+              'energy_bonus': 0.2,  # Bonus multiplier for the average energy density
+              'meal_similarity_penalty': 0.3,
+              # Penalty for having mutliple of the same category of meal items in the same meal
               'max_iter': 7,  # Number of meals for each meal type in the scoreboard
               'meals_num': 3,  # Number of different meal types and meals - will always be 3
               'snacks_num': 2,  # number of snacks in the final scoreboard
-              'extra_penalty': 0.2,  # Penalty if there is less than 0.7 of each categroy for the budget is used
-              'total_cals': 2000}  # total calories in the budget for the day
+              'meat_egg_same_day_penalty': 0.2,
+              # Peanlty if the top meal has eggs or meat and another meal the same day also has eggs and meat
+              'extra_penalty': 0.2,  # Penalty if there is less than 0.7 of each category for the budget is used
+              'meal_penalty_length': 0.1,
+              # Penalty given if a meal is longer than 4 items and this is the weighting
+              'total_cals': 2000  # total calories in the budget for the day
+              }
 
     debug = {'debug_en': True}  # Used for finding bugs in code. Set to True for code to run properly
     # Toggle to show the user values in a DataFrame
+    display_user_parameter = {'display_user_parameter': False}
 
-    meals2 = build_meal_wrapper()
+    df_noa, df_tzameret_food_group, df_weights, df_nutrition = import_sheets(False)
 
-    items = displayMeal(meals2, meal_type)
-    return items
+    df_main = build_meal_wrapper()
+    items, carbs, protein, vegetable = displayMeal(df_main, meal_type, inputs['max_items_meal'],
+                                                   inputs['max_items_snack'])
 
-# ------------------------------------------------------------------
+    data = {'חלבון': protein,
+            'פחמימות': carbs,
+            'ירקות': vegetable}
+
+    url = iniliatize_Diagram(title, data)
+    return items, url
+
+    # ------------------------------------------------------------------
+
 
 class Actionwhataboutx(Action):
 
     def name(self) -> Text:
-        return "action_nutrition_and_what_aboutx"
+        return "action_nutrition_and_what_about_x"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         # get the right actions according to the intent
         intens_dict = {"nutrition_howmanyxiny": "action_nutrition_howmanyxiny",
-                       "nutrition_meal_question": "action_nutrition_meal_question"}
+                       "nutrition_meal_question": "action_nutrition_meal_question",
+                       "nutrition_is_food_healthy": "action_nutrition_is_food_healthy",
+                       "nutrition_get_rda": "action_nutrition_get_rda",
+                       "nutrition_get_upper_limit": "action_nutrition_get_rda"}
         user_messge = tracker.latest_message.get('text')
         previous_intent = tracker.get_slot('previous_intent')
 
         try:
             next_action = intens_dict[previous_intent]
-            # ---------------------------------------------
             # meal question
             if previous_intent == "nutrition_meal_question":
                 return [FollowupAction(next_action), SlotSet("y", ""),
                         SlotSet("x", user_messge), SlotSet("previous_intent", previous_intent)]
 
             # ------------------------------------------------
+            # ------------------------------------------------
             # how many x in y
             if previous_intent == "nutrition_howmanyxiny":
-
                 db_dict = load_db(0x2)
-
                 lut_df = db_dict['lut']
+                action_name = "action_nutrition_howmanyxiny"
                 y = None
-                x = tracker.get_slot('x') if tracker.get_slot('x') else None
-                if tracker.latest_message.get('entities'):
-                    y = tracker.get_slot('y') if tracker.get_slot('y') else None
+                x = None
+                # get the values from the slots
+                food = tracker.get_slot('y') if tracker.get_slot('y') else None
+                nutriet = tracker.get_slot('x') if tracker.get_slot('x') else None
+
+                # get the entities from the question
                 for ent in tracker.latest_message.get('entities'):
-                    if ent['entity'] in lut_df[self.name() + "_x"].values:
+                    if ent['entity'] in lut_df[action_name + "_x"].values:
                         x = ent['value']
-                    elif ent['entity'] in lut_df[self.name() + "_y"].values:
+                    elif ent['entity'] in lut_df[action_name + "_y"].values:
                         y = ent['value']
 
-                regex_res = re.search('כמה (.*) יש ב(.*)', user_messge.replace('?', ''))
-                if regex_res:
-                    x = regex_res.group(1)
-                    y = regex_res.group(2).strip()
-
-                if not y:
-                    regex_res = re.search('.* ב(.*)', user_messge.replace('?', ''))
-                    if regex_res:
-                        y = regex_res.group(1).strip()
-                regex_units_res = re.search('(.*) של (.*)', y) if y else None
-                if regex_units_res:
-                    y = regex_units_res.group(2)
+                if x is None or x == "":
+                    x = nutriet
+                if y is None or y == "":
+                    y = food
 
                 return [FollowupAction(next_action),
                         SlotSet("x", x), SlotSet("y", y),
                         SlotSet("previous_intent", previous_intent)]
+            # ------------------------------------------------
+            # ------------------------------------------------
+            # is x healthy
+            if previous_intent == "nutrition_is_food_healthy":
+                prediction = tracker.latest_message
+                entity_value = prediction['entities'][0]['value']
+                return [FollowupAction(next_action),
+                        SlotSet("x", entity_value), SlotSet("y", ""),
+                        SlotSet("previous_intent", previous_intent)]
+
+            # ------------------------------------------------
+            # ------------------------------------------------
+            # nutrition_get_rda
+            if previous_intent == "nutrition_get_rda":
+                prediction = tracker.latest_message
+                entity_value = prediction['entities'][0]['value']
+                return [FollowupAction(next_action),
+                        SlotSet("x", entity_value), SlotSet("y", ""),
+                        SlotSet("previous_intent", "nutrition_get_rda")]
+
+            # ------------------------------------------------
+            # ------------------------------------------------
+            # nutrition_get_upper_limit
+            if previous_intent == "nutrition_get_upper_limit":
+                prediction = tracker.latest_message
+                entity_value = prediction['entities'][0]['value']
+                return [FollowupAction(next_action),
+                        SlotSet("x", entity_value), SlotSet("y", ""),
+                        SlotSet("previous_intent", "nutrition_get_upper_limit")]
+
+
         except:
             dispatcher.utter_message(text="אין למושג, מצטער!")
         return []
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
+
 class Actionxcaniny(Action):
 
     def name(self) -> Text:
@@ -874,7 +1227,8 @@ class Actionxcaniny(Action):
         except:
             dispatcher.utter_message(text="אין למושג, מצטער!")
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 class ActionMealQuestion(Action):
 
@@ -884,28 +1238,39 @@ class ActionMealQuestion(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        meal = []
+        meal = ['breakfast', 'lunch', 'dinner']
+        previous_intent = ""
         message = tracker.latest_message.get('text') if tracker.latest_message.get('text') else None
+        title = 'חלוקת קלוריות בתפריט יומי'
         # get the question from the slot
         if message is None:
             message = tracker.get_slot('x') if tracker.get_slot('x') else None
         if 'בוקר' in message:
+            previous_intent = "nutrition_meal_question"
             meal = ['breakfast']
+            title = 'חלוקת קלוריות בארוחת בוקר'
         if 'צהריים' in message:
+            previous_intent = "nutrition_meal_question"
             meal = ['lunch']
+            title = 'חלוקת קלוריות בארוחת צהריים'
         if 'ערב' in message:
+            previous_intent = "nutrition_meal_question"
             meal = ['dinner']
-        if 'יום' in message or 'יומי' in message:
-            meal = ['breakfast', 'lunch', 'dinner']
+            title = 'חלוקת קלוריות בארוחת ערב'
+
         try:
-            res = Core_fun(meal, meal_sheets())
-            dispatcher.utter_message(res)
+            res, url = core_fun(meal, title)
+            dispatcher.utter_message(text="%s" % res, image=url)
+
+
+
 
         except:
             dispatcher.utter_message(text="אין למושג, מצטער!")
-        return [SlotSet("x", ""), SlotSet("y", ""), SlotSet("previous_intent", "nutrition_meal_question")]
+        return [SlotSet("x", ""), SlotSet("y", ""), SlotSet("previous_intent", previous_intent)]
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 class ActionSimpleQuestion(Action):
 
@@ -954,7 +1319,8 @@ class ActionSimpleQuestion(Action):
 
         return []
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 class ActionGetRDAQuestion(Action):
 
@@ -967,6 +1333,12 @@ class ActionGetRDAQuestion(Action):
 
         user_intent = tracker.latest_message.get('intent').get('name')
         intent_upper = user_intent == 'nutrition_get_upper_limit'
+
+        previous_intent = tracker.get_slot('previous_intent') if tracker.get_slot('previous_intent') else None
+        if previous_intent == "nutrition_get_upper_limit" or previous_intent == "nutrition_get_rda":
+            intent = previous_intent
+        else:
+            intent = user_intent
 
         rda_val, rda_units, rda_text, rda_status, nutrient = get_rda(self.name(), tracker, intent_upper)
 
@@ -988,9 +1360,10 @@ class ActionGetRDAQuestion(Action):
 
         dispatcher.utter_message(text="%s" % res)
 
-        return []
+        return [SlotSet("previous_intent", intent), SlotSet("x", ""), SlotSet("y", "")]
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 class ActionNutritionHowManyXinY(Action):
 
@@ -1084,6 +1457,19 @@ class ActionNutritionHowManyXinY(Action):
 
             val = food[feature] * food_units_factor
 
+            # calculating the cake diagram feature
+            # 1 gram protein is 4 calories
+            # 1 gram fat is 9 calories
+            # 1 gram carb is 4 calories
+            fat_calories = int(food['total_fat'] * food_units_factor)
+            protein_calories = int(food['protein'] * food_units_factor)
+            carbs_calories = int(food['carbohydrates'] * food_units_factor)
+            title = "ב" + y_common
+            data = {'שומן': fat_calories,
+                    'פחמימות': carbs_calories,
+                    'חלבונים': protein_calories}
+            url = iniliatize_Diagram(title, data)
+
             if units == 0:
                 res = "ב-%s של %s יש %.2f %s" % (food_units, food['shmmitzrach'], float(val), x)
             else:
@@ -1091,7 +1477,8 @@ class ActionNutritionHowManyXinY(Action):
                 if not is_food_units_match:
                     res = "לא הצלחתי למצוא נתונים במאגר על היחידה %s עליה שאלת\r" % food_units
                     res += "היחידות הבאות קיימות במאגר, עבור %s:\r" % food['shmmitzrach']
-                    res += ', '.join(units_df[units_df['smlmitzrach'] == int(food['smlmitzrach'])]['shmmida'].to_list())
+                    res += ', '.join(
+                        units_df[units_df['smlmitzrach'] == int(food['smlmitzrach'])]['shmmida'].to_list())
                     res += "\r"
                     food_units = "100 גרם"
 
@@ -1109,14 +1496,15 @@ class ActionNutritionHowManyXinY(Action):
             res += "\r"
             res += rda_text if rda_text else ""
 
-            dispatcher.utter_message(text="%s" % res)
+            dispatcher.utter_message(text="%s" % res, image=url)
 
         except:
             dispatcher.utter_message(text="אין לי מושג כמה, מצטער!")
 
         return [SlotSet("x", x), SlotSet("y", y), SlotSet("previous_intent", "nutrition_howmanyxiny")]
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 class ActionIsFoodHealthyQuestion(Action):
 
@@ -1133,14 +1521,21 @@ class ActionIsFoodHealthyQuestion(Action):
         lut_df = db_dict['lut']
         common_df = db_dict['common_food']
         food_ranges_df = db_dict['food_ranges']
-
-        for ent in tracker.latest_message.get('entities'):
-            if ent['entity'] in lut_df[self.name()].values:
-                food_entity = ent['value']
-                break
+        food = ""
+        food_entity = ""
+        x = tracker.get_slot('x') if tracker.get_slot('x') else None
+        if x is not None and x is not "":
+            food = x
+            food_entity = x
+        else:
+            for ent in tracker.latest_message.get('entities'):
+                if ent['entity'] in lut_df[self.name()].values:
+                    food_entity = ent['value']
+                    food = food_entity
+                    break
 
         try:
-            food = food_entity
+
             if food in common_df.index:
                 food = common_df[common_df.index == food]['shmmitzrach'][0]
 
@@ -1192,12 +1587,15 @@ class ActionIsFoodHealthyQuestion(Action):
 
             dispatcher.utter_message(text="%s" % res)
 
+
         except:
+
             dispatcher.utter_message(text="אין לי מושג, מצטער!")
 
-        return []
+        return [SlotSet("previous_intent", "nutrition_is_food_healthy"), SlotSet("x", ""), SlotSet("y", "")]
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 class ActionWhatIsHealthierQuestion(Action):
 
@@ -1307,7 +1705,8 @@ class ActionWhatIsHealthierQuestion(Action):
 
         return []
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 class ActionWhatIsRecommendedQuestion(Action):
 
@@ -1353,7 +1752,8 @@ class ActionWhatIsRecommendedQuestion(Action):
 
         return []
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 class ActionEatBeforeTrainingQuestion(Action):
 
@@ -1387,7 +1787,8 @@ class ActionEatBeforeTrainingQuestion(Action):
 
         return []
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 class ActionBloodtestGenericQuestion(Action):
 
@@ -1420,7 +1821,8 @@ class ActionBloodtestGenericQuestion(Action):
             age = float(tracker.get_slot('age') if tracker.get_slot('age') else "40")
 
             bloodtest_row = bloodtest_df[(bloodtest_df['Element'] == feature) & \
-                                         ((bloodtest_df['Gender'] == "ANY") | (bloodtest_df['Gender'] == gender_str)) & \
+                                         ((bloodtest_df['Gender'] == "ANY") | (
+                                                 bloodtest_df['Gender'] == gender_str)) & \
                                          ((bloodtest_df['Age min'] == "ANY") | (
                                                  bloodtest_df['Age min'].replace('ANY', -1).astype(float) <= age)) & \
                                          ((bloodtest_df['Age Max'] == "ANY") | (
@@ -1441,7 +1843,8 @@ class ActionBloodtestGenericQuestion(Action):
                     bloodtest_entity, bloodtest_thr2, bloodtest_max, bloodtest_thr1)
 
             elif bloodtest_type == 3:
-                res = 'ערך תקין עבור בדיקת %s בין %.2f ועד %.2f' % (bloodtest_entity, bloodtest_thr1, bloodtest_thr2)
+                res = 'ערך תקין עבור בדיקת %s בין %.2f ועד %.2f' % (
+                    bloodtest_entity, bloodtest_thr1, bloodtest_thr2)
 
             dispatcher.utter_message(text="%s" % res)
 
@@ -1450,7 +1853,8 @@ class ActionBloodtestGenericQuestion(Action):
 
         return []
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 class ActionBloodtestValueQuestion(Action):
 
@@ -1495,7 +1899,8 @@ class ActionBloodtestValueQuestion(Action):
             age = float(tracker.get_slot('age') if tracker.get_slot('age') else "40")
 
             bloodtest_row = bloodtest_df[(bloodtest_df['Element'] == feature) & \
-                                         ((bloodtest_df['Gender'] == "ANY") | (bloodtest_df['Gender'] == gender_str)) & \
+                                         ((bloodtest_df['Gender'] == "ANY") | (
+                                                 bloodtest_df['Gender'] == gender_str)) & \
                                          ((bloodtest_df['Age min'] == "ANY") | (
                                                  bloodtest_df['Age min'].replace('ANY', -1).astype(float) <= age)) & \
                                          ((bloodtest_df['Age Max'] == "ANY") | (
@@ -1541,7 +1946,8 @@ class ActionBloodtestValueQuestion(Action):
 
         return []
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 class ActionFoodSubstituteQuestion(Action):
 
@@ -1665,7 +2071,8 @@ class ActionFoodSubstituteQuestion(Action):
 
         return []
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 class ActionPersonalizationList(Action):
 
@@ -1686,7 +2093,8 @@ class ActionPersonalizationList(Action):
 
         return []
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 class ActionPersonalizationRemove(Action):
 
@@ -1713,7 +2121,8 @@ class ActionPersonalizationRemove(Action):
 
         return []
 
-# ------------------------------------------------------------------
+    # ------------------------------------------------------------------
+
 
 class ProfileFormValidator(FormValidationAction):
     """ProfileForm Validator"""
@@ -1795,7 +2204,8 @@ class ProfileFormValidator(FormValidationAction):
             if path.exists(pkl_db):
                 df = pd.read_pickle(pkl_db)
                 if phone_value in df.index:
-                    dispatcher.utter_message(text="פרטיך נטענו בהצלחה, ברוכים השבים %s" % df.loc[phone_value].username)
+                    dispatcher.utter_message(
+                        text="פרטיך נטענו בהצלחה, ברוכים השבים %s" % df.loc[phone_value].username)
                     return {'phone': phone_value,
                             'username': df.loc[phone_value].username,
                             'gender': df.loc[phone_value].gender,
