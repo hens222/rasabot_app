@@ -23,15 +23,15 @@ from rasa_sdk.executor import CollectingDispatcher
 
 import warnings
 from statistics import mean
-from os import path
+from os import path, genenv
 from datetime import datetime
 import matplotlib.pyplot as plt
 from botocore.exceptions import ClientError
 from boto3.exceptions import S3UploadFailedError
 import boto3
 
-DB_AWS_ACCESS_KEY_ID = 'AKIAVEUVOUI6JX6LYNNM'
-DB_AWS_SECRET_ACCESS_KEY = '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'
+DB_AWS_ACCESS_KEY_ID = getenv("DB_AWS_ACCESS_KEY_ID")
+DB_AWS_SECRET_ACCESS_KEY = getenv("DB_AWS_SECRET_ACCESS_KEY")
 DB_AWS_BUCKET = 'journeypic'
 
 
