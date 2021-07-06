@@ -344,7 +344,7 @@ responses:
   utter_jokes:
   - text: למה פיל וזברה נכנסו למנהרה שניים ויצאו שלושה? כי למה היא גם חיה
 actions:
-- action_nutrition_and_what_about_x
+- action_nutrition_and_what_aboutx
 - action_nutrition_what_xcanbeiny
 - action_nutrition_meal_question
 - action_simple_question
