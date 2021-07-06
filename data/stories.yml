@@ -110,16 +110,10 @@ stories:
   steps:
   - intent: nutrition_howmanyxiny
   - action: action_nutrition_howmanyxiny
-- story: nutrition and what about x
+- story: nutrition and_what_about_x
   steps:
   - intent: nutrition_and_what_about_x
-  - action: action_nutrition_and_what_about_x
-- story: nutrition what x can be in y with nutrition_concept entity
-  steps:
-  - intent: nutrition_what_x_in_y
-    entities:
-      - nutrition_concept: טבעוני
-  - action: action_nutrition_what_xcanbeiny
+  - action: action_nutrition_and_what_aboutx
 - story: nutrition is_food_healthy
   steps:
   - intent: nutrition_is_food_healthy
@@ -469,7 +463,7 @@ stories:
   - intent: nutrition_and_what_about_x
     entities:
     - nutrient: ברזל
-  - action: action_nutrition_and_what_about_x
+  - action: action_nutrition_howmanyxiny
   - slot_was_set:
     - x: ברזל
   - slot_was_set:
