@@ -365,6 +365,9 @@ nlu:
     - האם ניתן להעריך את צריכת ה[קלוריות](nutrient) המומלצת עבורי
     - כמה [חלבון](nutrient) צריך לצורך ביום?
     - מה הכמות ה[קלוריות](nutrient) בשבילי ליום
+    - תודה\nעל כמה כוסות [קפה](food_entity) ממליץ ביום?
+    - כמה [קפה](food_entity) כדאי לשתות ביום?
+    - מה כמות ה[פחמימות](nutrient) המומלצת ליום?
 - intent: nutrition_and_what_about_x
   examples: |
     - ומה אתה חושב שאני צריך לאכול לארוחת בוקר
@@ -975,6 +978,7 @@ nlu:
     - ומה עם [סטייק](food_entity)
     - וכמה [סידן](nutrient)?
     - וכמה יש ב[תפוח](food_entity)?
+    - ובפיצה
 - intent: nutrition_howto_improve
   examples: |
     - איך ניתן לשפר [ריכוז](goal_or_state)
@@ -1775,6 +1779,8 @@ nlu:
     - היי ממצב
     - היי, בוקר טוב
     - היי בוט
+    - מה קורה?
+    - ממצב אח יקר?
 - intent: English
   examples: |
     - hello
@@ -1862,6 +1868,9 @@ nlu:
     - תודה ניוט !
     - מעולה !
     - תודה על התשובה המפורטת
+    - תודה נויט
+    - תודה בוט
+    - סבבה בוט
 - intent: affirm
   examples: |
     - כן
@@ -1895,6 +1904,14 @@ nlu:
     - 😄
     - 😁
     - 👍🏻
+    - 😂
+    - ❤️
+    - אוקיי 👍
+    - 😺
+    - 🥰
+    - 💪💪💪
+    - 😘🥰💪🏻
+    - 😍
 - intent: deny
   examples: |
     - לא
@@ -2162,6 +2179,7 @@ nlu:
     - אתה מכיר בדיחות
     - אתה מכיר בדיחות ?
     - מכיר בדיחה ?
+    - תספרי לי בדיחה בבקשה
 - intent: What can you do
   examples: |
     - מה אתה מסוגל לעשות
@@ -2225,6 +2243,7 @@ nlu:
     - ואתה בטוח בזה
     - איך אתה הבוקר
     - מאיפה אתה מבין בדברים כאלה
+    - האם אתה יודע הכל ?
 - intent: what_is_the_source_of_your_data
   examples: |
     - אתה משוכנע במה שאתה אומר
@@ -2482,6 +2501,8 @@ nlu:
     - האם [כולסטרול](nutrient) זה רע לגוף?
     - האם [צום לסירוגין](nutrition_concept) ממולץ?
     - האם [דיאטה קיטוגנית](nutrition_concept) מומלצת?
+    - האם זה בסדר לאכול [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"} ?
+    - האם זה בסדר לאכול [פחמימות]{"entity": "nutrient", "value": "\u05e4\u05d7\u05de\u05de\u05d4"}?
 - intent: What type of questions
   examples: |
     - איזה שאלות, למשל
@@ -2576,6 +2597,8 @@ nlu:
     - כדאי לי להמנע מ[כולסטרול](nutrient) ?
     - האם כדאי לדלג על [ארוחת בוקר](nutrition_concept)?
     - האם לוותר על [ארוחות ביניים](nutrition_concept) ?
+    - האם [חייבים](nutrition_concept) לאכול [ארוחת בוקר](nutrition_concept)?
+    - חייבים לאכול [ארוחת בוקר](nutrition_concept)?
 - intent: will_X_make_me_fat
   examples: |
     - האם [שומן](nutrient) זה משמין
@@ -2930,6 +2953,7 @@ nlu:
     - אני חייב לאכול בדיוק מהתפריט או שאפשר לשנות לפעמים
     - אם אני לא אוהב משהו, האם אני חייב לאכול את זה למרות זאת
     - האם אני חייב לאכול בדיוק לפי מה שאתה אומר לי
+    - האם חייבים לאכול בדיוק לפי התפריט
 - intent: nutrition_calculate
   examples: |
     - תעזור לי לחשב [בי אם איי](nutrition_concept)
@@ -3079,6 +3103,8 @@ nlu:
     - הי ניוט תוכל לבנות לי תפריט יומי
     - מה כדאי לאכול לארוחת הערב
     - מה אתה יכול לתת לי לארוחת בוקר
+    - מעולה, תודה רבה.\nאפשר לקבל רעיונות לארוחת בוקר מזינה אך לא משמינה
+    - אגב, מה היית ממליץ לי לאכול לארוחת בוקר מחר ?
 - intent: nutrition_what_x_in_y
   examples: |
     - תמליץ לי על ארוחת בוקר הכוללת [ירקות](food_entity)
@@ -3575,6 +3601,24 @@ nlu:
 - intent: nutrition_build_meal_question
   examples: |
     - המלצות לתפריט נניח?
+- synonym: צום לסרוגין
+  examples: |
+    - צום לסירוגין
+    - לצום לסירוגין
+    - לצום לסרוגין
+- synonym: עלייה במסת שריר
+  examples: |
+    - מסת השריר
+    - השרירים
+    - מסת שריר
+    - להעלות מסת שריר
+    - העלאת מסת שריר
+    - להגדיל שרירים
+    - הגדלת השריר
+    - שרירים
+    - להגדיל שריר
+    - לעלות במסת השריר
+    - להגדיל מסת שריר
 - synonym: אומגה 3
   examples: |
     - אומגה שלוש
@@ -3632,19 +3676,6 @@ nlu:
     - מערכת החיסון
     - מערכת החיסונית
     - תגובה החיסונית
-- synonym: עלייה במסת שריר
-  examples: |
-    - השרירים
-    - מסת שריר
-    - להעלות מסת שריר
-    - העלאת מסת שריר
-    - להגדיל שרירים
-    - הגדלת השריר
-    - מסת השריר
-    - שרירים
-    - להגדיל שריר
-    - לעלות במסת השריר
-    - להגדיל מסת שריר
 - synonym: פחממה
   examples: |
     - פחמימות
@@ -3653,11 +3684,6 @@ nlu:
 - synonym: צום
   examples: |
     - לצום
-- synonym: צום לסרוגין
-  examples: |
-    - צום לסירוגין
-    - לצום לסירוגין
-    - לצום לסרוגין
 - synonym: ריכוז
   examples: |
     - לשפר את יכולת הריכוז
