@@ -983,25 +983,19 @@ nlu:
     - [שוקולד]ו(food_entity)
     - [שוקולד] ומה עם(food_entity)
     - [שוקולד] ומה אתה חושב על(food_entity)
-    - [לחם]ו(food_entity)
     - [לחם] ומה עם(food_entity)
     - [לחם] ומה אתה חושב על(food_entity)
-    - [תפוח]ו(food_entity)
     - [תפוח] ומה עם(food_entity)
     - [תפוח] ומה אתה חושב על(food_entity)
-    - [גלידה]ו(food_entity)
     - [גלידה] ומה עם(food_entity)
     - [גלידה] ומה אתה חושב על(food_entity)
-    - [פסטה]ו(food_entity)
     - [פסטה] ומה עם(food_entity)
     - [פסטה] ומה אתה חושב על(food_entity)
     - [קווקר]ו(food_entity)
     - [קווקר] ומה עם(food_entity)
     - [קווקר] ומה אתה חושב על(food_entity)
-    - [חסה]ו(food_entity)
     - [חסה] ומה עם(food_entity)
     - [חסה] ומה אתה חושב על(food_entity)
-    - [בננה]ו(food_entity)
     - [בננה] ומה עם(food_entity)
     - [בננה] ומה אתה חושב על(food_entity)
     - [פיתה]ו(food_entity)
@@ -1010,7 +1004,6 @@ nlu:
     - [שיבולת שועל]ו(food_entity)
     - [שיבולת שועל] ומה עם(food_entity)
     - [שיבולת שועל] ומה אתה חושב על(food_entity)
-    - [אגס]ו(food_entity)
     - [אגס] ומה עם(food_entity)
     - [אגס] ומה אתה חושב על(food_entity)
     - [יין]ו(food_entity)
@@ -1022,10 +1015,8 @@ nlu:
     - [מיץ עגבניות]ו(food_entity)
     - [מיץ עגבניות] ומה עם(food_entity)
     - [מיץ עגבניות] ומה אתה חושב על(food_entity)
-    - [במבה]ו(food_entity)
     - [במבה] ומה עם(food_entity)
     - [במבה] ומה אתה חושב על(food_entity)
-    - [ברוקולי]ו(food_entity)
     - [ברוקולי] ומה עם(food_entity)
     - [ברוקולי] ומה אתה חושב על(food_entity)
     - [כרוב]ו(food_entity)
@@ -1040,10 +1031,6 @@ nlu:
     - [פופקרון]ו(food_entity)
     - [פופקרון] ומה עם(food_entity)
     - [פופקרון] ומה אתה חושב על(food_entity)
-    - [גלידה]ו(food_entity)
-    - [גלידה] ומה עם(food_entity)
-    - [גלידה] ומה אתה חושב על(food_entity)
-    - [אבוקדו]ו(food_entity)
     - [אבוקדו] ומה עם(food_entity)
     - [אבוקדו] ומה אתה חושב על(food_entity)
     - [אגוזי מלך]ו(food_entity)
@@ -1070,7 +1057,6 @@ nlu:
     - [חטיף אנרג'י]ו(food_entity)
     - [חטיף אנרג'י] ומה עם(food_entity)
     - [חטיף אנרג'י] ומה אתה חושב על(food_entity)
-    - [גבינה לבנה]ו(food_entity)
     - [גבינה לבנה] ומה עם(food_entity)
     - [גבינה לבנה] ומה אתה חושב על(food_entity)
     - [סמבוסק]ו (food_entity)
@@ -1127,19 +1113,14 @@ nlu:
     - [אורז]ו(food_entity)
     - [אורז] ומה עם(food_entity)
     - [אורז] ומה אתה חושב על(food_entity)
-    - [לחם]ו(food_entity)
-    - [לחם] ומה עם(food_entity)
-    - [לחם] ומה אתה חושב על(food_entity)
     - [סלק]ו(food_entity)
     - [סלק] ומה עם(food_entity)
     - [סלק] ומה אתה חושב על(food_entity)
-    - [תפוז]ו(food_entity)
     - [תפוז] ומה עם(food_entity)
     - [תפוז] ומה אתה חושב על(food_entity)
     - [תפוזים]ו(food_entity)
     - [תפוזים] ומה עם(food_entity)
     - [תפוזים] ומה אתה חושב על(food_entity)
-    - [גבינת עזים]ו(food_entity)
     - [גבינת עזים] ומה עם(food_entity)
     - [גבינת עזים] ומה אתה חושב על(food_entity)
     - [עגבניות]ו(food_entity)
@@ -1154,16 +1135,8 @@ nlu:
     - [סלמון]ו(food_entity)
     - [סלמון] ומה עם(food_entity)
     - [סלמון] ומה אתה חושב על(food_entity)
-    - [אבוקדו]ו(food_entity)
-    - [אבוקדו] ומה עם(food_entity)
-    - [אבוקדו] ומה אתה חושב על(food_entity)
-    - [קפה]ו(food_entity)
     - [קפה] ומה עם(food_entity)
     - [קפה] ומה אתה חושב על(food_entity)
-    - [תפוח]ו(food_entity)
-    - [תפוח] ומה עם(food_entity)
-    - [תפוח] ומה אתה חושב על(food_entity)
-    - [פיצה]ו(food_entity)
     - [פיצה] ומה עם(food_entity)
     - [פיצה] ומה אתה חושב על(food_entity)
     - [גויאבה]ו(food_entity)
@@ -1233,7 +1206,6 @@ nlu:
     - [לישון]ו(goal_or_state) בלילה
     - [לישון] ומה עם(goal_or_state) בלילה
     - [לישון] ומה עם(goal_or_state) ביום
-    - [שינה] וכמה זמן(goal_or_state) אני צריך
     - [משקל] ומזה (nutrition_concept) בריא בשבילי
     - [משקל] ומה (nutrition_concept) מומלץ בשבילי
     - [משקל מומלץ] ומה (nutrition_concept)  בשבילי
@@ -2227,6 +2199,7 @@ nlu:
     - 💪💪💪
     - 😘🥰💪🏻
     - 😍
+    - 😌
 - intent: deny
   examples: |
     - לא
@@ -3916,6 +3889,12 @@ nlu:
 - intent: nutrition_build_meal_question
   examples: |
     - המלצות לתפריט נניח?
+- intent: None_healthy_population
+  examples: |
+    - רציתי לשאול ממה כדאי להימנע מבחינת תזונתית במידה וסובלים  מ[קרוהן](nutrition_concept)?
+    - מאיזה מזון יש להימנע אם סובלים ממחלת [קרוהן](nutrition_concept)?
+    - בוקר טוב, תודה. האם יש המלצות ממוקדות לחולים [אונקולוגי'ם](nutrition_concept)?
+    - האם יש לך המלצות בנוגע ל[צליאק](nutrition_concept)
 - synonym: צום לסרוגין
   examples: |
     - צום לסירוגין
@@ -3934,6 +3913,11 @@ nlu:
     - להגדיל שריר
     - לעלות במסת השריר
     - להגדיל מסת שריר
+- synonym: פחממה
+  examples: |
+    - פחמימות
+    - פחממות
+    - פחמימה
 - synonym: אומגה 3
   examples: |
     - אומגה שלוש
@@ -3991,11 +3975,6 @@ nlu:
     - מערכת החיסון
     - מערכת החיסונית
     - תגובה החיסונית
-- synonym: פחממה
-  examples: |
-    - פחמימות
-    - פחממות
-    - פחמימה
 - synonym: צום
   examples: |
     - לצום
