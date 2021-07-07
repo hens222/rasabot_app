@@ -22,7 +22,7 @@ from rasa_sdk.types import DomainDict
 from rasa_sdk.executor import CollectingDispatcher
 import warnings
 from statistics import mean
-from os import path
+from os import path, getenv
 from datetime import datetime
 import matplotlib.pyplot as plt
 from botocore.exceptions import ClientError
