@@ -3895,6 +3895,9 @@ nlu:
     - מאיזה מזון יש להימנע אם סובלים ממחלת [קרוהן](nutrition_concept)?
     - בוקר טוב, תודה. האם יש המלצות ממוקדות לחולים [אונקולוגי'ם](nutrition_concept)?
     - האם יש לך המלצות בנוגע ל[צליאק](nutrition_concept)
+    - האם יש לך המלצות לחולי [סרטן](nutrition_concept)
+    - האם יש לך המלצות תזונה למי שיש לו [זאבת](nutrition_concept) ?
+    - מה ההמלצה לחולי [קרוהן](nutrition_concept)
 - synonym: צום לסרוגין
   examples: |
     - צום לסירוגין
