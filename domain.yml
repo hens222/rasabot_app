@@ -143,6 +143,10 @@ intents:
     use_entities: true
 - timing now is good:
     use_entities: true
+- None_healthy_population:
+    use_entities: true
+- nutrition_build_meal_question:
+    use_entities: true
 entities:
 - food_entity
 - food_entity2
@@ -158,17 +162,17 @@ entities:
 slots:
   age:
     type: rasa.shared.core.slots.AnySlot
-    initial_value: null
+    initial_value: 40
     auto_fill: false
     influence_conversation: false
   gender:
     type: rasa.shared.core.slots.AnySlot
-    initial_value: null
+    initial_value: 0
     auto_fill: false
     influence_conversation: false
   height:
     type: rasa.shared.core.slots.AnySlot
-    initial_value: null
+    initial_value: 180
     auto_fill: false
     influence_conversation: false
   phone:
@@ -188,7 +192,7 @@ slots:
     influence_conversation: false
   weight:
     type: rasa.shared.core.slots.AnySlot
-    initial_value: null
+    initial_value: 80
     auto_fill: false
     influence_conversation: false
   x:
@@ -391,39 +395,40 @@ actions:
 - utter_jokes
 forms:
   profile_form:
-    age:
-    - entity: integer
-      role: age
-      type: from_entity
-    - entity: integer
-      type: from_entity
-    - type: from_text
-    gender:
-    - entity: gender
-      type: from_entity
-    height:
-    - entity: integer
-      role: height
-      type: from_entity
-    - entity: integer
-      type: from_entity
-    - type: from_text
-    phone:
-    - entity: integer
-      role: phone
-      type: from_entity
-    - entity: integer
-      type: from_entity
-    - type: from_text
-    username:
-    - entity: name
-      type: from_entity
-    - type: from_text
-    weight:
-    - entity: integer
-      role: weight
-      type: from_entity
-    - entity: integer
-      type: from_entity
-    - type: from_text
+    required_slots:
+      age:
+      - entity: integer
+        role: age
+        type: from_entity
+      - entity: integer
+        type: from_entity
+      - type: from_text
+      gender:
+      - entity: gender
+        type: from_entity
+      height:
+      - entity: integer
+        role: height
+        type: from_entity
+      - entity: integer
+        type: from_entity
+      - type: from_text
+      phone:
+      - entity: integer
+        role: phone
+        type: from_entity
+      - entity: integer
+        type: from_entity
+      - type: from_text
+      username:
+      - entity: name
+        type: from_entity
+      - type: from_text
+      weight:
+      - entity: integer
+        role: weight
+        type: from_entity
+      - entity: integer
+        type: from_entity
+      - type: from_text
 e2e_actions: []

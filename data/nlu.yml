@@ -84,6 +84,7 @@ nlu:
     - מה זה דיאטת [צום לסירוגין]{"entity": "nutrition_concept", "value": "\u05e6\u05d5\u05dd \u05dc\u05e1\u05e8\u05d5\u05d2\u05d9\u05df"}
     - מה זה דיאטת [צום לסירוגין]{"entity": "nutrition_concept", "value": "\u05e6\u05d5\u05dd \u05dc\u05e1\u05e8\u05d5\u05d2\u05d9\u05df"}?
     - מה תפקידו של ה[ברזל](nutrient) בגוף האדם?
+    - מה זה [טבעונות](nutrition_concept)
 - intent: nutrition_what_has
   examples: |
     - במה יש [חלבון](nutrient)
@@ -368,6 +369,12 @@ nlu:
     - תודה\nעל כמה כוסות [קפה](food_entity) ממליץ ביום?
     - כמה [קפה](food_entity) כדאי לשתות ביום?
     - מה כמות ה[פחמימות](nutrient) המומלצת ליום?
+    - כמה אימונים מומלץ לעשות בשבוע
+    - כמה [אימונים](training_type) מומלצים לי ?
+    - כמה [אימונים](training_type) אני אמור לעשות בשבוע
+    - כמה [אימונים](training_type) כדאי לי לעשות?
+    - כמה [אימונים](training_type) אני אמור לעשות בשבוע ?
+    - כמה [אימונים](training_type) מומלצים לי
 - intent: nutrition_and_what_about_x
   examples: |
     - ומה אתה חושב שאני צריך לאכול לארוחת בוקר
@@ -2158,6 +2165,7 @@ nlu:
     - תודה נויט
     - תודה בוט
     - סבבה בוט
+    - היה נהדר, תודה ניוט 🏆
 - intent: affirm
   examples: |
     - כן
@@ -2200,6 +2208,7 @@ nlu:
     - 😘🥰💪🏻
     - 😍
     - 😌
+    - 🤙🤙
 - intent: deny
   examples: |
     - לא
@@ -2501,6 +2510,7 @@ nlu:
     - מה אתה יודע לישות
     - מה אתה יודע לעשות?
     - מה אתה כן יודע?
+    - זאת פעם ראשונה שלי פה
 - intent: What is the source of your data
   examples: |
     - איך אתה יודע את זה
@@ -3393,6 +3403,12 @@ nlu:
     - מה אתה יכול לתת לי לארוחת בוקר
     - מעולה, תודה רבה.\nאפשר לקבל רעיונות לארוחת בוקר מזינה אך לא משמינה
     - אגב, מה היית ממליץ לי לאכול לארוחת בוקר מחר ?
+    - מה תמליץ לי לארוחת בוקר ?
+    - אשמח לטיפ לארוחת צהריים
+    - תוכל לבנות לי תפריט יומי ?
+    - מה אני יכולה לאכול לארוחת צהרים?
+    - מה אני יכולה לאכול לארוחת הבוקר?
+    - אשמח שתבנו לי תפריט
 - intent: nutrition_what_x_in_y
   examples: |
     - תמליץ לי על ארוחת בוקר הכוללת [ירקות](food_entity)

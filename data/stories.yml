@@ -910,3 +910,32 @@ stories:
     entities:
     - nutrition_concept: קרוהן
   - action: action_simple_question
+- story: And what about X RDA
+  steps:
+  - intent: nutrition_get_rda
+    entities:
+    - nutrient: חלבון
+  - action: action_nutrition_get_rda
+  - slot_was_set:
+    - previous_intent: nutrition_get_rda
+  - slot_was_set:
+    - x: ''
+  - slot_was_set:
+    - y: ''
+  - intent: nutrition_and_what_about_x
+    entities:
+    - nutrient: סידן
+  - action: action_nutrition_and_what_about_x
+  - slot_was_set:
+    - x: סידן
+  - slot_was_set:
+    - y: ''
+  - slot_was_set:
+    - previous_intent: nutrition_get_rda
+  - action: action_nutrition_get_rda
+  - slot_was_set:
+    - previous_intent: nutrition_get_rda
+  - slot_was_set:
+    - x: ''
+  - slot_was_set:
+    - y: ''
