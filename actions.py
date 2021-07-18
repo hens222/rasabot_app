@@ -942,7 +942,6 @@ def displayMeal(data, mealType, items_meal_number, sncack_numbers):
     if len(mealType) > 1:
         for meal in mealType:
             items, temp_calories, temp_carbs, temp_protein, temp_vegetable = getMeal(data, meal, items_meal_number)
-            print(temp_calories)
             calories += temp_calories
             menu = menu + items
             carbs = carbs + temp_carbs
@@ -1013,7 +1012,7 @@ def getSnack(snackData, snack_number):
         return "*ארוחות ביניים 1*:\n1. " + buildItem(snack1_['item1']) + "\n2. " + buildItem(
             snack1_['item2']) + "\nכמות קלוריות -> " + str(snack1_calories) + "\n\n*ארוחות ביניים 2*:\n1." + buildItem(
             snack2_['item1']) + "\n2. " + buildItem(
-            snack2_['item2']) + "\nכמות קלוריות -> " + str(snack2_calories) + "\n\n", snack1_calories + snack2_calories
+            snack2_['item2']) + "\nכמות קלוריות -> " + str(snack2_calories) + "\n\n"
     return "*ארוחות ביניים *:\n1. " + buildItem(snack1_['item1']) + "\n2. " + buildItem(
         snack2_['item1']) + "\nכמות קלוריות -> " + str(
         snack1_calories + snack2_calories) + "\n"
