@@ -33,7 +33,6 @@ DB_AWS_ACCESS_KEY_ID = getenv('DB_AWS_ACCESS_KEY_ID')
 DB_AWS_SECRET_ACCESS_KEY = getenv('DB_AWS_SECRET_ACCESS_KEY')
 DB_AWS_BUCKET = 'journeypic'
 
-# ------------------------------------------------------------------
 
 # ------------------------------------------------------------------
 
@@ -68,7 +67,6 @@ def upload_file_to_s3(local_file, s3_folder, s3_file, aws_access_key_id, aws_sec
 
     return success, "https://%s.s3.eu-central-1.amazonaws.com/%s/%s" % (aws_bucket, s3_folder, s3_file)
 
-# ------------------------------------------------------------------
 
 # ------------------------------------------------------------------
 
@@ -109,7 +107,6 @@ def donut_generator(names, sizes, radius=0.7, textstr_title='',
     else:
         plt.show()
 
-# ------------------------------------------------------------------
 
 # ------------------------------------------------------------------
 
@@ -132,7 +129,6 @@ def donut_generator_wrapper(title, data):
 
     return figname
 
-# ------------------------------------------------------------------
 
 # ------------------------------------------------------------------
 
@@ -151,7 +147,6 @@ def iniliatize_Diagram(title, data):
                                         aws_bucket=DB_AWS_BUCKET)
     return figure_url
 
-# ------------------------------------------------------------------
 
 # ------------------------------------------------------------------
 
@@ -276,6 +271,7 @@ def load_db(db_bitmap):
 
     return db_dict
 
+
 # ------------------------------------------------------------------
 
 def import_sheets(debug=False):
@@ -317,7 +313,6 @@ def import_sheets(debug=False):
 
     return df_noa, df_tzameret_food_group, df_weights, df_nutrition
 
-# ------------------------------------------------------------------
 
 # ------------------------------------------------------------------
 
@@ -411,6 +406,7 @@ def get_rda(name, tracker, intent_upper=False):
 
         return -1, -1, "", "missmatch", nutrient
 
+
 # ------------------------------------------------------------------
 
 def get_personal_str(rda_status, tracker):
@@ -425,6 +421,7 @@ def get_personal_str(rda_status, tracker):
         personal_str = "עבורך (%s בגיל %s במשקל %s ובגובה %s)" % (gender, age, weight, height)
 
     return personal_str
+
 
 # ------------------------------------------------------------------
 
@@ -446,6 +443,7 @@ def get_food_nutrition_density(food, food_ranges_db):
 
     return density, res
 
+
 # ------------------------------------------------------------------
 
 def get_food_energy_density(food, food_ranges_db):
@@ -465,6 +463,7 @@ def get_food_energy_density(food, food_ranges_db):
         res = "med"
 
     return density, res
+
 
 # ------------------------------------------------------------------
 def how_many_x_in_y_core(x, y, food_units, name, tracker):
@@ -1158,6 +1157,233 @@ def core_fun(meal_type, title=""):
     url = iniliatize_Diagram(title, data)
     return items, url
 
+
+# ------------------------------------------------------------------
+class Actionhowmanyxyinz(Action):
+    def name(self) -> Text:
+        return "action_nutrition_howmanyxyinz"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        user_msg = tracker.latest_message.get('text')
+        two_nutrient = None
+        z = None
+        db_dict = load_db(0x293)
+        prediction = tracker.latest_message
+        two_nutrient = prediction['entities'][0]['value']
+        x, y = two_nutrient.split(' ו')
+        x = x.strip()
+        y = y.strip()
+        regex_res = re.search('כמה (.*) יש ב(.*)', user_msg.replace('?', ''))
+        if regex_res:
+            if two_nutrient is None:
+                x, y = regex_res.group(1)
+                x = x.strip()
+                y = y.strip()
+            z = regex_res.group(2)
+        regex_res = re.search('כמה (.*) ב(.*)', user_msg.replace('?', ''))
+        if regex_res:
+            if two_nutrient is None:
+                x, y = regex_res.group(1)
+                x = x.strip()
+                y = y.strip()
+            z = regex_res.group(2)
+        regex_res = re.search('מה הכמות של (.*) ב(.*)', user_msg.replace('?', ''))
+        if regex_res:
+            if two_nutrient is None:
+                x, y = regex_res.group(1)
+                x = x.strip()
+                y = y.strip()
+            z = regex_res.group(2)
+        y = y[:len(y)]
+        # get the units from the user message
+        user_msg_temp = user_msg[user_msg.find(two_nutrient) + len(two_nutrient) + 1:len(user_msg)].replace('?', '')
+        food1_units = "100 גרם"
+        regex_units_res1 = re.search('ב(.*) של', user_msg_temp)
+        regex_units_res2 = re.search(' (.*) של', user_msg_temp)
+        if regex_units_res1:
+            food1_units = regex_units_res1.group(1)
+        elif regex_units_res2:
+            food1_units = regex_units_res2.group(1)
+        if food1_units in db_dict['food_units_aliases']['Unit Alias'].values:
+            food1_units = db_dict['food_units_aliases'][db_dict['food_units_aliases']['Unit Alias'] == food1_units][
+                'Zameret unit'].values[0]
+        if True:
+            val1, res1 = how_many_x_in_y_core(x, z, food1_units, self.name(), tracker)
+            val2, res2 = how_many_x_in_y_core(y, z, food1_units, self.name(), tracker)
+            res1 = checkDoublePattern(res1, 'קלוריות')
+            res2 = checkDoublePattern(res2, 'קלוריות')
+            res = ''
+            res += res1
+            res += "\n"
+            res += res2
+        else:
+            res = "אין לי מושג כמה, מצטער!"
+        dispatcher.utter_message(res)
+
+
+# ------------------------------------------------------------------
+
+class Actioncompartiontwofoods(Action):
+    def name(self) -> Text:
+        return "action_nutrition_compare_foods"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        user_msg = tracker.latest_message.get('text')
+        entities = tracker.latest_message.get('entities')
+
+        x = None
+        y1 = None
+        y2 = None
+        more_or_less = 'יותר' if 'יותר' in user_msg else 'פחות'
+        db_dict = load_db(0x293)
+        for ent in entities:
+            if ent['entity'] in db_dict['lut']["action_nutrition_compare_foods"].values:
+                x = ent['value']
+            elif ent['entity'] in db_dict['lut']["action_nutrition_compare_foods"].values:
+                y1, y2 = ent['value'].split('או')
+                y1 = y1.strip()
+                y2 = y2.strip()
+
+        if not y1 or not y2:
+            y1, y2 = user_msg[user_msg.find(x) + len(x):len(user_msg)].split('או')
+            y1 = y1.strip()
+            y1 = y1[1:len(y1)]
+            y2 = y2.strip()
+            if 'בב' in y1:
+                y1 = y1[1:len(y1)]
+        if not y1 or not y2:
+            regex_res = re.search('במה יש (פחות|יותר) .* ב(.*)', user_msg.replace('?', ''))
+            if regex_res:
+                more_or_less = regex_res.group(1)
+                y1, y2 = regex_res.group(2).split('או')
+                y1 = y1.strip()
+                y2 = y2.strip()
+
+        food1_units = "100 גרם"
+        food2_units = "100 גרם"
+        for k, y in enumerate([y1, y2]):
+            regex_units_res = re.search('(.*) של (.*)', y)
+            if regex_units_res:
+                if k == 0:
+                    food1_units = regex_units_res.group(1)
+                    y1 = regex_units_res.group(2)
+                else:
+                    food2_units = regex_units_res.group(1)
+                    y2 = regex_units_res.group(2)
+
+            if food1_units in db_dict['food_units_aliases']['Unit Alias'].values:
+                food1_units = db_dict['food_units_aliases'][db_dict['food_units_aliases']['Unit Alias'] == food1_units][
+                    'Zameret unit'].values[0]
+            if food2_units in db_dict['food_units_aliases']['Unit Alias'].values:
+                food2_units = db_dict['food_units_aliases'][db_dict['food_units_aliases']['Unit Alias'] == food2_units][
+                    'Zameret unit'].values[0]
+
+        try:
+            val1, res1 = how_many_x_in_y_core(x, y1, food1_units, self.name(), tracker)
+            val2, res2 = how_many_x_in_y_core(x, y2, food1_units, self.name(), tracker)
+            ys = (y1, y2)
+            vals = (val1, val2)
+            res = 'ב%s יש %s %s' % (ys[np.argmax(vals) if more_or_less == 'יותר' else np.argmin(vals)], more_or_less, x)
+            res += "\n"
+            res += res1
+            res += "\n"
+            res += res2
+        except:
+            res = "אין לי מושג כמה, מצטער!"
+
+        dispatcher.utter_message(res)
+
+
+# ------------------------------------------------------------------
+
+class Actionwhataboutx(Action):
+
+    def name(self) -> Text:
+        return "action_nutrition_and_what_about_x"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        # get the right actions according to the intent
+        intens_dict = {"nutrition_howmanyxiny": "action_nutrition_howmanyxiny",
+                       "nutrition_meal_question": "action_nutrition_meal_question",
+                       "nutrition_is_food_healthy": "action_nutrition_is_food_healthy",
+                       "nutrition_get_rda": "action_nutrition_get_rda",
+                       "nutrition_get_upper_limit": "action_nutrition_get_rda"}
+        user_messge = tracker.latest_message.get('text')
+        previous_intent = tracker.get_slot('previous_intent')
+
+        try:
+            next_action = intens_dict[previous_intent]
+            # meal question
+            if previous_intent == "nutrition_meal_question":
+                return [FollowupAction(next_action), SlotSet("y", ""),
+                        SlotSet("x", user_messge), SlotSet("previous_intent", previous_intent)]
+
+            # ------------------------------------------------
+            # how many x in y
+            if previous_intent == "nutrition_howmanyxiny":
+                db_dict = load_db(0x2)
+                lut_df = db_dict['lut']
+                action_name = "action_nutrition_howmanyxiny"
+                y = None
+                x = None
+                # get the values from the slots
+                food = tracker.get_slot('y') if tracker.get_slot('y') else None
+                nutriet = tracker.get_slot('x') if tracker.get_slot('x') else None
+
+                # get the entities from the question
+                for ent in tracker.latest_message.get('entities'):
+                    if ent['entity'] in lut_df[action_name + "_x"].values:
+                        x = ent['value']
+                    elif ent['entity'] in lut_df[action_name + "_y"].values:
+                        y = ent['value']
+
+                if x is None or x == "":
+                    x = nutriet
+                if y is None or y == "":
+                    y = food
+
+                return [FollowupAction(next_action),
+                        SlotSet("x", x), SlotSet("y", y),
+                        SlotSet("previous_intent", previous_intent)]
+            # ------------------------------------------------
+            # is x healthy
+            if previous_intent == "nutrition_is_food_healthy":
+                prediction = tracker.latest_message
+                entity_value = prediction['entities'][0]['value']
+                return [FollowupAction(next_action),
+                        SlotSet("x", entity_value), SlotSet("y", ""),
+                        SlotSet("previous_intent", previous_intent)]
+
+            # ------------------------------------------------
+            # nutrition_get_rda
+            if previous_intent == "nutrition_get_rda":
+                prediction = tracker.latest_message
+                entity_value = prediction['entities'][0]['value']
+                return [FollowupAction(next_action),
+                        SlotSet("x", entity_value), SlotSet("y", ""),
+                        SlotSet("previous_intent", "nutrition_get_rda")]
+
+            # ------------------------------------------------
+            # nutrition_get_upper_limit
+            if previous_intent == "nutrition_get_upper_limit":
+                prediction = tracker.latest_message
+                entity_value = prediction['entities'][0]['value']
+                return [FollowupAction(next_action),
+                        SlotSet("x", entity_value), SlotSet("y", ""),
+                        SlotSet("previous_intent", "nutrition_get_upper_limit")]
+
+        except:
+            dispatcher.utter_message(text="אין למושג, מצטער!")
+        return []
+
+
 # ------------------------------------------------------------------
 
 class Actionxcaniny(Action):
@@ -1248,12 +1474,13 @@ class ActionMealQuestion(Action):
         else:
             meal = ['breakfast', 'lunch', 'dinner']
 
-        try:
+        if True:
             res, url = core_fun(meal, title)
             dispatcher.utter_message(text="%s" % res, image=url)
-        except:
+        else:
             dispatcher.utter_message(text="אין למושג, מצטער!")
         return [SlotSet("x", ""), SlotSet("y", ""), SlotSet("previous_intent", previous_intent)]
+
 
 # ------------------------------------------------------------------
 
@@ -1487,6 +1714,7 @@ class ActionNutritionHowManyXinY(Action):
             dispatcher.utter_message(text="אין לי מושג כמה, מצטער!")
 
         return [SlotSet("x", x), SlotSet("y", y), SlotSet("previous_intent", "nutrition_howmanyxiny")]
+
 
 # ------------------------------------------------------------------
 
@@ -1836,6 +2064,7 @@ class ActionBloodtestGenericQuestion(Action):
 
         return []
 
+
 # ------------------------------------------------------------------
 
 class ActionBloodtestValueQuestion(Action):
@@ -2074,6 +2303,7 @@ class ActionPersonalizationList(Action):
             dispatcher.utter_message(text="אין לי מושג, מצטער!")
 
         return []
+
 
 # ------------------------------------------------------------------
 
