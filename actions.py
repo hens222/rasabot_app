@@ -942,6 +942,7 @@ def displayMeal(data, mealType, items_meal_number, sncack_numbers):
     if len(mealType) > 1:
         for meal in mealType:
             items, temp_calories, temp_carbs, temp_protein, temp_vegetable = getMeal(data, meal, items_meal_number)
+            print(temp_calories)
             calories += temp_calories
             menu = menu + items
             carbs = carbs + temp_carbs
@@ -955,7 +956,8 @@ def displayMeal(data, mealType, items_meal_number, sncack_numbers):
     snacks, calories_sn = getSnack(data, sncack_numbers)
     menu = menu + snacks
     calories += calories_sn
-    menu = menu + "סך הכל קלוריות -> " + arrayToString(str(calories))
+    print(calories_sn)
+    menu = menu + "סך הכל קלוריות -> " + str(calories)
     return menu, carbs, protein, vegetable
 
 
@@ -1011,9 +1013,8 @@ def getSnack(snackData, snack_number):
     snack2_calories = int(snack2_calories)
     if snack_number == 2:
         return "*ארוחות ביניים 1*:\n1. " + buildItem(snack1_['item1']) + "\n2. " + buildItem(
-            snack1_['item2']) + "\n\n*ארוחות ביניים 2*:\n1." + buildItem(snack2_['item1']) + "\n2. " + buildItem(
-            snack2_['item2']) + "\nכמות קלוריות -> " + str(
-            snack1_calories + snack2_calories) + "\n\n", snack1_calories + snack2_calories
+            snack1_['item2']) +"\nכמות קלוריות -> " +str(snack1_calories)+"\n\n*ארוחות ביניים 2*:\n1." + buildItem(snack2_['item1']) + "\n2. " + buildItem(
+            snack2_['item2']) + "\nכמות קלוריות -> " + str( snack2_calories) + "\n\n", snack1_calories + snack2_calories
     return "*ארוחות ביניים *:\n1. " + buildItem(snack1_['item1']) + "\n2. " + buildItem(
         snack2_['item1']) + "\nכמות קלוריות -> " + str(
         snack1_calories + snack2_calories) + "\n\n", snack1_calories + snack2_calories
@@ -1046,7 +1047,6 @@ def unitHebrew(unit, amount):
         return unit_temp
 
     return unit
-
 
 def core_fun(meal_type, title=""):
     global snacks, user_params, units_thr, type_thr, budget_weights_meals, budget_weights_snacks_fruits_fat, budget_weights_savoury_snacks, budget_weights_sweets, inputs, display_user_parameter, debug
