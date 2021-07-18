@@ -20,20 +20,21 @@ from rasa_sdk import FormValidationAction
 from rasa_sdk.events import SlotSet, FollowupAction
 from rasa_sdk.types import DomainDict
 from rasa_sdk.executor import CollectingDispatcher
-
 import warnings
 from statistics import mean
-from os import path
+from os import path, getenv
 from datetime import datetime
 import matplotlib.pyplot as plt
 from botocore.exceptions import ClientError
 from boto3.exceptions import S3UploadFailedError
 import boto3
 
-DB_AWS_ACCESS_KEY_ID = 'AKIAVEUVOUI6JX6LYNNM'
-DB_AWS_SECRET_ACCESS_KEY = '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'
+DB_AWS_ACCESS_KEY_ID = getenv('DB_AWS_ACCESS_KEY_ID')
+DB_AWS_SECRET_ACCESS_KEY = getenv('DB_AWS_SECRET_ACCESS_KEY')
 DB_AWS_BUCKET = 'journeypic'
 
+
+# ------------------------------------------------------------------
 
 def upload_file_to_s3(local_file, s3_folder, s3_file, aws_access_key_id, aws_secret_access_key, aws_bucket,
                       debug_en=False):
@@ -47,16 +48,12 @@ def upload_file_to_s3(local_file, s3_folder, s3_file, aws_access_key_id, aws_sec
 
     # Make a new directory on S3 (if not already exists):
     if s3_folder + '/' in [x['Key'] for x in s3_client.list_objects(Bucket=aws_bucket)['Contents']]:
-        if debug_en:
-            x = 3
-    else:
-        if debug_en:
-            x = 3
-        else:
-            res = s3_client.put_object(Bucket=aws_bucket, Key='%s/' % s3_folder)
-            success = res['ResponseMetadata']['HTTPStatusCode'] == HTTP_OK
-            if not success:
-                return success, ""
+        pass
+    elif not debug_en:
+        res = s3_client.put_object(Bucket=aws_bucket, Key='%s/' % s3_folder)
+        success = res['ResponseMetadata']['HTTPStatusCode'] == HTTP_OK
+        if not success:
+            return success, ""
 
     # Upload local_file to S3:
     x = 3
@@ -70,6 +67,8 @@ def upload_file_to_s3(local_file, s3_folder, s3_file, aws_access_key_id, aws_sec
 
     return success, "https://%s.s3.eu-central-1.amazonaws.com/%s/%s" % (aws_bucket, s3_folder, s3_file)
 
+
+# ------------------------------------------------------------------
 
 def donut_generator(names, sizes, radius=0.7, textstr_title='',
                     colors=None, figname="image.png"):
@@ -109,6 +108,8 @@ def donut_generator(names, sizes, radius=0.7, textstr_title='',
         plt.show()
 
 
+# ------------------------------------------------------------------
+
 def donut_generator_wrapper(title, data):
     names = [x[::-1] for x in list(data.keys())]
     sizes = list(data.values())
@@ -129,6 +130,8 @@ def donut_generator_wrapper(title, data):
     return figname
 
 
+# ------------------------------------------------------------------
+
 def iniliatize_Diagram(title, data):
     unique_filename = lambda fname: "%s_%s%s" % (path.splitext(fname)[0],
                                                  datetime.now().strftime("%m%d%Y_%H%M%S"),
@@ -144,6 +147,8 @@ def iniliatize_Diagram(title, data):
                                         aws_bucket=DB_AWS_BUCKET)
     return figure_url
 
+
+# ------------------------------------------------------------------
 
 def load_db(db_bitmap):
     db_dict = {}
@@ -173,7 +178,9 @@ def load_db(db_bitmap):
                                               "action_nutrition_get_rda",
                                               "action_nutrition_bloodtest_generic",
                                               "action_nutrition_bloodtest_value",
-                                              "action_nutrition_food_substitute"]).fillna(0)
+                                              "action_nutrition_food_substitute",
+                                              "action_nutrition_compare_foods",
+                                              "action_nutrition_howmanyxyinz"]).fillna(0)
 
     # "Zameret_hebrew_features" - nutrients_questions
     if (db_bitmap & 0x4) > 0:
@@ -267,7 +274,6 @@ def load_db(db_bitmap):
 
 # ------------------------------------------------------------------
 
-
 def import_sheets(debug=False):
     '''Import the df noa and tzameret food group tabs from the suggested meal planning sheet as a DataFrame. Import weights and measures, and tzameret food list from Tzameret DB as a DataFrame'''
 
@@ -306,8 +312,9 @@ def import_sheets(debug=False):
     df_noa['sn_2'] = df_noa['primary_sn'].astype(str).str[1:2]
 
     return df_noa, df_tzameret_food_group, df_weights, df_nutrition
-    # ------------------------------------------------------------------
 
+
+# ------------------------------------------------------------------
 
 def get_rda(name, tracker, intent_upper=False):
     db_dict = load_db(0x46)
@@ -399,8 +406,8 @@ def get_rda(name, tracker, intent_upper=False):
 
         return -1, -1, "", "missmatch", nutrient
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 def get_personal_str(rda_status, tracker):
     age = tracker.get_slot('age') if tracker.get_slot('age') and rda_status == "match" else '40'
@@ -415,8 +422,8 @@ def get_personal_str(rda_status, tracker):
 
     return personal_str
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 def get_food_nutrition_density(food, food_ranges_db):
     # Nutrition Density is defined in Tzameret:
@@ -436,8 +443,8 @@ def get_food_nutrition_density(food, food_ranges_db):
 
     return density, res
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 def get_food_energy_density(food, food_ranges_db):
     # Energy Density is defined in Tzameret:
@@ -457,16 +464,87 @@ def get_food_energy_density(food, food_ranges_db):
 
     return density, res
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
+def how_many_x_in_y_core(x, y, food_units, name, tracker):
+    db_dict = load_db(0x293)
+    y_common = y
+    if y in db_dict['common_food'].index:
+        y_common = db_dict['common_food'][db_dict['common_food'].index == y]['shmmitzrach'][0]
+    else:
+        y_food = ' '.join(y.split(' ')[1:])
+        food_units = db_dict['food_units_aliases'][db_dict['food_units_aliases']['Unit Alias'] == y.split(' ')[0]][
+            'Zameret unit']
+        if food_units.empty:
+            food_units = y.split(' ')[0]
+        else:
+            food_units = food_units.values[0]
+        if y_food in db_dict['common_food'].index:
+            y_common = db_dict['common_food'][db_dict['common_food'].index == y_food]['shmmitzrach'][0]
+        else:
+            y_common = y_food
+
+    food = db_dict['tzameret'][db_dict['tzameret']['shmmitzrach'].str.contains(y_common)].iloc[0, :]
+    feature = db_dict['lut'][db_dict['lut'].index == x]["Entity"][0]
+    units = db_dict['lut'][db_dict['lut'].index == x]["Units"][0]
+
+    food_units_row = pd.Series()
+    if food_units:
+        food_units_row = db_dict['food_units'][(db_dict['food_units']['smlmitzrach'] == int(food['smlmitzrach'])) &
+                                               (db_dict['food_units']['shmmida'] == food_units)]
+
+    is_food_units_match = not food_units_row.empty or food_units == "100 גרם"
+
+    food_units_factor = 1.0
+    if not food_units_row.empty:
+        food_units_factor = food_units_row['mishkal'].values[0] / 100
+
+    val = food[feature] * food_units_factor
+
+    if units == 0:
+        res = "ב-%s של %s יש %.2f %s" % (food_units, food['shmmitzrach'], float(val), x)
+    else:
+        res = ""
+        if not is_food_units_match:
+            res = "לא הצלחתי למצוא נתונים במאגר על היחידה %s עליה שאלת\n" % food_units
+            res += "היחידות הבאות קיימות במאגר, עבור %s:\n" % food['shmmitzrach']
+            res += ', '.join(db_dict['food_units'][db_dict['food_units']['smlmitzrach'] == int(food['smlmitzrach'])][
+                                 'shmmida'].to_list())
+            res += "\n"
+            food_units = "100 גרם"
+
+        res += "ב-%s של %s יש %.2f %s %s" % (food_units, food['shmmitzrach'], float(val), units, x)
+
+    rda_val, rda_units, rda_text, rda_status, nutrient = get_rda(name, tracker)
+
+    if rda_val > 0 and units not in ['יחב"ל']:  # FIXME: unsupported units
+        rda = 100 * float(val) / rda_val
+        res += "\n"
+        res += "שהם כ-%d אחוז מהקצובה היומית המומלצת %s" % (int(rda), get_personal_str(rda_status, tracker))
+
+    if rda_text and rda_text != '0':
+        res += '\n' + rda_text
+
+    return val, res
+
+
+# ------------------------------------------------------------------
+#  ____        _ _     _    __  __            _
+# | __ ) _   _(_) | __| |  |  \/  | ___  __ _| |
+# |  _ \| | | | | |/ _` |  | |\/| |/ _ \/ _` | |
+# | |_) | |_| | | | (_| |  | |  | |  __/ (_| | |
+# |____/ \__,_|_|_|\__,_|  |_|  |_|\___|\__,_|_|
 
 # Dictionary that is equivalent to user inputs and filters the df_noa Database based on the inputs
 def arrayToString(s):
-    str1 = ""
+    return ' '.join([str(elem) for elem in s])
 
-    for ele in s:
-        str1 += str(ele)
-    return str1.replace(',', '')
+
+def checkDoublePattern(sentence, pattern):
+    temp = sentence.count(pattern)
+    if temp == 2:
+        return sentence[:sentence.find(pattern) + len(pattern)]
+    return sentence
 
 
 def update_budgets(daily_budget, meals_num, snacks_num, weights):
@@ -868,7 +946,7 @@ def displayMeal(data, mealType, items_meal_number, sncack_numbers):
             menu = menu + items
             carbs = carbs + temp_carbs
             protein = protein + temp_protein
-            vegetable = vegetable + vegetable
+            vegetable = vegetable + temp_vegetable
     # one meal for the user
     else:
         menu, calories, carbs, protein, vegetable = getMeal(data, mealType[0], items_meal_number)
@@ -885,7 +963,6 @@ def getMeal(data, meal_type, meal_items_nubmer):
     # item[0]-> food name
     # item[1]-> unit
     # item[2]-> amount
-
     dic = {'breakfast': 'ארוחת בוקר', 'lunch': 'ארוחת צהריים', 'dinner': 'ארוחת ערב'}
     temp_meal = data[data.index == meal_type]
     items = get_items(temp_meal, meal_items_nubmer)
@@ -943,8 +1020,9 @@ def getSnack(snackData, snack_number):
 
 
 def buildItem(item):
-    return arrayToString(item[0]) + " " + arrayToString(item[2]) + " " + arrayToString(
-        unitHebrew(arrayToString(item[1]), item[2]))
+    if item[0] is not 'NaN' and item[2] is not 'Nan':
+        return arrayToString(item[0]) + " " + arrayToString(item[2]) + " " + arrayToString(
+            unitHebrew(arrayToString(item[1]), item[2]))
 
 
 def unitHebrew(unit, amount):
@@ -1079,8 +1157,149 @@ def core_fun(meal_type, title=""):
     url = iniliatize_Diagram(title, data)
     return items, url
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
+class Actionhowmanyxyinz(Action):
+    def name(self) -> Text:
+        return "action_nutrition_howmanyxyinz"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        user_msg = tracker.latest_message.get('text')
+        two_nutrient = None
+        z = None
+        db_dict = load_db(0x293)
+        prediction = tracker.latest_message
+        two_nutrient = prediction['entities'][0]['value']
+        x, y = two_nutrient.split(' ו')
+        x = x.strip()
+        y = y.strip()
+        regex_res = re.search('כמה (.*) יש ב(.*)', user_msg.replace('?', ''))
+        if regex_res:
+            if two_nutrient is None:
+                x, y = regex_res.group(1)
+                x = x.strip()
+                y = y.strip()
+            z = regex_res.group(2)
+        regex_res = re.search('כמה (.*) ב(.*)', user_msg.replace('?', ''))
+        if regex_res:
+            if two_nutrient is None:
+                x, y = regex_res.group(1)
+                x = x.strip()
+                y = y.strip()
+            z = regex_res.group(2)
+        regex_res = re.search('מה הכמות של (.*) ב(.*)', user_msg.replace('?', ''))
+        if regex_res:
+            if two_nutrient is None:
+                x, y = regex_res.group(1)
+                x = x.strip()
+                y = y.strip()
+            z = regex_res.group(2)
+        y = y[:len(y)]
+        # get the units from the user message
+        user_msg_temp = user_msg[user_msg.find(two_nutrient) + len(two_nutrient) + 1:len(user_msg)].replace('?', '')
+        food1_units = "100 גרם"
+        regex_units_res1 = re.search('ב(.*) של', user_msg_temp)
+        regex_units_res2 = re.search(' (.*) של', user_msg_temp)
+        if regex_units_res1:
+            food1_units = regex_units_res1.group(1)
+        elif regex_units_res2:
+            food1_units = regex_units_res2.group(1)
+        if food1_units in db_dict['food_units_aliases']['Unit Alias'].values:
+            food1_units = db_dict['food_units_aliases'][db_dict['food_units_aliases']['Unit Alias'] == food1_units][
+                'Zameret unit'].values[0]
+        if True:
+            val1, res1 = how_many_x_in_y_core(x, z, food1_units, self.name(), tracker)
+            val2, res2 = how_many_x_in_y_core(y, z, food1_units, self.name(), tracker)
+            res1 = checkDoublePattern(res1, 'קלוריות')
+            res2 = checkDoublePattern(res2, 'קלוריות')
+            res = ''
+            res += res1
+            res += "\n"
+            res += res2
+        else:
+            res = "אין לי מושג כמה, מצטער!"
+        dispatcher.utter_message(res)
+
+
+# ------------------------------------------------------------------
+
+class Actioncompartiontwofoods(Action):
+    def name(self) -> Text:
+        return "action_nutrition_compare_foods"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        user_msg = tracker.latest_message.get('text')
+        entities = tracker.latest_message.get('entities')
+
+        x = None
+        y1 = None
+        y2 = None
+        more_or_less = 'יותר' if 'יותר' in user_msg else 'פחות'
+        db_dict = load_db(0x293)
+        for ent in entities:
+            if ent['entity'] in db_dict['lut']["action_nutrition_compare_foods"].values:
+                x = ent['value']
+            elif ent['entity'] in db_dict['lut']["action_nutrition_compare_foods"].values:
+                y1, y2 = ent['value'].split('או')
+                y1 = y1.strip()
+                y2 = y2.strip()
+
+        if not y1 or not y2:
+            y1, y2 = user_msg[user_msg.find(x) + len(x):len(user_msg)].split('או')
+            y1 = y1.strip()
+            y1 = y1[1:len(y1)]
+            y2 = y2.strip()
+            if 'בב' in y1:
+                y1 = y1[1:len(y1)]
+        if not y1 or not y2:
+            regex_res = re.search('במה יש (פחות|יותר) .* ב(.*)', user_msg.replace('?', ''))
+            if regex_res:
+                more_or_less = regex_res.group(1)
+                y1, y2 = regex_res.group(2).split('או')
+                y1 = y1.strip()
+                y2 = y2.strip()
+
+        food1_units = "100 גרם"
+        food2_units = "100 גרם"
+        for k, y in enumerate([y1, y2]):
+            regex_units_res = re.search('(.*) של (.*)', y)
+            if regex_units_res:
+                if k == 0:
+                    food1_units = regex_units_res.group(1)
+                    y1 = regex_units_res.group(2)
+                else:
+                    food2_units = regex_units_res.group(1)
+                    y2 = regex_units_res.group(2)
+
+            if food1_units in db_dict['food_units_aliases']['Unit Alias'].values:
+                food1_units = db_dict['food_units_aliases'][db_dict['food_units_aliases']['Unit Alias'] == food1_units][
+                    'Zameret unit'].values[0]
+            if food2_units in db_dict['food_units_aliases']['Unit Alias'].values:
+                food2_units = db_dict['food_units_aliases'][db_dict['food_units_aliases']['Unit Alias'] == food2_units][
+                    'Zameret unit'].values[0]
+
+        try:
+            val1, res1 = how_many_x_in_y_core(x, y1, food1_units, self.name(), tracker)
+            val2, res2 = how_many_x_in_y_core(x, y2, food1_units, self.name(), tracker)
+            ys = (y1, y2)
+            vals = (val1, val2)
+            res = 'ב%s יש %s %s' % (ys[np.argmax(vals) if more_or_less == 'יותר' else np.argmin(vals)], more_or_less, x)
+            res += "\n"
+            res += res1
+            res += "\n"
+            res += res2
+        except:
+            res = "אין לי מושג כמה, מצטער!"
+
+        dispatcher.utter_message(res)
+
+
+# ------------------------------------------------------------------
 
 class Actionwhataboutx(Action):
 
@@ -1106,7 +1325,6 @@ class Actionwhataboutx(Action):
                 return [FollowupAction(next_action), SlotSet("y", ""),
                         SlotSet("x", user_messge), SlotSet("previous_intent", previous_intent)]
 
-            # ------------------------------------------------
             # ------------------------------------------------
             # how many x in y
             if previous_intent == "nutrition_howmanyxiny":
@@ -1135,7 +1353,6 @@ class Actionwhataboutx(Action):
                         SlotSet("x", x), SlotSet("y", y),
                         SlotSet("previous_intent", previous_intent)]
             # ------------------------------------------------
-            # ------------------------------------------------
             # is x healthy
             if previous_intent == "nutrition_is_food_healthy":
                 prediction = tracker.latest_message
@@ -1144,7 +1361,6 @@ class Actionwhataboutx(Action):
                         SlotSet("x", entity_value), SlotSet("y", ""),
                         SlotSet("previous_intent", previous_intent)]
 
-            # ------------------------------------------------
             # ------------------------------------------------
             # nutrition_get_rda
             if previous_intent == "nutrition_get_rda":
@@ -1155,7 +1371,6 @@ class Actionwhataboutx(Action):
                         SlotSet("previous_intent", "nutrition_get_rda")]
 
             # ------------------------------------------------
-            # ------------------------------------------------
             # nutrition_get_upper_limit
             if previous_intent == "nutrition_get_upper_limit":
                 prediction = tracker.latest_message
@@ -1164,13 +1379,12 @@ class Actionwhataboutx(Action):
                         SlotSet("x", entity_value), SlotSet("y", ""),
                         SlotSet("previous_intent", "nutrition_get_upper_limit")]
 
-
         except:
             dispatcher.utter_message(text="אין למושג, מצטער!")
         return []
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 class Actionxcaniny(Action):
 
@@ -1227,8 +1441,8 @@ class Actionxcaniny(Action):
         except:
             dispatcher.utter_message(text="אין למושג, מצטער!")
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 class ActionMealQuestion(Action):
 
@@ -1238,39 +1452,37 @@ class ActionMealQuestion(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        meal = ['breakfast', 'lunch', 'dinner']
+        meal = []
         previous_intent = ""
         message = tracker.latest_message.get('text') if tracker.latest_message.get('text') else None
-        title = 'חלוקת קלוריות בתפריט יומי'
+        title = 'תפריט יומי'
         # get the question from the slot
         if message is None:
             message = tracker.get_slot('x') if tracker.get_slot('x') else None
         if 'בוקר' in message:
             previous_intent = "nutrition_meal_question"
             meal = ['breakfast']
-            title = 'חלוקת קלוריות בארוחת בוקר'
-        if 'צהריים' in message:
+            title = 'ארוחת בוקר'
+        elif 'צהריים' in message:
             previous_intent = "nutrition_meal_question"
             meal = ['lunch']
-            title = 'חלוקת קלוריות בארוחת צהריים'
-        if 'ערב' in message:
+            title = 'ארוחת צהריים'
+        elif 'ערב' in message:
             previous_intent = "nutrition_meal_question"
             meal = ['dinner']
-            title = 'חלוקת קלוריות בארוחת ערב'
+            title = 'ארוחת ערב'
+        else:
+            meal = ['breakfast', 'lunch', 'dinner']
 
-        try:
+        if True:
             res, url = core_fun(meal, title)
             dispatcher.utter_message(text="%s" % res, image=url)
-
-
-
-
-        except:
+        else:
             dispatcher.utter_message(text="אין למושג, מצטער!")
         return [SlotSet("x", ""), SlotSet("y", ""), SlotSet("previous_intent", previous_intent)]
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 class ActionSimpleQuestion(Action):
 
@@ -1319,8 +1531,8 @@ class ActionSimpleQuestion(Action):
 
         return []
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 class ActionGetRDAQuestion(Action):
 
@@ -1362,8 +1574,8 @@ class ActionGetRDAQuestion(Action):
 
         return [SlotSet("previous_intent", intent), SlotSet("x", ""), SlotSet("y", "")]
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 class ActionNutritionHowManyXinY(Action):
 
@@ -1458,12 +1670,12 @@ class ActionNutritionHowManyXinY(Action):
             val = food[feature] * food_units_factor
 
             # calculating the cake diagram feature
-            # 1 gram protein is 4 calories
             # 1 gram fat is 9 calories
+            # 1 gram protein is 4 calories
             # 1 gram carb is 4 calories
-            fat_calories = int(food['total_fat'] * food_units_factor)
-            protein_calories = int(food['protein'] * food_units_factor)
-            carbs_calories = int(food['carbohydrates'] * food_units_factor)
+            fat_calories = int(food['total_fat'] * food_units_factor * 9)
+            protein_calories = int(food['protein'] * food_units_factor * 4)
+            carbs_calories = int(food['carbohydrates'] * food_units_factor * 4)
             title = "ב" + y_common
             data = {'שומן': fat_calories,
                     'פחמימות': carbs_calories,
@@ -1503,8 +1715,8 @@ class ActionNutritionHowManyXinY(Action):
 
         return [SlotSet("x", x), SlotSet("y", y), SlotSet("previous_intent", "nutrition_howmanyxiny")]
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 class ActionIsFoodHealthyQuestion(Action):
 
@@ -1587,15 +1799,14 @@ class ActionIsFoodHealthyQuestion(Action):
 
             dispatcher.utter_message(text="%s" % res)
 
-
         except:
 
             dispatcher.utter_message(text="אין לי מושג, מצטער!")
 
         return [SlotSet("previous_intent", "nutrition_is_food_healthy"), SlotSet("x", ""), SlotSet("y", "")]
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 class ActionWhatIsHealthierQuestion(Action):
 
@@ -1705,8 +1916,8 @@ class ActionWhatIsHealthierQuestion(Action):
 
         return []
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 class ActionWhatIsRecommendedQuestion(Action):
 
@@ -1752,8 +1963,8 @@ class ActionWhatIsRecommendedQuestion(Action):
 
         return []
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 class ActionEatBeforeTrainingQuestion(Action):
 
@@ -1787,8 +1998,8 @@ class ActionEatBeforeTrainingQuestion(Action):
 
         return []
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 class ActionBloodtestGenericQuestion(Action):
 
@@ -1853,8 +2064,8 @@ class ActionBloodtestGenericQuestion(Action):
 
         return []
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 class ActionBloodtestValueQuestion(Action):
 
@@ -1946,8 +2157,8 @@ class ActionBloodtestValueQuestion(Action):
 
         return []
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 class ActionFoodSubstituteQuestion(Action):
 
@@ -2071,8 +2282,8 @@ class ActionFoodSubstituteQuestion(Action):
 
         return []
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 class ActionPersonalizationList(Action):
 
@@ -2093,8 +2304,8 @@ class ActionPersonalizationList(Action):
 
         return []
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 class ActionPersonalizationRemove(Action):
 
@@ -2121,8 +2332,8 @@ class ActionPersonalizationRemove(Action):
 
         return []
 
-    # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
 
 class ProfileFormValidator(FormValidationAction):
     """ProfileForm Validator"""
