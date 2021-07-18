@@ -1302,7 +1302,9 @@ class Actioncompartiontwofoods(Action):
             if 'ב ב' in res and 'בבשר' not in res:
                 res = res[1:]
             res += "\n"
+            res += "\n"
             res += res1
+            res += "\n"
             res += "\n"
             res += res2
         except:
