@@ -55,6 +55,8 @@ intents:
     use_entities: true
 - nutrition_howmanyxiny:
     use_entities: true
+- nutrition_howmanyxyinz:
+    use_entities: true
 - nutrition_and_what_about_x:
     use_entities: true
 - nutrition_is_food_healthy:
@@ -68,6 +70,8 @@ intents:
 - nutrition_bloodtest_value_question:
     use_entities: true
 - nutrition_food_substitute_question:
+    use_entities: true
+- nutrition_compare_foods:
     use_entities: true
 - nutrition_meal_question:
     use_entities: true
@@ -348,6 +352,8 @@ responses:
   utter_jokes:
   - text: למה פיל וזברה נכנסו למנהרה שניים ויצאו שלושה? כי למה היא גם חיה
 actions:
+- action_nutrition_howmanyxyinz
+- action_nutrition_compare_foods
 - action_nutrition_and_what_about_x
 - action_nutrition_what_xcanbeiny
 - action_nutrition_meal_question

@@ -66,6 +66,14 @@ stories:
   - slot_was_set:
     - requested_slot: null
   - active_loop: null
+- story: nutrition how many xyinz
+  steps:
+  - intent: nutrition_howmanyxyinz
+  - action: action_nutrition_howmanyxyinz
+- story: nutrition compare foods
+  steps:
+  - intent: nutrition_compare_foods
+  - action: action_nutrition_compare_foods
 - story: Greet sad path
   steps:
   - intent: greet
@@ -370,6 +378,26 @@ stories:
     entities:
     - nutrient: שומן רווי
   - action: action_simple_question
+- story: nutrition how many xyinz X 2
+  steps:
+  - intent: nutrition_howmanyxyinz
+    entities:
+      - nutrient: חלבון וקלוריות
+  - action: action_nutrition_howmanyxyinz
+  - intent: nutrition_howmanyxyinz
+    entities:
+      - food_entity: פיצה
+  - action: action_nutrition_howmanyxyinz
+- story: nutrition compare foods X 2
+  steps:
+  - intent: nutrition_compare_foods
+    entities:
+      - nutrient: חלבון
+  - action: action_nutrition_compare_foods
+  - intent: nutrition_compare_foods
+    entities:
+      - food_entity: חלב או פיצה
+  - action: action_nutrition_compare_foods
 - story: What can you do
   steps:
   - intent: What can you do

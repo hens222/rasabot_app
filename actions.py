@@ -30,8 +30,10 @@ from boto3.exceptions import S3UploadFailedError
 import boto3
 
 DB_AWS_ACCESS_KEY_ID = getenv('DB_AWS_ACCESS_KEY_ID')
-DB_AWS_SECRET_ACCESS_KEY = getenv('DB_AWS_SECRET_ACCESS_KEY') 
+DB_AWS_SECRET_ACCESS_KEY = getenv('DB_AWS_SECRET_ACCESS_KEY')
 DB_AWS_BUCKET = 'journeypic'
+
+# ------------------------------------------------------------------
 
 # ------------------------------------------------------------------
 
@@ -65,6 +67,8 @@ def upload_file_to_s3(local_file, s3_folder, s3_file, aws_access_key_id, aws_sec
             success = False, ""
 
     return success, "https://%s.s3.eu-central-1.amazonaws.com/%s/%s" % (aws_bucket, s3_folder, s3_file)
+
+# ------------------------------------------------------------------
 
 # ------------------------------------------------------------------
 
@@ -107,6 +111,8 @@ def donut_generator(names, sizes, radius=0.7, textstr_title='',
 
 # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
+
 def donut_generator_wrapper(title, data):
     names = [x[::-1] for x in list(data.keys())]
     sizes = list(data.values())
@@ -128,6 +134,8 @@ def donut_generator_wrapper(title, data):
 
 # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
+
 def iniliatize_Diagram(title, data):
     unique_filename = lambda fname: "%s_%s%s" % (path.splitext(fname)[0],
                                                  datetime.now().strftime("%m%d%Y_%H%M%S"),
@@ -142,6 +150,8 @@ def iniliatize_Diagram(title, data):
                                         aws_secret_access_key=DB_AWS_SECRET_ACCESS_KEY,
                                         aws_bucket=DB_AWS_BUCKET)
     return figure_url
+
+# ------------------------------------------------------------------
 
 # ------------------------------------------------------------------
 
@@ -173,7 +183,9 @@ def load_db(db_bitmap):
                                               "action_nutrition_get_rda",
                                               "action_nutrition_bloodtest_generic",
                                               "action_nutrition_bloodtest_value",
-                                              "action_nutrition_food_substitute"]).fillna(0)
+                                              "action_nutrition_food_substitute",
+                                              "action_nutrition_compare_foods",
+                                              "action_nutrition_howmanyxyinz"]).fillna(0)
 
     # "Zameret_hebrew_features" - nutrients_questions
     if (db_bitmap & 0x4) > 0:
@@ -304,6 +316,8 @@ def import_sheets(debug=False):
     df_noa['sn_2'] = df_noa['primary_sn'].astype(str).str[1:2]
 
     return df_noa, df_tzameret_food_group, df_weights, df_nutrition
+
+# ------------------------------------------------------------------
 
 # ------------------------------------------------------------------
 
@@ -453,6 +467,69 @@ def get_food_energy_density(food, food_ranges_db):
     return density, res
 
 # ------------------------------------------------------------------
+def how_many_x_in_y_core(x, y, food_units, name, tracker):
+    db_dict = load_db(0x293)
+    y_common = y
+    if y in db_dict['common_food'].index:
+        y_common = db_dict['common_food'][db_dict['common_food'].index == y]['shmmitzrach'][0]
+    else:
+        y_food = ' '.join(y.split(' ')[1:])
+        food_units = db_dict['food_units_aliases'][db_dict['food_units_aliases']['Unit Alias'] == y.split(' ')[0]][
+            'Zameret unit']
+        if food_units.empty:
+            food_units = y.split(' ')[0]
+        else:
+            food_units = food_units.values[0]
+        if y_food in db_dict['common_food'].index:
+            y_common = db_dict['common_food'][db_dict['common_food'].index == y_food]['shmmitzrach'][0]
+        else:
+            y_common = y_food
+
+    food = db_dict['tzameret'][db_dict['tzameret']['shmmitzrach'].str.contains(y_common)].iloc[0, :]
+    feature = db_dict['lut'][db_dict['lut'].index == x]["Entity"][0]
+    units = db_dict['lut'][db_dict['lut'].index == x]["Units"][0]
+
+    food_units_row = pd.Series()
+    if food_units:
+        food_units_row = db_dict['food_units'][(db_dict['food_units']['smlmitzrach'] == int(food['smlmitzrach'])) &
+                                               (db_dict['food_units']['shmmida'] == food_units)]
+
+    is_food_units_match = not food_units_row.empty or food_units == "100 גרם"
+
+    food_units_factor = 1.0
+    if not food_units_row.empty:
+        food_units_factor = food_units_row['mishkal'].values[0] / 100
+
+    val = food[feature] * food_units_factor
+
+    if units == 0:
+        res = "ב-%s של %s יש %.2f %s" % (food_units, food['shmmitzrach'], float(val), x)
+    else:
+        res = ""
+        if not is_food_units_match:
+            res = "לא הצלחתי למצוא נתונים במאגר על היחידה %s עליה שאלת\n" % food_units
+            res += "היחידות הבאות קיימות במאגר, עבור %s:\n" % food['shmmitzrach']
+            res += ', '.join(db_dict['food_units'][db_dict['food_units']['smlmitzrach'] == int(food['smlmitzrach'])][
+                                 'shmmida'].to_list())
+            res += "\n"
+            food_units = "100 גרם"
+
+        res += "ב-%s של %s יש %.2f %s %s" % (food_units, food['shmmitzrach'], float(val), units, x)
+
+    rda_val, rda_units, rda_text, rda_status, nutrient = get_rda(name, tracker)
+
+    if rda_val > 0 and units not in ['יחב"ל']:  # FIXME: unsupported units
+        rda = 100 * float(val) / rda_val
+        res += "\n"
+        res += "שהם כ-%d אחוז מהקצובה היומית המומלצת %s" % (int(rda), get_personal_str(rda_status, tracker))
+
+    if rda_text and rda_text != '0':
+        res += '\n' + rda_text
+
+    return val, res
+
+
+# ------------------------------------------------------------------
 #  ____        _ _     _    __  __            _
 # | __ ) _   _(_) | __| |  |  \/  | ___  __ _| |
 # |  _ \| | | | | |/ _` |  | |\/| |/ _ \/ _` | |
@@ -461,11 +538,14 @@ def get_food_energy_density(food, food_ranges_db):
 
 # Dictionary that is equivalent to user inputs and filters the df_noa Database based on the inputs
 def arrayToString(s):
-    str1 = ""
+    return ' '.join([str(elem) for elem in s])
 
-    for ele in s:
-        str1 += str(ele)
-    return str1.replace(',', '')
+
+def checkDoublePattern(sentence, pattern):
+    temp = sentence.count(pattern)
+    if temp == 2:
+        return sentence[:sentence.find(pattern) + len(pattern)]
+    return sentence
 
 
 def update_budgets(daily_budget, meals_num, snacks_num, weights):
@@ -867,7 +947,7 @@ def displayMeal(data, mealType, items_meal_number, sncack_numbers):
             menu = menu + items
             carbs = carbs + temp_carbs
             protein = protein + temp_protein
-            vegetable = vegetable + vegetable
+            vegetable = vegetable + temp_vegetable
     # one meal for the user
     else:
         menu, calories, carbs, protein, vegetable = getMeal(data, mealType[0], items_meal_number)
@@ -884,7 +964,6 @@ def getMeal(data, meal_type, meal_items_nubmer):
     # item[0]-> food name
     # item[1]-> unit
     # item[2]-> amount
-
     dic = {'breakfast': 'ארוחת בוקר', 'lunch': 'ארוחת צהריים', 'dinner': 'ארוחת ערב'}
     temp_meal = data[data.index == meal_type]
     items = get_items(temp_meal, meal_items_nubmer)
@@ -942,8 +1021,9 @@ def getSnack(snackData, snack_number):
 
 
 def buildItem(item):
-    return arrayToString(item[0]) + " " + arrayToString(item[2]) + " " + arrayToString(
-        unitHebrew(arrayToString(item[1]), item[2]))
+    if item[0] is not 'NaN' and item[2] is not 'Nan':
+        return arrayToString(item[0]) + " " + arrayToString(item[2]) + " " + arrayToString(
+            unitHebrew(arrayToString(item[1]), item[2]))
 
 
 def unitHebrew(unit, amount):
@@ -1080,90 +1160,6 @@ def core_fun(meal_type, title=""):
 
 # ------------------------------------------------------------------
 
-class Actionwhataboutx(Action):
-
-    def name(self) -> Text:
-        return "action_nutrition_and_what_about_x"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        # get the right actions according to the intent
-        intens_dict = {"nutrition_howmanyxiny": "action_nutrition_howmanyxiny",
-                       "nutrition_meal_question": "action_nutrition_meal_question",
-                       "nutrition_is_food_healthy": "action_nutrition_is_food_healthy",
-                       "nutrition_get_rda": "action_nutrition_get_rda",
-                       "nutrition_get_upper_limit": "action_nutrition_get_rda"}
-        user_messge = tracker.latest_message.get('text')
-        previous_intent = tracker.get_slot('previous_intent')
-
-        try:
-            next_action = intens_dict[previous_intent]
-            # meal question
-            if previous_intent == "nutrition_meal_question":
-                return [FollowupAction(next_action), SlotSet("y", ""),
-                        SlotSet("x", user_messge), SlotSet("previous_intent", previous_intent)]
-
-            # ------------------------------------------------
-            # how many x in y
-            if previous_intent == "nutrition_howmanyxiny":
-                db_dict = load_db(0x2)
-                lut_df = db_dict['lut']
-                action_name = "action_nutrition_howmanyxiny"
-                y = None
-                x = None
-                # get the values from the slots
-                food = tracker.get_slot('y') if tracker.get_slot('y') else None
-                nutriet = tracker.get_slot('x') if tracker.get_slot('x') else None
-
-                # get the entities from the question
-                for ent in tracker.latest_message.get('entities'):
-                    if ent['entity'] in lut_df[action_name + "_x"].values:
-                        x = ent['value']
-                    elif ent['entity'] in lut_df[action_name + "_y"].values:
-                        y = ent['value']
-
-                if x is None or x == "":
-                    x = nutriet
-                if y is None or y == "":
-                    y = food
-
-                return [FollowupAction(next_action),
-                        SlotSet("x", x), SlotSet("y", y),
-                        SlotSet("previous_intent", previous_intent)]
-            # ------------------------------------------------
-            # is x healthy
-            if previous_intent == "nutrition_is_food_healthy":
-                prediction = tracker.latest_message
-                entity_value = prediction['entities'][0]['value']
-                return [FollowupAction(next_action),
-                        SlotSet("x", entity_value), SlotSet("y", ""),
-                        SlotSet("previous_intent", previous_intent)]
-
-            # ------------------------------------------------
-            # nutrition_get_rda
-            if previous_intent == "nutrition_get_rda":
-                prediction = tracker.latest_message
-                entity_value = prediction['entities'][0]['value']
-                return [FollowupAction(next_action),
-                        SlotSet("x", entity_value), SlotSet("y", ""),
-                        SlotSet("previous_intent", "nutrition_get_rda")]
-
-            # ------------------------------------------------
-            # nutrition_get_upper_limit
-            if previous_intent == "nutrition_get_upper_limit":
-                prediction = tracker.latest_message
-                entity_value = prediction['entities'][0]['value']
-                return [FollowupAction(next_action),
-                        SlotSet("x", entity_value), SlotSet("y", ""),
-                        SlotSet("previous_intent", "nutrition_get_upper_limit")]
-
-        except:
-            dispatcher.utter_message(text="אין למושג, מצטער!")
-        return []
-
-# ------------------------------------------------------------------
-
 class Actionxcaniny(Action):
 
     def name(self) -> Text:
@@ -1219,6 +1215,7 @@ class Actionxcaniny(Action):
         except:
             dispatcher.utter_message(text="אין למושג, מצטער!")
 
+
 # ------------------------------------------------------------------
 
 class ActionMealQuestion(Action):
@@ -1229,25 +1226,27 @@ class ActionMealQuestion(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        meal = ['breakfast', 'lunch', 'dinner']
+        meal = []
         previous_intent = ""
         message = tracker.latest_message.get('text') if tracker.latest_message.get('text') else None
-        title = 'חלוקת קלוריות בתפריט יומי'
+        title = 'תפריט יומי'
         # get the question from the slot
         if message is None:
             message = tracker.get_slot('x') if tracker.get_slot('x') else None
         if 'בוקר' in message:
             previous_intent = "nutrition_meal_question"
             meal = ['breakfast']
-            title = 'חלוקת קלוריות בארוחת בוקר'
-        if 'צהריים' in message:
+            title = 'ארוחת בוקר'
+        elif 'צהריים' in message:
             previous_intent = "nutrition_meal_question"
             meal = ['lunch']
-            title = 'חלוקת קלוריות בארוחת צהריים'
-        if 'ערב' in message:
+            title = 'ארוחת צהריים'
+        elif 'ערב' in message:
             previous_intent = "nutrition_meal_question"
             meal = ['dinner']
-            title = 'חלוקת קלוריות בארוחת ערב'
+            title = 'ארוחת ערב'
+        else:
+            meal = ['breakfast', 'lunch', 'dinner']
 
         try:
             res, url = core_fun(meal, title)
@@ -1305,6 +1304,7 @@ class ActionSimpleQuestion(Action):
 
         return []
 
+
 # ------------------------------------------------------------------
 
 class ActionGetRDAQuestion(Action):
@@ -1346,6 +1346,7 @@ class ActionGetRDAQuestion(Action):
         dispatcher.utter_message(text="%s" % res)
 
         return [SlotSet("previous_intent", intent), SlotSet("x", ""), SlotSet("y", "")]
+
 
 # ------------------------------------------------------------------
 
@@ -1442,12 +1443,12 @@ class ActionNutritionHowManyXinY(Action):
             val = food[feature] * food_units_factor
 
             # calculating the cake diagram feature
-            # 1 gram protein is 4 calories
             # 1 gram fat is 9 calories
+            # 1 gram protein is 4 calories
             # 1 gram carb is 4 calories
-            fat_calories = int(food['total_fat'] * food_units_factor)
-            protein_calories = int(food['protein'] * food_units_factor)
-            carbs_calories = int(food['carbohydrates'] * food_units_factor)
+            fat_calories = int(food['total_fat'] * food_units_factor * 9)
+            protein_calories = int(food['protein'] * food_units_factor * 4)
+            carbs_calories = int(food['carbohydrates'] * food_units_factor * 4)
             title = "ב" + y_common
             data = {'שומן': fat_calories,
                     'פחמימות': carbs_calories,
@@ -1576,6 +1577,7 @@ class ActionIsFoodHealthyQuestion(Action):
 
         return [SlotSet("previous_intent", "nutrition_is_food_healthy"), SlotSet("x", ""), SlotSet("y", "")]
 
+
 # ------------------------------------------------------------------
 
 class ActionWhatIsHealthierQuestion(Action):
@@ -1686,6 +1688,7 @@ class ActionWhatIsHealthierQuestion(Action):
 
         return []
 
+
 # ------------------------------------------------------------------
 
 class ActionWhatIsRecommendedQuestion(Action):
@@ -1732,7 +1735,8 @@ class ActionWhatIsRecommendedQuestion(Action):
 
         return []
 
- # ------------------------------------------------------------------
+
+# ------------------------------------------------------------------
 
 class ActionEatBeforeTrainingQuestion(Action):
 
@@ -1765,6 +1769,7 @@ class ActionEatBeforeTrainingQuestion(Action):
             dispatcher.utter_message(text="אין לי מושג, מצטער!")
 
         return []
+
 
 # ------------------------------------------------------------------
 
@@ -1923,6 +1928,7 @@ class ActionBloodtestValueQuestion(Action):
 
         return []
 
+
 # ------------------------------------------------------------------
 
 class ActionFoodSubstituteQuestion(Action):
@@ -2047,6 +2053,7 @@ class ActionFoodSubstituteQuestion(Action):
 
         return []
 
+
 # ------------------------------------------------------------------
 
 class ActionPersonalizationList(Action):
@@ -2094,6 +2101,7 @@ class ActionPersonalizationRemove(Action):
             dispatcher.utter_message(text="אין לי מושג, מצטער!")
 
         return []
+
 
 # ------------------------------------------------------------------
 
