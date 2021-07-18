@@ -1011,7 +1011,7 @@ def getSnack(snackData, snack_number):
     snack2_calories = int(snack2_calories)
     if snack_number == 2:
         return "*ארוחות ביניים 1*:\n1. " + buildItem(snack1_['item1']) + "\n2. " + buildItem(
-            snack1_['item2']) + "\n*ארוחות ביניים 2*:\n1." + buildItem(snack2_['item1']) + "\n2. " + buildItem(
+            snack1_['item2']) + "\n\n*ארוחות ביניים 2*:\n1." + buildItem(snack2_['item1']) + "\n2. " + buildItem(
             snack2_['item2']) + "\nכמות קלוריות -> " + str(
             snack1_calories + snack2_calories) + "\n\n", snack1_calories + snack2_calories
     return "*ארוחות ביניים *:\n1. " + buildItem(snack1_['item1']) + "\n2. " + buildItem(
