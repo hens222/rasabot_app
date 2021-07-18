@@ -953,11 +953,9 @@ def displayMeal(data, mealType, items_meal_number, sncack_numbers):
         menu, calories, carbs, protein, vegetable = getMeal(data, mealType[0], items_meal_number)
         return menu, carbs, protein, vegetable
 
-    snacks, calories_sn = getSnack(data, sncack_numbers)
+    snacks = getSnack(data, sncack_numbers)
     menu = menu + snacks
-    calories += calories_sn
-    print(calories_sn)
-    menu = menu + "סך הכל קלוריות -> " + str(calories)
+    menu = menu + "סך הכל קלוריות ללא ארוחות ביניים-> " + str(calories)
     return menu, carbs, protein, vegetable
 
 
@@ -1013,17 +1011,19 @@ def getSnack(snackData, snack_number):
     snack2_calories = int(snack2_calories)
     if snack_number == 2:
         return "*ארוחות ביניים 1*:\n1. " + buildItem(snack1_['item1']) + "\n2. " + buildItem(
-            snack1_['item2']) +"\nכמות קלוריות -> " +str(snack1_calories)+"\n\n*ארוחות ביניים 2*:\n1." + buildItem(snack2_['item1']) + "\n2. " + buildItem(
-            snack2_['item2']) + "\nכמות קלוריות -> " + str( snack2_calories) + "\n\n", snack1_calories + snack2_calories
+            snack1_['item2']) + "\nכמות קלוריות -> " + str(snack1_calories) + "\n\n*ארוחות ביניים 2*:\n1." + buildItem(
+            snack2_['item1']) + "\n2. " + buildItem(
+            snack2_['item2']) + "\nכמות קלוריות -> " + str(snack2_calories) + "\n\n", snack1_calories + snack2_calories
     return "*ארוחות ביניים *:\n1. " + buildItem(snack1_['item1']) + "\n2. " + buildItem(
         snack2_['item1']) + "\nכמות קלוריות -> " + str(
-        snack1_calories + snack2_calories) + "\n\n", snack1_calories + snack2_calories
+        snack1_calories + snack2_calories) + "\n"
 
 
 def buildItem(item):
     if item[0] is not 'NaN' and item[2] is not 'Nan' and item[0] is not 'nan' and item[2] is not 'nan':
-        item_temp=arrayToString(item[1])
-        return arrayToString(item[0]) + " " + arrayToString(item[2]) + " " + unitHebrew(item_temp,item[2])
+        item_temp = arrayToString(item[1])
+        return arrayToString(item[0]) + " " + arrayToString(item[2]) + " " + unitHebrew(item_temp, item[2])
+
 
 def unitHebrew(unit, amount):
     unit_dic = {"כף": 'כפות', "מנה": 'מנות', "יחידה קטנה": 'יחידות קטנות', "פרח": 'פרחים',
@@ -1047,6 +1047,7 @@ def unitHebrew(unit, amount):
         return unit_temp
 
     return unit
+
 
 def core_fun(meal_type, title=""):
     global snacks, user_params, units_thr, type_thr, budget_weights_meals, budget_weights_snacks_fruits_fat, budget_weights_savoury_snacks, budget_weights_sweets, inputs, display_user_parameter, debug
@@ -1721,7 +1722,7 @@ class ActionNutritionHowManyXinY(Action):
 
             res += "\r"
             res += rda_text if rda_text else ""
-
+            res = checkDoublePattern(res, 'קלוריות')
             dispatcher.utter_message(text="%s" % res, image=url)
 
         except:
