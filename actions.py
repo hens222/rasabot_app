@@ -1299,9 +1299,9 @@ class Actioncompartiontwofoods(Action):
             ys = (y1, y2)
             vals = (val1, val2)
             res = 'ב%s יש %s %s' % (ys[np.argmax(vals) if more_or_less == 'יותר' else np.argmin(vals)], more_or_less, x)
-            if 'בב' in res and 'בבשר' not in res:
+            if 'ב ב' in res and 'בבשר' not in res:
                 res = res[1:]
-            res += "\n"
+            res += "\n\n"
             res += res1
             res += "\n\n"
             res += res2
