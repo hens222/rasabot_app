@@ -1020,16 +1020,15 @@ def getSnack(snackData, snack_number):
 
 
 def buildItem(item):
-    if item[0] is not 'NaN' and item[2] is not 'Nan':
-        return arrayToString(item[0]) + " " + arrayToString(item[2]) + " " + arrayToString(
-            unitHebrew(arrayToString(item[1]), item[2]))
-
+    if item[0] is not 'NaN' and item[2] is not 'Nan' and item[0] is not 'nan' and item[2] is not 'nan':
+        item_temp=arrayToString(item[1])
+        return arrayToString(item[0]) + " " + arrayToString(item[2]) + " " + unitHebrew(item_temp,item[2])
 
 def unitHebrew(unit, amount):
     unit_dic = {"כף": 'כפות', "מנה": 'מנות', "יחידה קטנה": 'יחידות קטנות', "פרח": 'פרחים',
                 "פרוסה בינונית": 'פרוסות בינונוית',
                 "יחידה": 'יחידות', "כף גדושה": 'כפות גדושות',
-                "פרוסה": 'פרוסות', "מנה קטנה": 'מנות קטנות', "יחידה בינונית": 'יחידות בינונוית', "כפית": 'כפיות',
+                "פרוסה": 'פרוסות', "מנה קטנה": 'מנות קטנות', "יחידה בינונית": 'יחידות בינוניות', "כפית": 'כפיות',
                 "כוס": 'כוסות', "כוס קצוץ": 'כוסות'}
     if unit not in unit_dic:
         return unit
@@ -1038,6 +1037,7 @@ def unitHebrew(unit, amount):
         unit_temp = unit_dic[unit].strip()
         if unit_temp.count(' ') == 1:
             return unit_temp
+        unit_temp = unit_temp.replace('  ', '')
         unit_temp = unit_temp.replace(' ', '')
         unit_temp = unit_temp[:unit_temp.find('ת') + 1] + ' ' + unit_temp[unit_temp.find('ת') + 1:]
         # one word
@@ -1488,10 +1488,10 @@ class ActionMealQuestion(Action):
         else:
             meal = ['breakfast', 'lunch', 'dinner']
 
-        if True:
+        try:
             res, url = core_fun(meal, title)
             dispatcher.utter_message(text="%s" % res, image=url)
-        else:
+        except:
             dispatcher.utter_message(text="אין למושג, מצטער!")
         return [SlotSet("x", ""), SlotSet("y", ""), SlotSet("previous_intent", previous_intent)]
 
