@@ -1220,7 +1220,7 @@ class Actionhowmanyxyinz(Action):
         if food1_units in db_dict['food_units_aliases']['Unit Alias'].values:
             food1_units = db_dict['food_units_aliases'][db_dict['food_units_aliases']['Unit Alias'] == food1_units][
                 'Zameret unit'].values[0]
-        if True:
+        try:
             val1, res1 = how_many_x_in_y_core(x, z, food1_units, self.name(), tracker)
             val2, res2 = how_many_x_in_y_core(y, z, food1_units, self.name(), tracker)
             res1 = checkDoublePattern(res1, 'קלוריות')
@@ -1229,7 +1229,7 @@ class Actionhowmanyxyinz(Action):
             res += res1
             res += "\n"
             res += res2
-        else:
+        except:
             res = "אין לי מושג כמה, מצטער!"
         dispatcher.utter_message(res)
 
@@ -1296,6 +1296,8 @@ class Actioncompartiontwofoods(Action):
         try:
             val1, res1 = how_many_x_in_y_core(x, y1, food1_units, self.name(), tracker)
             val2, res2 = how_many_x_in_y_core(x, y2, food1_units, self.name(), tracker)
+            res1 = checkDoublePattern(res1, 'קלוריות')
+            res2 = checkDoublePattern(res2, 'קלוריות')
             ys = (y1, y2)
             vals = (val1, val2)
             res = 'ב%s יש %s %s' % (ys[np.argmax(vals) if more_or_less == 'יותר' else np.argmin(vals)], more_or_less, x)
