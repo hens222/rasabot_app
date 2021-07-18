@@ -1033,8 +1033,18 @@ def unitHebrew(unit, amount):
                 "כוס": 'כוסות', "כוס קצוץ": 'כוסות'}
     if unit not in unit_dic:
         return unit
+
     if amount > 1:
-        return unit_dic[unit]
+        unit_temp = unit_dic[unit].strip()
+        if unit_temp.count(' ') == 1:
+            return unit_temp
+        unit_temp = unit_temp.replace(' ', '')
+        unit_temp = unit_temp[:unit_temp.find('ת') + 1] + ' ' + unit_temp[unit_temp.find('ת') + 1:]
+        # one word
+        if unit_temp.count('ת') == 1:
+            return unit_temp.strip()
+        return unit_temp
+
     return unit
 
 
