@@ -1251,6 +1251,7 @@ class Actioncompartiontwofoods(Action):
         y2 = None
         more_or_less = 'יותר' if 'יותר' in user_msg else 'פחות'
         db_dict = load_db(0x293)
+        user_msg = user_msg.replace('?', '')
         for ent in entities:
             if ent['entity'] in db_dict['lut']["action_nutrition_compare_foods"].values:
                 x = ent['value']
@@ -1258,14 +1259,22 @@ class Actioncompartiontwofoods(Action):
                 y1, y2 = ent['value'].split('או')
                 y1 = y1.strip()
                 y2 = y2.strip()
-
-        if not y1 or not y2:
-            y1, y2 = user_msg[user_msg.find(x) + len(x):len(user_msg)].split('או')
-            y1 = y1.strip()
-            y1 = y1[1:len(y1)]
-            y2 = y2.strip()
-            if 'בב' in y1:
-                y1 = y1[1:len(y1)]
+        x = 'סוכר'
+        y1, y2 = user_msg[user_msg.find(x) + len(x):].split('או')
+        y1 = y1.strip()
+        y2 = y2.strip()
+        if '-' in user_msg:
+            y1 = y1[2:]
+        else:
+            y1 = y1[1:]
+        if 'בב' in y1:
+            y1 = y1[1:]
+        if 'ב' in y1 and 'בשר' not in y1:
+            y1 = y1[1:]
+        if 'בב' in y2:
+            y2 = y2[1:]
+        if 'ב' in y2 and 'בשר' not in y2:
+            y2 = y2[1:]
         if not y1 or not y2:
             regex_res = re.search('במה יש (פחות|יותר) .* ב(.*)', user_msg.replace('?', ''))
             if regex_res:
