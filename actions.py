@@ -1372,7 +1372,7 @@ class Actionwhataboutx(Action):
             if previous_intent == "nutrition_howmanyxiny":
                 x = tracker.get_slot('x') if tracker.get_slot('x') else None
                 y = tracker.get_slot('y') if tracker.get_slot('y') else None
-
+                dispatcher.utter_message('x= ' + str(x) + 'y= ' + str(y))
                 # rasa succeed to detect the entity
                 if entity is not None:
                     if entity == 'nutrient':
@@ -1380,13 +1380,11 @@ class Actionwhataboutx(Action):
                     else:
                         y = entity_value
                 # the entity value is taken from the user message
-                elif entity_value is None:
-                    dispatcher.utter_message('line1384')
+                else:
                     if entity_value in lut_df['Entity']:
                         x = entity_value
                     else:
                         y = entity_value
-
                 return [FollowupAction(next_action),
                         SlotSet("x", x), SlotSet("y", y),
                         SlotSet("previous_intent", previous_intent)]
@@ -1704,7 +1702,8 @@ class ActionNutritionHowManyXinY(Action):
             data = {'שומן': fat_calories,
                     'פחמימות': carbs_calories,
                     'חלבונים': protein_calories}
-            url = iniliatize_Diagram(title, data)
+            # url = iniliatize_Diagram(title, data)
+            url = ""
             if x == 'קלוריות':
                 val = fat_calories + protein_calories + carbs_calories
             if units == 0:
