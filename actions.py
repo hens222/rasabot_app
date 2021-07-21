@@ -180,7 +180,8 @@ def load_db(db_bitmap):
                                               "action_nutrition_bloodtest_value",
                                               "action_nutrition_food_substitute",
                                               "action_nutrition_compare_foods",
-                                              "action_nutrition_howmanyxyinz"]).fillna(0)
+                                              "action_nutrition_howmanyxyinz",
+                                              "action_nutrition_and_what_about_x"]).fillna(0)
 
     # "Zameret_hebrew_features" - nutrients_questions
     if (db_bitmap & 0x4) > 0:
@@ -1333,6 +1334,7 @@ class Actionwhataboutx(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         # get the right actions according to the intent
+
         intens_dict = {"nutrition_howmanyxiny": "action_nutrition_howmanyxiny",
                        "nutrition_meal_question": "action_nutrition_meal_question",
                        "nutrition_is_food_healthy": "action_nutrition_is_food_healthy",
@@ -1340,55 +1342,57 @@ class Actionwhataboutx(Action):
                        "nutrition_get_upper_limit": "action_nutrition_get_rda"}
         user_messge = tracker.latest_message.get('text')
         previous_intent = tracker.get_slot('previous_intent')
-
+        entity_value = None
+        x = None
+        y = None
         try:
             next_action = intens_dict[previous_intent]
             # meal question
             if previous_intent == "nutrition_meal_question":
                 return [FollowupAction(next_action), SlotSet("y", ""),
-                        SlotSet("x", user_messge), SlotSet("previous_intent", previous_intent)]
+                        SlotSet("x", user_messge),
+                        SlotSet("previous_intent", previous_intent)]
 
             # ------------------------------------------------
+            entity = None
+            db_dict = load_db(0x2)
+            lut_df = db_dict['lut']
+            for ent in tracker.latest_message.get('entities'):
+                if ent['entity'] in lut_df["action_nutrition_and_what_about_x"].values:
+                    entity_value = ent['value']
+                    entity = ent['entity']
+
+            if 'ברזל' in user_messge:
+                entity_value = 'ברזל'
+            elif user_messge[0] == 'ו' and user_messge[1] != 'ב':
+                entity_value = user_messge[1:]
+            else:
+                entity_value = user_messge[2:]
+            if entity_value is None or entity_value == "":
+                entity_value = user_messge
             # how many x in y
             if previous_intent == "nutrition_howmanyxiny":
-                db_dict = load_db(0x2)
-                lut_df = db_dict['lut']
-                action_name = "action_nutrition_howmanyxiny"
-                y = None
-                x = None
-                # get the values from the slots
-                food = tracker.get_slot('y') if tracker.get_slot('y') else None
-                nutriet = tracker.get_slot('x') if tracker.get_slot('x') else None
+                x = tracker.get_slot('x') if tracker.get_slot('x') else None
+                y = tracker.get_slot('y') if tracker.get_slot('y') else None
 
-                # get the entities from the question
-                for ent in tracker.latest_message.get('entities'):
-                    if ent['entity'] in lut_df[action_name + "_x"].values:
-                        x = ent['value']
-                    elif ent['entity'] in lut_df[action_name + "_y"].values:
-                        y = ent['value']
+                # rasa succeed to detect the entity
+                if entity is not None:
+                    if entity == 'nutrient':
+                        x = entity_value
+                    else:
+                        y = entity_value
+                # the entity value is taken from the user message
+                elif entity_value in lut_df['Entity']:
+                    x = entity_value
+                else:
+                    y = entity_value
 
-                if x is None or x == "":
-                    x = nutriet
-                if y is None or y == "":
-                    y = food
+            return [FollowupAction(next_action),
+                    SlotSet("x", x), SlotSet("y", y),
+                    SlotSet("previous_intent", previous_intent)]
 
-                return [FollowupAction(next_action),
-                        SlotSet("x", x), SlotSet("y", y),
-                        SlotSet("previous_intent", previous_intent)]
-            # ------------------------------------------------
-            # is x healthy
-            if previous_intent == "nutrition_is_food_healthy":
-                prediction = tracker.latest_message
-                entity_value = prediction['entities'][0]['value']
-                return [FollowupAction(next_action),
-                        SlotSet("x", entity_value), SlotSet("y", ""),
-                        SlotSet("previous_intent", previous_intent)]
-
-            # ------------------------------------------------
             # nutrition_get_rda
             if previous_intent == "nutrition_get_rda":
-                prediction = tracker.latest_message
-                entity_value = prediction['entities'][0]['value']
                 return [FollowupAction(next_action),
                         SlotSet("x", entity_value), SlotSet("y", ""),
                         SlotSet("previous_intent", "nutrition_get_rda")]
@@ -1396,11 +1400,16 @@ class Actionwhataboutx(Action):
             # ------------------------------------------------
             # nutrition_get_upper_limit
             if previous_intent == "nutrition_get_upper_limit":
-                prediction = tracker.latest_message
-                entity_value = prediction['entities'][0]['value']
                 return [FollowupAction(next_action),
                         SlotSet("x", entity_value), SlotSet("y", ""),
                         SlotSet("previous_intent", "nutrition_get_upper_limit")]
+
+            # is x healthy
+            if previous_intent == "nutrition_is_food_healthy":
+                return [FollowupAction(next_action),
+                        SlotSet("x", entity_value), SlotSet("y", ""),
+                        SlotSet("previous_intent", previous_intent)]
+
 
         except:
             dispatcher.utter_message(text="אין למושג, מצטער!")
@@ -1423,18 +1432,26 @@ class Actionxcaniny(Action):
             db_dict = load_db(0x402)
             lut = db_dict['lut']
             df_noa = db_dict['food_units_features']
+            message = tracker.latest_message.get('text')
+            # get the entity value from the bot
+            prediction = tracker.latest_message
+            entity_value = prediction['entities'][0]['value']
+
+            negative_words = ['לא', 'ללא', 'בלי', 'אין']
+            type_qu = 'Yes'
+            for word in negative_words:
+                if word in message:
+                    type_qu = 'No'
+                    break
 
             # get the meal type
-            message = tracker.latest_message.get('text')
             if 'בוקר' in message:
                 meal = "IL_Breakfast"
             if 'צהריים' in message:
                 meal = "IL_Lunch"
             if 'ערב' in message:
                 meal = 'IL_Dinner'
-            # get the entity value from the bot
-            prediction = tracker.latest_message
-            entity_value = prediction['entities'][0]['value']
+
             if entity_value == 'צמחוני':
                 entity = "Vegetarian"
             elif entity_value == 'טבעוני':
@@ -1454,7 +1471,7 @@ class Actionxcaniny(Action):
                     entity = entity2.capitalize()
 
             # get the items by ranmdom 5 of them
-            items = df_noa.loc[((df_noa[entity] == 'Yes') & (df_noa[meal] == 'Yes')), ['Food_Name', entity, meal]]
+            items = df_noa.loc[((df_noa[entity] == type_qu) & (df_noa[meal] == 'Yes')), ['Food_Name', entity, meal]]
             indeX = items.index.tolist()
             y = ""
             for i in range(1, 6):
@@ -1704,7 +1721,8 @@ class ActionNutritionHowManyXinY(Action):
                     'פחמימות': carbs_calories,
                     'חלבונים': protein_calories}
             url = iniliatize_Diagram(title, data)
-
+            if x == 'קלוריות':
+                val = fat_calories + protein_calories + carbs_calories
             if units == 0:
                 res = "ב-%s של %s יש %.2f %s" % (food_units, food['shmmitzrach'], float(val), x)
             else:
