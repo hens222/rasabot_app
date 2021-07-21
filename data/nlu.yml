@@ -453,6 +453,7 @@ nlu:
     - ומה לגבי [ברזל](nutrient)
     - וכמה [ברזל](nutrient) יש
     - ו[ברזל](nutrient)
+    - וב[ברזל](nutrient)
     - ומה עם [ברזל](nutrient)
     - וכמה [חלבון](nutrient)
     - ומה לגבי [חלבון](nutrient)
@@ -599,88 +600,103 @@ nlu:
     - ומה עם [אומגה 3](nutrient)
     - ותן לי מידע על [חלב](food_entity)
     - [חלב]ו(food_entity)
+    - [חלב]וב(food_entity)
     - ומה לגבי [חלב](food_entity)
     - ומה עם [חלב](food_entity)
     - וכמה ב[חלב](food_entity)
     - וכמה יש ב[חלב](food_entity)
     - ותן לי מידע על [חלב 3%](food_entity)
     - [חלב 3%]ו(food_entity)
+    - [חלב 3%]וב(food_entity)
     - ומה לגבי [חלב 3%](food_entity)
     - ומה עם [חלב 3%](food_entity)
     - וכמה ב[חלב 3%](food_entity)
     - וכמה יש ב[חלב 3%](food_entity)
     - ותן לי מידע על [תפוח](food_entity)
     - [תפוח]ו(food_entity)
+    - [תפוח]וב(food_entity)
     - ומה לגבי [תפוח](food_entity)
     - ומה עם [תפוח](food_entity)
     - וכמה ב[תפוח](food_entity)
     - וכמה יש ב[תפוח](food_entity)
     - ותן לי מידע על [חביתה](food_entity)
     - [חביתה]ו(food_entity)
+    - [חביתה]וב(food_entity)
     - ומה לגבי [חביתה](food_entity)
     - ומה עם [חביתה](food_entity)
     - וכמה ב[חביתה](food_entity)
     - וכמה יש ב[חביתה](food_entity)
     - ותן לי מידע על [טחינה גולמית](food_entity)
     - [טחינה גולמית]ו(food_entity)
+    - [טחינה גולמית]וב(food_entity)
     - ומה לגבי [טחינה גולמית](food_entity)
     - ומה עם [טחינה גולמית](food_entity)
     - וכמה ב[טחינה גולמית](food_entity)
     - וכמה יש ב[טחינה גולמית](food_entity)
     - ותן לי מידע על [קוטג'](food_entity)
     - [קוטג']ו(food_entity)
+    - [קוטג']וב(food_entity)
     - ומה לגבי [קוטג'](food_entity)
     - ומה עם [קוטג'](food_entity)
     - וכמה ב[קוטג'](food_entity)
     - וכמה יש ב[קוטג'](food_entity)
     - ותן לי מידע על [אגוזי ברזיל](food_entity)
     - [אגוזי ברזיל]ו(food_entity)
+    - [אגוזי ברזיל]וב(food_entity)
     - ומה לגבי [אגוזי ברזיל](food_entity)
     - ומה עם [חלאגוזי ברזיל](food_entity)
     - וכמה ב[אגוזי ברזיל](food_entity)
     - וכמה יש ב[אגוזי ברזיל](food_entity)
     - ותן לי מידע על [בננה](food_entity)
     - [בננה]ו(food_entity)
+    - [בננה]וב(food_entity)
     - ומה לגבי [בננה](food_entity)
     - ומה עם [בננה](food_entity)
     - וכמה ב[בננה](food_entity)
     - וכמה יש ב[בננה](food_entity)
     - ותן לי מידע על [גבינת עזים](food_entity)
     - [גבינת עזים]ו(food_entity)
+    - [גבינת עזים]וב(food_entity)
     - ומה לגבי [גבינת עזים](food_entity)
     - ומה עם [גבינת עזים](food_entity)
     - וכמה ב[גבינת עזים](food_entity)
     - וכמה יש ב[גבינת עזים](food_entity)
     - ותן לי מידע על [תרד](food_entity)
-    - [תרד]ו(food_entity)
+    - [תרד]וב(food_entity)
+    - [תרד]ן(food_entity)
     - ומה לגבי [תרד](food_entity)
     - ומה עם [תרד](food_entity)
     - וכמה ב[תרד](food_entity)
     - וכמה יש ב[תרד](food_entity)
     - ותן לי מידע על [במבה](food_entity)
     - [במבה]ו(food_entity)
+    - [במבה]וב(food_entity)
     - ומה עם [במבה](food_entity)
     - וכמה ב[במבה](food_entity)
     - וכמה יש ב[במבה](food_entity)
     - ותן לי מידע על [חלב בופאלו](food_entity)
     - [חלב בופאלו]ו(food_entity)
+    - [חלב בופאלו]וב(food_entity)
     - ומה לגבי [חלב בופאלו](food_entity)
     - ומה עם [חלב בופאלו](food_entity)
     - וכמה ב[חלב בופאלו](food_entity)
     - וכמה יש ב[חלב בופאלו](food_entity)
     - ותן לי מידע על [פופקורן](food_entity)
     - [פופקורן]ו(food_entity)
+    - [פופקורן]וב(food_entity)
     - ומה לגבי [פופקורן](food_entity)
     - ומה עם [פופקורן](food_entity)
     - וכמה ב[פופקורן](food_entity)
     - וכמה יש ב[פופקורן](food_entity)
     - ותן לי מידע על [חלב עזים](food_entity)
     - [חלב עזים]ו(food_entity)
+    - [חלב עזים]וב(food_entity)
     - ומה לגבי [חלב עזים](food_entity)
     - ומה עם [חלב עזים](food_entity)
     - וכמה ב[חלב עזים](food_entity)
     - וכמה יש ב[חלב עזים](food_entity)
     - ותן לי מידע על [טופו](food_entity)
+    - [טופו]וב(food_entity)
     - [טופו]ו(food_entity)
     - ומה לגבי [טופו](food_entity)
     - ומה עם [טופו](food_entity)
@@ -688,11 +704,21 @@ nlu:
     - וכמה יש ב[טופו](food_entity)
     - ותן לי מידע על [לחם אחיד](food_entity)
     - [לחם אחיד]ו(food_entity)
+    - [לחם אחיד]וב(food_entity)
     - ומה לגבי [לחם אחיד](food_entity)
     - ומה עם [לחם אחיד](food_entity)
     - וכמה ב[לחם אחיד](food_entity)
     - וכמה יש ב[לחם אחיד](food_entity)
     - ותן לי מידע על [גזר](food_entity)
+    - ותן לי מידע על [לחם](food_entity)
+    - [לחם]ו(food_entity)
+    - [לחם]וב(food_entity)
+    - ומה לגבי [לחם](food_entity)
+    - ומה עם [לחם](food_entity)
+    - וכמה ב[לחם](food_entity)
+    - וכמה יש ב[לחם](food_entity)
+    - ותן לי מידע על [גזר](food_entity)
+    - [גזר]וב(food_entity)
     - [גזר]ו(food_entity)
     - ומה לגבי [גזר](food_entity)
     - ומה עם [גזר](food_entity)
@@ -700,17 +726,20 @@ nlu:
     - וכמה יש ב[גזר](food_entity)
     - ותן לי מידע על [מלפפון](food_entity)
     - [מלפפון]ו(food_entity)
+    - [מלפפון]וב(food_entity)
     - ומה לגבי [מלפפון](food_entity)
     - ומה עם [מלפפון](food_entity)
     - וכמה ב[מלפפון](food_entity)
     - וכמה יש ב[מלפפון](food_entity)
     - ותן לי מידע על [חמאת בוטנים](food_entity)
     - [חמאת בוטנים]ו(food_entity)
+    - [חמאת בוטנים]וב(food_entity)
     - ומה לגבי [חמאת בוטנים](food_entity)
     - ומה עם [חמאת בוטנים](food_entity)
     - וכמה ב[חמאת בוטנים](food_entity)
     - וכמה יש ב[חמאת בוטנים](food_entity)
     - ותן לי מידע על [שקדים קלויים](food_entity)
+    - [שקדים קלויים]וב(food_entity)
     - [שקדים קלויים]ו(food_entity)
     - ומה לגבי [שקדים קלויים](food_entity)
     - ומה עם [שקדים קלויים](food_entity)
@@ -718,29 +747,34 @@ nlu:
     - וכמה יש ב[שקדים קלויים](food_entity)
     - ותן לי מידע על [שמן זית](food_entity)
     - [שמן זית]ו(food_entity)
+    - [שמן זית]וב(food_entity)
     - ומה לגבי [שמן זית](food_entity)
     - ומה עם [שמן זית](food_entity)
     - וכמה ב[שמן זית](food_entity)
     - וכמה יש ב[שמן זית](food_entity)
     - ותן לי מידע על [תפוח אדמה](food_entity)
     - [תפוח אדמה]ו(food_entity)
+    - [תפוח אדמה]וב(food_entity)
     - ומה לגבי [תפוח אדמה](food_entity)
     - ומה עם [תפוח אדמה](food_entity)
     - וכמה ב[תפוח אדמה](food_entity)
     - וכמה יש ב[תפוח אדמה](food_entity)
     - ותן לי מידע על [צ'יפס](food_entity)
     - [צ'יפס]ו(food_entity)
+    - [צ'יפס]וב(food_entity)
     - ומה לגבי [צ'יפס](food_entity)
     - ומה עם [צ'יפס](food_entity)
     - וכמה ב[צ'יפס](food_entity)
     - וכמה יש ב[צ'יפס](food_entity)
     - ותן לי מידע על [עגבנייה](food_entity)
+    - [עגבנייה]וב(food_entity)
     - [עגבנייה]ו(food_entity)
     - ומה לגבי [עגבנייה](food_entity)
     - ומה עם [עגבנייה](food_entity)
     - וכמה ב[עגבנייה](food_entity)
     - וכמה יש ב[עגבנייה](food_entity)
     - ותן לי מידע על [שעועית ירוקה](food_entity)
+    - [שעועית ירוקה]וב(food_entity)
     - [שעועית ירוקה]ו(food_entity)
     - ומה לגבי [שעועית ירוקה](food_entity)
     - ומה עם [שעועית ירוקה](food_entity)
@@ -748,16 +782,19 @@ nlu:
     - וכמה יש ב[שעועית ירוקה](food_entity)
     - ותן לי מידע על [סלמון](food_entity)
     - [סלמון]ו (food_entity)
+    - [סלמון]וב (food_entity)
     - ומה לגבי [סלמון] (food_entity)
     - ומה עם [סלמון] (food_entity)
     - וכמה ב[סלמון] (food_entity)
     - וכמה יש ב[סלמון](food_entity)
     - [ברוקולי]ו(food_entity)
+    - [ברוקולי]וב(food_entity)
     - ותן לי מידע על [ברוקולי](food_entity)
     - ומה לגבי [ברוקולי](food_entity)
     - ומה עם [ברוקולי](food_entity)
     - וכמה ב[ברוקולי](food_entity)
     - וכמה יש ב[ברוקולי](food_entity)
+    - [קיווי]וב(food_entity)
     - [קיווי]ו(food_entity)
     - ותן לי מידע על [קיווי](food_entity)
     - ומה לגבי [קיווי](food_entity)
@@ -765,41 +802,48 @@ nlu:
     - וכמה ב[קיווי](food_entity)
     - וכמה יש ב[קיווי](food_entity)
     - [חזה עוף]ו(food_entity)
+    - [חזה עוף]וב(food_entity)
     - ותן לי מידע על [חזה עוף](food_entity)
     - ומה לגבי [חזה עוף](food_entity)
     - ומה עם [חזה עוף](food_entity)
     - וכמה ב[חזה עוף](food_entity)
     - וכמה יש ב[חזה עוף](food_entity)
     - [חלב אם]ו(food_entity)
+    - [חלב אם]וב(food_entity)
     - ותן לי מידע על [חלב אם](food_entity)
     - ומה לגבי [חלב אם](food_entity)
     - ומה עם [חלב אם](food_entity)
     - וכמה ב[חלב אם](food_entity)
     - וכמה יש ב[חלב אם](food_entity)
     - [תפוז]ו(food_entity)
+    - [תפוז]וב(food_entity)
     - ותן לי מידע על [תפוז](food_entity)
     - ומה לגבי [תפוז](food_entity)
     - ומה עם [תפוז](food_entity)
     - וכמה ב[תפוז](food_entity)
     - וכמה יש ב[תפוז](food_entity)
     - [פלפל אדום]ו(food_entity)
+    - [פלפל אדום]וב(food_entity)
     - ותן לי מידע על [פלפל אדום](food_entity)
     - ומה לגבי [פלפל אדום](food_entity)
     - ומה עם [פלפל אדום](food_entity)
     - וכמה ב[פלפל אדום](food_entity)
     - וכמה יש ב[פלפל אדום](food_entity)
     - [בורקס]ו(food_entity)
+    - [בורקס]וב(food_entity)
     - ותן לי מידע על [בורקס](food_entity)
     - ומה לגבי [בורקס](food_entity)
     - ומה עם [בורקס](food_entity)
     - וכמה ב[בורקס](food_entity)
     - וכמה יש ב[בורקס](food_entity)
     - [גאודה]ו(food_entity)
+    - [גאודה]וב(food_entity)
     - ותן לי מידע על [גאודה](food_entity)
     - ומה לגבי [גאודה](food_entity)
     - ומה עם [גאודה](food_entity)
     - וכמה ב[גאודה](food_entity)
     - וכמה יש ב[גאודה](food_entity)
+    - [גמדים]וב(food_entity)
     - [גמדים]ו(food_entity)
     - ותן לי מידע על [גמדים](food_entity)
     - ומה לגבי [גמדים](food_entity)
@@ -807,12 +851,14 @@ nlu:
     - וכמה ב[גמדים](food_entity)
     - וכמה יש ב[גמדים](food_entity)
     - [פיצה]ו(food_entity)
+    - [פיצה]וב(food_entity)
     - ותן לי מידע על [פיצה](food_entity)
     - ומה לגבי [פיצה](food_entity)
     - ומה עם [פיצה](food_entity)
     - וכמה ב[פיצה](food_entity)
     - וכמה יש ב[פיצה](food_entity)
     - [אגס]ו(food_entity)
+    - [אגס]וב(food_entity)
     - ותן לי מידע על [אגס](food_entity)
     - ומה לגבי [אגס](food_entity)
     - ומה עם [אגס](food_entity)
@@ -825,84 +871,98 @@ nlu:
     - וכמה ב[דובדבנים](food_entity)
     - וכמה יש ב[דובדבנים](food_entity)
     - [גלידה]ו(food_entity)
+    - [גלידה]וב(food_entity)
     - ותן לי מידע על [גלידה](food_entity)
     - ומה לגבי [גלידה](food_entity)
     - ומה עם [גלידה](food_entity)
     - וכמה ב[גלידה](food_entity)
     - וכמה יש ב[גלידה](food_entity)
     - [תפוח עץ]ו(food_entity)
+    - [תפוח עץ]וב(food_entity)
     - ותן לי מידע על [תפוח עץ](food_entity)
     - ומה לגבי [תפוח עץ](food_entity)
     - ומה עם [תפוח עץ](food_entity)
     - וכמה ב[תפוח עץ](food_entity)
     - וכמה יש ב[תפוח עץ](food_entity)
     - [גבינה לבנה]ו(food_entity)
+    - [גבינה לבנה]וב(food_entity)
     - ותן לי מידע על [גבינה לבנה](food_entity)
     - ומה לגבי [גבינה לבנה](food_entity)
     - ומה עם [גבינה לבנה](food_entity)
     - וכמה ב[גבינה לבנה](food_entity)
     - וכמה יש ב[גבינה לבנה](food_entity)
     - [ניוקי]ו(food_entity)
+    - [ניוקי]וב(food_entity)
     - ותן לי מידע על [ניוקי](food_entity)
     - ומה לגבי [ניוקי](food_entity)
     - ומה עם [ניוקי](food_entity)
     - וכמה ב[ניוקי](food_entity)
     - וכמה יש ב[ניוקי](food_entity)
     - [גרגירי חומוס]ו(food_entity)
+    - [גרגירי חומוס]וב(food_entity)
     - ותן לי מידע על [גרגירי חומוס](food_entity)
     - ומה לגבי [גרגירי חומוס](food_entity)
     - ומה עם [גרגירי חומוס](food_entity)
     - וכמה ב[גרגירי חומוס](food_entity)
     - וכמה יש ב[גרגירי חומוס](food_entity)
     - [יוגורט פירות]ו(food_entity)
+    - [יוגורט פירות]וב(food_entity)
     - ותן לי מידע על [יוגורט פירות](food_entity)
     - ומה לגבי [יוגורט פירות](food_entity)
     - ומה עם [יוגורט פירות](food_entity)
     - וכמה ב[יוגורט פירות](food_entity)
     - וכמה יש ב[יוגורט פירות](food_entity)
     - [אפרסק]ו(food_entity)
+    - [אפרסק]וב(food_entity)
     - ותן לי מידע על [אפרסק](food_entity)
     - ומה לגבי [אפרסק](food_entity)
     - ומה עם [אפרסק](food_entity)
     - וכמה ב[אפרסק](food_entity)
     - וכמה יש ב[אפרסק](food_entity)
     - [אבוקדו]ו(food_entity)
+    - [אבוקדו]וב(food_entity)
     - ותן לי מידע על [אבוקדו](food_entity)
     - ומה לגבי [אבוקדו](food_entity)
     - ומה עם [אבוקדו](food_entity)
     - וכמה ב[אבוקדו](food_entity)
     - וכמה יש ב[אבוקדו](food_entity)
     - [ארטישוק]ו(food_entity)
+    - [ארטישוק]וב(food_entity)
     - ותן לי מידע על [ארטישוק](food_entity)
     - ומה לגבי [ארטישוק](food_entity)
     - ומה עם [ארטישוק](food_entity)
     - וכמה ב[ארטישוק](food_entity)
     - וכמה יש ב[ארטישוק](food_entity)
     - [לחם]ו(food_entity)
+    - [לחם]וב(food_entity)
     - ותן לי מידע על [לחם](food_entity)
     - ומה לגבי [לחם](food_entity)
     - ומה עם [לחם](food_entity)
     - וכמה ב[לחם](food_entity)
     - וכמה יש ב[לחם](food_entity)
     - [קורנפלקס]ו(food_entity)
+    - [קורנפלקס]וב(food_entity)
     - ותן לי מידע על [קורנפלקס](food_entity)
     - ומה לגבי [קורנפלקס](food_entity)
     - ומה עם [קורנפלקס](food_entity)
     - וכמה ב[קורנפלקס](food_entity)
     - וכמה יש ב[קורנפלקס](food_entity)
     - [ביצה]ו(food_entity)
+    - [ביצה]וב(food_entity)
     - ותן לי מידע על [ביצה](food_entity)
     - ומה לגבי [ביצה](food_entity)
     - ומה עם [ביצה](food_entity)
     - וכמה ב[ביצה](food_entity)
     - וכמה יש ב[ביצה](food_entity)
     - [פסטה]ו(food_entity)
+    - [פסטה]וב(food_entity)
     - ותן לי מידע על [פסטה](food_entity)
     - ומה לגבי [פסטה](food_entity)
     - ומה עם [פסטה](food_entity)
     - וכמה ב[פסטה](food_entity)
     - וכמה יש ב[פסטה](food_entity)
     - [עדשים חומות]ו(food_entity)
+    - [עדשים חומות]וב(food_entity)
     - ותן לי מידע על [עדשים חומות](food_entity)
     - ומה לגבי [עדשים חומות](food_entity)
     - ומה עם [עדשים חומות] (food_entity)
@@ -915,23 +975,27 @@ nlu:
     - וכמה ב[עדשים כתומים](food_entity)
     - וכמה יש ב[עדשים כתומים](food_entity)
     - [עדשים ירוקות]ו(food_entity)
+    - [עדשים ירוקות]וב(food_entity)
     - ותן לי מידע על [עדשים ירוקות](food_entity)
     - ומה עם [עדשים ירוקות](food_entity)
     - וכמה ב[עדשים ירוקות](food_entity)
     - וכמה יש ב[עדשים ירוקות](food_entity)
     - ומה לגבי [עדשים ירוקות](food_entity)
     - [עדשים אדומות]ו(food_entity)
+    - [עדשים אדומות]וב(food_entity)
     - ותן לי מידע על [עדשים אדומות](food_entity)
     - ומה עם [עדשים אדומות](food_entity)
     - וכמה ב[עדשים אדומות](food_entity)
     - וכמה יש ב[עדשים אדומות](food_entity)
     - ומה לגבי [עדשים אדומות](food_entity)
     - [תפוחים]ו(food_entity)
+    - [תפוחים]וב(food_entity)
     - ותן לי מידע על [תפוחים](food_entity)
     - ומה עם [תפוחים](food_entity)
     - וכמה ב[תפוחים](food_entity)
     - וכמה יש ב[תפוחים](food_entity)
     - ומה לגבי [תפוחים](food_entity)
+    - [קפה]וב(food_entity)
     - [קפה]ו(food_entity)
     - ותן לי מידע על [קפה](food_entity)
     - ומה עם [קפה] (food_entity)
@@ -939,18 +1003,21 @@ nlu:
     - וכמה יש ב[קפה](food_entity)
     - ומה לגבי [קפה](food_entity)
     - [המבורגר]ו(food_entity)
+    - [המבורגר]וב(food_entity)
     - ותן לי מידע על [המבורגר](food_entity)
     - ומה עם [המבורגר](food_entity)
     - וכמה ב[המבורגר](food_entity)
     - וכמה יש ב[המבורגר](food_entity)
     - ומה לגבי [המבורגר](food_entity)
     - [חסה]ו(food_entity)
+    - [חסה]וב(food_entity)
     - ותן לי מידע על [חסה](food_entity)
     - ומה עם [חסה] (food_entity)
     - וכמה ב[חסה](food_entity)
     - וכמה יש ב[חסה](food_entity)
     - ומה לגבי [חסה](food_entity)
     - [חמין]ו(food_entity)
+    - [חמין]וב(food_entity)
     - ותן לי מידע על [חמין](food_entity)
     - ומה עם [חמין](food_entity)
     - וכמה ב[חמין](food_entity)
@@ -969,12 +1036,14 @@ nlu:
     - וכמה יש ב[טונה](food_entity)
     - ומה לגבי [טונה](food_entity)
     - [גביע דני]ו(food_entity)
+    - [גביע דני]וב(food_entity)
     - ותן לי מידע על [גביע דני](food_entity)
     - ומה עם [גביע דני] (food_entity)
     - וכמה ב[גביע דני](food_entity)
     - וכמה יש ב[גביע דני](food_entity)
     - ומה לגבי [גביע דני](food_entity)
     - [פחית קוקה קולה]ו(food_entity)
+    - [פחית קוקה קולה]וב(food_entity)
     - ותן לי מידע על [פחית קוקה קולה](food_entity)
     - ומה עם [פחית קוקה קולה](food_entity)
     - וכמה ב[פחית קוקה קולה](food_entity)
@@ -993,10 +1062,14 @@ nlu:
     - [לחם] ומה עם(food_entity)
     - [לחם] ומה אתה חושב על(food_entity)
     - [תפוח] ומה עם(food_entity)
+    - [תפוח]ו(food_entity)
+    - [תפוח]וב(food_entity)
     - [תפוח] ומה אתה חושב על(food_entity)
     - [גלידה] ומה עם(food_entity)
     - [גלידה] ומה אתה חושב על(food_entity)
     - [פסטה] ומה עם(food_entity)
+    - [פסטה]ו(food_entity)
+    - [פסטה]וב(food_entity)
     - [פסטה] ומה אתה חושב על(food_entity)
     - [קווקר]ו(food_entity)
     - [קווקר] ומה עם(food_entity)
@@ -1012,14 +1085,19 @@ nlu:
     - [שיבולת שועל] ומה עם(food_entity)
     - [שיבולת שועל] ומה אתה חושב על(food_entity)
     - [אגס] ומה עם(food_entity)
+    - [אגס]ו(food_entity)
+    - [אגס]וב(food_entity)
     - [אגס] ומה אתה חושב על(food_entity)
     - [יין]ו(food_entity)
+    - [יין]וב(food_entity)
     - [יין] ומה עם(food_entity)
     - [יין] ומה אתה חושב על(food_entity)
     - [משקה סויה]ו(food_entity)
+    - [משקה סויה]וב(food_entity)
     - [משקה סויה] ומה עם(food_entity)
     - [משקה סויה] ומה אתה חושב על(food_entity)
     - [מיץ עגבניות]ו(food_entity)
+    - [מיץ עגבניות]וב(food_entity)
     - [מיץ עגבניות] ומה עם(food_entity)
     - [מיץ עגבניות] ומה אתה חושב על(food_entity)
     - [במבה] ומה עם(food_entity)
@@ -1027,79 +1105,101 @@ nlu:
     - [ברוקולי] ומה עם(food_entity)
     - [ברוקולי] ומה אתה חושב על(food_entity)
     - [כרוב]ו(food_entity)
+    - [כרוב]וב(food_entity)
     - [כרוב] ומה עם(food_entity)
     - [כרוב] ומה אתה חושב על(food_entity)
     - [מיץ רימונים]ו(food_entity)
+    - [מיץ רימונים]וב(food_entity)
     - [מיץ רימונים] ומה עם(food_entity)
     - [מיץ רימונים] ומה אתה חושב על(food_entity)
     - [ברונפלקס]ו(food_entity)
+    - [ברונפלקס]וב(food_entity)
     - [ברונפלקס] ומה עם(food_entity)
     - [ברונפלקס] ומה אתה חושב על(food_entity)
     - [פופקרון]ו(food_entity)
+    - [פופקרון]וב(food_entity)
     - [פופקרון] ומה עם(food_entity)
     - [פופקרון] ומה אתה חושב על(food_entity)
     - [אבוקדו] ומה עם(food_entity)
     - [אבוקדו] ומה אתה חושב על(food_entity)
     - [אגוזי מלך]ו(food_entity)
+    - [אגוזי מלך]וב(food_entity)
     - [אגוזי מלך] ומה עם(food_entity)
     - [אגוזי מלך] ומה אתה חושב על(food_entity)
     - [מיץ תפוזים]ו(food_entity)
+    - [מיץ תפוזים]וב(food_entity)
     - [מיץ תפוזים] ומה עם(food_entity)
     - [מיץ תפוזים] ומה אתה חושב על(food_entity)
     - [ביסלי]ו(food_entity)
+    - [ביסלי]וב(food_entity)
     - [ביסלי] ומה עם(food_entity)
     - [ביסלי] ומה אתה חושב על(food_entity)
     - [קוקה קולה]ו(food_entity)
     - [קוקה קולה] ומה עם(food_entity)
     - [קוקה קולה] ומה אתה חושב על(food_entity)
     - [קולה]ו(food_entity)
+    - [קולה]וב(food_entity)
     - [קולה] ומה עם(food_entity)
     - [קולה] ומה אתה חושב על(food_entity)
-    - [מלפפון]ו (food_entity)
+    - [מלפפון]ו(food_entity)
+    - [מלפפון]וב(food_entity)
     - [מלפפון] ומה עם(food_entity)
     - [מלפפון] ומה אתה חושב על(food_entity)
     - [שמנת]ו(food_entity)
+    - [שמנת]וב(food_entity)
     - [שמנת] ומה עם(food_entity)
     - [שמנת] ומה אתה חושב על(food_entity)
     - [חטיף אנרג'י]ו(food_entity)
+    - [חטיף אנרג'י]וב(food_entity)
     - [חטיף אנרג'י] ומה עם(food_entity)
     - [חטיף אנרג'י] ומה אתה חושב על(food_entity)
     - [גבינה לבנה] ומה עם(food_entity)
     - [גבינה לבנה] ומה אתה חושב על(food_entity)
-    - [סמבוסק]ו (food_entity)
+    - [סמבוסק]ו(food_entity)
+    - [סמבוסק]וב(food_entity)
     - [סמבוסק] ומה עם (food_entity)
     - [סמבוסק] ומה אתה חושב על (food_entity)
-    - [דני]ו (food_entity)
-    - [דני] ומה עם (food_entity)
+    - [דני]ו(food_entity)
+    - [דני]וב(food_entity)
+    - [דני] ומה עם(food_entity)
     - [דני] ומה אתה חושב על(food_entity)
     - [תמרים]ו(food_entity)
+    - [תמרים]וב(food_entity)
     - [תמרים] ומה עם(food_entity)
     - [תמרים] ומה אתה חושב על(food_entity)
     - [סרדינים]ו(food_entity)
     - [סרדינים] ומה עם(food_entity)
     - [סרדינים] ומה אתה חושב על(food_entity)
     - [פרכיות]ו(food_entity)
+    - [פרכיות]וב(food_entity)
     - [פרכיות] ומה עם(food_entity)
     - [פרכיות] ומה אתה חושב על(food_entity)
     - [בשר בקר]ו(food_entity)
+    - [בשר בקר]וב(food_entity)
     - [בשר בקר] ומה עם(food_entity)
     - [בשר בקר] ומה אתה חושב על(food_entity)
     - [צלעות כבש]ו(food_entity)
+    - [צלעות כבש]וב(food_entity)
     - [צלעות כבש] ומה עם(food_entity)
     - [צלעות כבש] ומה אתה חושב על(food_entity)
     - [גבינת קשקבל]ו(food_entity)
+    - [גבינת קשקבל]וב(food_entity)
     - [גבינת קשקבל] ומה עם(food_entity)
     - [גבינת קשקבל] ומה אתה חושב על(food_entity)
     - [בשר חזיר]ו(food_entity)
+    - [בשר חזיר]וב(food_entity)
     - [בשר חזיר] ומה עם(food_entity)
     - [בשר חזיר] ומה אתה חושב על(food_entity)
     - [בשר כבש]ו(food_entity)
+    - [בשר כבש]וב(food_entity)
     - [בשר כבש] ומה עם(food_entity)
     - [בשר כבש] ומה אתה חושב על(food_entity)
     - [קציצות בשר]ו(food_entity)
+    - [קציצות בשר]וב(food_entity)
     - [קציצות בשר] ומה עם(food_entity)
     - [קציצות בשר] ומה אתה חושב על(food_entity)
     - [ביצת עין]ו(food_entity)
+    - [ביצת עין]וב(food_entity)
     - [ביצת עין] ומה עם(food_entity)
     - [ביצת עין] ומה אתה חושב על(food_entity)
     - [גבינה צרפתית]ו(food_entity)
@@ -1109,21 +1209,27 @@ nlu:
     - [מילשייק פירות] ומה עם(food_entity)
     - [מילשייק פירות] ומה אתה חושב על(food_entity)
     - [חלב סויה]ו(food_entity)
+    - [חלב סויה]וב(food_entity)
     - [חלב סויה] ומה עם(food_entity)
     - [חלב סויה] ומה אתה חושב על(food_entity)
     - [סטייק טונה]ו(food_entity)
+    - [סטייק טונה]וב(food_entity)
     - [סטייק טונה] ומה עם(food_entity)
     - [סטייק טונה] ומה אתה חושב על(food_entity)
     - [שום]ו(food_entity)
+    - [שום]וב(food_entity)
     - [שום] ומה עם(food_entity)
     - [שום] ומה אתה חושב על(food_entity)
     - [אורז]ו(food_entity)
+    - [אורז]וב(food_entity)
     - [אורז] ומה עם(food_entity)
     - [אורז] ומה אתה חושב על(food_entity)
     - [סלק]ו(food_entity)
     - [סלק] ומה עם(food_entity)
     - [סלק] ומה אתה חושב על(food_entity)
     - [תפוז] ומה עם(food_entity)
+    - [תפוז]וב(food_entity)
+    - [תפוז]ו(food_entity)
     - [תפוז] ומה אתה חושב על(food_entity)
     - [תפוזים]ו(food_entity)
     - [תפוזים] ומה עם(food_entity)
@@ -1131,15 +1237,18 @@ nlu:
     - [גבינת עזים] ומה עם(food_entity)
     - [גבינת עזים] ומה אתה חושב על(food_entity)
     - [עגבניות]ו(food_entity)
+    - [עגבניות]וב(food_entity)
     - [עגבניות] ומה עם(food_entity)
     - [עגבניות] ומה אתה חושב על(food_entity)
     - [מלפפונים]ו(food_entity)
+    - [מלפפונים]וב(food_entity)
     - [מלפפונים] ומה עם(food_entity)
     - [מלפפונים] ומה אתה חושב על(food_entity)
     - [עוף]ו(food_entity)
     - [עוף] ומה עם(food_entity)
     - [עוף] ומה אתה חושב על(food_entity)
     - [סלמון]ו(food_entity)
+    - [סלמון]וב(food_entity)
     - [סלמון] ומה עם(food_entity)
     - [סלמון] ומה אתה חושב על(food_entity)
     - [קפה] ומה עם(food_entity)
@@ -1147,9 +1256,11 @@ nlu:
     - [פיצה] ומה עם(food_entity)
     - [פיצה] ומה אתה חושב על(food_entity)
     - [גויאבה]ו(food_entity)
+    - [גויאבה]וב(food_entity)
     - [גויאבה] ומה עם(food_entity)
     - [גויאבה] ומה אתה חושב על(food_entity)
     - [סלט]ו(food_entity)
+    - [סלט]בו(food_entity)
     - [סלט] ומה עם(food_entity)
     - [סלט] ומה אתה חושב על(food_entity)
     - [סלט ירקות]ו(food_entity)
@@ -1195,9 +1306,9 @@ nlu:
     - [ירקות]ו(food_entity)
     - [ירקות] ומה עם(food_entity)
     - [ירקות] וכמה(food_entity)
-    - [מים]וכמה כוסות (food_entity)
+    - [מים] וכמה כוסות(food_entity)
     - [מים] ומה עם(food_entity)
-    - [מים]וכמה(food_entity)
+    - [מים] וכמה(food_entity)
     - [שתייה ממותקת]ו(food_entity)
     - [שתייה ממותקת] ומה עם(food_entity)
     - [שתייה ממותקת] וכמה(food_entity)
@@ -1234,7 +1345,7 @@ nlu:
     - [טיפים מתוקים] ומה לגבי(food_entity)
     - [חטיפים מתוקים] ומה עם(food_entity)
     - [חטיפים מתוקים]וכמה(food_entity)
-    - [ממתקים]ו (food_entity)
+    - [ממתקים]ו(food_entity)
     - [ממתקים] ומה לגבי(food_entity)
     - [ממתקים] ומה עם(food_entity)
     - [ממתקים]וכמה(food_entity)
@@ -1246,11 +1357,11 @@ nlu:
     - [מתוק] ומה לגבי(food_entity)
     - [מתוק] ומה עם(food_entity)
     - [מתוק]וכמה(food_entity)
-    - [ממתיקים המלאכותיים]ו (food_entity)
+    - [ממתיקים המלאכותיים]ו(food_entity)
     - [ממתיקים המלאכותיים] ומה לגבי(food_entity)
     - [ממתיקים המלאכותיים] ומה עם(food_entity)
     - [ממתיקים המלאכותיים]וכמה(food_entity)
-    - [מתוקים]ו (food_entity)
+    - [מתוקים]ו(food_entity)
     - [מתוקים] ומה לגבי(food_entity)
     - [מתוקים] ומה עם(food_entity)
     - [מתוקים]וכמה(food_entity)
@@ -5825,32 +5936,6 @@ nlu:
     - אשמח שתבנו לי תפריט
 - intent: nutrition_what_x_in_y
   examples: |
-    - תמליץ לי על ארוחת בוקר הכוללת [ירקות](food_entity)
-    - תמליץ לי על בוקר עם [ירקות](food_entity)
-    - תמליץ לי על ארוחת צהריים הכוללת [ירקות](food_entity)
-    - תמליץ לי על צהריים עם [ירקות](food_entity)
-    - תמליץ לי על ארוחת ערב הכוללת [ירקות](food_entity)
-    - [תמליץ לי על תפריט ערב הכולל [ירקות(food_entity)
-    - תמליץ לי על ערב עם [ירקות](food_entity)
-    - במה יש [ירקות](food_entity) שאפשר לאכול לארוחת ערב
-    - במה יש [ירקות](food_entity) שאפשר לאכול לארוחת צהריים
-    - במה יש [ירקות](food_entity) שאפשר לאכול לבארוחת בוקר
-    - במה יש [ירקות](food_entity) לארוחת לבוקר
-    - במה יש [ירקות](food_entity) לארוחת לערב
-    - במה יש [ירקות](food_entity) לארוחת לצהריים
-    - במה יש [ירקות](food_entity)בשביל הצהריים
-    - אילו מאכלים מכילים [ירקות](food_entity)בשביל הצהריים
-    - אילו מאכלים מכילים [ירקות](food_entity)לצהריים
-    - אילו מאכלים כוללים [ירקות](food_entity)בשביל ארוחת צהריים
-    - אילו מאכלים יש עם [ירקות](food_entity)בשביל ארוחת צהריים
-    - אילו מאכלים מכילים [ירקות](food_entity)בשביל הבוקר
-    - אילו מאכלים מכילים [ירקות](food_entity)לבוקר
-    - אילו מאכלים כוללים [ירקות](food_entity)בשביל ארוחת בוקר
-    - אילו מאכלים יש עם [ירקות](food_entity)בשביל ארוחת בוקר
-    - אילו מאכלים מכילים [ירקות](food_entity)בשביל הערב
-    - אילו מאכלים מכילים [ירקות](food_entity)לערב
-    - אילו מאכלים כוללים [ירקות](food_entity)בשביל ארוחת ערב
-    - אילו מאכלים יש עם [ירקות](food_entity)בשביל ארוחת ערב
     - תמליץ לי על ארוחת בוקר הכוללת [ביצים](food_entity)
     - תמליץ לי על בוקר עם [ביצים](food_entity)
     - תמליץ לי על ארוחת צהריים הכוללת [ביצים](food_entity)
@@ -5876,55 +5961,6 @@ nlu:
     - אילו מאכלים מכילים [ביצים](food_entity)לערב
     - אילו מאכלים כוללים [ביצים](food_entity)בשביל ארוחת ערב
     - אילו מאכלים יש עם [ביצים](food_entity)בשביל ארוחת ערב
-    - תמליץ לי על ארוחת בוקר הכוללת [פירות](food_entity)
-    - תמליץ לי על בוקר עם [פירות](food_entity)
-    - תמליץ לי על ארוחת צהריים הכוללת [פירות](food_entity)
-    - תמליץ לי על צהריים עם [פירות](food_entity)
-    - תמליץ לי על ארוחת ערב הכוללת [פירות](food_entity)
-    - תמליץ לי על ערב עם [פירות](food_entity)
-    - במה יש [פירות](food_entity) שאפשר לאכול לארוחת ערב
-    - במה יש [פירות](food_entity) שאפשר לאכול לארוחת צהריים
-    - במה יש [פירות](food_entity) שאפשר לאכול לבארוחת בוקר
-    - במה יש [פירות](food_entity) לארוחת לבוקר
-    - במה יש [פירות](food_entity) לארוחת לערב
-    - במה יש [פירות](food_entity) לארוחת לצהריים
-    - במה יש [פירות](food_entity)בשביל הצהריים
-    - אילו מאכלים מכילים [פירות](food_entity)בשביל הצהריים
-    - אילו מאכלים מכילים [פירות](food_entity)לצהריים
-    - אילו מאכלים כוללים [פירות](food_entity)בשביל ארוחת צהריים
-    - אילו מאכלים יש עם [פירות](food_entity)בשביל ארוחת צהריים
-    - אילו מאכלים מכילים [פירות](food_entity)בשביל הבוקר
-    - אילו מאכלים מכילים [פירות](food_entity)לבוקר
-    - אילו מאכלים כוללים [פירות](food_entity)בשביל ארוחת בוקר
-    - אילו מאכלים יש עם [פירות](food_entity)בשביל ארוחת בוקר
-    - אילו מאכלים מכילים [פירות](food_entity)בשביל הערב
-    - אילו מאכלים מכילים [פירות](food_entity)לערב
-    - אילו מאכלים כוללים [פירות](food_entity)בשביל ארוחת ערב
-    - תמליץ לי על ארוחת בוקר הכוללת [בשר](food_entity)
-    - תמליץ לי על בוקר עם [בשר](food_entity)
-    - תמליץ לי על ארוחת צהריים הכוללת [בשר](food_entity)
-    - תמליץ לי על צהריים עם [בשר](food_entity)
-    - תמליץ לי על ארוחת ערב הכוללת [בשר](food_entity)
-    - תמליץ לי על ערב עם [בשר](food_entity)
-    - במה יש [בשר](food_entity) שאפשר לאכול לארוחת ערב
-    - במה יש [בשר](food_entity) שאפשר לאכול לארוחת צהריים
-    - במה יש [בשר](food_entity) שאפשר לאכול לבארוחת בוקר
-    - במה יש [בשר](food_entity) לארוחת לבוקר
-    - במה יש [בשר](food_entity) לארוחת לערב
-    - במה יש [בשר](food_entity) לארוחת לצהריים
-    - במה יש [בשר](food_entity)בשביל הצהריים
-    - אילו מאכלים מכילים [בשר](food_entity)בשביל הצהריים
-    - אילו מאכלים מכילים [בשר](food_entity)לצהריים
-    - אילו מאכלים כוללים [בשר](food_entity)בשביל ארוחת צהריים
-    - אילו מאכלים יש עם [בשר](food_entity)בשביל ארוחת צהריים
-    - אילו מאכלים מכילים [בשר](food_entity)בשביל הבוקר
-    - אילו מאכלים מכילים [בשר](food_entity)לבוקר
-    - אילו מאכלים כוללים [בשר](food_entity)בשביל ארוחת בוקר
-    - אילו מאכלים יש עם [בשר](food_entity)בשביל ארוחת בוקר
-    - אילו מאכלים מכילים [בשר](food_entity)בשביל הערב
-    - אילו מאכלים מכילים [בשר](food_entity)לערב
-    - אילו מאכלים כוללים [בשר](food_entity)בשביל ארוחת ערב
-    - אילו מאכלים יש עם [בשר](food_entity)בשביל ארוחת ערב
     - תמליץ לי על ארוחת בוקר הכוללת [חלב](food_entity)
     - תמליץ לי על בוקר עם [חלב](food_entity)
     - תמליץ לי על ארוחת צהריים הכוללת [חלב](food_entity)
@@ -6289,6 +6325,180 @@ nlu:
     - באילו מאכלים אין [דגים](food_entity) לארוחת צהריים
     - באילו מאכלים אין [דגים](food_entity) לארוחת ערב
     - באילו מאכלים אין [דגים](food_entity) לארוחת בוקר
+    - תמליץ לי על ארוחת בוקר הכוללת [ביצים](food_entity)
+    - תמליץ לי על בוקר בלי [ביצים](food_entity)
+    - תמליץ לי על ארוחת צהריים לא כוללת [ביצים](food_entity)
+    - תמליץ לי על צהריים ללא [ביצים](food_entity)
+    - תמליץ לי על ארוחת ערב ללא [ביצים](food_entity)
+    - [תמליץ לי על תפריט ערב שלא כולל [ביצים(food_entity)
+    - תמליץ לי על ערב בלי [ביצים](food_entity)
+    - במה אין [ביצים](food_entity) שאפשר לאכול לארוחת ערב
+    - במה אין [ביצים](food_entity) שאפשר לאכול לארוחת צהריים
+    - במה אין [ביצים](food_entity) שאפשר לאכול לבארוחת בוקר
+    - במה אין [ביצים](food_entity) לארוחת לבוקר
+    - במה אין [ביצים](food_entity) לארוחת לערב
+    - במה אין [ביצים](food_entity) לארוחת לצהריים
+    - במה אין [ביצים](food_entity)בשביל הצהריים
+    - אילו מאכלים לא מכילים [ביצים](food_entity)בשביל הצהריים
+    - אילו מאכלים לא מכילים [ביצים](food_entity)לצהריים
+    - אילו מאכלים לא כוללים [ביצים](food_entity)בשביל ארוחת צהריים
+    - אילו מאכלים לא מכילים [ביצים](food_entity)בשביל הבוקר
+    - אילו מאכלים לא מכילים [ביצים](food_entity)לבוקר
+    - אילו מאכלים לא כוללים [ביצים](food_entity)בשביל ארוחת בוקר
+    - אילו מאכלים אין עם [ביצים](food_entity)בשביל ארוחת בוקר
+    - אילו מאכלים לא מכילים [ביצים](food_entity)בשביל הערב
+    - אילו מאכלים לא מכילים [ביצים](food_entity)לערב
+    - אילו מאכלים לא כוללים [ביצים](food_entity)בשביל ארוחת ערב
+    - אילו מאכלים אין עם [ביצים](food_entity)בשביל ארוחת ערב
+    - תמליץ לי על ארוחת בוקר הכוללת [ביצים](food_entity)
+    - תמליץ לי על בוקר בלי [ביצים](food_entity)
+    - תמליץ לי על בוקר בלי [בשר](food_entity)
+    - תמליץ לי על ארוחת צהריים לא כוללת [בשר](food_entity)
+    - תמליץ לי על צהריים ללא [בשר](food_entity)
+    - תמליץ לי על ארוחת ערב ללא [בשר](food_entity)
+    - [תמליץ לי על תפריט ערב שלא כולל [בשר(food_entity)
+    - תמליץ לי על ערב בלי [בשר](food_entity)
+    - במה אין [בשר](food_entity) שאפשר לאכול לארוחת ערב
+    - במה אין [בשר](food_entity) שאפשר לאכול לארוחת צהריים
+    - במה אין [בשר](food_entity) שאפשר לאכול לבארוחת בוקר
+    - במה אין [בשר](food_entity) לארוחת לבוקר
+    - במה אין [בשר](food_entity) לארוחת לערב
+    - במה אין [בשר](food_entity) לארוחת לצהריים
+    - במה אין [בשר](food_entity)בשביל הצהריים
+    - אילו מאכלים לא מכילים [בשר](food_entity)בשביל הצהריים
+    - אילו מאכלים לא מכילים [בשר](food_entity)לצהריים
+    - אילו מאכלים לא כוללים [בשר](food_entity)בשביל ארוחת צהריים
+    - אילו מאכלים לא מכילים [בשר](food_entity)בשביל הבוקר
+    - אילו מאכלים לא מכילים [בשר](food_entity)לבוקר
+    - אילו מאכלים לא כוללים [בשר](food_entity)בשביל ארוחת בוקר
+    - אילו מאכלים אין עם [בשר](food_entity)בשביל ארוחת בוקר
+    - אילו מאכלים לא מכילים [בשר](food_entity)בשביל הערב
+    - אילו מאכלים לא מכילים [בשר](food_entity)לערב
+    - אילו מאכלים לא כוללים [בשר](food_entity)בשביל ארוחת ערב
+    - אילו מאכלים אין עם [בשר](food_entity)בשביל ארוחת ערב
+    - תמליץ לי על ארוחת בוקר הכוללת [בשר](food_entity)
+    - תמליץ לי על בוקר בלי [חלב](food_entity)
+    - תמליץ לי על ארוחת צהריים לא כוללת [חלב](food_entity)
+    - תמליץ לי על צהריים ללא [חלב](food_entity)
+    - תמליץ לי על ארוחת ערב ללא [חלב](food_entity)
+    - [תמליץ לי על תפריט ערב שלא כולל [חלב(food_entity)
+    - תמליץ לי על ערב בלי [חלב](food_entity)
+    - במה אין [חלב](food_entity) שאפשר לאכול לארוחת ערב
+    - במה אין [חלב](food_entity) שאפשר לאכול לארוחת צהריים
+    - במה אין [חלב](food_entity) שאפשר לאכול לבארוחת בוקר
+    - במה אין [חלב](food_entity) לארוחת לבוקר
+    - במה אין [חלב](food_entity) לארוחת לערב
+    - במה אין [חלב](food_entity) לארוחת לצהריים
+    - במה אין [חלב](food_entity)בשביל הצהריים
+    - אילו מאכלים לא מכילים [חלב](food_entity)בשביל הצהריים
+    - אילו מאכלים לא מכילים [חלב](food_entity)לצהריים
+    - אילו מאכלים לא כוללים [חלב](food_entity)בשביל ארוחת צהריים
+    - אילו מאכלים לא מכילים [חלב](food_entity)בשביל הבוקר
+    - אילו מאכלים לא מכילים [חלב](food_entity)לבוקר
+    - אילו מאכלים לא כוללים [חלב](food_entity)בשביל ארוחת בוקר
+    - אילו מאכלים אין עם [חלב](food_entity)בשביל ארוחת בוקר
+    - אילו מאכלים לא מכילים [חלב](food_entity)בשביל הערב
+    - אילו מאכלים לא מכילים [חלב](food_entity)לערב
+    - אילו מאכלים לא כוללים [חלב](food_entity)בשביל ארוחת ערב
+    - אילו מאכלים אין עם [חלב](food_entity)בשביל ארוחת ערב
+    - תמליץ לי על ארוחת בוקר הכוללת [חלב](food_entity)
+    - תמליץ לי על תפריט לא [חלבי](nutrition_concept) לארוחת צהריים
+    - תמליץ לי על תפריט לא [חלבי](nutrition_concept) לארוחת ערב
+    - תמליץ לי על תפריט לא [חלבי](nutrition_concept) לארוחת בוקר
+    - תמליץ לי על תפריט לא [חלבי](nutrition_concept) לבוקר
+    - תמליץ לי על תפריט לא [חלבי](nutrition_concept) לערב
+    - תמליץ לי על תפריט לא [חלבי](nutrition_concept) לצהריים
+    - מה אפשר לאכול  לא [חלבי](nutrition_concept) לארוחת צהריים
+    - מה אפשר לאכול לא [חלבי](nutrition_concept) לארוחת ערב
+    - מה אפשר לאכול לא [חלבי](nutrition_concept) לארוחת בוקר
+    - מה אפשר לאכול לא [חלבי](nutrition_concept) לבוקר
+    - מה אפשר לאכול  לא [חלבי](nutrition_concept) לערב
+    - מה אפשר לאכול לא [חלבי](nutrition_concept) לצהריים
+    - אילו מאכלים לא [כשרים](nutrition_concept) יש לארוחת בוקר
+    - אילו מאכלים לא [כשרים](nutrition_concept) יש לארוחת ערב
+    - אילו מאכלים לא [כשרים](nutrition_concept) יש לארוחת צהריים
+    - אילו מאכלים לא [כשרים](nutrition_concept) בארוחת בוקר
+    - אילו מאכלים לא [כשרים](nutrition_concept) בארוחת ערב
+    - אילו מאכלים לא [כשרים](nutrition_concept) בארוחת צהריים
+    - תמליץ על מאכלים לא [כשרים](nutrition_concept) לארוחת בוקר
+    - תמליץ על מאכלים לא [כשרים](nutrition_concept) לארוחת ערב
+    - תמליץ על מאכלים לא [כשרים](nutrition_concept) לארוחת צהריים
+    - תמליץ על מאכלים לא [כשרים](nutrition_concept) לערב
+    - תמליץ על מאכלים לא [כשרים](nutrition_concept) לבוקר
+    - תמליץ על מאכלים לא [כשרים](nutrition_concept) לצהריים
+    - מה יש לא [כשר](nutrition_concept) לארוחת צהריים
+    - מה יש לא [כשר](nutrition_concept) לארוחת בוקר
+    - מה יש לא [כשר](nutrition_concept) לארוחת ערב
+    - תמליץ לי על מאכל לא [כשר](nutrition_concept) לארוחת ערב
+    - תמליץ לי על מאכל לא [כשר](nutrition_concept) לארוחת בוקר
+    - תמליץ לי על מאכל לא [כשר](nutrition_concept) לארוחת צהריים
+    - מה יש לא [צמחוני](nutrition_concept) לארוחת ערב
+    - מה יש לא [צמחוני](nutrition_concept) לארוחת צהריים
+    - מה יש לא [צמחוני](nutrition_concept) לארוחת בוקר
+    - אילו מאכלים לא [צמחוני](nutrition_concept) יש לארוחת צהריים
+    - אילו מאכלים לא [צמחוני](nutrition_concept) יש לארוחת ערב
+    - אילו מאכלים לא [צמחוני](nutrition_concept) יש לארוחת בוקר
+    - מה יש לא [צמחוני](nutrition_concept) לערב
+    - מה יש לא [צמחוני](nutrition_concept) לצהריים
+    - מה יש לא [צמחוני](nutrition_concept) לבוקר
+    - מאכל לא [צמחוני](nutrition_concept) לערב
+    - מאכל לא [צמחוני](nutrition_concept) לצהריים
+    - מאכל לא [צמחוני](nutrition_concept) לבוקר
+    - איזה מאכל לא [צמחוני](nutrition_concept) לבוקר
+    - איזה מאכל לא [צמחוני](nutrition_concept) לערב
+    - איזה מאכל לא [צמחוני](nutrition_concept) לצהריים
+    - תן מאכל לא [צמחוני](nutrition_concept) לצהריים
+    - תן מאכל לא [צמחוני](nutrition_concept) לערב
+    - תמליץ על מאכל לא [צמחוני](nutrition_concept) לצהריים
+    - תמליץ על מאכל לא [צמחוני](nutrition_concept) לערב
+    - תמליץ על מאכל לא [צמחוני](nutrition_concept) לבוקר
+    - מאכל לא [צמחוני](nutrition_concept) לארוחת ערב
+    - מאכל לא [צמחוני](nutrition_concept) לארוחת צהריים
+    - מאכל לא [צמחוני](nutrition_concept) לארוחת בוקר
+    - איזה מאכל לא [צמחוני](nutrition_concept) לארוחת בוקר
+    - איזה מאכל לא [צמחוני](nutrition_concept) לארוחת ערב
+    - איזה מאכל לא [צמחוני](nutrition_concept) לארוחת צהריים
+    - תן מאכל לא [צמחוני](nutrition_concept) לארוחת צהריים
+    - תן מאכל לא [צמחוני](nutrition_concept) לארוחת ערב
+    - תמליץ על מאכל לא [צמחוני](nutrition_concept) לארוחת צהריים
+    - תמליץ על מאכל לא [צמחוני](nutrition_concept) לארוחת ערב
+    - תמליץ על מאכל לא [צמחוני](nutrition_concept) לארוחת בוקר
+    - מה יש לא [טבעוני](nutrition_concept) לארוחת ערב
+    - מה יש לא [טבעוני](nutrition_concept) לארוחת צהריים
+    - מה יש לא [טבעוני](nutrition_concept) לארוחת בוקר
+    - אילו מאכלים לא [טבעוני](nutrition_concept) יש לארוחת צהריים
+    - אילו מאכלים לא [טבעוני](nutrition_concept) יש לארוחת ערב
+    - אילו מאכלים לא [טבעוני](nutrition_concept) יש לארוחת בוקר
+    - מה יש לא [טבעוני](nutrition_concept) לערב
+    - מה יש לא [טבעוני](nutrition_concept) לצהריים
+    - מה יש לא [טבעוני](nutrition_concept) לבוקר
+    - מאכל לא [טבעוני](nutrition_concept) לערב
+    - מאכל לא [טבעוני](nutrition_concept) לצהריים
+    - מאכל לא [טבעוני](nutrition_concept) לבוקר
+    - איזה מאכל לא [טבעוני](nutrition_concept) לבוקר
+    - איזה מאכל לא [טבעוני](nutrition_concept) לערב
+    - איזה מאכל לא [טבעוני](nutrition_concept) לצהריים
+    - תן מאכל לא [טבעוני](nutrition_concept) לצהריים
+    - תן מאכל לא [טבעוני](nutrition_concept) לערב
+    - תמליץ על מאכל לא [טבעוני](nutrition_concept) לצהריים
+    - תמליץ על מאכל לא [טבעוני](nutrition_concept) לערב
+    - תמליץ על מאכל לא [טבעוני](nutrition_concept) לבוקר
+    - מאכל לא [טבעוני](nutrition_concept) לארוחת ערב
+    - מאכל לא [טבעוני](nutrition_concept) לארוחת צהריים
+    - מאכל לא [טבעוני](nutrition_concept) לארוחת בוקר
+    - איזה מאכל לא [טבעוני](nutrition_concept) לארוחת בוקר
+    - איזה מאכל לא [טבעוני](nutrition_concept) לארוחת ערב
+    - איזה מאכל לא [טבעוני](nutrition_concept) לארוחת צהריים
+    - תן מאכל לא [טבעוני](nutrition_concept) לארוחת צהריים
+    - תן מאכל לא [טבעוני](nutrition_concept) לארוחת ערב
+    - תמליץ על מאכל לא [טבעוני](nutrition_concept) לארוחת צהריים
+    - תמליץ על מאכל לא [טבעוני](nutrition_concept) לארוחת ערב
+    - תמליץ על מאכל לא [טבעוני](nutrition_concept) לארוחת בוקר
+    - תמליץ לי על ארוחת בוקר שכוללת לא [פלאו](nutrition_concept)
+    - תמליץ לי על בוקר ללא לא [פלאו](nutrition_concept)
+    - תמליץ לי על ארוחת צהריים הלא כוללת לא [פלאו](nutrition_concept)
+    - תמליץ לי על צהריים ללא [פלאו](nutrition_concept)
+    - תמליץ לי על ארוחת ערב הלא כוללת [פלאו](nutrition_concept)
 - intent: needs_affirmation
   examples: |
     - התגעגעת אלי
