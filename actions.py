@@ -1387,33 +1387,17 @@ class Actionwhataboutx(Action):
                 else:
                     y = entity_value
 
-            return [FollowupAction(next_action),
+                return [FollowupAction(next_action),
                     SlotSet("x", x), SlotSet("y", y),
                     SlotSet("previous_intent", previous_intent)]
+            else:
 
-            # nutrition_get_rda
-            if previous_intent == "nutrition_get_rda":
                 return [FollowupAction(next_action),
-                        SlotSet("x", entity_value), SlotSet("y", ""),
-                        SlotSet("previous_intent", "nutrition_get_rda")]
-
-            # ------------------------------------------------
-            # nutrition_get_upper_limit
-            if previous_intent == "nutrition_get_upper_limit":
-                return [FollowupAction(next_action),
-                        SlotSet("x", entity_value), SlotSet("y", ""),
-                        SlotSet("previous_intent", "nutrition_get_upper_limit")]
-
-            # is x healthy
-            if previous_intent == "nutrition_is_food_healthy":
-                return [FollowupAction(next_action),
-                        SlotSet("x", entity_value), SlotSet("y", ""),
-                        SlotSet("previous_intent", previous_intent)]
-
+                    SlotSet("x", entity_value), SlotSet("y", ""),
+                    SlotSet("previous_intent", previous_intent)]
 
         except:
             dispatcher.utter_message(text="אין למושג, מצטער!")
-        return []
 
 
 # ------------------------------------------------------------------
