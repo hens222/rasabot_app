@@ -1355,6 +1355,7 @@ class Actionwhataboutx(Action):
             entity = None
             db_dict = load_db(0x2)
             lut_df = db_dict['lut']
+            nutrients = lut_df['Entity'].head(79)
             for ent in tracker.latest_message.get('entities'):
                 if ent['entity'] in lut_df["action_nutrition_and_what_about_x"].values:
                     entity_value = ent['value']
@@ -1372,7 +1373,6 @@ class Actionwhataboutx(Action):
             if previous_intent == "nutrition_howmanyxiny":
                 x = tracker.get_slot('x') if tracker.get_slot('x') else None
                 y = tracker.get_slot('y') if tracker.get_slot('y') else None
-                dispatcher.utter_message('x= ' + str(x) + 'y= ' + str(y))
                 # rasa succeed to detect the entity
                 if entity is not None:
                     if entity == 'nutrient':
@@ -1381,7 +1381,7 @@ class Actionwhataboutx(Action):
                         y = entity_value
                 # the entity value is taken from the user message
                 else:
-                    if entity_value in lut_df['Entity']:
+                    if entity_value in nutrients:
                         x = entity_value
                     else:
                         y = entity_value
