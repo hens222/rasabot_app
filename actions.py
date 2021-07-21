@@ -1343,8 +1343,6 @@ class Actionwhataboutx(Action):
         user_messge = tracker.latest_message.get('text')
         previous_intent = tracker.get_slot('previous_intent')
         entity_value = None
-        x = None
-        y = None
         try:
             next_action = intens_dict[previous_intent]
             # meal question
@@ -1361,15 +1359,15 @@ class Actionwhataboutx(Action):
                 if ent['entity'] in lut_df["action_nutrition_and_what_about_x"].values:
                     entity_value = ent['value']
                     entity = ent['entity']
-
-            if 'ברזל' in user_messge:
-                entity_value = 'ברזל'
-            elif user_messge[0] == 'ו' and user_messge[1] != 'ב':
-                entity_value = user_messge[1:]
-            else:
-                entity_value = user_messge[2:]
-            if entity_value is None or entity_value == "":
-                entity_value = user_messge
+            if entity_value is None:
+                if 'ברזל' in user_messge:
+                    entity_value = 'ברזל'
+                elif user_messge[0] == 'ו' and user_messge[1] != 'ב':
+                    entity_value = user_messge[1:]
+                else:
+                    entity_value = user_messge[2:]
+                if entity_value is None or entity_value == "":
+                    entity_value = user_messge
             # how many x in y
             if previous_intent == "nutrition_howmanyxiny":
                 x = tracker.get_slot('x') if tracker.get_slot('x') else None
@@ -1388,13 +1386,13 @@ class Actionwhataboutx(Action):
                     y = entity_value
 
                 return [FollowupAction(next_action),
-                    SlotSet("x", x), SlotSet("y", y),
-                    SlotSet("previous_intent", previous_intent)]
+                        SlotSet("x", x), SlotSet("y", y),
+                        SlotSet("previous_intent", previous_intent)]
             else:
 
                 return [FollowupAction(next_action),
-                    SlotSet("x", entity_value), SlotSet("y", ""),
-                    SlotSet("previous_intent", previous_intent)]
+                        SlotSet("x", entity_value), SlotSet("y", ""),
+                        SlotSet("previous_intent", previous_intent)]
 
         except:
             dispatcher.utter_message(text="אין למושג, מצטער!")
