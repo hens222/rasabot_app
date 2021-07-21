@@ -1702,8 +1702,7 @@ class ActionNutritionHowManyXinY(Action):
             data = {'שומן': fat_calories,
                     'פחמימות': carbs_calories,
                     'חלבונים': protein_calories}
-            # url = iniliatize_Diagram(title, data)
-            url = ""
+            url = iniliatize_Diagram(title, data)
             if x == 'קלוריות':
                 val = fat_calories + protein_calories + carbs_calories
             if units == 0:
