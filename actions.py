@@ -1380,10 +1380,12 @@ class Actionwhataboutx(Action):
                     else:
                         y = entity_value
                 # the entity value is taken from the user message
-                elif entity_value in lut_df['Entity']:
-                    x = entity_value
-                else:
-                    y = entity_value
+                elif entity_value is None:
+                    dispatcher.utter_message('line1384')
+                    if entity_value in lut_df['Entity']:
+                        x = entity_value
+                    else:
+                        y = entity_value
 
                 return [FollowupAction(next_action),
                         SlotSet("x", x), SlotSet("y", y),
