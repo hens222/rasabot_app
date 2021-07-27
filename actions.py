@@ -35,6 +35,35 @@ DB_AWS_BUCKET = 'journeypic'
 
 
 # ------------------------------------------------------------------
+def simpleQuestionAnswer(tracker, entity,user_intent=""):
+    db_dict = load_db(0x6)
+    lut_df = db_dict['lut']
+    custom_df = db_dict['nutrients_qna']
+    try:
+        feature = lut_df['Entity'][entity]
+        if feature in custom_df.index:
+            res = custom_df.loc[feature][user_intent]
+        else:
+            res = custom_df[[str(s) in feature for s in custom_df.index.tolist()]][user_intent][0]
+
+        if 'slot#' in res:
+            res_list = res.split(' ')
+            for k, el in enumerate(res_list):
+                if 'slot#' in el:
+                    res_list[k] = tracker.get_slot(el.split('#')[1])
+
+            res = ' '.join(res_list)
+
+        res_list = re.findall('\{.*?\}', res)
+        for match in res_list:
+            res = res.replace(match, str(eval(match[1:-1])))
+
+    except:
+        res = "אין לי מושג, מצטער!"
+    return res
+
+
+# ------------------------------------------------------------------
 
 def upload_file_to_s3(local_file, s3_folder, s3_file, aws_access_key_id, aws_secret_access_key, aws_bucket,
                       debug_en=False):
@@ -181,7 +210,8 @@ def load_db(db_bitmap):
                                               "action_nutrition_food_substitute",
                                               "action_nutrition_compare_foods",
                                               "action_nutrition_howmanyxyinz",
-                                              "action_nutrition_and_what_about_x"]).fillna(0)
+                                              "action_nutrition_and_what_about_x",
+                                              "action_nutrition_many_xy_in_food"]).fillna(0)
 
     # "Zameret_hebrew_features" - nutrients_questions
     if (db_bitmap & 0x4) > 0:
@@ -1170,6 +1200,75 @@ def core_fun(meal_type, title=""):
 
 
 # ------------------------------------------------------------------
+class Actionnutritionmanyxyinfood(Action):
+    def name(self) -> Text:
+        return "action_nutrition_many_xy_in_food"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        db_dict = load_db(0x6)
+        lut_df = db_dict['lut']
+        custom_df = db_dict['nutrients_qna']
+        entity = None
+        user_msg = tracker.latest_message.get('text')
+
+        try:
+            # get the entity from rasa
+            for ent in tracker.latest_message.get('entities'):
+                if ent['entity'] in lut_df[self.name()].values and ent['value'] in lut_df['Entity']:
+                    entity = ent['value']
+
+            # get the entity from the question
+            if entity is None:
+                if 'יש' in user_msg:
+                    entity = user_msg[user_msg.find('יש') + 2:]
+                if 'הרבה' in user_msg:
+                    entity = user_msg[user_msg.find('הרבה') + 4:]
+
+                for r in (("יש", ""), ("הרבה", ""), ("וגם", ""), ("  ", " "), ("בהם", "")):
+                    entity = entity.replace(*r).strip()
+                    if '  ' in entity:
+                        entity = entity.replace('  ', ' ')
+            nut1, nut2 = entity.split(' ')
+            nut1 = nut1.strip()
+            nut2 = nut2.strip()
+            if nut2[0] == 'ו':
+                nut2 = nut2[1:]
+            res1 = simpleQuestionAnswer(tracker, nut1,"nutrition_what_has")
+            res2 = simpleQuestionAnswer(tracker, nut2,"nutrition_what_has")
+            res = res1
+            res += '\n' + res2
+            # get similar foods
+            res1 = res1.replace('.', '')
+            res2 = res2.replace('.', '')
+            res1 = res1[res1.find(':') + 1:].strip()
+            res2 = res2[res2.find(':') + 1:].strip()
+            if '(' in res1 or ')' in res1:
+                res1 = res1.replace(res1[res1.find('(') - 1:res1.find(')') + 1], ',')
+            if '(' in res2 or ')' in res2:
+                res2 = res2.replace(res2[res2.find('(') - 1:res2.find(')') + 1], ',')
+            res1_list = res1.split(',')
+            res2_list = res2.split(',')
+            res_temp = '\nבמאכלים האלה יש הרבה ' + nut1 + ' ו' + nut2 + ': '
+            count = 0
+            for index, item in enumerate(res1_list):
+                if item.strip() in res2_list or item in res2_list:
+                    if item in res_temp:
+                        continue
+                    res_temp += item.strip() + ', '
+                    count += 1
+                    if index == len(res1_list) - 1:
+                        res_temp += item.strip()
+                        count += 1
+            if count != 0:
+                res += res_temp
+        except:
+                res = "אין לי מושג כמה, מצטער!"
+        dispatcher.utter_message(res)
+
+
+# ------------------------------------------------------------------
 class Actionhowmanyxyinz(Action):
     def name(self) -> Text:
         return "action_nutrition_howmanyxyinz"
@@ -1353,6 +1452,7 @@ class Actionwhataboutx(Action):
 
             # ------------------------------------------------
             entity = None
+            slot = 'x'
             db_dict = load_db(0x2)
             lut_df = db_dict['lut']
             nutrients = lut_df['Entity'].head(79)
@@ -1371,31 +1471,27 @@ class Actionwhataboutx(Action):
                     entity_value = user_messge
             # how many x in y
             if previous_intent == "nutrition_howmanyxiny":
-                x = tracker.get_slot('x') if tracker.get_slot('x') else None
-                y = tracker.get_slot('y') if tracker.get_slot('y') else None
+
                 # rasa succeed to detect the entity
                 if entity is not None:
                     if entity == 'nutrient':
-                        x = entity_value
+                        slot = 'x'
                     else:
-                        y = entity_value
+                        slot = 'y'
                 # the entity value is taken from the user message
                 else:
                     if entity_value in nutrients:
-                        x = entity_value
+                        slot = 'x'
                     else:
-                        y = entity_value
-                return [FollowupAction(next_action),
-                        SlotSet("x", x), SlotSet("y", y),
-                        SlotSet("previous_intent", previous_intent)]
-            else:
-
-                return [FollowupAction(next_action),
-                        SlotSet("x", entity_value), SlotSet("y", ""),
-                        SlotSet("previous_intent", previous_intent)]
+                        slot = 'y'
+                SlotSet(slot, entity_value)
+                return [FollowupAction(next_action)]
+            return [FollowupAction(next_action),
+                    SlotSet("x", entity_value), SlotSet("y", ""),
+                    SlotSet("previous_intent", previous_intent)]
 
         except:
-            dispatcher.utter_message(text="אין למושג, מצטער!")
+            dispatcher.utter_message(text="אין לי מושג, מצטער!")
 
 
 # ------------------------------------------------------------------
