@@ -35,7 +35,7 @@ DB_AWS_BUCKET = 'journeypic'
 
 
 # ------------------------------------------------------------------
-def simpleQuestionAnswer(tracker, entity,user_intent=""):
+def simpleQuestionAnswer(tracker, entity, user_intent=""):
     db_dict = load_db(0x6)
     lut_df = db_dict['lut']
     custom_df = db_dict['nutrients_qna']
@@ -1226,17 +1226,26 @@ class Actionnutritionmanyxyinfood(Action):
                 if 'הרבה' in user_msg:
                     entity = user_msg[user_msg.find('הרבה') + 4:]
 
-                for r in (("יש", ""), ("הרבה", ""), ("וגם", ""), ("  ", " "), ("בהם", "")):
-                    entity = entity.replace(*r).strip()
-                    if '  ' in entity:
-                        entity = entity.replace('  ', ' ')
-            nut1, nut2 = entity.split(' ')
+            for r in (("יש", ""), ("הרבה", ""), ("וגם", ""), ("  ", " "), ("בהם", "")):
+                entity = entity.replace(*r).strip()
+                if '  ' in entity:
+                    entity = entity.replace('  ', ' ')
+            if entity.count(' ') > 1:
+                list = entity.split(' ')
+                if 'ויטמין' == list[0]:
+                    nut1 = list[0] + ' ' + list[1]
+                    nut2 = list[2]
+                if 'ויטמין' == list[1]:
+                    nut1 = list[1] + ' ' + list[2]
+                    nut2 = list[0]
+            else:
+                nut1, nut2 = entity.split(' ')
             nut1 = nut1.strip()
             nut2 = nut2.strip()
             if nut2[0] == 'ו':
                 nut2 = nut2[1:]
-            res1 = simpleQuestionAnswer(tracker, nut1,"nutrition_what_has")
-            res2 = simpleQuestionAnswer(tracker, nut2,"nutrition_what_has")
+            res1 = simpleQuestionAnswer(tracker, nut1, "nutrition_what_has")
+            res2 = simpleQuestionAnswer(tracker, nut2, "nutrition_what_has")
             res = res1
             res += '\n' + res2
             # get similar foods
@@ -1263,8 +1272,10 @@ class Actionnutritionmanyxyinfood(Action):
                         count += 1
             if count != 0:
                 res += res_temp
+            if ',' == res[len(res) - 2]:
+                res = res[:len(res) - 2]
         except:
-                res = "אין לי מושג כמה, מצטער!"
+            res = "אין לי מושג כמה, מצטער!"
         dispatcher.utter_message(res)
 
 
