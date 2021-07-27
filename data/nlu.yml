@@ -85,6 +85,7 @@ nlu:
     - מה זה דיאטת [צום לסירוגין]{"entity": "nutrition_concept", "value": "\u05e6\u05d5\u05dd \u05dc\u05e1\u05e8\u05d5\u05d2\u05d9\u05df"}?
     - מה תפקידו של ה[ברזל](nutrient) בגוף האדם?
     - מה זה [טבעונות](nutrition_concept)
+    - מה זו [תזונה טבעונית](nutrition_concept)
 - intent: nutrition_what_has
   examples: |
     - במה יש [חלבון](nutrient)
@@ -375,6 +376,7 @@ nlu:
     - כמה [אימונים](training_type) כדאי לי לעשות?
     - כמה [אימונים](training_type) אני אמור לעשות בשבוע ?
     - כמה [אימונים](training_type) מומלצים לי
+    - כמה [חלבון](nutrient) אני אמורה לאכול ביום
 - intent: nutrition_and_what_about_x
   examples: |
     - ומה אתה חושב שאני צריך לאכול לארוחת בוקר
@@ -717,7 +719,6 @@ nlu:
     - ומה עם [לחם](food_entity)
     - וכמה ב[לחם](food_entity)
     - וכמה יש ב[לחם](food_entity)
-    - ותן לי מידע על [גזר](food_entity)
     - [גזר]וב(food_entity)
     - [גזר]ו(food_entity)
     - ומה לגבי [גזר](food_entity)
@@ -933,13 +934,6 @@ nlu:
     - ומה עם [ארטישוק](food_entity)
     - וכמה ב[ארטישוק](food_entity)
     - וכמה יש ב[ארטישוק](food_entity)
-    - [לחם]ו(food_entity)
-    - [לחם]וב(food_entity)
-    - ותן לי מידע על [לחם](food_entity)
-    - ומה לגבי [לחם](food_entity)
-    - ומה עם [לחם](food_entity)
-    - וכמה ב[לחם](food_entity)
-    - וכמה יש ב[לחם](food_entity)
     - [קורנפלקס]ו(food_entity)
     - [קורנפלקס]וב(food_entity)
     - ותן לי מידע על [קורנפלקס](food_entity)
@@ -1062,14 +1056,10 @@ nlu:
     - [לחם] ומה עם(food_entity)
     - [לחם] ומה אתה חושב על(food_entity)
     - [תפוח] ומה עם(food_entity)
-    - [תפוח]ו(food_entity)
-    - [תפוח]וב(food_entity)
     - [תפוח] ומה אתה חושב על(food_entity)
     - [גלידה] ומה עם(food_entity)
     - [גלידה] ומה אתה חושב על(food_entity)
     - [פסטה] ומה עם(food_entity)
-    - [פסטה]ו(food_entity)
-    - [פסטה]וב(food_entity)
     - [פסטה] ומה אתה חושב על(food_entity)
     - [קווקר]ו(food_entity)
     - [קווקר] ומה עם(food_entity)
@@ -1085,8 +1075,6 @@ nlu:
     - [שיבולת שועל] ומה עם(food_entity)
     - [שיבולת שועל] ומה אתה חושב על(food_entity)
     - [אגס] ומה עם(food_entity)
-    - [אגס]ו(food_entity)
-    - [אגס]וב(food_entity)
     - [אגס] ומה אתה חושב על(food_entity)
     - [יין]ו(food_entity)
     - [יין]וב(food_entity)
@@ -1141,8 +1129,6 @@ nlu:
     - [קולה]וב(food_entity)
     - [קולה] ומה עם(food_entity)
     - [קולה] ומה אתה חושב על(food_entity)
-    - [מלפפון]ו(food_entity)
-    - [מלפפון]וב(food_entity)
     - [מלפפון] ומה עם(food_entity)
     - [מלפפון] ומה אתה חושב על(food_entity)
     - [שמנת]ו(food_entity)
@@ -1228,8 +1214,6 @@ nlu:
     - [סלק] ומה עם(food_entity)
     - [סלק] ומה אתה חושב על(food_entity)
     - [תפוז] ומה עם(food_entity)
-    - [תפוז]וב(food_entity)
-    - [תפוז]ו(food_entity)
     - [תפוז] ומה אתה חושב על(food_entity)
     - [תפוזים]ו(food_entity)
     - [תפוזים] ומה עם(food_entity)
@@ -1384,6 +1368,14 @@ nlu:
     - [סוכרלוז] ומה לגבי(nutrient)
     - [סוכרלוז] ומה עם(nutrient)
     - [סוכרלוז]וכמה(nutrient)
+    - ופיצה
+    - וב[פיצה](food_entity)
+    - ו[סטייק](food_entity)
+    - ו[לחם](food_entity)
+    - וב[גלידה](food_entity)
+    - ו[מים](food_entity)
+    - וכמה [מים](food_entity)
+    - ול[ארוחת ערב](nutrition_concept) ?
 - intent: nutrition_compare_foods
   examples: |
     - במה יש יותר [קלוריות](nutrient) ב[חלב או יוגורט](food_entity)
@@ -1423,7 +1415,7 @@ nlu:
     - במה יש יותר [כולסטרול](nutrient) ב[לאבנה או חלב](food_entity)
     - במה יש יותר [שומן רווי](nutrient) ב[לאבנה או חלב](food_entity)
     - במה יש יותר [קלוריות](nutrient) ב[חלב או לאבנה](food_entity)
-    -  במה יש יותר [חלבון](nutrient) ב[חלב או לאבנה](food_entity)
+    - במה יש יותר [חלבון](nutrient) ב[חלב או לאבנה](food_entity)
     - במה יש יותר [שומן](nutrient) ב[חלב או לאבנה](food_entity)
     - במה יש יותר [פחמימות](nutrient) ב[חלב או לאבנה](food_entity)
     - במה יש יותר [סיבים תזונתיים](nutrient) ב[חלב או לאבנה](food_entity)
@@ -1431,8 +1423,6 @@ nlu:
     - במה יש יותר [מגנזיום](nutrient) ב[חלב או לאבנה](food_entity)
     - במה יש יותר [כולסטרול](nutrient) ב[חלב או לאבנה](food_entity)
     - במה יש יותר [שומן רווי](nutrient) ב[חלב או לאבנה](food_entity)
-    - במה יש יותר [חלבון](nutrient) ב[חלב או לאבנה](food_entity)
-    - במה יש יותר [קלוריות](nutrient) ב[חלב או לאבנה](food_entity)
     - במה יש יותר [שומן](nutrient) ב[אייס קפה או שוקו](food_entity)
     - במה יש יותר [פחמימות](nutrient) ב[אייס קפה או שוקו](food_entity)
     - במה יש יותר [סיבים תזונתיים](nutrient) ב[אייס קפה או שוקו](food_entity)
@@ -1674,15 +1664,6 @@ nlu:
     - במה יש יותר [מגנזיום](nutrient) ב[בשר בקר או בשר חזיר](food_entity)
     - במה יש יותר [כולסטרול](nutrient) ב[בשר בקר או בשר חזיר](food_entity)
     - במה יש יותר [שומן רווי](nutrient) ב[בשר בקר או בשר חזיר](food_entity)
-    - במה יש יותר [חלבון](nutrient) ב[בשר בקר או חזיר](food_entity)
-    - במה יש יותר [קלוריות](nutrient) ב[בשר בקר או חזיר](food_entity)
-    - במה יש יותר [שומן](nutrient) ב[בשר בקר או חזיר](food_entity)
-    - במה יש יותר [פחמימות](nutrient) ב[בשר בקר או חזיר](food_entity)
-    - במה יש יותר [סיבים תזונתיים](nutrient) ב[בשר בקר או חזיר](food_entity)
-    - במה יש יותר [סידן](nutrient) ב[בשר בקר או חזיר](food_entity)
-    - במה יש יותר [מגנזיום](nutrient) ב[בשר בקר או חזיר](food_entity)
-    - במה יש יותר [כולסטרול](nutrient) ב[בשר בקר או חזיר](food_entity)
-    - במה יש יותר [שומן רווי](nutrient) ב[בשר בקר או חזיר](food_entity)
     - במה יש יותר [חלבון](nutrient) ב[בשר הודו או חזיר](food_entity)
     - במה יש יותר [קלוריות](nutrient) ב[בשר הודו או חזיר](food_entity)
     - במה יש יותר [שומן](nutrient) ב[בשר הודו או חזיר](food_entity)
@@ -1737,8 +1718,6 @@ nlu:
     - במה יש יותר [מגנזיום](nutrient) ב[בשר כבש או בשר טחון](food_entity)
     - במה יש יותר [כולסטרול](nutrient) ב[בשר כבש או בשר טחון](food_entity)
     - במה יש יותר [שומן רווי](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש יותר [חלבון](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש יותר [קלוריות](nutrient) ב[בשר כבש או בשר טחון](food_entity)
     - במה יש יותר [שומן](nutrient) ב[רוסטביף או עוף](food_entity)
     - במה יש יותר [פחמימות](nutrient) ב[רוסטביף או עוף](food_entity)
     - במה יש יותר [סיבים תזונתיים](nutrient) ב[רוסטביף או עוף](food_entity)
@@ -1774,7 +1753,6 @@ nlu:
     - במה יש יותר [כולסטרול](nutrient) ב[עוף או שניצל](food_entity)
     - במה יש יותר [שומן רווי](nutrient) ב[עוף או שניצל](food_entity)
     - במה יש יותר [חלבון](nutrient) ב[קבב או שניצל](food_entity)
-    - במה יש יותר [קלוריות](nutrient) ב[עוף או שניצל](food_entity)
     - במה יש יותר [שומן](nutrient) ב[קבב או שניצל](food_entity)
     - במה יש יותר [פחמימות](nutrient) ב[קבב או שניצל](food_entity)
     - במה יש יותר [סיבים תזונתיים](nutrient) ב[קבב או שניצל](food_entity)
@@ -1839,7 +1817,6 @@ nlu:
     - במה יש יותר [חלבון](nutrient) ב[שניצל או כנפיים](food_entity)
     - במה יש יותר [קלוריות](nutrient) ב[שניצל או כנפיים](food_entity)
     - במה יש יותר [שומן](nutrient) ב[שניצל או כנפיים](food_entity)
-    - במה יש יותר [פחמימות](nutrient) ב[בשר כבש או בשר טחון](food_entity)
     - במה יש יותר [סיבים תזונתיים](nutrient) ב[שניצל או כנפיים](food_entity)
     - במה יש יותר [סידן](nutrient) ב[שניצל או כנפיים](food_entity)
     - במה יש יותר [מגנזיום](nutrient) ב[שניצל או כנפיים](food_entity)
@@ -1863,15 +1840,6 @@ nlu:
     - במה יש יותר [מגנזיום](nutrient) ב[סטייק או שניצל](food_entity)
     - במה יש יותר [כולסטרול](nutrient) ב[סטייק או שניצל](food_entity)
     - במה יש יותר [שומן רווי](nutrient) ב[סטייק או שניצל](food_entity)
-    - במה יש יותר [חלבון](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש יותר [קלוריות](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש יותר [שומן](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש יותר [פחמימות](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש יותר [סיבים תזונתיים](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש יותר [סידן](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש יותר [מגנזיום](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש יותר [כולסטרול](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש יותר [שומן רווי](nutrient) ב[בשר כבש או בשר טחון](food_entity)
     - במה יש יותר [חלבון](nutrient) ב[קיש או פשטידה](food_entity)
     - במה יש יותר [קלוריות](nutrient) ב[קיש או פשטידה](food_entity)
     - במה יש יותר [שומן](nutrient) ב[קיש או פשטידה](food_entity)
@@ -2043,8 +2011,6 @@ nlu:
     - במה יש יותר [מגנזיום](nutrient) ב[פיתה או לחמנייה](food_entity)
     - במה יש יותר [כולסטרול](nutrient) ב[פיתה או לחמנייה](food_entity)
     - במה יש יותר [שומן רווי](nutrient) ב[פיתה או לחמנייה](food_entity)
-    - במה יש יותר [קלוריות](nutrient) ב[סמבוסק או גחנון](food_entity)
-    - במה יש יותר [חלבון](nutrient) ב[סמבוסק או גחנון](food_entity)
     - במה יש יותר [שומן](nutrient) ב[פיתה או חלה](food_entity)
     - במה יש יותר [פחמימות](nutrient) ב[פיתה או חלה](food_entity)
     - במה יש יותר [סיבים תזונתיים](nutrient) ב[פיתה או חלה](food_entity)
@@ -2251,7 +2217,7 @@ nlu:
     - במה יש פחות [כולסטרול](nutrient) ב[לאבנה או חלב](food_entity)
     - במה יש פחות [שומן רווי](nutrient) ב[לאבנה או חלב](food_entity)
     - במה יש פחות [קלוריות](nutrient) ב[חלב או לאבנה](food_entity)
-    -  במה יש פחות [חלבון](nutrient) ב[חלב או לאבנה](food_entity)
+    - במה יש פחות [חלבון](nutrient) ב[חלב או לאבנה](food_entity)
     - במה יש פחות [שומן](nutrient) ב[חלב או לאבנה](food_entity)
     - במה יש פחות [פחמימות](nutrient) ב[חלב או לאבנה](food_entity)
     - במה יש פחות [סיבים תזונתיים](nutrient) ב[חלב או לאבנה](food_entity)
@@ -2259,8 +2225,6 @@ nlu:
     - במה יש פחות [מגנזיום](nutrient) ב[חלב או לאבנה](food_entity)
     - במה יש פחות [כולסטרול](nutrient) ב[חלב או לאבנה](food_entity)
     - במה יש פחות [שומן רווי](nutrient) ב[חלב או לאבנה](food_entity)
-    - במה יש פחות [חלבון](nutrient) ב[חלב או לאבנה](food_entity)
-    - במה יש פחות [קלוריות](nutrient) ב[חלב או לאבנה](food_entity)
     - במה יש פחות [שומן](nutrient) ב[אייס קפה או שוקו](food_entity)
     - במה יש פחות [פחמימות](nutrient) ב[אייס קפה או שוקו](food_entity)
     - במה יש פחות [סיבים תזונתיים](nutrient) ב[אייס קפה או שוקו](food_entity)
@@ -2502,15 +2466,6 @@ nlu:
     - במה יש פחות [מגנזיום](nutrient) ב[בשר בקר או בשר חזיר](food_entity)
     - במה יש פחות [כולסטרול](nutrient) ב[בשר בקר או בשר חזיר](food_entity)
     - במה יש פחות [שומן רווי](nutrient) ב[בשר בקר או בשר חזיר](food_entity)
-    - במה יש פחות [חלבון](nutrient) ב[בשר בקר או חזיר](food_entity)
-    - במה יש פחות [קלוריות](nutrient) ב[בשר בקר או חזיר](food_entity)
-    - במה יש פחות [שומן](nutrient) ב[בשר בקר או חזיר](food_entity)
-    - במה יש פחות [פחמימות](nutrient) ב[בשר בקר או חזיר](food_entity)
-    - במה יש פחות [סיבים תזונתיים](nutrient) ב[בשר בקר או חזיר](food_entity)
-    - במה יש פחות [סידן](nutrient) ב[בשר בקר או חזיר](food_entity)
-    - במה יש פחות [מגנזיום](nutrient) ב[בשר בקר או חזיר](food_entity)
-    - במה יש פחות [כולסטרול](nutrient) ב[בשר בקר או חזיר](food_entity)
-    - במה יש פחות [שומן רווי](nutrient) ב[בשר בקר או חזיר](food_entity)
     - במה יש פחות [חלבון](nutrient) ב[בשר הודו או חזיר](food_entity)
     - במה יש פחות [קלוריות](nutrient) ב[בשר הודו או חזיר](food_entity)
     - במה יש פחות [שומן](nutrient) ב[בשר הודו או חזיר](food_entity)
@@ -2565,8 +2520,6 @@ nlu:
     - במה יש פחות [מגנזיום](nutrient) ב[בשר כבש או בשר טחון](food_entity)
     - במה יש פחות [כולסטרול](nutrient) ב[בשר כבש או בשר טחון](food_entity)
     - במה יש פחות [שומן רווי](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש פחות [חלבון](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש פחות [קלוריות](nutrient) ב[בשר כבש או בשר טחון](food_entity)
     - במה יש פחות [שומן](nutrient) ב[רוסטביף או עוף](food_entity)
     - במה יש פחות [פחמימות](nutrient) ב[רוסטביף או עוף](food_entity)
     - במה יש פחות [סיבים תזונתיים](nutrient) ב[רוסטביף או עוף](food_entity)
@@ -2602,7 +2555,6 @@ nlu:
     - במה יש פחות [כולסטרול](nutrient) ב[עוף או שניצל](food_entity)
     - במה יש פחות [שומן רווי](nutrient) ב[עוף או שניצל](food_entity)
     - במה יש פחות [חלבון](nutrient) ב[קבב או שניצל](food_entity)
-    - במה יש פחות [קלוריות](nutrient) ב[עוף או שניצל](food_entity)
     - במה יש פחות [שומן](nutrient) ב[קבב או שניצל](food_entity)
     - במה יש פחות [פחמימות](nutrient) ב[קבב או שניצל](food_entity)
     - במה יש פחות [סיבים תזונתיים](nutrient) ב[קבב או שניצל](food_entity)
@@ -2666,7 +2618,6 @@ nlu:
     - במה יש פחות [חלבון](nutrient) ב[שניצל או כנפיים](food_entity)
     - במה יש פחות [קלוריות](nutrient) ב[שניצל או כנפיים](food_entity)
     - במה יש פחות [שומן](nutrient) ב[שניצל או כנפיים](food_entity)
-    - במה יש פחות [פחמימות](nutrient) ב[בשר כבש או בשר טחון](food_entity)
     - במה יש פחות [סיבים תזונתיים](nutrient) ב[שניצל או כנפיים](food_entity)
     - במה יש פחות [סידן](nutrient) ב[שניצל או כנפיים](food_entity)
     - במה יש פחות [מגנזיום](nutrient) ב[שניצל או כנפיים](food_entity)
@@ -2690,15 +2641,6 @@ nlu:
     - במה יש פחות [מגנזיום](nutrient) ב[סטייק או שניצל](food_entity)
     - במה יש פחות [כולסטרול](nutrient) ב[סטייק או שניצל](food_entity)
     - במה יש פחות [שומן רווי](nutrient) ב[סטייק או שניצל](food_entity)
-    - במה יש פחות [חלבון](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש פחות [קלוריות](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש פחות [שומן](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש פחות [פחמימות](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש פחות [סיבים תזונתיים](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש פחות [סידן](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש פחות [מגנזיום](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש פחות [כולסטרול](nutrient) ב[בשר כבש או בשר טחון](food_entity)
-    - במה יש פחות [שומן רווי](nutrient) ב[בשר כבש או בשר טחון](food_entity)
     - במה יש פחות [חלבון](nutrient) ב[קיש או פשטידה](food_entity)
     - במה יש פחות [קלוריות](nutrient) ב[קיש או פשטידה](food_entity)
     - במה יש פחות [שומן](nutrient) ב[קיש או פשטידה](food_entity)
@@ -2870,8 +2812,6 @@ nlu:
     - במה יש פחות [מגנזיום](nutrient) ב[פיתה או לחמנייה](food_entity)
     - במה יש פחות [כולסטרול](nutrient) ב[פיתה או לחמנייה](food_entity)
     - במה יש פחות [שומן רווי](nutrient) ב[פיתה או לחמנייה](food_entity)
-    - במה יש פחות [קלוריות](nutrient) ב[סמבוסק או גחנון](food_entity)
-    - במה יש פחות [חלבון](nutrient) ב[סמבוסק או גחנון](food_entity)
     - במה יש פחות [שומן](nutrient) ב[פיתה או חלה](food_entity)
     - במה יש פחות [פחמימות](nutrient) ב[פיתה או חלה](food_entity)
     - במה יש פחות [סיבים תזונתיים](nutrient) ב[פיתה או חלה](food_entity)
@@ -2979,7 +2919,6 @@ nlu:
     - במה יש פחות [כולסטרול](nutrient) ב[פתיתים או אורז](food_entity)
     - במה יש פחות [שומן רווי](nutrient) ב[פתיתים או אורז](food_entity)
     - במה יש פחות [קלוריות](nutrient) ב[פתיתים או קוסקוס](food_entity)
-    - במה יש יותר [חלבון](nutrient) ב[פתיתים או קוסקוס](food_entity)
     - במה יש פחות [שומן](nutrient) ב[פתיתים או קוסקוס](food_entity)
     - במה יש פחות [פחמימות](nutrient) ב[פתיתים או קוסקוס](food_entity)
     - במה יש פחות [סיבים תזונתיים](nutrient) ב[פתיתים או קוסקוס](food_entity)
@@ -3055,7 +2994,6 @@ nlu:
     - כמה [פחמימות וסידן](nutrient) יש ב[פיצה](food_entity)
     - כמה [ויטמין סי וסידן](nutrient) יש ב[פיצה](food_entity)
     - כמה [ויטמין סי וויטמין אי](nutrient) יש ב[פיצה](food_entity)
-    - כמה [חלבון וקלוריות](nutrient) יש ב[פיצה](food_entity)
     - כמה [חלבון ושומן](nutrient) יש ב[חלב](food_entity)
     - כמה [חלבון ומגנזיום](nutrient) יש ב[חלב](food_entity)
     - כמה [ברזל וקלוריות](nutrient) יש ב[חלב](food_entity)
@@ -3714,7 +3652,6 @@ nlu:
     - כמה [פחמימות וסידן](nutrient) יש ב[אננס](food_entity)
     - כמה [ויטמין סי וסידן](nutrient) יש ב[אננס](food_entity)
     - כמה [ויטמין סי וויטמין אי](nutrient) יש ב[אננס](food_entity)
-    - כמה [חלבון וקלוריות](nutrient) יש ב[פיצה](food_entity)
     - כמה [חלבון ושומן](nutrient) יש ב[עוגת תפוחים](food_entity)
     - כמה [חלבון ומגנזיום](nutrient) יש ב[עוגת תפוחים](food_entity)
     - כמה [ברזל וקלוריות](nutrient) יש ב[עוגת תפוחים](food_entity)
@@ -4355,6 +4292,7 @@ nlu:
     - הי מה היא רמת [כולסטרול](nutrient) תקינה
     - הי מה היא רמת [כולסטרול](nutrient) תקינה?
     - מה ערך תקין עבורי של בדיקת [ברזל](nutrient) ?
+    - מהו ערך [ברזל](nutrient) תקין?
 - intent: nutrition_bloodtest_value_question
   examples: |
     - האם [17](integer) הוא ערך תקין עבורי בבדיקת [פריטין](nutrient)
@@ -4377,6 +4315,7 @@ nlu:
     - אוי תגיד, קיבלתי [100](integer) בבדיקת [כולסטרול](nutrient). זה תקין
     - קיבלתי [1](integer) בבדיקת [סידן](nutrient). האם זה תקין
     - תגיד ניוט, קיבלתי [100](integer) בבדיקות דם של [ברזל](nutrient), זה בסדר
+    - האם [400](integer) זה ערך [ברזל](nutrient) תקין?
 - intent: nutrition_food_substitute_question
   examples: |
     - מה אפשר לאכול במקום [בשר בקר](food_entity)
@@ -5934,6 +5873,8 @@ nlu:
     - מה אני יכולה לאכול לארוחת צהרים?
     - מה אני יכולה לאכול לארוחת הבוקר?
     - אשמח שתבנו לי תפריט
+    - תן לי [ארוחת ערב ](nutrition_concept)[טבעונית](nutrition_concept)
+    - אפשר [ארוחת בוקר](nutrition_concept) ?
 - intent: nutrition_what_x_in_y
   examples: |
     - תמליץ לי על ארוחת בוקר הכוללת [ביצים](food_entity)
@@ -6325,7 +6266,6 @@ nlu:
     - באילו מאכלים אין [דגים](food_entity) לארוחת צהריים
     - באילו מאכלים אין [דגים](food_entity) לארוחת ערב
     - באילו מאכלים אין [דגים](food_entity) לארוחת בוקר
-    - תמליץ לי על ארוחת בוקר הכוללת [ביצים](food_entity)
     - תמליץ לי על בוקר בלי [ביצים](food_entity)
     - תמליץ לי על ארוחת צהריים לא כוללת [ביצים](food_entity)
     - תמליץ לי על צהריים ללא [ביצים](food_entity)
@@ -6350,8 +6290,6 @@ nlu:
     - אילו מאכלים לא מכילים [ביצים](food_entity)לערב
     - אילו מאכלים לא כוללים [ביצים](food_entity)בשביל ארוחת ערב
     - אילו מאכלים אין עם [ביצים](food_entity)בשביל ארוחת ערב
-    - תמליץ לי על ארוחת בוקר הכוללת [ביצים](food_entity)
-    - תמליץ לי על בוקר בלי [ביצים](food_entity)
     - תמליץ לי על בוקר בלי [בשר](food_entity)
     - תמליץ לי על ארוחת צהריים לא כוללת [בשר](food_entity)
     - תמליץ לי על צהריים ללא [בשר](food_entity)
@@ -6401,7 +6339,6 @@ nlu:
     - אילו מאכלים לא מכילים [חלב](food_entity)לערב
     - אילו מאכלים לא כוללים [חלב](food_entity)בשביל ארוחת ערב
     - אילו מאכלים אין עם [חלב](food_entity)בשביל ארוחת ערב
-    - תמליץ לי על ארוחת בוקר הכוללת [חלב](food_entity)
     - תמליץ לי על תפריט לא [חלבי](nutrition_concept) לארוחת צהריים
     - תמליץ לי על תפריט לא [חלבי](nutrition_concept) לארוחת ערב
     - תמליץ לי על תפריט לא [חלבי](nutrition_concept) לארוחת בוקר
@@ -6497,8 +6434,6 @@ nlu:
     - תמליץ לי על ארוחת בוקר שכוללת לא [פלאו](nutrition_concept)
     - תמליץ לי על בוקר ללא לא [פלאו](nutrition_concept)
     - תמליץ לי על ארוחת צהריים הלא כוללת לא [פלאו](nutrition_concept)
-    - תמליץ לי על צהריים ללא [פלאו](nutrition_concept)
-    - תמליץ לי על ארוחת ערב הלא כוללת [פלאו](nutrition_concept)
 - intent: needs_affirmation
   examples: |
     - התגעגעת אלי
@@ -6618,11 +6553,6 @@ nlu:
     - מערכת החיסון
     - מערכת החיסונית
     - תגובה החיסונית
-- synonym: פחממה
-  examples: |
-    - פחמימות
-    - פחממות
-    - פחמימה
 - synonym: צום
   examples: |
     - לצום
