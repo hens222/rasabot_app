@@ -100,6 +100,10 @@ stories:
   steps:
   - intent: nutrition_importance
   - action: action_simple_question
+- story: nutrition many xy in food
+  steps:
+  - intent: nutrition_many_xy_in_food
+  - action: action_nutrition_many_xy_in_food
 - story: nutrition meal question
   steps:
   - intent: nutrition_meal_question
@@ -530,6 +534,12 @@ stories:
     entities:
     - goal_or_state: ריכוז
   - action: action_simple_question
+- story: Nutrition_many xy in food X 2
+  steps:
+  - intent: nutrition_many_xy_in_food
+    entities:
+    - nutrient: חלבון ושומן
+  - action: action_nutrition_many_xy_in_food
 - story: Nutrition_howto_improve multi goals
   steps:
   - intent: nutrition_howto_improve
