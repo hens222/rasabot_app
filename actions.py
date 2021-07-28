@@ -35,8 +35,7 @@ DB_AWS_BUCKET = 'journeypic'
 
 
 # ------------------------------------------------------------------
-def simpleQuestionAnswer(tracker, entity, user_intent=""):
-    db_dict = load_db(0x6)
+def simpleQuestionAnswer(tracker, entity, db_dict, user_intent=""):
     lut_df = db_dict['lut']
     custom_df = db_dict['nutrients_qna']
     try:
@@ -1196,7 +1195,14 @@ def core_fun(meal_type, title=""):
             'ירקות': vegetable}
 
     url = iniliatize_Diagram(title, data)
-    return items, url
+
+    items_temp = items.split('\n')
+    items2 = ''
+    for line in items_temp:
+        if 'nan' not in line and 'nan nan nan' not in line:
+            items2 += line + '\n'
+
+    return items2, url
 
 
 # ------------------------------------------------------------------
@@ -1244,8 +1250,8 @@ class Actionnutritionmanyxyinfood(Action):
             nut2 = nut2.strip()
             if nut2[0] == 'ו':
                 nut2 = nut2[1:]
-            res1 = simpleQuestionAnswer(tracker, nut1, "nutrition_what_has")
-            res2 = simpleQuestionAnswer(tracker, nut2, "nutrition_what_has")
+            res1 = simpleQuestionAnswer(tracker, nut1, db_dict, "nutrition_what_has")
+            res2 = simpleQuestionAnswer(tracker, nut2, db_dict, "nutrition_what_has")
             res = res1
             res += '\n' + res2
             # get similar foods
@@ -1625,33 +1631,15 @@ class ActionSimpleQuestion(Action):
         db_dict = load_db(0x6)
 
         lut_df = db_dict['lut']
-        custom_df = db_dict['nutrients_qna']
 
         user_intent = tracker.latest_message.get('intent').get('name')
-
+        simple_entity = None
         for ent in tracker.latest_message.get('entities'):
             if ent['entity'] in lut_df[self.name()].values and ent['value'] in lut_df['Entity']:
                 simple_entity = ent['value']
 
         try:
-            feature = lut_df['Entity'][simple_entity]
-
-            if feature in custom_df.index:
-                res = custom_df.loc[feature][user_intent]
-            else:
-                res = custom_df[[str(s) in feature for s in custom_df.index.tolist()]][user_intent][0]
-
-            if 'slot#' in res:
-                res_list = res.split(' ')
-                for k, el in enumerate(res_list):
-                    if 'slot#' in el:
-                        res_list[k] = tracker.get_slot(el.split('#')[1])
-
-                res = ' '.join(res_list)
-
-            res_list = re.findall('\{.*?\}', res)
-            for match in res_list:
-                res = res.replace(match, str(eval(match[1:-1])))
+            res = simpleQuestionAnswer(tracker, simple_entity, db_dict, user_intent)
 
             dispatcher.utter_message(text="%s" % res)
 
